@@ -1,0 +1,282 @@
+{
+  "topbar": {
+    "address": "内罗毕，肯尼亚",
+    "phone": "+254 712 045 710",
+    "email": "saferideafrica777@gmail.com",
+    "signIn": "客户登录"
+  },
+
+  "nav": {
+    "brand": "SafeRide Africa",
+    "tagline": "NTSA认证",
+    "home": "首页",
+    "services": "服务",
+    "courses": "课程",
+    "about": "关于我们",
+    "gallery": "相册",
+    "contact": "联系我们",
+    "signIn": "登录",
+    "signInRegister": "登录 / 注册"
+  },
+
+  "hero": {
+    "badge": "NTSA认证驾驶学校",
+    "headline": "以正确技能自信出发",
+    "headlineWords": ["以", "正确", "技能", "自信", "出发", "驾驶"],
+    "subheadline": "我们是领先的驾驶培训机构，以防御性驾驶、道路安全、急救和专业驾驶培训为核心。",
+    "trustNtsa": "NTSA认证",
+    "trustAward": "屡获殊荣",
+    "trustPassRate": "98%首次通过率",
+    "exploreCourses": "探索课程",
+    "watchStory": "观看我们的故事"
+  },
+
+  "services": {
+    "overline": "我们的服务",
+    "heading": "为您提供专业服务",
+    "readMore": "了解更多",
+    "digitalCampusTitle": "数字校园",
+    "digitalCampusSubtitle": "完全在线学习、预约和追踪进度——从理论课到拿到驾照。",
+    "items": {
+      "videoCourses":       { "title": "视频课程",       "desc": "结构化视频课程，涵盖路标、NTSA规则和防御性驾驶理论。" },
+      "instructorTraining": { "title": "教练培训",       "desc": "双控车辆，与经认证的经验丰富教练进行一对一课程。" },
+      "getLicense":         { "title": "考取驾照",       "desc": "全程协助办理NTSA Smart DL申请和TIMS账户设置。" },
+      "easyLearn":          { "title": "轻松学驾驶",     "desc": "在线理论课——随时随地与我们的专家教练一起学习。" },
+      "onlineClasses":      { "title": "网络课程",       "desc": "直播和录播理论课，可通过手机、平板或电脑从任何地方参加。按照自己的进度学习。" },
+      "bookings":           { "title": "预约",           "desc": "直接通过我们的平台预约驾驶练习、理论课和NTSA考试日期——无需排队，无需电话。" },
+      "lms":                { "title": "学习管理系统",   "desc": "我们的学习管理系统跟踪您的进度、存储课堂笔记，并让您的教练实时了解您的表现。" }
+    }
+  },
+
+  "about": {
+    "overline": "关于SafeRide Africa",
+    "heading": "学会驾驶，安全掌控行程",
+    "headingAccent": "安全",
+    "body": "凭借二十多年卓越的驾驶培训经验，SafeRide Africa经过验证的课程和经验丰富的教练确保您在考试前具备上路的准备。我们将防御性驾驶、急救和道路安全作为每节课的核心。",
+    "yearsBadge": "年",
+    "ntsaCertified": "NTSA认证",
+    "cta": "了解更多",
+    "checklist": {
+      "tips":     "快速技巧和建议",
+      "roadTest": "路考准备",
+      "parking":  "侧方停车",
+      "basics":   "基本驾驶技能",
+      "ntsa":     "NTSA认证",
+      "award":    "屡获殊荣"
+    }
+  },
+
+  "courses": {
+    "overline": "驾驶课程",
+    "heading": "我们热门的驾驶课程",
+    "monthly": "月付",
+    "yearly": "年付",
+    "savingMessage": "年付优惠约15%！",
+    "mostPopular": "最受欢迎",
+    "readMore": "了解更多",
+    "levels": {
+      "beginner": "初级",
+      "standard": "标准",
+      "advanced": "进阶"
+    },
+    "features": {
+      "curriculum":  "NTSA认可课程",
+      "instructor":  "认证教练",
+      "vehicle":     "双控车辆",
+      "testPrep":    "考试准备"
+    },
+    "items": {
+      "automatic": { "title": "自动挡轻型车", "desc": "学习驾驶自动挡轻型乘用车" },
+      "manual":    { "title": "手动挡轻型车", "desc": "学习驾驶手动挡轻型乘用车" },
+      "executive": { "title": "高级 / 进阶班", "desc": "将驾驶作为职业学习" }
+    }
+  },
+
+  "faq": {
+    "overline": "常见问题",
+    "heading": "常见问题解答",
+    "form": {
+      "overline":     "联系我们",
+      "heading":      "立即提问",
+      "fieldName":    "您的姓名",
+      "fieldEmail":   "电子邮件",
+      "fieldPhone":   "电话号码",
+      "fieldSubject": "主题",
+      "fieldMessage": "您的留言",
+      "placeholder":  "请输入{{field}}",
+      "send":         "发送消息",
+      "sent":         "消息已发送！"
+    },
+    "items": [
+      {
+        "q": "完成一门驾驶课程需要多长时间？",
+        "a": "大多数学员在3–4周内完成标准课程。时长取决于所选套餐和您的课程安排。"
+      },
+      {
+        "q": "您的教练持有NTSA认证吗？",
+        "a": "是的。所有SafeRide Africa教练均持有有效的NTSA认证，并接受持续的专业发展培训。"
+      },
+      {
+        "q": "您帮助办理NTSA Smart DL申请吗？",
+        "a": "当然。我们免费指导每位学员完成完整的NTSA Smart DL申请和TIMS账户设置。"
+      },
+      {
+        "q": "您学员的通过率是多少？",
+        "a": "我们的NTSA首次通过率高达98%，远高于全国平均水平，这得益于我们的强化考试准备。"
+      },
+      {
+        "q": "您提供复习课程吗？",
+        "a": "是的。我们提供灵活的复习课程，专为希望重建信心或准备重新考试的驾驶员量身定制。"
+      }
+    ]
+  },
+
+  "instructors": {
+    "overline": "我们的团队",
+    "heading": "认识我们的专业教练",
+    "ntsaCertified": "NTSA认证",
+    "expSuffix": "经验",
+    "roles": {
+      "seniorInstructor":  "高级教练",
+      "highwayExpert":     "高速公路专家",
+      "defensiveDriving":  "防御性驾驶",
+      "theorySpecialist":  "理论专家"
+    }
+  },
+
+  "whyChooseUs": {
+    "overline": "为什么选择我们",
+    "heading": "坐上驾驶座\n掌握主动权",
+    "items": {
+      "onlineClasses":  { "title": "网络课程",   "desc": "随时随地在任何设备上访问理论课程。" },
+      "onlineTracking": { "title": "在线追踪",   "desc": "实时追踪您的进度和课程安排。" },
+      "affordableFee":  { "title": "实惠价格",   "desc": "透明定价，无隐藏费用。" },
+      "bestTrainers":   { "title": "优秀教练",   "desc": "NTSA认证教练，拥有多年丰富经验。" },
+      "perfectTiming":  { "title": "灵活时间",   "desc": "灵活的课程时段，适合您的时间表。" }
+    },
+    "stats": {
+      "totalLearners":     "学员总数",
+      "currentStudents":   "在读学员",
+      "expertInstructors": "专家教练"
+    }
+  },
+
+  "workProcess": {
+    "overline": "如何运作",
+    "heading": "开始SafeRide学习之旅",
+    "steps": {
+      "selectPlan":    { "title": "选择计划",   "desc": "选择符合您目标和预算的课程。" },
+      "consultation":  { "title": "咨询",       "desc": "与您的教练会面，讨论您的学习路径。" },
+      "buyCourses":    { "title": "购买课程",   "desc": "安全付款，提供灵活的付款方式。" },
+      "startTraining": { "title": "开始培训",   "desc": "坐上驾驶座，建立真正的道路信心。" }
+    }
+  },
+
+  "testimonials": {
+    "overline": "学员评价",
+    "heading": "学员们怎么说",
+    "items": [
+      {
+        "text": "最棒的驾驶学校！他们帮我申请了Smart DL，速度超快，令我难以置信。",
+        "name": "Eric Musyoka",
+        "role": "公交司机"
+      },
+      {
+        "text": "课程非常有趣，一个月内我就完成了整个驾驶课程，并顺利通过了NTSA考试，毫无困难。",
+        "name": "Maina Mburu",
+        "role": "大学生"
+      },
+      {
+        "text": "我在这里参加了复习课程，他们帮助我建立了驾驶信心。强烈推荐，绝对物有所值。",
+        "name": "Michelle Akinyi",
+        "role": "记者"
+      }
+    ]
+  },
+
+  "bookingCta": {
+    "heading": "预约您的首节驾驶课",
+    "headingAccent": "联系我们",
+    "subtitle": "迈出更安全、更自信驾驶的第一步。我们的教练随时准备好迎接您。",
+    "bookNow": "立即预约",
+    "contactUs": "联系我们"
+  },
+
+  "ntsaBanner": {
+    "overline": "NTSA及网络校园",
+    "heading": "我们处理您的NTSA要求",
+    "cta": "立即开始",
+    "items": {
+      "smartDl":      { "title": "NTSA Smart DL申请", "desc": "我们代您处理完整的Smart DL申请流程——快速、准确、无压力。" },
+      "tims":         { "title": "TIMS账户设置",       "desc": "全程TIMS注册协助，让您从第一天起就能追踪驾照状态。" },
+      "onlineTheory": { "title": "在线理论课",         "desc": "通过直播和录播课程，随时随地与我们的专家教练一起学习。" }
+    }
+  },
+
+  "blog": {
+    "overline": "博客",
+    "heading": "最新资讯与文章",
+    "categoryTag": "驾驶技巧",
+    "readMore": "了解更多",
+    "posts": [
+      {
+        "date": "2025年5月10日",
+        "title": "如何在NTSA驾驶考试中一次通过",
+        "excerpt": "来自我们认证教练的内部技巧——考官重点考察哪些方面以及如何避免常见错误。"
+      },
+      {
+        "date": "2025年4月22日",
+        "title": "Smart DL与旧版DL：每位肯尼亚驾驶员必须了解的",
+        "excerpt": "NTSA已全面切换到Smart DL。这里是您无需排队就能升级驾照所需了解的一切。"
+      },
+      {
+        "date": "2025年3月15日",
+        "title": "防御性驾驶：为什么它可能在肯尼亚道路上救您的命",
+        "excerpt": "道路死亡事故正在上升。防御性驾驶是SafeRide每节课核心的技能。"
+      }
+    ]
+  },
+
+  "gallery": {
+    "overline": "相册",
+    "heading": "查看我们的驾驶实习相册",
+    "captions": [
+      "实践课程",
+      "路上训练",
+      "高速公路技能",
+      "教练指导",
+      "学员练习",
+      "防御性驾驶",
+      "训练场地",
+      "科诺尔校区",
+      "理论课堂"
+    ]
+  },
+
+  "footer": {
+    "brand": "SafeRide Africa",
+    "tagline": "NTSA认证",
+    "description": "肯尼亚领先的NTSA认证驾驶学校。自2001年起培养自信、安全的驾驶员。",
+    "coursesColumnTitle": "我们的课程",
+    "companyColumnTitle": "公司",
+    "courseLinks": ["自动挡车辆", "手动挡车辆", "高级课程", "复习课程", "在线理论"],
+    "companyLinks": ["关于我们", "我们的教练", "NTSA信息", "博客与新闻", "联系我们"],
+    "newsletterTitle": "订阅通讯",
+    "newsletterSubtitle": "获取驾驶技巧、NTSA更新和SafeRide新闻直接发送到您的收件箱。",
+    "newsletterPlaceholder": "您的电子邮件地址",
+    "newsletterSubscribed": "订阅成功！谢谢您。",
+    "copyright": "© 2025 SafeRide Africa. 版权所有。",
+    "certifiedLine": "NTSA认证驾驶学校 · 内罗毕，肯尼亚"
+  },
+
+  "languageSwitcher": {
+    "title": "语言设置",
+    "languages": {
+      "en": "英语",
+      "zh": "中文",
+      "ar": "阿拉伯语",
+      "sw": "斯瓦希里语",
+      "fr": "法语"
+    }
+  }
+}

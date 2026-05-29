@@ -1,0 +1,282 @@
+{
+  "topbar": {
+    "address": "Nairobi, Kenya",
+    "phone": "+254 712 045 710",
+    "email": "saferideafrica777@gmail.com",
+    "signIn": "Espace Client"
+  },
+
+  "nav": {
+    "brand": "SafeRide Africa",
+    "tagline": "Certifié NTSA",
+    "home": "Accueil",
+    "services": "Services",
+    "courses": "Cours",
+    "about": "À Propos",
+    "gallery": "Galerie",
+    "contact": "Contact",
+    "signIn": "Connexion",
+    "signInRegister": "Connexion / Inscription"
+  },
+
+  "hero": {
+    "badge": "Auto-école Certifiée NTSA",
+    "headline": "Conduisez avec les Bonnes Compétences",
+    "headlineWords": ["Conduisez", "loin", "avec", "les", "Bonnes", "Compétences"],
+    "subheadline": "Nous sommes l'établissement de formation à la conduite de référence, dont l'enseignement est centré sur la conduite défensive, la sécurité routière, les premiers secours et la formation professionnelle à la conduite.",
+    "trustNtsa": "Certifié NTSA",
+    "trustAward": "École Primée",
+    "trustPassRate": "98% de réussite au premier essai",
+    "exploreCourses": "Explorer les Cours",
+    "watchStory": "Voir Notre Histoire"
+  },
+
+  "services": {
+    "overline": "Nos Services",
+    "heading": "Des Services Faits Pour Vous",
+    "readMore": "En Savoir Plus",
+    "digitalCampusTitle": "Campus Numérique",
+    "digitalCampusSubtitle": "Apprenez, réservez et suivez vos progrès entièrement en ligne — du cours théorique à l'obtention du permis.",
+    "items": {
+      "videoCourses":       { "title": "Cours Vidéo",              "desc": "Leçons vidéo structurées couvrant les panneaux routiers, le Code de la route NTSA et la théorie de la conduite défensive." },
+      "instructorTraining": { "title": "Formation par Moniteur",   "desc": "Véhicules à double commande, séances individuelles avec des moniteurs certifiés et expérimentés." },
+      "getLicense":         { "title": "Obtenir son Permis",       "desc": "Traitement complet de votre demande NTSA Smart DL et configuration de votre compte TIMS prise en charge." },
+      "easyLearn":          { "title": "Apprendre à Conduire Facilement", "desc": "Cours théoriques en ligne — Apprenez où que vous soyez, quand vous le souhaitez avec nos moniteurs experts." },
+      "onlineClasses":      { "title": "Cours en Ligne",           "desc": "Leçons théoriques en direct et enregistrées, accessibles depuis n'importe où — téléphone, tablette ou ordinateur — à votre propre rythme." },
+      "bookings":           { "title": "Réservations",             "desc": "Réservez vos séances de conduite pratique, cours théoriques et dates d'examen NTSA directement sur notre plateforme — sans file d'attente." },
+      "lms":                { "title": "Système de Gestion de l'Apprentissage", "desc": "Notre LMS suit vos progrès, conserve vos notes de cours et donne à votre moniteur une visibilité en temps réel sur vos performances." }
+    }
+  },
+
+  "about": {
+    "overline": "À Propos de SafeRide Africa",
+    "heading": "Apprendre à Conduire en Toute Sécurité et Maîtrise",
+    "headingAccent": "Sécurité",
+    "body": "Forts de plus de deux décennies d'excellence en formation à la conduite, le programme éprouvé et les moniteurs expérimentés de SafeRide Africa vous garantissent d'être prêt pour la route et confiant lors de l'examen. Nous plaçons la conduite défensive, les premiers secours et la sécurité routière au cœur de chaque séance.",
+    "yearsBadge": "Ans",
+    "ntsaCertified": "Certifié NTSA",
+    "cta": "En Savoir Plus",
+    "checklist": {
+      "tips":     "Conseils et Astuces Rapides",
+      "roadTest": "Préparation à l'Examen de Conduite",
+      "parking":  "Stationnement en Créneau",
+      "basics":   "Bases de la Conduite",
+      "ntsa":     "Certifié NTSA",
+      "award":    "École Primée"
+    }
+  },
+
+  "courses": {
+    "overline": "Cours de Conduite",
+    "heading": "Nos Cours de Conduite les Plus Populaires",
+    "monthly": "Mensuel",
+    "yearly": "Annuel",
+    "savingMessage": "Économisez ~15% avec la facturation annuelle !",
+    "mostPopular": "LE PLUS POPULAIRE",
+    "readMore": "En Savoir Plus",
+    "levels": {
+      "beginner": "Débutant",
+      "standard": "Standard",
+      "advanced": "Avancé"
+    },
+    "features": {
+      "curriculum":  "Programme approuvé NTSA",
+      "instructor":  "Moniteur certifié",
+      "vehicle":     "Véhicule à double commande",
+      "testPrep":    "Préparation à l'examen"
+    },
+    "items": {
+      "automatic": { "title": "Véhicule Léger Automatique", "desc": "Apprenez à conduire une voiture de tourisme légère automatique" },
+      "manual":    { "title": "Véhicule Léger Manuel",       "desc": "Apprenez à conduire une voiture de tourisme légère manuelle" },
+      "executive": { "title": "Cours Exécutif / Avancé",    "desc": "Apprenez la conduite comme une profession" }
+    }
+  },
+
+  "faq": {
+    "overline": "FAQ",
+    "heading": "Foire Aux Questions",
+    "form": {
+      "overline":     "Contactez-nous",
+      "heading":      "Posez Votre Question",
+      "fieldName":    "Votre Nom",
+      "fieldEmail":   "Adresse E-mail",
+      "fieldPhone":   "Numéro de Téléphone",
+      "fieldSubject": "Sujet",
+      "fieldMessage": "Votre Message",
+      "placeholder":  "Entrez {{field}}",
+      "send":         "Envoyer le Message",
+      "sent":         "Message Envoyé !"
+    },
+    "items": [
+      {
+        "q": "Combien de temps faut-il pour terminer un cours de conduite ?",
+        "a": "La plupart des élèves terminent notre cours standard en 3 à 4 semaines. La durée dépend du forfait choisi et de votre disponibilité pour les leçons."
+      },
+      {
+        "q": "Vos moniteurs sont-ils certifiés NTSA ?",
+        "a": "Oui. Tous les moniteurs de SafeRide Africa détiennent une certification NTSA valide et bénéficient d'une formation professionnelle continue."
+      },
+      {
+        "q": "Aidez-vous dans la demande du NTSA Smart DL ?",
+        "a": "Absolument. Nous guidons chaque élève à travers la procédure complète de demande NTSA Smart DL et la configuration du compte TIMS sans frais supplémentaires."
+      },
+      {
+        "q": "Quel est le taux de réussite de vos élèves ?",
+        "a": "Nous sommes fiers d'un taux de réussite de 98% au premier examen NTSA — bien au-dessus de la moyenne nationale — grâce à notre préparation intensive."
+      },
+      {
+        "q": "Proposez-vous des cours de recyclage ?",
+        "a": "Oui. Nous proposons des programmes de recyclage flexibles adaptés aux conducteurs souhaitant retrouver leur confiance ou se préparer à repasser l'examen."
+      }
+    ]
+  },
+
+  "instructors": {
+    "overline": "Notre Équipe",
+    "heading": "Rencontrez Nos Moniteurs Qualifiés",
+    "ntsaCertified": "Certifié NTSA",
+    "expSuffix": "d'exp.",
+    "roles": {
+      "seniorInstructor":  "Moniteur Principal",
+      "highwayExpert":     "Expert Autoroute",
+      "defensiveDriving":  "Conduite Défensive",
+      "theorySpecialist":  "Spécialiste Théorie"
+    }
+  },
+
+  "whyChooseUs": {
+    "overline": "Pourquoi Nous Choisir",
+    "heading": "Prenez le Volant\net Prenez les Rênes",
+    "items": {
+      "onlineClasses":  { "title": "Cours en Ligne",      "desc": "Accédez aux cours théoriques partout, à tout moment, sur n'importe quel appareil." },
+      "onlineTracking": { "title": "Suivi en Ligne",       "desc": "Suivez vos progrès et votre planning de cours en temps réel." },
+      "affordableFee":  { "title": "Tarifs Abordables",   "desc": "Tarification transparente sans frais cachés." },
+      "bestTrainers":   { "title": "Meilleurs Moniteurs", "desc": "Moniteurs certifiés NTSA avec des années d'expérience." },
+      "perfectTiming":  { "title": "Horaires Flexibles",  "desc": "Créneaux de cours flexibles adaptés à votre emploi du temps." }
+    },
+    "stats": {
+      "totalLearners":     "Total des Apprenants",
+      "currentStudents":   "Élèves Actuels",
+      "expertInstructors": "Moniteurs Experts"
+    }
+  },
+
+  "workProcess": {
+    "overline": "Comment Ça Marche",
+    "heading": "Commencez le Parcours d'Apprentissage SafeRide",
+    "steps": {
+      "selectPlan":    { "title": "Choisissez Votre Formule", "desc": "Choisissez le cours qui correspond à vos objectifs et à votre budget." },
+      "consultation":  { "title": "Consultation",              "desc": "Rencontrez votre moniteur et discutez de votre parcours d'apprentissage." },
+      "buyCourses":    { "title": "Achetez Vos Cours",         "desc": "Paiement sécurisé avec des options flexibles disponibles." },
+      "startTraining": { "title": "Commencez votre Formation", "desc": "Prenez le volant et construisez votre vraie confiance sur la route." }
+    }
+  },
+
+  "testimonials": {
+    "overline": "Avis",
+    "heading": "Ce que Disent Nos Élèves",
+    "items": [
+      {
+        "text": "La meilleure auto-école qui soit. Ils m'ont aidé à faire la demande Smart DL très rapidement — je n'arrivais pas à y croire.",
+        "name": "Eric Musyoka",
+        "role": "Chauffeur de Minibus"
+      },
+      {
+        "text": "Les leçons sont vraiment agréables et en un mois j'ai pu terminer tout le cours de conduite et réussir les examens NTSA sans aucun souci.",
+        "name": "Maina Mburu",
+        "role": "Étudiant Universitaire"
+      },
+      {
+        "text": "J'ai fait mon cours de recyclage ici, ils m'ont aidé à reprendre confiance sur la route. Je vous le recommande, cela en vaut vraiment la peine.",
+        "name": "Michelle Akinyi",
+        "role": "Journaliste"
+      }
+    ]
+  },
+
+  "bookingCta": {
+    "heading": "Réservez Votre Première Leçon de Conduite",
+    "headingAccent": "Et Contactez-nous",
+    "subtitle": "Faites le premier pas vers une conduite plus sûre et plus confiante. Nos moniteurs sont prêts quand vous l'êtes.",
+    "bookNow": "Réserver Maintenant",
+    "contactUs": "Nous Contacter"
+  },
+
+  "ntsaBanner": {
+    "overline": "NTSA et Campus en Ligne",
+    "heading": "Nous Gérons Vos Démarches NTSA",
+    "cta": "Commencer Aujourd'hui",
+    "items": {
+      "smartDl":      { "title": "Demande NTSA Smart DL",      "desc": "Nous gérons l'intégralité de la procédure de demande Smart DL en votre nom — rapidement, précisément, sans stress." },
+      "tims":         { "title": "Configuration du Compte TIMS","desc": "Assistance complète à l'inscription TIMS pour suivre l'état de votre permis dès le premier jour." },
+      "onlineTheory": { "title": "Cours Théoriques en Ligne",  "desc": "Apprenez n'importe où et n'importe quand avec nos moniteurs experts grâce aux séances en direct et enregistrées." }
+    }
+  },
+
+  "blog": {
+    "overline": "Blog",
+    "heading": "Nos Dernières Actualités et Articles",
+    "categoryTag": "CONSEILS DE CONDUITE",
+    "readMore": "En Savoir Plus",
+    "posts": [
+      {
+        "date": "10 mai 2025",
+        "title": "Comment Réussir Votre Examen de Conduite NTSA du Premier Coup",
+        "excerpt": "Conseils d'initiés de nos moniteurs certifiés sur ce que les examinateurs recherchent et comment éviter les erreurs courantes."
+      },
+      {
+        "date": "22 avril 2025",
+        "title": "Smart DL vs Ancien Permis : Ce que Tout Conducteur Kenyan Doit Savoir",
+        "excerpt": "La NTSA est entièrement passée au Smart DL. Voici tout ce que vous devez savoir pour renouveler votre permis sans faire la queue."
+      },
+      {
+        "date": "15 mars 2025",
+        "title": "Conduite Défensive : Pourquoi Elle Pourrait Vous Sauver la Vie sur les Routes Kenyanes",
+        "excerpt": "Les accidents de la route sont en hausse. La conduite défensive est la compétence que SafeRide place au cœur de chaque leçon."
+      }
+    ]
+  },
+
+  "gallery": {
+    "overline": "Galerie",
+    "heading": "Découvrez Notre Galerie de Séances de Conduite",
+    "captions": [
+      "Séance pratique",
+      "Entraînement routier",
+      "Compétences autoroute",
+      "Guidance du moniteur",
+      "Entraînement élève",
+      "Conduite défensive",
+      "Terrain d'entraînement",
+      "Campus de Kenol",
+      "Cours théorique"
+    ]
+  },
+
+  "footer": {
+    "brand": "SafeRide Africa",
+    "tagline": "Certifié NTSA",
+    "description": "La principale auto-école certifiée NTSA au Kenya. Former des conducteurs confiants et sûrs depuis 2001.",
+    "coursesColumnTitle": "Nos Cours",
+    "companyColumnTitle": "Société",
+    "courseLinks": ["Véhicule Automatique", "Véhicule Manuel", "Cours Exécutif", "Cours de Recyclage", "Théorie en Ligne"],
+    "companyLinks": ["À Propos", "Nos Moniteurs", "Infos NTSA", "Blog & Actualités", "Nous Contacter"],
+    "newsletterTitle": "Newsletter",
+    "newsletterSubtitle": "Recevez des conseils de conduite, les actualités NTSA et les nouvelles SafeRide directement dans votre boîte mail.",
+    "newsletterPlaceholder": "Votre adresse e-mail",
+    "newsletterSubscribed": "Abonné ! Merci.",
+    "copyright": "© 2025 SafeRide Africa. Tous droits réservés.",
+    "certifiedLine": "Auto-école Certifiée NTSA · Nairobi, Kenya"
+  },
+
+  "languageSwitcher": {
+    "title": "Langue",
+    "languages": {
+      "en": "Anglais",
+      "zh": "Chinois",
+      "ar": "Arabe",
+      "sw": "Swahili",
+      "fr": "Français"
+    }
+  }
+}

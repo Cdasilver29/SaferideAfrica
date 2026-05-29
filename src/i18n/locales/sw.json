@@ -1,0 +1,282 @@
+{
+  "topbar": {
+    "address": "Nairobi, Kenya",
+    "phone": "+254 712 045 710",
+    "email": "saferideafrica777@gmail.com",
+    "signIn": "Ingia kwa Wateja"
+  },
+
+  "nav": {
+    "brand": "SafeRide Africa",
+    "tagline": "Imeidhinishwa na NTSA",
+    "home": "Nyumbani",
+    "services": "Huduma",
+    "courses": "Kozi",
+    "about": "Kuhusu",
+    "gallery": "Picha",
+    "contact": "Wasiliana",
+    "signIn": "Ingia",
+    "signInRegister": "Ingia / Jisajili"
+  },
+
+  "hero": {
+    "badge": "Shule ya Kuendesha Iliyoidhinishwa na NTSA",
+    "headline": "Endesha kwa Ujuzi na Ujasiri",
+    "headlineWords": ["Endesha", "kwa", "Ujuzi", "na", "Ujasiri", "Daima"],
+    "subheadline": "Sisi ni taasisi inayoongoza ya mafunzo ya uendeshaji inayoweka mafunzo yake katika uendeshaji salama, usalama barabarani, huduma ya kwanza, na mafunzo ya kitaalamu ya uendeshaji.",
+    "trustNtsa": "Imeidhinishwa na NTSA",
+    "trustAward": "Tuzo ya Ubora",
+    "trustPassRate": "98% Wanaofaulu Mara ya Kwanza",
+    "exploreCourses": "Chunguza Kozi",
+    "watchStory": "Tazama Hadithi Yetu"
+  },
+
+  "services": {
+    "overline": "Huduma Zetu",
+    "heading": "Tunatoa Huduma Kwa Ajili Yako",
+    "readMore": "Soma Zaidi",
+    "digitalCampusTitle": "Kampasi ya Kidijitali",
+    "digitalCampusSubtitle": "Jifunze, hifadhi nafasi, na fuatilia maendeleo yako mtandaoni — kuanzia darasa la nadharia hadi kupata leseni.",
+    "items": {
+      "videoCourses":       { "title": "Kozi za Video",         "desc": "Masomo ya video yaliyopangwa yanayoshughulikia alama za barabara, kanuni za NTSA, na nadharia ya uendeshaji salama." },
+      "instructorTraining": { "title": "Mafunzo ya Mwalimu",   "desc": "Magari yenye udhibiti mbili, masomo ya mtu mmoja kwa mmoja na waalimu wenye uzoefu walioidhinishwa." },
+      "getLicense":         { "title": "Pata Leseni",           "desc": "Msaada kamili wa kuomba NTSA Smart DL na kusanidi akaunti ya TIMS kwa niaba yako." },
+      "easyLearn":          { "title": "Jifunze Kuendesha Kwa Urahisi", "desc": "Madarasa ya Nadharia Mtandaoni — Jifunze Popote, Wakati Wowote na Waalimu Wetu Wataalam." },
+      "onlineClasses":      { "title": "Madarasa ya Mtandaoni", "desc": "Masomo ya nadharia ya moja kwa moja na yaliyorekodiwa unayoweza kuhudhuria kutoka mahali popote — simu, kompyuta kibao, au laptopi." },
+      "bookings":           { "title": "Uhifadhi wa Nafasi",    "desc": "Hifadhi nafasi za mazoezi ya uendeshaji, masomo ya nadharia, na tarehe za mtihani wa NTSA moja kwa moja kupitia jukwaa letu." },
+      "lms":                { "title": "Mfumo wa Usimamizi wa Kujifunza", "desc": "Mfumo wetu unafuatilia maendeleo yako, uhifadhi madokezo ya masomo, na humpa mwalimu wako mwonekano wa wakati halisi wa utendaji wako." }
+    }
+  },
+
+  "about": {
+    "overline": "Kuhusu SafeRide Africa",
+    "heading": "Jifunze Kuendesha kwa Usalama na Ujuzi",
+    "headingAccent": "Usalama",
+    "body": "Kwa miongo miwili ya utukufu katika mafunzo ya uendeshaji, mtaala uliothibitishwa na waalimu wenye uzoefu wa SafeRide Africa wanahakikisha uko tayari barabarani kabla ya siku ya mtihani. Tunaweka uendeshaji salama, huduma ya kwanza, na usalama barabarani katikati ya kila somo.",
+    "yearsBadge": "Miaka",
+    "ntsaCertified": "Imeidhinishwa na NTSA",
+    "cta": "Soma Zaidi",
+    "checklist": {
+      "tips":     "Vidokezo na Ushauri wa Haraka",
+      "roadTest": "Maandalizi ya Mtihani wa Barabara",
+      "parking":  "Kuegesha Pembeni",
+      "basics":   "Ujuzi wa Msingi wa Uendeshaji",
+      "ntsa":     "Imeidhinishwa na NTSA",
+      "award":    "Tuzo ya Ubora"
+    }
+  },
+
+  "courses": {
+    "overline": "Kozi za Uendeshaji",
+    "heading": "Kozi Zetu Maarufu za Uendeshaji",
+    "monthly": "Kila Mwezi",
+    "yearly": "Kila Mwaka",
+    "savingMessage": "Okoa takriban 15% kwa malipo ya mwaka!",
+    "mostPopular": "INAYOPENDWA ZAIDI",
+    "readMore": "Soma Zaidi",
+    "levels": {
+      "beginner": "Mwanzo",
+      "standard": "Kawaida",
+      "advanced": "Juu"
+    },
+    "features": {
+      "curriculum":  "Mtaala ulioidhinishwa na NTSA",
+      "instructor":  "Mwalimu aliyeidhinishwa",
+      "vehicle":     "Gari lenye udhibiti mbili",
+      "testPrep":    "Maandalizi ya mtihani"
+    },
+    "items": {
+      "automatic": { "title": "Gari Nyepesi la Otomatiki", "desc": "Jifunze kuendesha Gari la Abiria Nyepesi la Otomatiki" },
+      "manual":    { "title": "Gari Nyepesi la Mwenyewe",  "desc": "Jifunze kuendesha Gari la Abiria Nyepesi la Mwenyewe" },
+      "executive": { "title": "Kozi ya Juu / ya Kitaalamu","desc": "Jifunze uendeshaji kama taaluma" }
+    }
+  },
+
+  "faq": {
+    "overline": "Maswali Yanayoulizwa Mara Kwa Mara",
+    "heading": "Maswali Yanayoulizwa Mara Kwa Mara",
+    "form": {
+      "overline":     "Wasiliana Nasi",
+      "heading":      "Uliza Swali Sasa",
+      "fieldName":    "Jina Lako",
+      "fieldEmail":   "Barua Pepe",
+      "fieldPhone":   "Nambari ya Simu",
+      "fieldSubject": "Mada",
+      "fieldMessage": "Ujumbe Wako",
+      "placeholder":  "Ingiza {{field}}",
+      "send":         "Tuma Ujumbe",
+      "sent":         "Ujumbe Umetumwa!"
+    },
+    "items": [
+      {
+        "q": "Inachukua muda gani kukamilisha kozi ya uendeshaji?",
+        "a": "Wanafunzi wengi wanakamilisha kozi yetu ya kawaida katika wiki 3–4. Muda unategemea pakiti iliyochaguliwa na upatikanaji wako wa masomo."
+      },
+      {
+        "q": "Je, waalimu wenu wameidhinishwa na NTSA?",
+        "a": "Ndiyo. Waalimu wote wa SafeRide Africa wana cheti halisi cha NTSA na wanashiriki katika maendeleo ya kitaalamu yanayoendelea."
+      },
+      {
+        "q": "Je, mnasaidia na ombi la NTSA Smart DL?",
+        "a": "Kabisa. Tunaongoza kila mwanafunzi kupitia mchakato kamili wa kuomba NTSA Smart DL na kusanidi akaunti ya TIMS bila malipo ya ziada."
+      },
+      {
+        "q": "Kiwango cha kufaulu kwa wanafunzi wenu ni kipi?",
+        "a": "Tunajivunia kiwango cha kufaulu cha 98% katika mtihani wa kwanza wa NTSA — zaidi sana ya wastani wa kitaifa — shukrani kwa maandalizi yetu makubwa ya mtihani."
+      },
+      {
+        "q": "Je, mnatoa kozi za kurudiarudia?",
+        "a": "Ndiyo. Tunatoa programu za kurudia zinazonyumbulika zilizoundwa kwa madereva wanaotaka kujenga tena ujasiri au kujiandaa kwa mtihani wa ziada."
+      }
+    ]
+  },
+
+  "instructors": {
+    "overline": "Timu Yetu",
+    "heading": "Kutana na Waalimu Wetu Waliohitimu",
+    "ntsaCertified": "Imeidhinishwa na NTSA",
+    "expSuffix": "uzoefu",
+    "roles": {
+      "seniorInstructor":  "Mwalimu Mkuu",
+      "highwayExpert":     "Mtaalamu wa Barabara Kuu",
+      "defensiveDriving":  "Uendeshaji Salama",
+      "theorySpecialist":  "Mtaalamu wa Nadharia"
+    }
+  },
+
+  "whyChooseUs": {
+    "overline": "Kwa Nini Uchague Sisi",
+    "heading": "Shika Usukani\nNa Uwe Mbele",
+    "items": {
+      "onlineClasses":  { "title": "Madarasa Mtandaoni",  "desc": "Fikia masomo ya nadharia popote, wakati wowote kwenye kifaa chochote." },
+      "onlineTracking": { "title": "Ufuatiliaji Mtandaoni","desc": "Fuatilia maendeleo yako na ratiba ya masomo kwa wakati halisi." },
+      "affordableFee":  { "title": "Bei Nafuu",            "desc": "Bei wazi bila ada zilizofichwa." },
+      "bestTrainers":   { "title": "Waalimu Bora",         "desc": "Waalimu walioidhinishwa na NTSA wenye miaka ya uzoefu." },
+      "perfectTiming":  { "title": "Wakati Unaofaa",       "desc": "Nafasi za masomo zinazonyumbulika zinazofaa ratiba yako." }
+    },
+    "stats": {
+      "totalLearners":     "Jumla ya Wanafunzi",
+      "currentStudents":   "Wanafunzi wa Sasa",
+      "expertInstructors": "Waalimu Wataalam"
+    }
+  },
+
+  "workProcess": {
+    "overline": "Jinsi Inavyofanya Kazi",
+    "heading": "Anza Mchakato wa Kujifunza wa SafeRide",
+    "steps": {
+      "selectPlan":    { "title": "Chagua Mpango Wako",    "desc": "Chagua kozi inayolingana na malengo yako na bajeti yako." },
+      "consultation":  { "title": "Ushauri",               "desc": "Kutana na mwalimu wako na jadili njia yako ya kujifunza." },
+      "buyCourses":    { "title": "Nunua Kozi Zako",        "desc": "Malipo salama na chaguo za malipo zinazonyumbulika zinapatikana." },
+      "startTraining": { "title": "Anza Mafunzo Yako",     "desc": "Shika usukani na jenga ujasiri wa kweli barabarani." }
+    }
+  },
+
+  "testimonials": {
+    "overline": "Maoni",
+    "heading": "Wanafunzi Wetu Wanasema Nini",
+    "items": [
+      {
+        "text": "Shule ya uendeshaji bora kabisa. Walinisaidia kuapply hii smart dl manze..haraka haraka kwanza hadi sikuamini.",
+        "name": "Eric Musyoka",
+        "role": "Dereva wa Matatu"
+      },
+      {
+        "text": "Masomo ni ya kufurahisha sana na ndani ya mwezi mmoja niliweza kumaliza kozi nzima ya uendeshaji na kufaulu mitihani ya NTSA bila wasiwasi wowote.",
+        "name": "Maina Mburu",
+        "role": "Mwanafunzi wa Chuo Kikuu"
+      },
+      {
+        "text": "Nilifanya kozi yangu ya kurudia hapa, walihakikisha nilijenga ujasiri barabarani. Ningeweza kupendekeza, ninakuhakikishia inastahili.",
+        "name": "Michelle Akinyi",
+        "role": "Mwandishi wa Habari"
+      }
+    ]
+  },
+
+  "bookingCta": {
+    "heading": "Hifadhi Somo Lako la Kwanza la Uendeshaji",
+    "headingAccent": "Na Wasiliana Nasi",
+    "subtitle": "Chukua hatua ya kwanza kuelekea uendeshaji salama na wenye ujasiri zaidi. Waalimu wetu wako tayari unapotaka.",
+    "bookNow": "Hifadhi Sasa",
+    "contactUs": "Wasiliana Nasi"
+  },
+
+  "ntsaBanner": {
+    "overline": "NTSA na Kampasi ya Mtandaoni",
+    "heading": "Tunashughulikia Mahitaji Yako ya NTSA",
+    "cta": "Anza Leo",
+    "items": {
+      "smartDl":      { "title": "Ombi la NTSA Smart DL",       "desc": "Tunashughulikia mchakato kamili wa ombi la Smart DL kwa niaba yako — kwa haraka, usahihi, bila msongo." },
+      "tims":         { "title": "Usanidi wa Akaunti ya TIMS",  "desc": "Msaada kamili wa usajili wa TIMS ili uweze kufuatilia hali ya leseni yako kuanzia siku ya kwanza." },
+      "onlineTheory": { "title": "Madarasa ya Nadharia Mtandaoni", "desc": "Jifunze Popote, Wakati Wowote na Waalimu Wetu Wataalam kupitia vikao vya moja kwa moja na vilivyorekodiwa." }
+    }
+  },
+
+  "blog": {
+    "overline": "Blogu",
+    "heading": "Habari na Makala Zetu za Hivi Karibuni",
+    "categoryTag": "VIDOKEZO VYA UENDESHAJI",
+    "readMore": "Soma Zaidi",
+    "posts": [
+      {
+        "date": "Mei 10, 2025",
+        "title": "Jinsi ya Kufaulu Mtihani Wako wa NTSA wa Uendeshaji Mara ya Kwanza",
+        "excerpt": "Vidokezo vya ndani kutoka kwa waalimu wetu walioidhinishwa kuhusu wachunguzi wanatafuta nini na jinsi ya kuepuka makosa ya kawaida."
+      },
+      {
+        "date": "Apr 22, 2025",
+        "title": "Smart DL dhidi ya DL ya Zamani: Kila Dereva wa Kenya Anapaswa Kujua",
+        "excerpt": "NTSA imebadilika kabisa kwenda Smart DL. Hapa kuna kila kitu unachohitaji kujua ili kuboresha leseni yako bila foleni."
+      },
+      {
+        "date": "Mac 15, 2025",
+        "title": "Uendeshaji Salama: Kwa Nini Unaweza Kuokoa Maisha Yako Barabarani Kenya",
+        "excerpt": "Vifo vya barabarani vinaongezeka. Uendeshaji salama ndio ujuzi ambao SafeRide unaweka moyoni mwa kila somo."
+      }
+    ]
+  },
+
+  "gallery": {
+    "overline": "Picha",
+    "heading": "Tazama Picha za Mazoezi Yetu ya Uendeshaji",
+    "captions": [
+      "Somo la vitendo",
+      "Mafunzo barabarani",
+      "Ujuzi wa barabara kuu",
+      "Mwongozo wa mwalimu",
+      "Mazoezi ya mwanafunzi",
+      "Uendeshaji salama",
+      "Eneo la mafunzo",
+      "Kampasi ya Kenol",
+      "Darasa la nadharia"
+    ]
+  },
+
+  "footer": {
+    "brand": "SafeRide Africa",
+    "tagline": "Imeidhinishwa na NTSA",
+    "description": "Shule ya uendeshaji inayoongoza Kenya iliyoidhinishwa na NTSA. Tunakuza madereva wenye ujasiri na usalama tangu 2001.",
+    "coursesColumnTitle": "Kozi Zetu",
+    "companyColumnTitle": "Kampuni",
+    "courseLinks": ["Gari la Otomatiki", "Gari la Mwenyewe", "Kozi ya Juu", "Kozi ya Kurudia", "Nadharia Mtandaoni"],
+    "companyLinks": ["Kuhusu Sisi", "Waalimu Wetu", "Taarifa za NTSA", "Blogu na Habari", "Wasiliana Nasi"],
+    "newsletterTitle": "Jarida la Habari",
+    "newsletterSubtitle": "Pata vidokezo vya uendeshaji, masasisho ya NTSA, na habari za SafeRide moja kwa moja kwenye sanduku lako la barua.",
+    "newsletterPlaceholder": "Anwani yako ya barua pepe",
+    "newsletterSubscribed": "Umejisajili! Asante sana.",
+    "copyright": "© 2025 SafeRide Africa. Haki zote zimehifadhiwa.",
+    "certifiedLine": "Shule ya Uendeshaji Iliyoidhinishwa na NTSA · Nairobi, Kenya"
+  },
+
+  "languageSwitcher": {
+    "title": "Lugha",
+    "languages": {
+      "en": "Kiingereza",
+      "zh": "Kichina",
+      "ar": "Kiarabu",
+      "sw": "Kiswahili",
+      "fr": "Kifaransa"
+    }
+  }
+}

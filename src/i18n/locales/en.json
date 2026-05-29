@@ -1,0 +1,294 @@
+{
+  "topbar": {
+    "address": "Nairobi, Kenya",
+    "phone": "+254 712 045 710",
+    "email": "saferideafrica777@gmail.com",
+    "signIn": "Customer Sign In"
+  },
+
+  "nav": {
+    "brand": "SafeRide Africa",
+    "tagline": "NTSA Certified",
+    "home": "Home",
+    "services": "Services",
+    "courses": "Courses",
+    "about": "About",
+    "gallery": "Gallery",
+    "contact": "Contact",
+    "signIn": "Sign In",
+    "signInRegister": "Sign In / Register"
+  },
+
+  "hero": {
+    "badge": "NTSA Certified Driving School",
+    "headline": "Drive Away with The Right Skills",
+    "headlineWords": ["Drive", "Away", "with", "The", "Right", "Skills"],
+    "subheadline": "We are the leading Driving Institution that centers its training on defensive driving, road safety, first aid, and professional driving training.",
+    "trustNtsa": "NTSA Certified",
+    "trustAward": "Award Winning",
+    "trustPassRate": "98% First-Try Pass Rate",
+    "exploreCourses": "Explore Courses",
+    "watchStory": "Watch Our Story"
+  },
+
+  "services": {
+    "overline": "Our Services",
+    "heading": "We Provide Service For You",
+    "readMore": "Read More",
+    "digitalCampusTitle": "Digital Campus",
+    "digitalCampusSubtitle": "Learn, book, and track your progress entirely online — from theory class to licence in hand.",
+    "items": {
+      "videoCourses":       { "title": "Video Courses",         "desc": "Structured video lessons covering road signs, NTSA rules, and defensive driving theory." },
+      "instructorTraining": { "title": "Instructor Training",   "desc": "Dual-control vehicles, one-on-one sessions with certified, experienced instructors." },
+      "getLicense":         { "title": "Get License",           "desc": "End-to-end NTSA Smart DL application and TIMS account setup handled for you." },
+      "easyLearn":          { "title": "Easy Learn Driving",    "desc": "Online Theory Classes — Learn Anywhere, Anytime with our Expert Instructors." },
+      "onlineClasses":      { "title": "Online Classes",        "desc": "Live and recorded theory lessons you can attend from anywhere — phone, tablet, or laptop. Learn at your own pace with our NTSA-aligned curriculum." },
+      "bookings":           { "title": "Bookings",              "desc": "Book practical driving slots, theory sessions, and NTSA test dates directly through our platform — no queue, no phone calls." },
+      "lms":                { "title": "LMS",                   "desc": "Our Learning Management System tracks your progress, stores lesson notes, and gives your instructor real-time visibility of your performance." }
+    }
+  },
+
+  "about": {
+    "overline": "About SafeRide Africa",
+    "heading": "Learn To Drive, Drive With Safety And Control",
+    "headingAccent": "Safety",
+    "body": "With over two decades of excellence in driver training, SafeRide Africa's proven curriculum and experienced instructors ensure you're road-ready and NTSA-confident before test day. We put defensive driving, first aid, and road safety at the heart of every session.",
+    "yearsBadge": "Years",
+    "ntsaCertified": "NTSA Certified",
+    "cta": "About More",
+    "checklist": {
+      "tips":     "Quick Tips and Advice",
+      "roadTest": "Road Test Preparation",
+      "parking":  "Parallel Parking",
+      "basics":   "Basic Driving Skills",
+      "ntsa":     "NTSA Certified",
+      "award":    "Award Winning"
+    }
+  },
+
+  "courses": {
+    "overline": "Driving Courses",
+    "heading": "Our Popular Driving Courses",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "savingMessage": "Save ~15% with yearly billing!",
+    "mostPopular": "MOST POPULAR",
+    "readMore": "Read More",
+    "levels": {
+      "beginner": "Beginner",
+      "standard": "Standard",
+      "advanced": "Advanced"
+    },
+    "features": {
+      "curriculum":  "NTSA-approved curriculum",
+      "instructor":  "Certified instructor",
+      "vehicle":     "Dual-control vehicle",
+      "testPrep":    "Test preparation"
+    },
+    "items": {
+      "automatic": { "title": "Automatic Light Vehicle", "desc": "Learn how to drive an Automatic Light Passenger Car" },
+      "manual":    { "title": "Manual Light Vehicle",    "desc": "Learn how to drive a Manual Light Passenger Car" },
+      "executive": { "title": "Executive / Advanced",    "desc": "Learn driving as a profession" }
+    }
+  },
+
+  "faq": {
+    "overline": "FAQ",
+    "heading": "Frequently Asked Questions",
+    "form": {
+      "overline":     "Contact Us",
+      "heading":      "Asking Question Now",
+      "fieldName":    "Your Name",
+      "fieldEmail":   "Email Address",
+      "fieldPhone":   "Phone Number",
+      "fieldSubject": "Subject",
+      "fieldMessage": "Your Message",
+      "placeholder":  "Enter {{field}}",
+      "send":         "Send Message",
+      "sent":         "Message Sent!"
+    },
+    "items": [
+      {
+        "q": "How long does it take to complete a driving course?",
+        "a": "Most students complete our standard course in 3–4 weeks. The duration depends on the package chosen and your availability for lessons."
+      },
+      {
+        "q": "Are your instructors NTSA certified?",
+        "a": "Yes. All SafeRide Africa instructors hold valid NTSA certification and undergo continuous professional development."
+      },
+      {
+        "q": "Do you help with the NTSA Smart DL application?",
+        "a": "Absolutely. We guide every student through the full NTSA Smart DL application and TIMS account setup at no extra charge."
+      },
+      {
+        "q": "What is the pass rate for your students?",
+        "a": "We are proud of a 98% NTSA first-attempt pass rate — well above the national average — thanks to our intensive test preparation."
+      },
+      {
+        "q": "Do you offer refresher courses?",
+        "a": "Yes. We offer flexible refresher programmes tailored to drivers who want to rebuild confidence or prepare for retesting."
+      }
+    ]
+  },
+
+  "instructors": {
+    "overline": "Our Team",
+    "heading": "Meet Our Qualified Instructor",
+    "ntsaCertified": "NTSA Certified",
+    "expSuffix": "exp",
+    "roles": {
+      "seniorInstructor":  "Senior Instructor",
+      "highwayExpert":     "Highway Expert",
+      "defensiveDriving":  "Defensive Driving",
+      "theorySpecialist":  "Theory Specialist"
+    }
+  },
+
+  "whyChooseUs": {
+    "overline": "Why Choose Us",
+    "heading": "Get Behind The Wheel\nAnd Take The Lead",
+    "items": {
+      "onlineClasses":  { "title": "Online Classes",   "desc": "Access theory lessons anywhere, anytime on any device." },
+      "onlineTracking": { "title": "Online Tracking",  "desc": "Track your progress and lesson schedule in real-time." },
+      "affordableFee":  { "title": "Affordable Fee",   "desc": "Transparent pricing with no hidden charges." },
+      "bestTrainers":   { "title": "Best Trainers",    "desc": "NTSA-certified instructors with years of experience." },
+      "perfectTiming":  { "title": "Perfect Timing",   "desc": "Flexible lesson slots that fit your schedule." }
+    },
+    "stats": {
+      "totalLearners":    "Total Learners",
+      "currentStudents":  "Current Students",
+      "expertInstructors":"Expert Instructors"
+    }
+  },
+
+  "workProcess": {
+    "overline": "How It Works",
+    "heading": "Start The SafeRide Learning Process",
+    "steps": {
+      "selectPlan":     { "title": "Select Your Plan",    "desc": "Choose the course that matches your goals and budget." },
+      "consultation":   { "title": "Consultation",        "desc": "Meet your instructor and discuss your learning path." },
+      "buyCourses":     { "title": "Buy Your Courses",    "desc": "Secure payment with flexible options available." },
+      "startTraining":  { "title": "Start Your Training", "desc": "Get behind the wheel and build real road confidence." }
+    }
+  },
+
+  "testimonials": {
+    "overline": "Reviews",
+    "heading": "What Our Students Say",
+    "items": [
+      {
+        "text": "Best driving school ever. Walinisaidia kuapply hii smart dl manze..haraka haraka kwanza hadi sikuamini.",
+        "name": "Eric Musyoka",
+        "role": "Matatu Driver"
+      },
+      {
+        "text": "The lessons are so much fun and in a month I was able to finish the whole driving course and passed the NTSA exams without any hustle.",
+        "name": "Maina Mburu",
+        "role": "University Student"
+      },
+      {
+        "text": "I did my refresher course here, they ensured I built confidence on the road. I would recommend it, I assure you it is worth it.",
+        "name": "Michelle Akinyi",
+        "role": "Journalist"
+      }
+    ]
+  },
+
+  "bookingCta": {
+    "heading": "Book Your First Driving Lesson",
+    "headingAccent": "And Contact Us",
+    "subtitle": "Take the first step toward safer, more confident driving. Our instructors are ready when you are.",
+    "bookNow": "Book Now",
+    "contactUs": "Contact Us"
+  },
+
+  "ntsaBanner": {
+    "overline": "NTSA & Online Campus",
+    "heading": "We Handle Your NTSA Requirements",
+    "cta": "Get Started Today",
+    "items": {
+      "smartDl":      { "title": "NTSA Smart DL Application", "desc": "We handle the full Smart DL application process on your behalf — fast, accurate, stress-free." },
+      "tims":         { "title": "TIMS Account Setup",        "desc": "Full TIMS registration assistance so you can track your licence status from day one." },
+      "onlineTheory": { "title": "Online Theory Classes",     "desc": "Learn Anywhere, Anytime with our Expert Instructors through live and recorded sessions." }
+    }
+  },
+
+  "blog": {
+    "overline": "Blog",
+    "heading": "Our Latest News & Articles",
+    "categoryTag": "DRIVING TIPS",
+    "readMore": "Read More",
+    "posts": [
+      {
+        "date": "May 10, 2025",
+        "title": "How to Pass Your NTSA Driving Test on the First Try",
+        "excerpt": "Insider tips from our certified instructors on what examiners look for and how to avoid common mistakes."
+      },
+      {
+        "date": "Apr 22, 2025",
+        "title": "Smart DL vs Old DL: What Every Kenyan Driver Must Know",
+        "excerpt": "NTSA has fully switched to Smart DL. Here is everything you need to upgrade your licence without the queue."
+      },
+      {
+        "date": "Mar 15, 2025",
+        "title": "Defensive Driving: Why It Could Save Your Life on Kenyan Roads",
+        "excerpt": "Road fatalities are rising. Defensive driving is the skill that SafeRide puts at the heart of every lesson."
+      }
+    ]
+  },
+
+  "gallery": {
+    "overline": "Gallery",
+    "heading": "See Our Driving Practice Gallery",
+    "captions": [
+      "Practical session",
+      "Road training",
+      "Highway skills",
+      "Instructor guidance",
+      "Student practice",
+      "Defensive driving",
+      "Training grounds",
+      "Kenol campus",
+      "Theory class"
+    ]
+  },
+
+  "footer": {
+    "brand": "SafeRide Africa",
+    "tagline": "NTSA Certified",
+    "description": "Kenya's leading NTSA-certified driving school. Empowering confident, safe drivers since 2001.",
+    "coursesColumnTitle": "Our Courses",
+    "companyColumnTitle": "Company",
+    "courseLinks": [
+      "Automatic Vehicle",
+      "Manual Vehicle",
+      "Executive Course",
+      "Refresher Course",
+      "Online Theory"
+    ],
+    "companyLinks": [
+      "About Us",
+      "Our Instructors",
+      "NTSA Info",
+      "Blog & News",
+      "Contact Us"
+    ],
+    "newsletterTitle": "Newsletter",
+    "newsletterSubtitle": "Get driving tips, NTSA updates, and SafeRide news direct to your inbox.",
+    "newsletterPlaceholder": "Your email address",
+    "newsletterSubscribed": "Subscribed! Thank you.",
+    "copyright": "© 2025 SafeRide Africa. All rights reserved.",
+    "certifiedLine": "NTSA Certified Driving School · Nairobi, Kenya"
+  },
+
+  "languageSwitcher": {
+    "title": "Translations",
+    "languages": {
+      "en": "English",
+      "zh": "Chinese",
+      "ar": "Arabic",
+      "sw": "Swahili",
+      "fr": "French"
+    }
+  }
+}
