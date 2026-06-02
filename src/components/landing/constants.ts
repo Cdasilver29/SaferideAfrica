@@ -1,5 +1,4 @@
 import { Dimensions, Platform } from 'react-native';
-import { BookOpen, Car, GraduationCap, Shield, Award } from 'lucide-react-native';
 
 export const SCREEN_W = Dimensions.get('window').width;
 export const SCREEN_H = Dimensions.get('window').height;
@@ -8,22 +7,22 @@ export const MAX_W = 1100;
 
 // ─── SafeRide colour tokens ────────────────────────────────────────────────────
 export const C = {
-  blue:        '#0ea5e9',
-  blueDark:    '#0369a1',
-  blueDeep:    '#0284c7',
+  blue:        '#1877f2',
+  blueDark:    '#1060cc',
+  blueDeep:    '#146fe0',
   yellow:      '#fbbf24',
   amber:       '#f59e0b',
   amberDark:   '#d97706',
   gold:        '#b45309',
   dark:        '#78350f',   // amber-900: course-band background
-  darkBg:      '#0f172a',   // navy-950: dark section backgrounds
-  darkCard:    '#1e293b',   // navy-800
+  darkBg:      '#1d59e8ff',   // navy-950: dark section backgrounds
+  darkCard:    '#1152baff',   // navy-800
   darkBorder:  '#334155',   // navy-700
   white:       '#ffffff',
   lightBg:     '#f9fafb',
   muted:       '#6b7280',
   mutedDark:   '#94a3b8',
-  heading:     '#0f172a',
+  heading:     '#1551dfff',
   green:       '#22c55e',
   greenLight:  '#86efac',
 };
@@ -47,28 +46,29 @@ export const ABOUT_IMG = IS_WEB
 
 export const GALLERY_IMGS = IS_WEB
   ? [
-      { uri: '/gallery/DSC_6800.jpg', caption: 'Practical session' },
-      { uri: '/gallery/DSC_6835.jpg', caption: 'Road training' },
-      { uri: '/gallery/DSC_6845.jpg', caption: 'Highway skills' },
-      { uri: '/gallery/DSC_6912.jpg', caption: 'Instructor guidance' },
-      { uri: '/gallery/DSC_7805.jpg', caption: 'Student practice' },
-      { uri: '/gallery/DSC_6966.jpg', caption: 'Defensive driving' },
-      { uri: '/gallery/DSC_7786.jpg', caption: 'Training grounds' },
-      { uri: '/gallery/DSC_7796.jpg', caption: 'Kenol campus' },
-      { uri: '/gallery/DSC_2089.jpg', caption: 'Theory class' },
+      { uri: '/gallery/DSC_6866.jpg', caption: 'Practical session' },
+      { uri: '/gallery/DSC_2699.jpg', caption: 'Road training' },
+      { uri: '/gallery/DSC_7956.jpg', caption: 'Highway skills' },
+      { uri: '/gallery/DSC_7991.jpg', caption: 'Instructor guidance' },
+      { uri: '/gallery/DSC_2225.jpg', caption: 'Student practice' },
+      { uri: '/gallery/DSC_6903.jpg', caption: 'Defensive driving' },
+      { uri: '/gallery/DSC_6830.jpg', caption: 'Happy Family' },
+      { uri: '/gallery/DSC_6966.jpg', caption: 'Practical session' },
+      { uri: '/gallery/DSC_7825.jpg', caption: 'Theory class' },
+      { uri: '/gallery/DSC_6824.jpg', caption: 'Road Training' },
+      { uri: '/gallery/DSC_2976.jpg', caption: 'Driving test' },
+      { uri: '/gallery/DSC_2258.jpg', caption: 'Highway skills' },
+      { uri: '/gallery/DSC_2725.jpg', caption: 'Happy Family' },
+      { uri: '/gallery/DSC_2179.jpg', caption: 'Branches' },
+      { uri: '/gallery/DSC_7824.jpg', caption: 'Testimonial' },
+      { uri: '/gallery/DSC_7879.jpg', caption: 'Bodaboda training' },
+      { uri: '/gallery/DSC_7904.jpg', caption: 'Happy customers' },
+      { uri: '/gallery/DSC_6927.jpg', caption: 'Car training' },  
     ]
   : Array(9).fill(null).map((_, i) => ({
       src: require('../../../assets/images/car-pic.png'),
       caption: 'Training session',
     }));
-
-export const COURSE_IMGS = IS_WEB
-  ? [
-      { uri: '/gallery/DSC_7014.jpg' },
-      { uri: '/gallery/DSC_7863.jpg' },
-      { uri: '/gallery/DSC_6912.jpg' },
-    ]
-  : Array(3).fill(require('../../../assets/images/car-pic.png'));
 
 export const BLOG_IMGS = IS_WEB
   ? [
@@ -80,60 +80,15 @@ export const BLOG_IMGS = IS_WEB
 
 export const INSTRUCTOR_IMGS = IS_WEB
   ? [
+      { uri: '/gallery/DSC_7991.jpg' },
+      { uri: '/gallery/DSC_7976.jpg' },
       { uri: '/gallery/DSC_7824.jpg' },
-      { uri: '/gallery/DSC_7981.jpg' },
-      { uri: '/gallery/DSC_7834.jpg' },
       { uri: '/gallery/DSC_7925.jpg' },
     ]
   : null;
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-export const SERVICES = [
-  {
-    iconName: 'BookOpen',
-    title: 'Video Courses',
-    desc: 'Structured video lessons covering road signs, NTSA rules, and defensive driving theory.',
-  },
-  {
-    iconName: 'GraduationCap',
-    title: 'Instructor Training',
-    desc: 'Dual-control vehicles, one-on-one sessions with certified, experienced instructors.',
-  },
-  {
-    iconName: 'Shield',
-    title: 'Get License',
-    desc: 'End-to-end NTSA Smart DL application and TIMS account setup handled for you.',
-  },
-  {
-    iconName: 'Car',
-    title: 'Easy Learn Driving',
-    desc: 'Online Theory Classes — Learn Anywhere, Anytime with our Expert Instructors.',
-  },
-];
-
-export const COURSES = [
-  {
-    title: 'Automatic Light Vehicle',
-    price: 'Ksh 12,000',
-    yearlyPrice: 'Ksh 10,500',
-    desc: 'Learn how to drive an Automatic Light Passenger Car',
-    popular: false,
-  },
-  {
-    title: 'Manual Light Vehicle',
-    price: 'Ksh 13,000',
-    yearlyPrice: 'Ksh 11,000',
-    desc: 'Learn how to drive a Manual Light Passenger Car',
-    popular: true,
-  },
-  {
-    title: 'Executive / Advanced',
-    price: 'Ksh 13,000',
-    yearlyPrice: 'Ksh 11,500',
-    desc: 'Learn driving as a profession',
-    popular: false,
-  },
-];
+// Note: SERVICES and CLASSES/COURSES data live in src/data/saferide.ts
 
 export const FAQS = [
   { q: 'How long does it take to complete a driving course?', a: 'Most students complete our standard course in 3–4 weeks. The duration depends on the package chosen and your availability for lessons.' },

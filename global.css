@@ -1,3 +1,53 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 255 255 255;
+    --foreground: 17 24 39;
+    --card: 255 255 255;
+    --card-foreground: 17 24 39;
+    --muted: 243 244 246;
+    --muted-foreground: 75 85 99;
+    --border: 229 231 235;
+    --primary: 24 119 242;
+    --primary-foreground: 255 255 255;
+    --accent: 250 204 21;
+    --accent-dark: 217 119 6;
+    /* ── Header strip tokens ── */
+    --top-bar-bg:       14 165 233;           /* legacy — unused by components */
+    --top-bar-bg-rgba:  255 255 255 / 0.55;  /* light glass */
+    --top-bar-fg:       17 24 39;             /* dark text reads on light glass */
+    --top-bar-fg-muted: 71 85 105;
+    --top-bar-sep:      rgba(0, 0, 0, 0.12);
+    --nav-bg-solid:     24 119 242;           /* Facebook blue #1877F2 — resting */
+    --nav-bg-glass:     24 119 242 / 0.55;   /* translucent Facebook blue — scrolled */
+    --nav-fg:           255 255 255;
+    --nav-fg-muted:     219 234 254;          /* blue-100 */
+  }
+
+  .dark {
+    --background: 11 18 32;
+    --foreground: 248 250 252;
+    --card: 17 27 45;
+    --card-foreground: 248 250 252;
+    --muted: 30 41 59;
+    --muted-foreground: 148 163 184;
+    --border: 30 41 59;
+    --primary: 24 119 242;
+    --primary-foreground: 255 255 255;
+    --accent: 250 204 21;
+    --accent-dark: 245 158 11;
+    /* ── Header strip tokens (dark) ── */
+    --top-bar-bg:       14 165 233;           /* legacy — unused by components */
+    --top-bar-bg-rgba:  11 18 32 / 0.55;     /* dark glass */
+    --top-bar-fg:       248 250 252;          /* light text on dark glass */
+    --top-bar-fg-muted: 203 213 225;
+    --top-bar-sep:      rgba(255, 255, 255, 0.12);
+    --nav-bg-solid:     16 96 204;            /* Facebook blue dark #1060CC */
+    --nav-bg-glass:     16 96 204 / 0.55;
+    --nav-fg:           248 250 252;
+    --nav-fg-muted:     191 219 254;          /* blue-200 */
+  }
+}

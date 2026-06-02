@@ -105,7 +105,7 @@ export default function LanguageSwitcher() {
             onPress={() => {/* stop propagation */}}
             style={{
               position: 'absolute',
-              top: 46,   // sits just below the TopBar
+              top: 46,   // sits just below the nav bar
               right: 24,
               backgroundColor: '#ffffff',
               borderRadius: 14,

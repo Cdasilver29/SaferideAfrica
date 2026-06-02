@@ -5,8 +5,11 @@ import {
   ActivityIndicator, Image, Dimensions,
 } from 'react-native';
 import { router } from 'expo-router';
-import { Car, Mail, Lock, ArrowRight, Shield, Eye, EyeOff, ChevronLeft } from 'lucide-react-native';
+import { Mail, Lock, ArrowRight, Shield, Eye, EyeOff, ChevronLeft } from 'lucide-react-native';
 import { C, F, IS_WEB } from '@/components/landing/constants';
+import { useAuth } from '@/context/AuthContext';
+
+const LOGO = require('../../assets/images/saferide-logo.png');
 
 const { height: SCREEN_H } = Dimensions.get('window');
 
@@ -15,11 +18,12 @@ const BG_SRC = IS_WEB
   : require('../../assets/images/car-pic.png');
 
 const LoginForm: React.FC = () => {
-  const [email, setEmail]             = useState('');
-  const [password, setPassword]       = useState('');
+  const { signIn }                      = useAuth();
+  const [email, setEmail]               = useState('');
+  const [password, setPassword]         = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading]     = useState(false);
-  const [error, setError]             = useState('');
+  const [isLoading, setIsLoading]       = useState(false);
+  const [error, setError]               = useState('');
 
   const handleSubmit = async () => {
     setError('');
@@ -28,10 +32,14 @@ const LoginForm: React.FC = () => {
       return;
     }
     setIsLoading(true);
-    // Simulate network round-trip; real auth can be wired here later
-    await new Promise(r => setTimeout(r, 900));
-    setIsLoading(false);
-    router.replace('/');
+    try {
+      await signIn(email.trim(), password);
+      router.replace('/account');
+    } catch (e: any) {
+      setError(e?.message ?? 'Sign-in failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const borderColor = (filled: boolean) => (filled ? C.yellow : C.darkBorder);
@@ -86,17 +94,11 @@ const LoginForm: React.FC = () => {
 
             {/* Card header */}
             <View style={{ backgroundColor: C.dark, paddingHorizontal: 32, paddingVertical: 36, alignItems: 'center' }}>
-              <View
-                style={{
-                  width: 72, height: 72, borderRadius: 20,
-                  backgroundColor: C.yellow,
-                  alignItems: 'center', justifyContent: 'center',
-                  marginBottom: 14,
-                  shadowColor: C.yellow, shadowOpacity: 0.4, shadowRadius: 12, elevation: 6,
-                }}
-              >
-                <Car size={34} color={C.dark} />
-              </View>
+              <Image
+                source={LOGO}
+                style={{ width: 80, height: 80, borderRadius: 16, marginBottom: 14 }}
+                resizeMode="contain"
+              />
               <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: 22, letterSpacing: 0.4 }}>
                 SafeRide Africa
               </Text>
@@ -204,6 +206,14 @@ const LoginForm: React.FC = () => {
                     <ArrowRight size={18} color={C.dark} />
                   </>
                 )}
+              </TouchableOpacity>
+
+              {/* Register link */}
+              <TouchableOpacity onPress={() => router.push('/register')} style={{ marginTop: 20, alignItems: 'center' }} activeOpacity={0.7}>
+                <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 13 }}>
+                  Don't have an account?{' '}
+                  <Text style={{ color: C.blue, fontFamily: F.semibold }}>Register</Text>
+                </Text>
               </TouchableOpacity>
 
             </View>

@@ -3,17 +3,19 @@ import { View, Text, Image, Animated } from 'react-native';
 import { Star, Award } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W, INSTRUCTORS, INSTRUCTOR_IMGS } from './constants';
+import { useTheme } from '@/lib/theme';
 
-// Maps the English role string from constants → translation key in instructors.roles
 const ROLE_KEY_MAP: Record<string, string> = {
   'Senior Instructor':  'seniorInstructor',
   'Highway Expert':     'highwayExpert',
+  'Highway Specialist': 'highwayExpert',
   'Defensive Driving':  'defensiveDriving',
   'Theory Specialist':  'theorySpecialist',
 };
 
 export default function Instructors() {
   const { t } = useTranslation();
+  const T = useTheme();
   const anims = useRef(INSTRUCTORS.map(() => new Animated.Value(0))).current;
 
   useEffect(() => {
@@ -21,14 +23,14 @@ export default function Instructors() {
   }, []);
 
   return (
-    <View style={{ backgroundColor: '#f9fafb', paddingVertical: 72, paddingHorizontal: 24 }}>
+    <View style={{ backgroundColor: T.muted, paddingVertical: 72, paddingHorizontal: 24 }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
 
         <View style={{ alignItems: 'center', marginBottom: 44 }}>
           <Text style={{ color: C.blue, fontFamily: F.bold, fontSize: 11, letterSpacing: 2.5, textTransform: 'uppercase', marginBottom: 10 }}>
             {t('instructors.overline')}
           </Text>
-          <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: IS_WEB ? 34 : 26, textAlign: 'center', marginBottom: 12 }}>
+          <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: IS_WEB ? 34 : 26, textAlign: 'center', marginBottom: 12 }}>
             {t('instructors.heading')}
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
@@ -44,14 +46,15 @@ export default function Instructors() {
             const roleKey = ROLE_KEY_MAP[inst.role] ?? inst.role;
             return (
               <Animated.View
-                key={inst.name}
+                key={i}
                 style={{
                   flex: IS_WEB ? 1 : undefined,
                   opacity: anims[i],
                   transform: [{ translateY: anims[i].interpolate({ inputRange: [0, 1], outputRange: [28, 0] }) }],
-                  backgroundColor: '#ffffff', borderRadius: 20, overflow: 'hidden',
+                  backgroundColor: T.card,
+                  borderRadius: 20, overflow: 'hidden',
                   shadowColor: '#000', shadowOpacity: 0.07, shadowRadius: 14, elevation: 3,
-                  borderWidth: 1, borderColor: '#e5e7eb',
+                  borderWidth: 1, borderColor: T.border,
                 }}
               >
                 <View style={{ height: IS_WEB ? 200 : 160, position: 'relative' }}>
@@ -71,14 +74,14 @@ export default function Instructors() {
                 </View>
 
                 <View style={{ padding: 20, alignItems: 'center' }}>
-                  <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 17, marginBottom: 4 }}>{inst.name}</Text>
+                  <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 17, marginBottom: 4 }}>{inst.name}</Text>
                   <Text style={{ color: C.blue, fontFamily: F.semibold, fontSize: 13, marginBottom: 10 }}>
                     {t(`instructors.roles.${roleKey}`)}
                   </Text>
                   <View style={{ flexDirection: 'row', gap: 3, marginBottom: 12 }}>
                     {[...Array(5)].map((_, s) => <Star key={s} size={13} color={C.yellow} fill={C.yellow} />)}
                   </View>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: '#f0f9ff', paddingHorizontal: 12, paddingVertical: 5, borderRadius: 20, borderWidth: 1, borderColor: '#bae6fd' }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: T.muted, paddingHorizontal: 12, paddingVertical: 5, borderRadius: 20, borderWidth: 1, borderColor: T.border }}>
                     <Award size={11} color={C.blue} />
                     <Text style={{ color: C.blue, fontFamily: F.medium, fontSize: 11 }}>{t('instructors.ntsaCertified')}</Text>
                   </View>

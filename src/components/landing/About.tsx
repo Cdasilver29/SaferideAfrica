@@ -1,17 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, Image, TouchableOpacity, Animated } from 'react-native';
-import { useColorScheme } from 'nativewind';
 import { router } from 'expo-router';
 import { CheckCircle, ArrowRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W, ABOUT_IMG } from './constants';
+import { COMPANY } from '@/data/saferide';
+import { useTheme } from '@/lib/theme';
+
+const YEARS_ACTIVE = new Date().getFullYear() - COMPANY.registration.foundedYear;
 
 const CHECKLIST_KEYS = ['tips', 'roadTest', 'parking', 'basics', 'ntsa', 'award'] as const;
 
 export default function About() {
   const { t } = useTranslation();
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const T = useTheme();
   const imgAnim  = useRef(new Animated.Value(0)).current;
   const textAnim = useRef(new Animated.Value(0)).current;
 
@@ -23,7 +25,7 @@ export default function About() {
   }, []);
 
   return (
-    <View style={{ backgroundColor: isDark ? C.darkBg : '#ffffff', paddingVertical: 72, paddingHorizontal: 24 }}>
+    <View style={{ backgroundColor: T.background, paddingVertical: 72, paddingHorizontal: 24 }}>
       <View
         style={[
           IS_WEB ? { flexDirection: 'row', alignItems: 'center', gap: 56 } : {},
@@ -48,12 +50,13 @@ export default function About() {
               <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 5, backgroundColor: C.yellow }} />
 
               <View style={{ position: 'absolute', bottom: 28, right: -20, backgroundColor: C.yellow, borderRadius: 16, paddingHorizontal: 20, paddingVertical: 14, shadowColor: '#000', shadowOpacity: 0.2, shadowRadius: 12, elevation: 6, alignItems: 'center' }}>
-                <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 26 }}>23+</Text>
+                <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 26 }}>{YEARS_ACTIVE}+</Text>
                 <Text style={{ color: C.dark, fontFamily: F.semibold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1 }}>
                   {t('about.yearsBadge')}
                 </Text>
               </View>
 
+              {/* NTSA badge — kept as-is per Phase 2 instructions */}
               <View style={{ position: 'absolute', top: 20, left: 20, backgroundColor: C.blue, borderRadius: 10, paddingHorizontal: 12, paddingVertical: 6 }}>
                 <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: 11, letterSpacing: 0.5 }}>{t('about.ntsaCertified')}</Text>
               </View>
@@ -78,13 +81,12 @@ export default function About() {
             {t('about.overline')}
           </Text>
 
-          <Text style={{ color: isDark ? '#f8fafc' : C.heading, fontFamily: F.bold, fontSize: IS_WEB ? 34 : 26, lineHeight: IS_WEB ? 44 : 34, marginBottom: 16 }}>
+          <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: IS_WEB ? 34 : 26, lineHeight: IS_WEB ? 44 : 34, marginBottom: 16 }}>
             {t('about.heading').replace(t('about.headingAccent'), '')}{' '}
             <Text style={{ color: C.yellow }}>{t('about.headingAccent')}</Text>
-            {/* trailing words after accent — handled by splitting at the accent word */}
           </Text>
 
-          <Text style={{ color: isDark ? C.mutedDark : C.muted, fontFamily: F.regular, fontSize: 14, lineHeight: 24, marginBottom: 24 }}>
+          <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 14, lineHeight: 24, marginBottom: 24 }}>
             {t('about.body')}
           </Text>
 
@@ -95,13 +97,13 @@ export default function About() {
                 <View style={{ width: 24, height: 24, borderRadius: 12, backgroundColor: C.yellow, alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <CheckCircle size={13} color={C.dark} />
                 </View>
-                <Text style={{ color: C.heading, fontFamily: F.medium, fontSize: 14 }}>{t(`about.checklist.${key}`)}</Text>
+                <Text style={{ color: T.foreground, fontFamily: F.medium, fontSize: 14 }}>{t(`about.checklist.${key}`)}</Text>
               </View>
             ))}
           </View>
 
           <TouchableOpacity
-            onPress={() => router.push('/login')}
+            onPress={() => router.push('/about')}
             style={{ backgroundColor: C.blue, alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 14, paddingHorizontal: 28, borderRadius: 12, shadowColor: C.blue, shadowOpacity: 0.35, shadowRadius: 10, elevation: 5 }}
             activeOpacity={0.85}
           >

@@ -1,27 +1,28 @@
-import { Platform, View } from 'react-native';
+// Fallback — Metro resolves BranchMap.web.tsx (web) and BranchMap.native.tsx (iOS/Android)
+// before reaching this file. This stub exists only to satisfy TypeScript's module resolution
+// and provides a WebView fallback for any other platform.
+import { Dimensions, View } from 'react-native';
 import { WebView } from 'react-native-webview';
+import { BRANCHES, BRANCH_COORDS } from '@/data/saferide';
 
 interface BranchMapProps {
-  query: string;
+  activeBranchId: string;
+  onMarkerPress:  (id: string) => void;
 }
 
-export function BranchMap({ query }: BranchMapProps) {
-  const src = `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
+const mapHeight = Dimensions.get('window').width < 768 ? 280 : 420;
 
-  if (Platform.OS === 'web') {
-    // @ts-expect-error — iframe is a valid web element under react-native-web
-    return (
-      <iframe
-        src={src}
-        style={{ border: 0, width: '100%', height: 420, borderRadius: 16 }}
-        loading="lazy"
-        title="Branch location map"
-      />
-    );
-  }
+export function BranchMap({ activeBranchId }: BranchMapProps) {
+  const branch = (BRANCHES as readonly typeof BRANCHES[number][]).find(b => b.id === activeBranchId);
+  const coords = branch ? BRANCH_COORDS[branch.id] : BRANCH_COORDS['donholm'];
+  const query  = coords
+    ? `${coords[0]},${coords[1]}`
+    : encodeURIComponent(branch?.mapsQuery ?? 'Nairobi');
+
+  const src = `https://www.google.com/maps?q=${query}&output=embed`;
 
   return (
-    <View style={{ width: '100%', height: 420, borderRadius: 16, overflow: 'hidden' }}>
+    <View style={{ width: '100%', height: mapHeight, borderRadius: 16, overflow: 'hidden' }}>
       <WebView source={{ uri: src }} style={{ flex: 1 }} />
     </View>
   );

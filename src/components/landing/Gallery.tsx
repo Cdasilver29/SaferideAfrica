@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView, Modal, Animated } from 'react-native';
 import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +10,13 @@ function getSource(item: GalleryItem) {
   return 'uri' in item ? { uri: item.uri } : item.src;
 }
 
-function GalleryCard({ item, index, onPress }: { item: GalleryItem; index: number; onPress: () => void }) {
+const CARD_W = IS_WEB ? 240 : 200;
+const CARD_GAP = 12;
+const STEP = CARD_W + CARD_GAP;
+const INTERVAL_MS = 3500;
+const RESUME_DELAY_MS = 5000;
+
+function GalleryCard({ item, onPress }: { item: GalleryItem; index: number; onPress: () => void }) {
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const captionAnim = useRef(new Animated.Value(0)).current;
 
@@ -28,29 +34,20 @@ function GalleryCard({ item, index, onPress }: { item: GalleryItem; index: numbe
     ]).start();
   };
 
-  const cardW = IS_WEB ? 240 : 200;
-  const cardH = IS_WEB ? 180 : 150;
-
   return (
-    <Animated.View style={{ transform: [{ scale: scaleAnim }], marginRight: 12 }}>
+    <Animated.View style={{ transform: [{ scale: scaleAnim }], marginRight: CARD_GAP }}>
       <TouchableOpacity
         onPress={onPress}
         onPressIn={onPressIn}
         onPressOut={onPressOut}
         activeOpacity={1}
       >
-        <View style={{ width: cardW, height: cardH, borderRadius: 16, overflow: 'hidden', position: 'relative' }}>
+        <View style={{ width: CARD_W, height: IS_WEB ? 180 : 150, borderRadius: 16, overflow: 'hidden', position: 'relative' }}>
           <Image source={getSource(item)} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
-
-          {/* Dim overlay */}
           <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.22)' }} />
-
-          {/* Zoom icon */}
           <View style={{ position: 'absolute', top: 10, right: 10, backgroundColor: 'rgba(0,0,0,0.4)', borderRadius: 20, padding: 6 }}>
             <ZoomIn size={13} color="#ffffff" />
           </View>
-
-          {/* Caption slides up on press */}
           <Animated.View
             style={{
               position: 'absolute', bottom: 0, left: 0, right: 0,
@@ -71,17 +68,53 @@ function GalleryCard({ item, index, onPress }: { item: GalleryItem; index: numbe
 export default function Gallery() {
   const { t } = useTranslation();
   const [modalIdx, setModalIdx] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const scrollRef = useRef<ScrollView>(null);
+  const resumeTimer = useRef<ReturnType<typeof setTimeout>>();
 
-  // Overlay translated captions onto each gallery image at render time
   const captions = t('gallery.captions', { returnObjects: true }) as string[];
   const galleryItems = (GALLERY_IMGS as GalleryItem[]).map((item, i) => ({
     ...item,
     caption: captions[i] ?? item.caption,
   }));
 
+  const total = GALLERY_IMGS.length;
+
+  // Auto-advance every INTERVAL_MS; restarts cleanly whenever activeIndex or paused changes.
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => {
+      const next = (activeIndex + 1) % total;
+      setActiveIndex(next);
+      scrollRef.current?.scrollTo({ x: next * STEP, animated: true });
+    }, INTERVAL_MS);
+    return () => clearInterval(id);
+  }, [activeIndex, paused, total]);
+
+  const handleScrollBeginDrag = () => {
+    clearTimeout(resumeTimer.current);
+    setPaused(true);
+  };
+
+  const handleScrollEndDrag = () => {
+    clearTimeout(resumeTimer.current);
+    resumeTimer.current = setTimeout(() => setPaused(false), RESUME_DELAY_MS);
+  };
+
+  const handleMomentumScrollEnd = (e: any) => {
+    const idx = Math.round(e.nativeEvent.contentOffset.x / STEP);
+    setActiveIndex(Math.max(0, Math.min(idx, total - 1)));
+  };
+
+  const jumpTo = (idx: number) => {
+    setActiveIndex(idx);
+    scrollRef.current?.scrollTo({ x: idx * STEP, animated: true });
+  };
+
   const close = () => setModalIdx(null);
-  const prev  = () => setModalIdx(i => (i !== null ? (i - 1 + GALLERY_IMGS.length) % GALLERY_IMGS.length : 0));
-  const next  = () => setModalIdx(i => (i !== null ? (i + 1) % GALLERY_IMGS.length : 0));
+  const prev  = () => setModalIdx(i => (i !== null ? (i - 1 + total) % total : 0));
+  const next  = () => setModalIdx(i => (i !== null ? (i + 1) % total : 0));
 
   return (
     <View style={{ backgroundColor: '#f9fafb', paddingVertical: 72 }}>
@@ -104,14 +137,43 @@ export default function Gallery() {
 
       {/* Horizontal scroll gallery */}
       <ScrollView
+        ref={scrollRef}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 8 }}
+        snapToInterval={STEP}
+        decelerationRate="fast"
+        onScrollBeginDrag={handleScrollBeginDrag}
+        onScrollEndDrag={handleScrollEndDrag}
+        onMomentumScrollEnd={handleMomentumScrollEnd}
+        scrollEventThrottle={16}
       >
         {galleryItems.map((item, i) => (
           <GalleryCard key={i} item={item} index={i} onPress={() => setModalIdx(i)} />
         ))}
       </ScrollView>
+
+      {/* Pagination dots */}
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', marginTop: 16, paddingHorizontal: 24 }}>
+        {galleryItems.map((_, i) => (
+          <TouchableOpacity
+            key={i}
+            onPress={() => jumpTo(i)}
+            hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
+            style={{ marginHorizontal: 3 }}
+          >
+            <View
+              style={{
+                height: 7,
+                width: i === activeIndex ? 20 : 7,
+                borderRadius: 3.5,
+                backgroundColor: i === activeIndex ? C.yellow : C.muted,
+                opacity: i === activeIndex ? 1 : 0.4,
+              }}
+            />
+          </TouchableOpacity>
+        ))}
+      </View>
 
       {/* Fullscreen modal */}
       <Modal visible={modalIdx !== null} transparent animationType="fade" onRequestClose={close}>
@@ -123,18 +185,12 @@ export default function Gallery() {
                 style={{ width: SCREEN_W, height: SCREEN_H * 0.7 }}
                 resizeMode="contain"
               />
-
-              {/* Caption */}
               <Text style={{ color: 'rgba(255,255,255,0.7)', fontFamily: F.regular, fontSize: 14, marginTop: 12 }}>
                 {galleryItems[modalIdx].caption}
               </Text>
-
-              {/* Counter */}
               <Text style={{ color: 'rgba(255,255,255,0.4)', fontFamily: F.regular, fontSize: 13, marginTop: 6 }}>
-                {modalIdx + 1} / {GALLERY_IMGS.length}
+                {modalIdx + 1} / {total}
               </Text>
-
-              {/* Navigation */}
               <View style={{ flexDirection: 'row', gap: 24, marginTop: 20 }}>
                 <TouchableOpacity onPress={prev} style={{ backgroundColor: 'rgba(255,255,255,0.12)', padding: 14, borderRadius: 50 }}>
                   <ChevronLeft size={22} color="white" />
@@ -143,8 +199,6 @@ export default function Gallery() {
                   <ChevronRight size={22} color="white" />
                 </TouchableOpacity>
               </View>
-
-              {/* Close */}
               <TouchableOpacity onPress={close} style={{ position: 'absolute', top: 52, right: 22, backgroundColor: 'rgba(255,255,255,0.12)', padding: 12, borderRadius: 50 }}>
                 <X size={20} color="white" />
               </TouchableOpacity>

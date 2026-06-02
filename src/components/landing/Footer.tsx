@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, Linking } from 'react-native';
 import { router } from 'expo-router';
-import { Car, Phone, Mail, MapPin, Send } from 'lucide-react-native';
+import { Phone, Mail, MapPin, Send } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W } from './constants';
+import { COMPANY } from '@/data/saferide';
+
+const LOGO      = require('../../../assets/images/saferide-logo.png');
+const NTSA_LOGO = require('../../../assets/images/ntsa-logo.png');
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -30,9 +34,7 @@ export default function Footer() {
           {/* Brand column */}
           <View style={IS_WEB ? { flex: 2 } : {}}>
             <TouchableOpacity onPress={() => router.push('/')} style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 14 }} activeOpacity={0.85}>
-              <View style={{ backgroundColor: C.yellow, borderRadius: 10, padding: 7 }}>
-                <Car size={20} color={C.dark} />
-              </View>
+              <Image source={LOGO} style={{ width: 44, height: 44, borderRadius: 8 }} resizeMode="contain" />
               <View>
                 <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: 16 }}>{t('footer.brand')}</Text>
                 <Text style={{ color: C.yellow, fontFamily: F.regular, fontSize: 9, letterSpacing: 1.5, textTransform: 'uppercase' }}>{t('footer.tagline')}</Text>
@@ -44,16 +46,18 @@ export default function Footer() {
             </Text>
 
             <View style={{ gap: 10 }}>
-              {[
-                { Icon: MapPin, text: 'PO. BOX 25716 - 00603 Nairobi, Kenya' },
-                { Icon: Phone, text: '+254 712 045 710' },
-                { Icon: Mail,  text: 'saferideafrica777@gmail.com' },
-              ].map(({ Icon, text }) => (
-                <View key={text} style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 8 }}>
-                  <Icon size={13} color={C.yellow} style={{ marginTop: 2 }} />
-                  <Text style={{ color: '#64748b', fontFamily: F.regular, fontSize: 13, flex: 1, lineHeight: 19 }}>{text}</Text>
-                </View>
-              ))}
+              <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 8 }}>
+                <MapPin size={13} color={C.yellow} style={{ marginTop: 2 }} />
+                <Text style={{ color: '#64748b', fontFamily: F.regular, fontSize: 13, flex: 1, lineHeight: 19 }}>{COMPANY.address}</Text>
+              </View>
+              <TouchableOpacity onPress={() => Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`)} style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }} activeOpacity={0.7}>
+                <Phone size={13} color={C.yellow} />
+                <Text style={{ color: '#64748b', fontFamily: F.regular, fontSize: 13 }}>{COMPANY.primaryPhone}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => Linking.openURL(`mailto:${COMPANY.email}`)} style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }} activeOpacity={0.7}>
+                <Mail size={13} color={C.yellow} />
+                <Text style={{ color: '#64748b', fontFamily: F.regular, fontSize: 13 }}>{COMPANY.email}</Text>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -128,9 +132,12 @@ export default function Footer() {
             {t('footer.copyright')}
           </Text>
           {IS_WEB && (
-            <Text style={{ color: '#334155', fontFamily: F.regular, fontSize: 12 }}>
-              {t('footer.certifiedLine')}
-            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Image source={NTSA_LOGO} style={{ width: 36, height: 36, marginRight: 10 }} resizeMode="contain" />
+              <Text style={{ color: '#334155', fontFamily: F.regular, fontSize: 12 }}>
+                {t('footer.certifiedLine')}
+              </Text>
+            </View>
           )}
         </View>
       </View>

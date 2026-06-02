@@ -2,7 +2,6 @@ import React, { useRef, useState, useCallback } from 'react';
 import { Animated, SafeAreaView, View, useWindowDimensions } from 'react-native';
 import { useColorScheme } from 'nativewind';
 
-import TopBar       from '@/components/landing/TopBar';
 import Navbar       from '@/components/landing/Navbar';
 import Hero         from '@/components/landing/Hero';
 import Services     from '@/components/landing/Services';
@@ -104,7 +103,6 @@ export default function LandingScreen() {
         />
       </View>
 
-      <TopBar />
       <Navbar scrollY={scrollY} onNavPress={handleNavPress} activeSection={activeSection} />
 
       <Animated.ScrollView

@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { Phone, Calendar, MessageCircle } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W } from './constants';
+import { COMPANY } from '@/data/saferide';
 
 export default function BookingCTA() {
   const { t } = useTranslation();
@@ -21,7 +22,7 @@ export default function BookingCTA() {
         <View style={IS_WEB ? { flex: 1, marginRight: 48 } : { alignItems: 'center', marginBottom: 32 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: 'rgba(251,191,36,0.12)', borderRadius: 20, paddingHorizontal: 14, paddingVertical: 7, alignSelf: IS_WEB ? 'flex-start' : 'center', marginBottom: 16, borderWidth: 1, borderColor: 'rgba(251,191,36,0.25)' }}>
             <Phone size={13} color={C.yellow} />
-            <Text style={{ color: C.yellow, fontFamily: F.semibold, fontSize: 13 }}>+254 792 471 511</Text>
+            <Text style={{ color: C.yellow, fontFamily: F.semibold, fontSize: 13 }}>{COMPANY.primaryPhone}</Text>
           </View>
 
           <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: IS_WEB ? 36 : 26, lineHeight: IS_WEB ? 46 : 34, textAlign: IS_WEB ? 'left' : 'center', marginBottom: 14 }}>

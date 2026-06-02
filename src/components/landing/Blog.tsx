@@ -1,14 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, Image, TouchableOpacity, Animated } from 'react-native';
-import { useColorScheme } from 'nativewind';
+import { router } from 'expo-router';
 import { Calendar, ChevronRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W, BLOG_IMGS } from './constants';
+import { useTheme } from '@/lib/theme';
 
 export default function Blog() {
   const { t } = useTranslation();
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const T = useTheme();
 
   const posts = t('blog.posts', { returnObjects: true }) as Array<{ date: string; title: string; excerpt: string }>;
   const anims = useRef(posts.map(() => new Animated.Value(0))).current;
@@ -18,14 +18,14 @@ export default function Blog() {
   }, []);
 
   return (
-    <View style={{ backgroundColor: isDark ? C.darkBg : '#f9fafb', paddingVertical: 72, paddingHorizontal: 24 }}>
+    <View style={{ backgroundColor: T.muted, paddingVertical: 72, paddingHorizontal: 24 }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
 
         <View style={{ alignItems: 'center', marginBottom: 44 }}>
           <Text style={{ color: C.blue, fontFamily: F.bold, fontSize: 11, letterSpacing: 2.5, textTransform: 'uppercase', marginBottom: 10 }}>
             {t('blog.overline')}
           </Text>
-          <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: IS_WEB ? 34 : 26, textAlign: 'center', marginBottom: 12 }}>
+          <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: IS_WEB ? 34 : 26, textAlign: 'center', marginBottom: 12 }}>
             {t('blog.heading')}
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
@@ -43,10 +43,10 @@ export default function Blog() {
                 flex: IS_WEB ? 1 : undefined,
                 opacity: anims[i],
                 transform: [{ translateY: anims[i].interpolate({ inputRange: [0, 1], outputRange: [28, 0] }) }],
-                backgroundColor: isDark ? C.darkCard : '#ffffff',
+                backgroundColor: T.card,
                 borderRadius: 20, overflow: 'hidden',
                 shadowColor: '#000', shadowOpacity: 0.07, shadowRadius: 14, elevation: 2,
-                borderWidth: 1, borderColor: isDark ? C.darkBorder : '#e5e7eb',
+                borderWidth: 1, borderColor: T.border,
               }}
             >
               <View style={{ height: 180, position: 'relative' }}>
@@ -62,14 +62,18 @@ export default function Blog() {
                   <Calendar size={12} color={C.blue} />
                   <Text style={{ color: C.blue, fontFamily: F.medium, fontSize: 12 }}>{post.date}</Text>
                 </View>
-                <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 16, lineHeight: 24, marginBottom: 10 }} numberOfLines={2}>
+                <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 16, lineHeight: 24, marginBottom: 10 }} numberOfLines={2}>
                   {post.title}
                 </Text>
-                <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 13, lineHeight: 20, marginBottom: 18 }} numberOfLines={3}>
+                <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13, lineHeight: 20, marginBottom: 18 }} numberOfLines={3}>
                   {post.excerpt}
                 </Text>
-                <View style={{ height: 1, backgroundColor: '#e5e7eb', marginBottom: 14 }} />
-                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }} activeOpacity={0.7}>
+                <View style={{ height: 1, backgroundColor: T.border, marginBottom: 14 }} />
+                <TouchableOpacity
+                  onPress={() => router.push(`/blog/${i}`)}
+                  style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
+                  activeOpacity={0.7}
+                >
                   <Text style={{ color: C.blue, fontFamily: F.semibold, fontSize: 13 }}>{t('blog.readMore')}</Text>
                   <ChevronRight size={14} color={C.blue} />
                 </TouchableOpacity>

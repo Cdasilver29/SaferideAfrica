@@ -1,11 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  View, Text, Image, TouchableOpacity, Animated, ViewStyle,
+  View, Text, Image, TouchableOpacity, Animated,
 } from 'react-native';
 import { router } from 'expo-router';
 import { Award, CheckCircle, Users, Play, ChevronDown } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
+import { useColorScheme } from 'nativewind';
 import { C, F, IS_WEB, MAX_W, SCREEN_H, HERO_SRC } from './constants';
+import { KenBurnsBackground } from '../animations/KenBurnsBackground';
+
+const NTSA_LOGO = require('../../../assets/images/ntsa-logo.png');
 
 // Typewriter that types the full sentence, holds briefly, erases, then loops forever.
 // Re-mounts via key={i18n.language} in Hero, so subheadline is always the current locale.
@@ -69,7 +73,7 @@ function TypewriterText({ subheadline }: { subheadline: string }) {
 }
 
 // Animated word-by-word headline. Re-mounts via key={i18n.language} so words refresh on locale change.
-function AnimatedHeadline({ words, accentFrom }: { words: string[]; accentFrom: number }) {
+function AnimatedHeadline({ words, accentFrom, isDark }: { words: string[]; accentFrom: number; isDark: boolean }) {
   const anims = useRef(words.map(() => new Animated.Value(0))).current;
   const pulseAnim = useRef(new Animated.Value(1)).current;
 
@@ -92,7 +96,7 @@ function AnimatedHeadline({ words, accentFrom }: { words: string[]; accentFrom: 
   const lineH    = IS_WEB ? 70 : 48;
 
   return (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 18 }}>
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 18, justifyContent: 'flex-start' }}>
       {words.filter(w => w.length > 0).map((word, i) => {
         const isAccent = i >= accentFrom;
         const anim = anims[i] ?? new Animated.Value(1);
@@ -107,7 +111,7 @@ function AnimatedHeadline({ words, accentFrom }: { words: string[]; accentFrom: 
               ],
             }}
           >
-            <Text style={{ color: isAccent ? C.yellow : C.white, fontFamily: F.bold, fontSize, lineHeight: lineH }}>
+            <Text style={{ color: isAccent ? (isDark ? C.yellow : C.white) : (isDark ? C.white : C.yellow), fontFamily: F.bold, fontSize, lineHeight: lineH }}>
               {word}
             </Text>
           </Animated.View>
@@ -123,6 +127,8 @@ interface HeroProps {
 
 export default function Hero({ onScrollToCourses }: HeroProps) {
   const { t, i18n } = useTranslation();
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
 
   const words = t('hero.headlineWords', { returnObjects: true }) as string[];
   const visibleWords = words.filter(w => w.length > 0);
@@ -137,24 +143,26 @@ export default function Hero({ onScrollToCourses }: HeroProps) {
   ];
 
   const heroH = IS_WEB ? 700 : SCREEN_H * 0.9;
-  const center: ViewStyle = IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {};
 
   return (
     <View style={{ height: heroH, overflow: 'hidden' }}>
-      <Image
-        source={HERO_SRC}
-        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%' }}
-        resizeMode="cover"
-      />
-      <View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(10,18,36,0.72)' }} />
-      <View pointerEvents="none" style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 120, backgroundColor: 'rgba(10,18,36,0.55)' }} />
+      <KenBurnsBackground source={HERO_SRC} />
+      {/* Primary dark-blue overlay — gives the hero its "light blue from far" atmosphere */}
+      <View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(10,40,100,0.60)' }} />
+      {/* Subtle Facebook-blue tint on top for colour coherence with the header */}
+      <View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(24,119,242,0.10)' }} />
+      {/* Bottom fade */}
+      <View pointerEvents="none" style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 120, backgroundColor: 'rgba(10,40,100,0.45)' }} />
 
-      <View style={[{ flex: 1, justifyContent: 'center', paddingHorizontal: 24, paddingVertical: 48 }, center]}>
+      <View style={[
+        { flex: 1, justifyContent: 'center', alignItems: 'flex-start', paddingHorizontal: 24, paddingTop: 48, paddingBottom: 48 },
+        IS_WEB ? { maxWidth: 720, paddingHorizontal: 48, paddingTop: 56 } : {},
+      ]}>
 
         {/* Badge */}
         <View style={{ flexDirection: 'row', marginBottom: 24 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20, backgroundColor: 'rgba(251,191,36,0.15)', borderWidth: 1, borderColor: 'rgba(251,191,36,0.4)' }}>
-            <Award size={13} color={C.yellow} />
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20, backgroundColor: 'rgba(251,191,36,0.15)', borderWidth: 1, borderColor: 'rgba(251,191,36,0.4)' }}>
+            <Image source={NTSA_LOGO} style={{ width: 20, height: 20 }} resizeMode="contain" />
             <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: 11, letterSpacing: 1.2, textTransform: 'uppercase' }}>
               {t('hero.badge')}
             </Text>
@@ -162,7 +170,7 @@ export default function Hero({ onScrollToCourses }: HeroProps) {
         </View>
 
         {/* Animated headline — key forces remount on language change so animation restarts */}
-        <AnimatedHeadline key={i18n.language + '-headline'} words={visibleWords} accentFrom={accentFrom} />
+        <AnimatedHeadline key={i18n.language + '-headline'} words={visibleWords} accentFrom={accentFrom} isDark={isDark} />
 
         {/* Typewriter sub-headline — key forces remount so effect restarts with new text */}
         <TypewriterText key={i18n.language + '-sub'} subheadline={subheadline} />
@@ -192,29 +200,30 @@ export default function Hero({ onScrollToCourses }: HeroProps) {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => router.push('/login')}
+            onPress={() => router.push('/classes')}
             style={{ paddingVertical: 15, paddingHorizontal: 28, borderRadius: 12, flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 2, borderColor: 'rgba(255,255,255,0.45)' }}
             activeOpacity={0.75}
           >
             <View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: 'rgba(255,255,255,0.18)', alignItems: 'center', justifyContent: 'center' }}>
               <Play size={12} color={C.white} fill={C.white} />
             </View>
-            <Text style={{ color: C.white, fontFamily: F.semibold, fontSize: 15 }}>{t('hero.watchStory')}</Text>
+            <Text style={{ color: C.white, fontFamily: F.semibold, fontSize: 15 }}>Enroll Now</Text>
           </TouchableOpacity>
         </View>
-
-        {IS_WEB && (
-          <TouchableOpacity
-            onPress={onScrollToCourses}
-            style={{ position: 'absolute', bottom: 32, left: 0, right: 0, alignItems: 'center' }}
-            activeOpacity={0.7}
-          >
-            <Animated.View style={{ padding: 10, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,255,255,0.3)', backgroundColor: 'rgba(255,255,255,0.08)' }}>
-              <ChevronDown size={20} color="rgba(255,255,255,0.6)" />
-            </Animated.View>
-          </TouchableOpacity>
-        )}
       </View>
+
+      {/* Scroll-down chevron — absolute sibling of the content column so it centres across the full hero width */}
+      {IS_WEB && (
+        <TouchableOpacity
+          onPress={onScrollToCourses}
+          style={{ position: 'absolute', bottom: 80, left: 0, right: 0, alignItems: 'center' }}
+          activeOpacity={0.7}
+        >
+          <Animated.View style={{ padding: 10, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,255,255,0.3)', backgroundColor: 'rgba(255,255,255,0.08)' }}>
+            <ChevronDown size={20} color="rgba(255,255,255,0.6)" />
+          </Animated.View>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }

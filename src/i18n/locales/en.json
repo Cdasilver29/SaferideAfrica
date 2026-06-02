@@ -1,14 +1,14 @@
 {
   "topbar": {
-    "address": "Nairobi, Kenya",
-    "phone": "+254 712 045 710",
+    "address": "Donholm, Nairobi (HQ) · 10 Branches",
+    "phone": "0712 045 710",
     "email": "saferideafrica777@gmail.com",
     "signIn": "Customer Sign In"
   },
 
   "nav": {
     "brand": "SafeRide Africa",
-    "tagline": "NTSA Certified",
+    "tagline": "Safety Beyond.....",
     "home": "Home",
     "services": "Services",
     "courses": "Courses",
@@ -52,7 +52,7 @@
     "overline": "About SafeRide Africa",
     "heading": "Learn To Drive, Drive With Safety And Control",
     "headingAccent": "Safety",
-    "body": "With over two decades of excellence in driver training, SafeRide Africa's proven curriculum and experienced instructors ensure you're road-ready and NTSA-confident before test day. We put defensive driving, first aid, and road safety at the heart of every session.",
+    "body": "Founded in 2015 and incorporated in 2020, Safe Ride Africa Driving School Ltd operates 10 branches across Nairobi. Our NTSA-registered curriculum and experienced instructors ensure you are road-ready and exam-confident. Defensive driving, road safety, and first aid are at the heart of every lesson.",
     "yearsBadge": "Years",
     "ntsaCertified": "NTSA Certified",
     "cta": "About More",
@@ -68,28 +68,22 @@
 
   "courses": {
     "overline": "Driving Courses",
-    "heading": "Our Popular Driving Courses",
-    "monthly": "Monthly",
-    "yearly": "Yearly",
-    "savingMessage": "Save ~15% with yearly billing!",
-    "mostPopular": "MOST POPULAR",
-    "readMore": "Read More",
-    "levels": {
-      "beginner": "Beginner",
-      "standard": "Standard",
-      "advanced": "Advanced"
-    },
-    "features": {
-      "curriculum":  "NTSA-approved curriculum",
-      "instructor":  "Certified instructor",
-      "vehicle":     "Dual-control vehicle",
-      "testPrep":    "Test preparation"
-    },
-    "items": {
-      "automatic": { "title": "Automatic Light Vehicle", "desc": "Learn how to drive an Automatic Light Passenger Car" },
-      "manual":    { "title": "Manual Light Vehicle",    "desc": "Learn how to drive a Manual Light Passenger Car" },
-      "executive": { "title": "Executive / Advanced",    "desc": "Learn driving as a profession" }
-    }
+    "heading": "Course Fees & Pricing",
+    "lessonsLabel": "lessons",
+    "testOnly": "Test Only",
+    "totalLabel": "Total",
+    "whatsIncluded": "What's included",
+    "schoolFees": "School Fees",
+    "pdlFee": "PDL",
+    "examsFee": "Exams",
+    "defensiveFee": "Defensive",
+    "enrolNow": "Enrol Now",
+    "readMore": "Details",
+    "paymentMpesa": "M-Pesa Lipa Na M-Pesa",
+    "paymentKcb": "Bank Transfer",
+    "refresherTitle": "Refresher Lessons",
+    "perLesson": "per lesson",
+    "minLessons": "Minimum {{count}} lessons"
   },
 
   "faq": {
@@ -248,15 +242,15 @@
       "Student practice",
       "Defensive driving",
       "Training grounds",
-      "Kenol campus",
+      "SafeRide campus",
       "Theory class"
     ]
   },
 
   "footer": {
     "brand": "SafeRide Africa",
-    "tagline": "NTSA Certified",
-    "description": "Kenya's leading NTSA-certified driving school. Empowering confident, safe drivers since 2001.",
+    "tagline": "Safety Beyond.....",
+    "description": "NTSA-certified driving school operating across 10 branches in Nairobi. We train you to be a driver, not a licence holder.",
     "coursesColumnTitle": "Our Courses",
     "companyColumnTitle": "Company",
     "courseLinks": [
