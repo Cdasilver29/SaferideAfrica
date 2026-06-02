@@ -15,14 +15,14 @@ export const C = {
   amberDark:   '#d97706',
   gold:        '#b45309',
   dark:        '#78350f',   // amber-900: course-band background
-  darkBg:      '#1d59e8ff',   // navy-950: dark section backgrounds
-  darkCard:    '#1152baff',   // navy-800
+  darkBg:      '#0f172a',   // navy-950: dark section backgrounds
+  darkCard:    '#1e293b',   // navy-800
   darkBorder:  '#334155',   // navy-700
   white:       '#ffffff',
   lightBg:     '#f9fafb',
   muted:       '#6b7280',
   mutedDark:   '#94a3b8',
-  heading:     '#1551dfff',
+  heading:     '#0f172a',
   green:       '#22c55e',
   greenLight:  '#86efac',
 };
