@@ -15,6 +15,9 @@
       ],
       "@/context/*": [
         "./src/context/*"
+      ],
+      "@/assets/*": [
+        "./assets/*"
       ]
     }
   },
@@ -25,5 +28,8 @@
     "expo-env.d.ts",
     "nativewind-env.d.ts",
     ".expo/types/**/*.ts"
+  ],
+  "exclude": [
+    "supabase/functions/**"
   ]
 }

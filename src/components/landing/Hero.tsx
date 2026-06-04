@@ -1,18 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  View, Text, Image, TouchableOpacity, Animated,
+  View, Text, Image, TouchableOpacity, Animated, Platform,
 } from 'react-native';
+import AnimatedRN, {
+  useSharedValue, useAnimatedStyle, withRepeat, withTiming,
+  interpolate, Easing,
+} from 'react-native-reanimated';
+import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { Award, CheckCircle, Users, Play, ChevronDown } from 'lucide-react-native';
+import { Award, CheckCircle, Users, ChevronDown, ArrowRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { useColorScheme } from 'nativewind';
-import { C, F, IS_WEB, MAX_W, SCREEN_H, HERO_SRC } from './constants';
+import { C, F, IS_WEB, SCREEN_H, HERO_SRC } from './constants';
 import { KenBurnsBackground } from '../animations/KenBurnsBackground';
 
 const NTSA_LOGO = require('../../../assets/images/ntsa-logo.png');
 
 // Typewriter that types the full sentence, holds briefly, erases, then loops forever.
-// Re-mounts via key={i18n.language} in Hero, so subheadline is always the current locale.
 function TypewriterText({ subheadline }: { subheadline: string }) {
   const [displayed, setDisplayed] = useState('');
   const cursorAnim = useRef(new Animated.Value(1)).current;
@@ -24,8 +27,8 @@ function TypewriterText({ subheadline }: { subheadline: string }) {
 
     const blink = Animated.loop(
       Animated.sequence([
-        Animated.timing(cursorAnim, { toValue: 0, duration: 480, useNativeDriver: true }),
-        Animated.timing(cursorAnim, { toValue: 1, duration: 480, useNativeDriver: true }),
+        Animated.timing(cursorAnim, { toValue: 0, duration: 480, useNativeDriver: Platform.OS !== 'web' }),
+        Animated.timing(cursorAnim, { toValue: 1, duration: 480, useNativeDriver: Platform.OS !== 'web' }),
       ])
     );
     blink.start();
@@ -72,34 +75,34 @@ function TypewriterText({ subheadline }: { subheadline: string }) {
   );
 }
 
-// Animated word-by-word headline. Re-mounts via key={i18n.language} so words refresh on locale change.
-function AnimatedHeadline({ words, accentFrom, isDark }: { words: string[]; accentFrom: number; isDark: boolean }) {
-  const anims = useRef(words.map(() => new Animated.Value(0))).current;
+// Word-by-word stagger headline — white for body words, yellow for accent words.
+function AnimatedHeadline({ words, accentFrom }: { words: string[]; accentFrom: number }) {
+  const anims    = useRef(words.map(() => new Animated.Value(0))).current;
   const pulseAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     const stagger = Animated.stagger(
       90,
-      anims.map(a => Animated.timing(a, { toValue: 1, duration: 500, useNativeDriver: true }))
+      anims.map(a => Animated.timing(a, { toValue: 1, duration: 500, useNativeDriver: Platform.OS !== 'web' }))
     );
     const pulse = Animated.loop(
       Animated.sequence([
-        Animated.timing(pulseAnim, { toValue: 1.04, duration: 1800, useNativeDriver: true }),
-        Animated.timing(pulseAnim, { toValue: 1,    duration: 1800, useNativeDriver: true }),
+        Animated.timing(pulseAnim, { toValue: 1.04, duration: 1800, useNativeDriver: Platform.OS !== 'web' }),
+        Animated.timing(pulseAnim, { toValue: 1,    duration: 1800, useNativeDriver: Platform.OS !== 'web' }),
       ])
     );
     stagger.start(() => pulse.start());
     return () => { stagger.stop(); pulse.stop(); };
   }, []);
 
-  const fontSize = IS_WEB ? 58 : 38;
-  const lineH    = IS_WEB ? 70 : 48;
+  const fontSize = IS_WEB ? 56 : 36;
+  const lineH    = IS_WEB ? 68 : 46;
 
   return (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 18, justifyContent: 'flex-start' }}>
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 18 }}>
       {words.filter(w => w.length > 0).map((word, i) => {
         const isAccent = i >= accentFrom;
-        const anim = anims[i] ?? new Animated.Value(1);
+        const anim     = anims[i] ?? new Animated.Value(1);
         return (
           <Animated.View
             key={word + i}
@@ -111,7 +114,12 @@ function AnimatedHeadline({ words, accentFrom, isDark }: { words: string[]; acce
               ],
             }}
           >
-            <Text style={{ color: isAccent ? (isDark ? C.yellow : C.white) : (isDark ? C.white : C.yellow), fontFamily: F.bold, fontSize, lineHeight: lineH }}>
+            <Text style={{
+              color:      isAccent ? C.yellow : C.white,
+              fontFamily: F.bold,
+              fontSize,
+              lineHeight: lineH,
+            }}>
               {word}
             </Text>
           </Animated.View>
@@ -121,20 +129,71 @@ function AnimatedHeadline({ words, accentFrom, isDark }: { words: string[]; acce
   );
 }
 
-interface HeroProps {
-  onScrollToCourses: () => void;
+// Yellow pulsing glow wrapper for the Enrol CTA
+function GlowingEnrolButton({ onPress }: { onPress: () => void }) {
+  const glow = useSharedValue(0);
+
+  useEffect(() => {
+    glow.value = withRepeat(
+      withTiming(1, { duration: 1800, easing: Easing.inOut(Easing.sin) }),
+      -1,
+      true,
+    );
+  }, []);
+
+  const glowStyle = useAnimatedStyle(() => {
+    const radius  = interpolate(glow.value, [0, 1], [8, 22]);
+    const opacity = interpolate(glow.value, [0, 1], [0.45, 0.85]);
+    return {
+      shadowColor: C.yellow,
+      shadowOpacity: opacity,
+      shadowRadius: radius,
+      shadowOffset: { width: 0, height: 0 },
+      elevation: interpolate(glow.value, [0, 1], [6, 14]),
+      borderRadius: 12,
+      ...(IS_WEB && {
+        // @ts-ignore web only
+        boxShadow: `0 0 ${radius}px rgba(255,216,0,${opacity})`,
+      }),
+    };
+  });
+
+  return (
+    <AnimatedRN.View style={glowStyle}>
+      <TouchableOpacity
+        onPress={onPress}
+        style={{
+          paddingVertical: 15,
+          paddingHorizontal: 28,
+          borderRadius: 12,
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 8,
+          backgroundColor: 'rgba(255,255,255,0.12)',
+          borderWidth: 2,
+          borderColor: C.yellow,
+        }}
+        activeOpacity={0.8}
+      >
+        <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: 15 }}>Enrol Now</Text>
+        <ArrowRight size={16} color={C.yellow} />
+      </TouchableOpacity>
+    </AnimatedRN.View>
+  );
 }
 
-export default function Hero({ onScrollToCourses }: HeroProps) {
+interface HeroProps {
+  onScrollToCourses: () => void;
+  onEnrol?: () => void;
+}
+
+export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
   const { t, i18n } = useTranslation();
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme === 'dark';
 
-  const words = t('hero.headlineWords', { returnObjects: true }) as string[];
+  const words        = t('hero.headlineWords', { returnObjects: true }) as string[];
   const visibleWords = words.filter(w => w.length > 0);
-  const accentFrom = Math.max(0, visibleWords.length - 2);
-
-  const subheadline = t('hero.subheadline');
+  const accentFrom   = Math.max(0, visibleWords.length - 2);
+  const subheadline  = t('hero.subheadline');
 
   const TRUST_BADGES = [
     { Icon: CheckCircle, label: t('hero.trustNtsa') },
@@ -142,26 +201,44 @@ export default function Hero({ onScrollToCourses }: HeroProps) {
     { Icon: Users,       label: t('hero.trustPassRate') },
   ];
 
-  const heroH = IS_WEB ? 700 : SCREEN_H * 0.9;
+  const heroH = IS_WEB ? 580 : SCREEN_H * 0.80;
 
   return (
     <View style={{ height: heroH, overflow: 'hidden' }}>
       <KenBurnsBackground source={HERO_SRC} />
-      {/* Primary dark-blue overlay — gives the hero its "light blue from far" atmosphere */}
-      <View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(10,40,100,0.60)' }} />
-      {/* Subtle Facebook-blue tint on top for colour coherence with the header */}
-      <View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(24,119,242,0.10)' }} />
-      {/* Bottom fade */}
-      <View pointerEvents="none" style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 120, backgroundColor: 'rgba(10,40,100,0.45)' }} />
+
+      {/* Base overlay — navy-blue tinted dark, not flat black */}
+      <LinearGradient
+        colors={['rgba(1,28,72,0.38)', 'rgba(34,31,32,0.60)']}
+        start={{ x: 0.5, y: 0 }}
+        end={{ x: 0.5, y: 1 }}
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none' } as any}
+      />
+
+      {/* Atmospheric blue-light haze — light from far in the distance */}
+      <LinearGradient
+        colors={['transparent', 'rgba(88,204,247,0.18)', 'transparent']}
+        start={{ x: 0.5, y: 0.05 }}
+        end={{ x: 0.5, y: 0.60 }}
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none' } as any}
+      />
+
+      {/* Bottom vignette — keeps text readable */}
+      <LinearGradient
+        colors={['transparent', 'rgba(34,31,32,0.62)']}
+        start={{ x: 0.5, y: 0 }}
+        end={{ x: 0.5, y: 1 }}
+        style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 200, pointerEvents: 'none' } as any}
+      />
 
       <View style={[
-        { flex: 1, justifyContent: 'center', alignItems: 'flex-start', paddingHorizontal: 24, paddingTop: 48, paddingBottom: 48 },
-        IS_WEB ? { maxWidth: 720, paddingHorizontal: 48, paddingTop: 56 } : {},
+        { flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', paddingHorizontal: 24, paddingTop: 20, paddingBottom: 32 },
+        IS_WEB ? { maxWidth: 720, paddingHorizontal: 48, paddingTop: 24 } : {},
       ]}>
 
-        {/* Badge */}
+        {/* NTSA badge */}
         <View style={{ flexDirection: 'row', marginBottom: 24 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20, backgroundColor: 'rgba(251,191,36,0.15)', borderWidth: 1, borderColor: 'rgba(251,191,36,0.4)' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20, backgroundColor: 'rgba(255,216,0,0.15)', borderWidth: 1, borderColor: 'rgba(255,216,0,0.4)' }}>
             <Image source={NTSA_LOGO} style={{ width: 20, height: 20 }} resizeMode="contain" />
             <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: 11, letterSpacing: 1.2, textTransform: 'uppercase' }}>
               {t('hero.badge')}
@@ -169,10 +246,14 @@ export default function Hero({ onScrollToCourses }: HeroProps) {
           </View>
         </View>
 
-        {/* Animated headline — key forces remount on language change so animation restarts */}
-        <AnimatedHeadline key={i18n.language + '-headline'} words={visibleWords} accentFrom={accentFrom} isDark={isDark} />
+        {/* Animated headline — re-mounts on language change */}
+        <AnimatedHeadline
+          key={i18n.language}
+          words={visibleWords}
+          accentFrom={accentFrom}
+        />
 
-        {/* Typewriter sub-headline — key forces remount so effect restarts with new text */}
+        {/* Typewriter sub-headline */}
         <TypewriterText key={i18n.language + '-sub'} subheadline={subheadline} />
 
         {/* Trust badges */}
@@ -199,20 +280,10 @@ export default function Hero({ onScrollToCourses }: HeroProps) {
             <ChevronDown size={17} color={C.dark} />
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => router.push('/classes')}
-            style={{ paddingVertical: 15, paddingHorizontal: 28, borderRadius: 12, flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 2, borderColor: 'rgba(255,255,255,0.45)' }}
-            activeOpacity={0.75}
-          >
-            <View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: 'rgba(255,255,255,0.18)', alignItems: 'center', justifyContent: 'center' }}>
-              <Play size={12} color={C.white} fill={C.white} />
-            </View>
-            <Text style={{ color: C.white, fontFamily: F.semibold, fontSize: 15 }}>Enroll Now</Text>
-          </TouchableOpacity>
+          <GlowingEnrolButton onPress={onEnrol ?? (() => router.push('/courses' as any))} />
         </View>
       </View>
 
-      {/* Scroll-down chevron — absolute sibling of the content column so it centres across the full hero width */}
       {IS_WEB && (
         <TouchableOpacity
           onPress={onScrollToCourses}

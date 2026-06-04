@@ -11,24 +11,35 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0f172a"
+      "backgroundColor": "#011c48"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.saferideafrica.app"
+      "bundleIdentifier": "com.saferideafrica.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Used for profile photo upload.",
+        "NSPhotoLibraryUsageDescription": "Used to upload documents for enrolment."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#0f172a"
+        "backgroundColor": "#ffffff"
       },
       "package": "com.saferideafrica.app"
     },
     "web": {
       "bundler": "metro",
       "output": "single",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "name": "SafeRide Africa",
+      "shortName": "SafeRide",
+      "description": "NTSA-certified driving school in Nairobi. 10 branches, 98% pass rate.",
+      "themeColor": "#01a5f0",
+      "backgroundColor": "#ffffff",
+      "lang": "en-KE"
     },
+    "assetBundlePatterns": ["assets/fonts/*", "assets/images/*"],
     "plugins": ["expo-router", "expo-font"],
     "experiments": {
       "typedRoutes": true

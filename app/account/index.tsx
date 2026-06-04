@@ -9,19 +9,21 @@ import { useAuth } from '../../src/context/AuthContext';
 import { listMyEnrollments, Enrollment, EnrollmentStatus } from '../../src/api/enrollments';
 import { BRANCHES } from '../../src/data/saferide';
 import { C, F, IS_WEB, MAX_W } from '../../src/components/landing/constants';
+import { STATUS_COLORS } from '../../src/data/statusColors';
 import { useTheme } from '../../src/lib/theme';
 
 const KSH = (n: number) => 'Ksh ' + n.toLocaleString('en-KE');
 
-const STATUS_CONFIG: Record<EnrollmentStatus, { label: string; color: string; bg: string; Icon: any }> = {
-  pending_payment:   { label: 'Pending Payment',   color: '#d97706', bg: 'rgba(251,191,36,0.12)',  Icon: Clock      },
-  payment_submitted: { label: 'Payment Submitted', color: C.blue,   bg: 'rgba(14,165,233,0.12)',  Icon: AlertCircle },
-  confirmed:         { label: 'Confirmed',         color: '#16a34a', bg: 'rgba(34,197,94,0.12)',   Icon: CheckCircle },
-  cancelled:         { label: 'Cancelled',         color: '#dc2626', bg: 'rgba(239,68,68,0.12)',   Icon: XCircle    },
+const STATUS_CONFIG: Record<EnrollmentStatus, { label: string; Icon: any }> = {
+  pending_payment:   { label: 'Pending Payment',   Icon: Clock      },
+  payment_submitted: { label: 'Payment Submitted', Icon: AlertCircle },
+  confirmed:         { label: 'Confirmed',         Icon: CheckCircle },
+  cancelled:         { label: 'Cancelled',         Icon: XCircle    },
 };
 
 function StatusBadge({ status }: { status: EnrollmentStatus }) {
-  const { label, color, bg, Icon } = STATUS_CONFIG[status];
+  const { label, Icon } = STATUS_CONFIG[status];
+  const { fg: color, bg } = STATUS_COLORS[status];
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: bg, paddingHorizontal: 10, paddingVertical: 4, borderRadius: 20 }}>
       <Icon size={11} color={color} />
@@ -134,11 +136,11 @@ export default function AccountScreen() {
           <TouchableOpacity
             onPress={handleSignOut}
             disabled={signingOut}
-            style={{ flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: 'rgba(239,68,68,0.08)', paddingHorizontal: 14, paddingVertical: 8, borderRadius: 20 }}
+            style={{ flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: 'rgba(225, 29, 46, 0.08)', paddingHorizontal: 14, paddingVertical: 8, borderRadius: 20 }}
             activeOpacity={0.8}
           >
-            {signingOut ? <ActivityIndicator size="small" color="#dc2626" /> : <LogOut size={14} color="#dc2626" />}
-            <Text style={{ color: '#dc2626', fontFamily: F.semibold, fontSize: 13 }}>Sign Out</Text>
+            {signingOut ? <ActivityIndicator size="small" color={C.red} /> : <LogOut size={14} color={C.red} />}
+            <Text style={{ color: C.red, fontFamily: F.semibold, fontSize: 13 }}>Sign Out</Text>
           </TouchableOpacity>
         </View>
 
@@ -156,7 +158,7 @@ export default function AccountScreen() {
             </Text>
           </View>
           {user.role === 'branch_admin' && (
-            <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: 'rgba(251,191,36,0.15)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20, alignSelf: 'flex-start' }}>
+            <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: 'rgba(255,216,0,0.15)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20, alignSelf: 'flex-start' }}>
               <Shield size={12} color={C.yellow} />
               <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.8 }}>Branch Admin</Text>
             </View>
@@ -207,10 +209,10 @@ export default function AccountScreen() {
 
         {/* DEV-ONLY role switcher */}
         {__DEV__ && (
-          <View style={{ marginTop: 40, padding: 16, backgroundColor: '#fef3c7', borderRadius: 12, borderWidth: 1, borderColor: '#fcd34d' }}>
-            <Text style={{ color: '#92400e', fontFamily: F.bold, fontSize: 12, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 12 }}>⚙ Dev: Role Switcher</Text>
+          <View style={{ marginTop: 40, padding: 16, backgroundColor: 'rgba(255, 216, 0, 0.12)', borderRadius: 12, borderWidth: 1, borderColor: C.yellow }}>
+            <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 12, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 12 }}>⚙ Dev: Role Switcher</Text>
             <View style={{ flexDirection: 'row', gap: 10 }}>
-              <TouchableOpacity onPress={handleSwitchToAdmin} style={{ flex: 1, backgroundColor: '#92400e', paddingVertical: 10, borderRadius: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4 }} activeOpacity={0.8}>
+              <TouchableOpacity onPress={handleSwitchToAdmin} style={{ flex: 1, backgroundColor: C.dark, paddingVertical: 10, borderRadius: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4 }} activeOpacity={0.8}>
                 <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: 12 }}>Switch</Text>
                 <ArrowRight size={12} color="#ffffff" />
                 <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: 12 }}>Admin</Text>

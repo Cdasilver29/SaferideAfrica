@@ -14,7 +14,7 @@ function AccordionItem({ q, a, isOpen, onToggle }: { q: string; a: string; isOpe
 
   const toggle = () => {
     Animated.parallel([
-      Animated.spring(rotateAnim, { toValue: isOpen ? 0 : 1, useNativeDriver: true, tension: 180, friction: 12 }),
+      Animated.spring(rotateAnim, { toValue: isOpen ? 0 : 1, useNativeDriver: Platform.OS !== 'web', tension: 180, friction: 12 }),
       Animated.spring(heightAnim, { toValue: isOpen ? 0 : 1, useNativeDriver: false, tension: 120, friction: 14 }),
     ]).start();
     onToggle();
@@ -119,7 +119,7 @@ export default function FAQ() {
   return (
     <View style={{ position: 'relative', paddingVertical: 72, paddingHorizontal: 24, overflow: 'hidden' }}>
       <Image source={HERO_SRC} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%' }} resizeMode="cover" />
-      <View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(10,18,36,0.88)' }} />
+      <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(10,18,36,0.88)', pointerEvents: 'none' } as any} />
 
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
         <View style={{ alignItems: 'center', marginBottom: 44 }}>
@@ -130,9 +130,9 @@ export default function FAQ() {
             {t('faq.heading')}
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-            <View style={{ height: 2, width: 40, backgroundColor: 'rgba(251,191,36,0.4)', borderRadius: 2 }} />
+            <View style={{ height: 2, width: 40, backgroundColor: 'rgba(255,216,0,0.4)', borderRadius: 2 }} />
             <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: C.yellow }} />
-            <View style={{ height: 2, width: 40, backgroundColor: 'rgba(251,191,36,0.4)', borderRadius: 2 }} />
+            <View style={{ height: 2, width: 40, backgroundColor: 'rgba(255,216,0,0.4)', borderRadius: 2 }} />
           </View>
         </View>
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Map, Marker } from 'pigeon-maps';
 import { BRANCHES, BRANCH_COORDS } from '@/data/saferide';
 import { Dimensions } from 'react-native';
+import { C } from '@/components/landing/constants';
 
 interface BranchMapProps {
   activeBranchId: string;
@@ -26,7 +27,7 @@ export function BranchMap({ activeBranchId, onMarkerPress }: BranchMapProps) {
               key={b.id}
               anchor={coords}
               width={isActive ? 56 : 40}
-              color={isActive ? '#d97706' : '#2563eb'}
+              color={isActive ? C.yellow : C.skyDeep}
               onClick={() => onMarkerPress(b.id)}
             />
           );

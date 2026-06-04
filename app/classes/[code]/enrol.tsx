@@ -1,3 +1,4 @@
+// DEPRECATED: enrollment now uses the EnrollModal triggered from anywhere
 import React, { useState } from 'react';
 import {
   View, Text, ScrollView, TextInput, TouchableOpacity,
@@ -14,7 +15,7 @@ const KSH = (n: number) => (n === 0 ? '—' : 'Ksh ' + n.toLocaleString('en-KE')
 
 function BreakdownRow({ label, value }: { label: string; value: number }) {
   return (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: '#f1f5f9' }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: 'rgba(34, 31, 32, 0.06)' }}>
       <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 13 }}>{label}</Text>
       <Text style={{ color: C.heading, fontFamily: F.medium, fontSize: 13 }}>{KSH(value)}</Text>
     </View>
@@ -24,7 +25,7 @@ function BreakdownRow({ label, value }: { label: string; value: number }) {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <View style={{ marginBottom: 16 }}>
-      <Text style={{ color: '#374151', fontFamily: F.semibold, fontSize: 11, letterSpacing: 1.1, textTransform: 'uppercase', marginBottom: 8 }}>{label}</Text>
+      <Text style={{ color: C.dark, fontFamily: F.semibold, fontSize: 11, letterSpacing: 1.1, textTransform: 'uppercase', marginBottom: 8 }}>{label}</Text>
       {children}
     </View>
   );
@@ -36,7 +37,7 @@ export default function EnrolScreen() {
   const cls                   = CLASSES.find(c => c.code === code);
 
   if (authLoading) {
-    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#f8fafc' }}><ActivityIndicator color={C.blue} size="large" /></View>;
+    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff' }}><ActivityIndicator color={C.blue} size="large" /></View>;
   }
   if (!user) { router.replace('/login'); return null; }
   if (!cls)  { router.replace('/classes'); return null; }
@@ -79,7 +80,7 @@ export default function EnrolScreen() {
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: '#f8fafc' }}
+      style={{ flex: 1, backgroundColor: '#ffffff' }}
       contentContainerStyle={{ flexGrow: 1, paddingBottom: 48 }}
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
@@ -123,34 +124,34 @@ export default function EnrolScreen() {
         </View>
 
         {/* Enrollment form */}
-        <View style={{ backgroundColor: '#ffffff', borderRadius: 20, padding: 22, borderWidth: 1, borderColor: '#e5e7eb' }}>
+        <View style={{ backgroundColor: '#ffffff', borderRadius: 20, padding: 22, borderWidth: 1, borderColor: 'rgba(34, 31, 32, 0.1)' }}>
           <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 16, marginBottom: 20 }}>Your Details</Text>
 
           {!!error && (
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: 'rgba(239,68,68,0.08)', borderWidth: 1, borderColor: 'rgba(239,68,68,0.3)', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 12, marginBottom: 20 }}>
-              <Shield size={14} color="#ef4444" />
-              <Text style={{ color: '#ef4444', fontFamily: F.regular, fontSize: 13, flex: 1 }}>{error}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: 'rgba(225, 29, 46, 0.08)', borderWidth: 1, borderColor: 'rgba(225, 29, 46, 0.3)', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 12, marginBottom: 20 }}>
+              <Shield size={14} color={C.red} />
+              <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13, flex: 1 }}>{error}</Text>
             </View>
           )}
 
           <Field label="Full Name">
             <TextInput value={name} onChangeText={setName} placeholder="Your full name" placeholderTextColor={C.mutedDark} autoCapitalize="words"
-              style={{ backgroundColor: '#f9fafb', borderWidth: 1.5, borderColor: C.darkBorder, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 13, color: C.heading, fontFamily: F.regular, fontSize: 14 }} />
+              style={{ backgroundColor: '#ffffff', borderWidth: 1.5, borderColor: C.darkBorder, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 13, color: C.heading, fontFamily: F.regular, fontSize: 14 }} />
           </Field>
 
           <Field label="Email Address">
             <TextInput value={email} onChangeText={setEmail} placeholder="you@example.com" placeholderTextColor={C.mutedDark} keyboardType="email-address" autoCapitalize="none"
-              style={{ backgroundColor: '#f9fafb', borderWidth: 1.5, borderColor: C.darkBorder, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 13, color: C.heading, fontFamily: F.regular, fontSize: 14 }} />
+              style={{ backgroundColor: '#ffffff', borderWidth: 1.5, borderColor: C.darkBorder, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 13, color: C.heading, fontFamily: F.regular, fontSize: 14 }} />
           </Field>
 
           <Field label="Phone Number">
             <TextInput value={phone} onChangeText={setPhone} placeholder="0712 045 710" placeholderTextColor={C.mutedDark} keyboardType="phone-pad"
-              style={{ backgroundColor: '#f9fafb', borderWidth: 1.5, borderColor: C.darkBorder, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 13, color: C.heading, fontFamily: F.regular, fontSize: 14 }} />
+              style={{ backgroundColor: '#ffffff', borderWidth: 1.5, borderColor: C.darkBorder, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 13, color: C.heading, fontFamily: F.regular, fontSize: 14 }} />
           </Field>
 
           <Field label="ID / Passport Number">
             <TextInput value={idNumber} onChangeText={setIdNumber} placeholder="National ID or Passport" placeholderTextColor={C.mutedDark} autoCapitalize="characters"
-              style={{ backgroundColor: '#f9fafb', borderWidth: 1.5, borderColor: C.darkBorder, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 13, color: C.heading, fontFamily: F.regular, fontSize: 14 }} />
+              style={{ backgroundColor: '#ffffff', borderWidth: 1.5, borderColor: C.darkBorder, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 13, color: C.heading, fontFamily: F.regular, fontSize: 14 }} />
           </Field>
 
           <TouchableOpacity

@@ -3,6 +3,7 @@ import { View, Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { MapPin } from 'lucide-react-native';
 import { BRANCHES, BRANCH_COORDS } from '@/data/saferide';
+import { C } from '@/components/landing/constants';
 
 interface BranchMapProps {
   activeBranchId: string;
@@ -19,9 +20,8 @@ const INITIAL_REGION = {
   longitudeDelta: 0.08,
 };
 
-// Hardcoded colours — CSS variables don't resolve on native
-const COLOR_ACTIVE   = '#d97706'; // amber-600  (accent-dark)
-const COLOR_INACTIVE = '#2563eb'; // blue-600   (primary)
+const COLOR_ACTIVE   = C.yellow;   // accent
+const COLOR_INACTIVE = C.skyDeep;  // primary
 
 export function BranchMap({ activeBranchId, onMarkerPress }: BranchMapProps) {
   return (
@@ -44,7 +44,7 @@ export function BranchMap({ activeBranchId, onMarkerPress }: BranchMapProps) {
               <MapPin
                 size={isActive ? 44 : 32}
                 color={isActive ? COLOR_ACTIVE : COLOR_INACTIVE}
-                fill={isActive ? '#fbbf24' : 'transparent'}
+                fill={isActive ? C.yellow : 'transparent'}
               />
             </View>
           </Marker>

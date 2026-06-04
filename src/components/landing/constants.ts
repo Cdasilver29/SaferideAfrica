@@ -5,26 +5,31 @@ export const SCREEN_H = Dimensions.get('window').height;
 export const IS_WEB = Platform.OS === 'web';
 export const MAX_W = 1100;
 
-// ─── SafeRide colour tokens ────────────────────────────────────────────────────
+// ─── SafeRide colour tokens — locked 6-colour palette ─────────────────────────
 export const C = {
-  blue:        '#1877f2',
-  blueDark:    '#1060cc',
-  blueDeep:    '#146fe0',
-  yellow:      '#fbbf24',
-  amber:       '#f59e0b',
-  amberDark:   '#d97706',
-  gold:        '#b45309',
-  dark:        '#78350f',   // amber-900: course-band background
-  darkBg:      '#0f172a',   // navy-950: dark section backgrounds
-  darkCard:    '#1e293b',   // navy-800
-  darkBorder:  '#334155',   // navy-700
-  white:       '#ffffff',
-  lightBg:     '#f9fafb',
-  muted:       '#6b7280',
-  mutedDark:   '#94a3b8',
-  heading:     '#0f172a',
-  green:       '#22c55e',
-  greenLight:  '#86efac',
+  // ── Canonical palette colours ──────────────────────────────────────────────
+  skyLight:   '#58ccf7',               // header strip, info banners
+  skyDeep:    '#01a5f0',               // primary actions, links
+  yellow:     '#ffd800',               // accent, badges, Sign In
+  red:        '#e11d2e',               // destructive only
+  dark:       '#221f20',               // text on light / dark surfaces (black)
+  white:      '#ffffff',               // canvas / text on dark
+  // ── Semantic aliases used by components (kept for backward compat) ─────────
+  blue:       '#01a5f0',               // → skyDeep
+  blueDark:   '#58ccf7',               // → skyLight
+  blueDeep:   '#01a5f0',               // → skyDeep
+  amberDark:  'rgba(255,216,0,0.7)',   // dimmed yellow — loading button states
+  amber:      '#ffd800',               // → yellow
+  gold:       '#ffd800',               // → yellow
+  darkBg:     '#221f20',               // dark section backgrounds
+  darkCard:   '#221f20',               // dark card surfaces (border differentiates)
+  darkBorder: 'rgba(255,255,255,0.15)',
+  muted:      'rgba(34,31,32,0.6)',    // muted text on light bg  (black/60)
+  mutedDark:  'rgba(255,255,255,0.7)', // muted text on dark bg   (white/70)
+  lightBg:    '#ffffff',               // light section bg
+  heading:    '#221f20',               // heading text
+  green:      '#01a5f0',               // success states → sky-deep
+  greenLight: '#58ccf7',               // light success → sky-light
 };
 
 // ─── Font names (must match useFonts keys in _layout.tsx) ─────────────────────
@@ -37,33 +42,33 @@ export const F = {
 
 // ─── Image sources ────────────────────────────────────────────────────────────
 export const HERO_SRC = IS_WEB
-  ? { uri: '/DSC_2116.jpg' }
+  ? { uri: '/DSC_2116.webp' }
   : require('../../../assets/images/car-pic.png');
 
 export const ABOUT_IMG = IS_WEB
-  ? { uri: '/gallery/DSC_6966.jpg' }
+  ? { uri: '/gallery/DSC_6966.webp' }
   : require('../../../assets/images/car-pic.png');
 
 export const GALLERY_IMGS = IS_WEB
   ? [
-      { uri: '/gallery/DSC_6866.jpg', caption: 'Practical session' },
-      { uri: '/gallery/DSC_2699.jpg', caption: 'Road training' },
-      { uri: '/gallery/DSC_7956.jpg', caption: 'Highway skills' },
-      { uri: '/gallery/DSC_7991.jpg', caption: 'Instructor guidance' },
-      { uri: '/gallery/DSC_2225.jpg', caption: 'Student practice' },
-      { uri: '/gallery/DSC_6903.jpg', caption: 'Defensive driving' },
-      { uri: '/gallery/DSC_6830.jpg', caption: 'Happy Family' },
-      { uri: '/gallery/DSC_6966.jpg', caption: 'Practical session' },
-      { uri: '/gallery/DSC_7825.jpg', caption: 'Theory class' },
-      { uri: '/gallery/DSC_6824.jpg', caption: 'Road Training' },
-      { uri: '/gallery/DSC_2976.jpg', caption: 'Driving test' },
-      { uri: '/gallery/DSC_2258.jpg', caption: 'Highway skills' },
-      { uri: '/gallery/DSC_2725.jpg', caption: 'Happy Family' },
-      { uri: '/gallery/DSC_2179.jpg', caption: 'Branches' },
-      { uri: '/gallery/DSC_7824.jpg', caption: 'Testimonial' },
-      { uri: '/gallery/DSC_7879.jpg', caption: 'Bodaboda training' },
-      { uri: '/gallery/DSC_7904.jpg', caption: 'Happy customers' },
-      { uri: '/gallery/DSC_6927.jpg', caption: 'Car training' },  
+      { uri: '/gallery/DSC_6866.webp', caption: 'Practical session' },
+      { uri: '/gallery/DSC_2699.webp', caption: 'Road training' },
+      { uri: '/gallery/DSC_7956.webp', caption: 'Highway skills' },
+      { uri: '/gallery/DSC_7991.webp', caption: 'Instructor guidance' },
+      { uri: '/gallery/DSC_2225.webp', caption: 'Student practice' },
+      { uri: '/gallery/DSC_6903.webp', caption: 'Defensive driving' },
+      { uri: '/gallery/DSC_6830.webp', caption: 'Happy Family' },
+      { uri: '/gallery/DSC_6966.webp', caption: 'Practical session' },
+      { uri: '/gallery/DSC_7825.webp', caption: 'Theory class' },
+      { uri: '/gallery/DSC_6824.webp', caption: 'Road Training' },
+      { uri: '/gallery/DSC_2976.webp', caption: 'Driving test' },
+      { uri: '/gallery/DSC_2258.webp', caption: 'Highway skills' },
+      { uri: '/gallery/DSC_2725.webp', caption: 'Happy Family' },
+      { uri: '/gallery/DSC_2179.webp', caption: 'Branches' },
+      { uri: '/gallery/DSC_7824.webp', caption: 'Testimonial' },
+      { uri: '/gallery/DSC_7879.webp', caption: 'Bodaboda training' },
+      { uri: '/gallery/DSC_7904.webp', caption: 'Happy customers' },
+      { uri: '/gallery/DSC_6927.webp', caption: 'Car training' },  
     ]
   : Array(9).fill(null).map((_, i) => ({
       src: require('../../../assets/images/car-pic.png'),
@@ -72,18 +77,18 @@ export const GALLERY_IMGS = IS_WEB
 
 export const BLOG_IMGS = IS_WEB
   ? [
-      { uri: '/gallery/DSC_7786.jpg' },
-      { uri: '/gallery/DSC_7765.jpg' },
-      { uri: '/gallery/DSC_7016.jpg' },
+      { uri: '/gallery/DSC_7786.webp' },
+      { uri: '/gallery/DSC_7765.webp' },
+      { uri: '/gallery/DSC_7016.webp' },
     ]
   : Array(3).fill(require('../../../assets/images/car-pic.png'));
 
 export const INSTRUCTOR_IMGS = IS_WEB
   ? [
-      { uri: '/gallery/DSC_7991.jpg' },
-      { uri: '/gallery/DSC_7976.jpg' },
-      { uri: '/gallery/DSC_7824.jpg' },
-      { uri: '/gallery/DSC_7925.jpg' },
+      { uri: '/gallery/DSC_7991.webp' },
+      { uri: '/gallery/DSC_7976.webp' },
+      { uri: '/gallery/DSC_7824.webp' },
+      { uri: '/gallery/DSC_7925.webp' },
     ]
   : null;
 
@@ -166,10 +171,12 @@ export const BLOG_POSTS = [
 ];
 
 export const NAV_ITEMS = [
-  { label: 'Home',       section: 'hero' },
-  { label: 'Services',   section: 'services' },
-  { label: 'Courses',    section: 'courses' },
-  { label: 'About',      section: 'about' },
-  { label: 'Gallery',    section: 'gallery' },
-  { label: 'Contact',    section: 'footer' },
+  { label: 'Home',     path: '/',         key: 'home' },
+  { label: 'About',    path: '/about',    key: 'about' },
+  { label: 'Courses',  path: '/courses',  key: 'courses' },
+  { label: 'Services', path: '/services', key: 'services' },
+  { label: 'Branches', path: '/branches', key: 'branches' },
+  { label: 'Gallery',  path: '/gallery',  key: 'gallery' },
+  { label: 'Blog',     path: '/blog',     key: 'blog' },
+  { label: 'Contact',  path: '/contact',  key: 'contact' },
 ];

@@ -1,36 +1,151 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SafeRide Africa — Driving School App
+
+Cross-platform application for **SafeRide Africa Driving School** (Nairobi, Kenya). Built with Expo + React Native, serving iOS, Android, and Web from a single codebase.
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Expo ~51 / React Native 0.74 |
+| Routing | Expo Router (file-based) |
+| Styling | NativeWind 4 + Tailwind CSS 3 |
+| Backend | Supabase (PostgreSQL, Auth, Edge Functions) |
+| Payments | M-Pesa Daraja STK Push |
+| Animations | React Native Reanimated 3 + Skia |
+| Forms | React Hook Form + Zod |
+| i18n | i18next (EN, SW, FR, ZH, AR) |
+| Maps | pigeon-maps (web) / react-native-maps (native) |
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- Expo CLI: `npm install -g expo-cli`
+
+### Install
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copy `.env.example` to `.env` and fill in your keys:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cp .env.example .env
+```
 
-## Learn More
+Required variables:
 
-To learn more about Next.js, take a look at the following resources:
+```
+EXPO_PUBLIC_SUPABASE_URL=
+EXPO_PUBLIC_SUPABASE_ANON_KEY=
+MPESA_CONSUMER_KEY=
+MPESA_CONSUMER_SECRET=
+MPESA_PASSKEY=
+MPESA_SHORTCODE=
+MPESA_CALLBACK_URL=
+MPESA_CALLBACK_SECRET=
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Run locally
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# Web (recommended for development)
+NODE_TLS_REJECT_UNAUTHORIZED=0 npx expo start --web --port 8081 --offline
 
-## Deploy on Vercel
+# iOS simulator
+npx expo start --ios
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Android emulator
+npx expo start --android
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open [http://localhost:8081](http://localhost:8081) in your browser.
+
+## Project Structure
+
+```
+app/                    # Expo Router pages
+  _layout.tsx           # Root layout, fonts, auth + modal providers
+  index.tsx             # Landing page
+  about.tsx             # About SafeRide
+  courses.tsx           # Course catalogue
+  services.tsx          # Services overview
+  branches.tsx          # Branch map & directory
+  gallery.tsx           # Photo gallery
+  blog.tsx              # Blog listing
+  login.tsx / register.tsx
+  account/index.tsx     # Student dashboard
+  admin/index.tsx       # Branch admin panel
+  classes/              # Class browsing & enrolment
+  enrollments/[id]/pay.tsx  # M-Pesa payment screen
+
+src/
+  api/                  # Auth, enrolments, M-Pesa, storage stubs
+  components/
+    landing/            # All landing-page section components
+    animations/         # KenBurns, VerticalCutReveal
+    EnrollModal.tsx     # Global enrolment modal
+    LoginForm.tsx
+    SocialFloat.tsx     # Floating social media buttons
+  context/              # AuthContext, EnrollModalContext
+  data/                 # saferide.ts (all business data), statusColors.ts
+  i18n/                 # i18next config + locale files
+  lib/                  # theme.ts, installments.ts
+
+supabase/
+  functions/            # Edge functions: mpesa-stk-push, mpesa-callback, mpesa-status
+  migrations/           # SQL migrations
+
+public/                 # Web static assets (images, index.html)
+assets/                 # App icons, splash, fonts
+```
+
+## Key Features
+
+- **Landing site** — hero, stats, services, courses, testimonials, branch map, blog
+- **Enrolment flow** — modal form → M-Pesa STK Push → installment tracking
+- **Student account** — enrolment history, payment status, installment progress
+- **Admin panel** — branch-scoped queue, confirm/reject payments, notes
+- **Internationalisation** — English, Swahili, French, Chinese, Arabic
+- **Dark mode** — full NativeWind dark theme support
+
+## Payment Flow (M-Pesa)
+
+```
+EnrollModal → createEnrollment() → initiateStkPush() (Edge Function)
+    → Safaricom Daraja API → STK prompt on student's phone
+    → mpesa-callback Edge Function → mpesa_transactions table
+    → waitForPayment() polling → confirmed / failed
+```
+
+## Deployment
+
+### Web (Expo)
+
+```bash
+npx expo export --platform web
+# Deploy the dist/ folder to any static host (Cloudflare Pages, Vercel, etc.)
+```
+
+### Supabase Edge Functions
+
+```bash
+supabase functions deploy mpesa-stk-push
+supabase functions deploy mpesa-callback
+supabase functions deploy mpesa-status
+```
+
+Set secrets in the Supabase dashboard:
+
+```
+MPESA_CONSUMER_KEY, MPESA_CONSUMER_SECRET, MPESA_PASSKEY,
+MPESA_SHORTCODE, MPESA_CALLBACK_URL, MPESA_CALLBACK_SECRET
+```
+
+## License
+
+Private — SafeRide Africa Driving School Ltd. All rights reserved.

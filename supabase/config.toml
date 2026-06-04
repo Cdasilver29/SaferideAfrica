@@ -1,0 +1,20 @@
+project_id = "cqbfuyvxthvquxzxfyrw"
+
+[api]
+enabled    = true
+port       = 54321
+schemas    = ["public"]
+max_rows   = 1000
+
+[db]
+port          = 54322
+shadow_port   = 54320
+major_version = 15
+
+[studio]
+enabled = true
+port    = 54323
+
+# mpesa-callback must be reachable by Safaricom (no JWT required)
+[functions.mpesa-callback]
+verify_jwt = false

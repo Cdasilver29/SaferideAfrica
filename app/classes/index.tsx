@@ -10,10 +10,10 @@ import { C, F, IS_WEB, MAX_W } from '../../src/components/landing/constants';
 const KSH = (n: number) => 'Ksh ' + n.toLocaleString('en-KE');
 
 const SERIES_COLORS: Record<SeriesCode, string> = {
-  A:    '#10b981',
-  B:    C.blue,
-  C:    '#8b5cf6',
-  D:    '#f59e0b',
+  A:    C.skyLight,
+  B:    C.skyDeep,
+  C:    C.red,
+  D:    C.yellow,
   EXEC: C.yellow,
 };
 
@@ -29,7 +29,7 @@ function ClassCard({ cls }: { cls: DriveClass }) {
         padding: 18,
         marginBottom: 12,
         borderWidth: 1,
-        borderColor: '#e5e7eb',
+        borderColor: 'rgba(34, 31, 32, 0.1)',
         flexDirection: 'row',
         alignItems: 'center',
         gap: 14,
@@ -68,7 +68,7 @@ export default function ClassesScreen() {
   const activeMeta    = CLASS_SERIES.find(s => s.code === activeSeries)!;
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#f8fafc' }}>
+    <View style={{ flex: 1, backgroundColor: C.white }}>
 
       {/* Header */}
       <View style={{ backgroundColor: C.darkBg, paddingTop: Platform.OS === 'ios' ? 56 : 36, paddingBottom: 20, paddingHorizontal: 24 }}>
@@ -90,7 +90,7 @@ export default function ClassesScreen() {
       </View>
 
       {/* Series tabs */}
-      <View style={{ backgroundColor: '#ffffff', borderBottomWidth: 1, borderBottomColor: '#e5e7eb' }}>
+      <View style={{ backgroundColor: '#ffffff', borderBottomWidth: 1, borderBottomColor: 'rgba(34, 31, 32, 0.1)' }}>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}

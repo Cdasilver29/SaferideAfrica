@@ -76,7 +76,7 @@ export default function LanguageSwitcher() {
           borderRadius: 8,
           borderWidth: 1,
           borderColor: pressed || open ? C.blue : C.darkBorder,
-          backgroundColor: pressed || open ? 'rgba(14,165,233,0.08)' : 'transparent',
+          backgroundColor: pressed || open ? 'rgba(1,165,240,0.08)' : 'transparent',
         })}
       >
         <Flag xml={currentLang.flag} />
@@ -107,7 +107,7 @@ export default function LanguageSwitcher() {
               position: 'absolute',
               top: 46,   // sits just below the nav bar
               right: 24,
-              backgroundColor: '#ffffff',
+              backgroundColor: C.white,
               borderRadius: 14,
               borderWidth: 1.5,
               borderColor: C.blue,
@@ -125,8 +125,8 @@ export default function LanguageSwitcher() {
                 paddingHorizontal: 16,
                 paddingVertical: 10,
                 borderBottomWidth: 1,
-                borderBottomColor: '#e0f2fe',
-                backgroundColor: '#f0f9ff',
+                borderBottomColor: 'rgba(1,165,240,0.15)',
+                backgroundColor: 'rgba(88,204,247,0.10)',
               }}
             >
               <Text style={{ color: C.blue, fontFamily: F.bold, fontSize: 11, letterSpacing: 1.4, textTransform: 'uppercase' }}>
@@ -148,9 +148,9 @@ export default function LanguageSwitcher() {
                     paddingHorizontal: 16,
                     paddingVertical: 10,
                     backgroundColor:
-                      pressed ? '#e0f2fe'
-                      : isActive ? '#f0f9ff'
-                      : '#ffffff',
+                      pressed ? 'rgba(88,204,247,0.15)'
+                      : isActive ? 'rgba(88,204,247,0.10)'
+                      : C.white,
                   })}
                 >
                   <Flag xml={lang.flag} />

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, Animated } from 'react-native';
+import { View, Text, Animated, Platform } from 'react-native';
 import { useColorScheme } from 'nativewind';
 import { CheckSquare, Users, CreditCard, Car } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
@@ -22,7 +22,7 @@ export default function WorkProcess() {
   const anims = useRef(WORK_STEPS.map(() => new Animated.Value(0))).current;
 
   useEffect(() => {
-    Animated.stagger(130, anims.map(a => Animated.timing(a, { toValue: 1, duration: 500, useNativeDriver: true }))).start();
+    Animated.stagger(130, anims.map(a => Animated.timing(a, { toValue: 1, duration: 500, useNativeDriver: Platform.OS !== 'web' }))).start();
   }, []);
 
   return (
@@ -62,7 +62,7 @@ export default function WorkProcess() {
                   <View style={{ position: 'absolute', top: 34, right: -10, width: 20, height: 2, backgroundColor: C.yellow, zIndex: 1 }} />
                 )}
 
-                <View style={{ backgroundColor: isDark ? C.darkCard : '#f9fafb', borderRadius: 20, padding: 28, alignItems: IS_WEB ? 'center' : 'flex-start', borderWidth: 1, borderColor: isDark ? C.darkBorder : '#e5e7eb' }}>
+                <View style={{ backgroundColor: isDark ? C.dark : C.white, borderRadius: 20, padding: 28, alignItems: IS_WEB ? 'center' : 'flex-start', borderWidth: 1, borderColor: isDark ? C.darkBorder : 'rgba(34,31,32,0.1)' }}>
                   <View style={{ position: 'relative', marginBottom: 20, alignSelf: IS_WEB ? 'center' : 'flex-start' }}>
                     <View style={{ width: 64, height: 64, borderRadius: 32, backgroundColor: C.blue, alignItems: 'center', justifyContent: 'center', shadowColor: C.blue, shadowOpacity: 0.3, shadowRadius: 10, elevation: 4 }}>
                       <Icon size={26} color="#ffffff" />

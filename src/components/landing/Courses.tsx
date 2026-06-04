@@ -5,10 +5,8 @@ import {
 import { router } from 'expo-router';
 import { ChevronDown, ChevronUp, CheckCircle, AlertTriangle } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import {
-  CLASSES, CLASS_SERIES, REFRESHER_LESSONS, PAYMENT, SeriesCode, DriveClass,
-} from '@/data/saferide';
-import { useAuth } from '@/context/AuthContext';
+import { CLASS_SERIES, REFRESHER_LESSONS, PAYMENT, SeriesCode, DriveClass, CLASSES } from '@/data/saferide';
+import { useEnrollModal } from '@/context/EnrollModalContext';
 import { C, F, IS_WEB, MAX_W } from './constants';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -19,11 +17,11 @@ const KSH = (n: number) =>
   n === 0 ? '—' : 'Ksh ' + n.toLocaleString('en-KE');
 
 const SERIES_COLORS: Record<SeriesCode, string> = {
-  A:    '#10b981', // green
-  B:    C.blue,
-  C:    '#8b5cf6', // purple
-  D:    '#f59e0b', // amber
-  EXEC: C.yellow,
+  A:    C.skyLight, // motorcycles — sky-light
+  B:    C.skyDeep,  // standard — sky-deep (primary)
+  C:    C.dark,     // heavy vehicles — black
+  D:    C.yellow,   // minibus/PSV — accent
+  EXEC: C.yellow,   // executive — accent
 };
 
 // ─── Class row with expandable breakdown ─────────────────────────────────────
@@ -31,7 +29,7 @@ const SERIES_COLORS: Record<SeriesCode, string> = {
 function ClassRow({ cls, isDark }: { cls: DriveClass; isDark: boolean }) {
   const [expanded, setExpanded] = useState(false);
   const { t }    = useTranslation();
-  const { user } = useAuth();
+  const { open } = useEnrollModal();
   const accentColor = SERIES_COLORS[cls.series];
 
   const toggle = () => {
@@ -42,11 +40,11 @@ function ClassRow({ cls, isDark }: { cls: DriveClass; isDark: boolean }) {
   return (
     <View
       style={{
-        backgroundColor: isDark ? '#1a2640' : '#ffffff',
+        backgroundColor: isDark ? C.dark : C.white,
         borderRadius: 14,
         marginBottom: 10,
         borderWidth: 1,
-        borderColor: isDark ? C.darkBorder : '#e5e7eb',
+        borderColor: isDark ? C.darkBorder : 'rgba(34,31,32,0.1)',
         overflow: 'hidden',
       }}
     >
@@ -67,7 +65,7 @@ function ClassRow({ cls, isDark }: { cls: DriveClass; isDark: boolean }) {
 
         {/* Name + lessons */}
         <View style={{ flex: 1 }}>
-          <Text style={{ color: isDark ? '#f8fafc' : C.heading, fontFamily: F.semibold, fontSize: 14, lineHeight: 20 }}>
+          <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.semibold, fontSize: 14, lineHeight: 20 }}>
             {cls.name}
           </Text>
           {cls.lessons !== null && (
@@ -100,7 +98,7 @@ function ClassRow({ cls, isDark }: { cls: DriveClass; isDark: boolean }) {
             paddingHorizontal: 20,
             paddingBottom: 16,
             borderTopWidth: 1,
-            borderTopColor: isDark ? C.darkBorder : '#f1f5f9',
+            borderTopColor: isDark ? C.darkBorder : 'rgba(34,31,32,0.06)',
           }}
         >
           <Text style={{ color: isDark ? C.mutedDark : C.muted, fontFamily: F.semibold, fontSize: 11, letterSpacing: 1.2, textTransform: 'uppercase', marginBottom: 12, marginTop: 12 }}>
@@ -118,14 +116,14 @@ function ClassRow({ cls, isDark }: { cls: DriveClass; isDark: boolean }) {
               style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 6 }}
             >
               <Text style={{ color: isDark ? C.mutedDark : C.muted, fontFamily: F.regular, fontSize: 13 }}>{label}</Text>
-              <Text style={{ color: isDark ? '#f8fafc' : C.heading, fontFamily: F.medium, fontSize: 13 }}>{KSH(value)}</Text>
+              <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.medium, fontSize: 13 }}>{KSH(value)}</Text>
             </View>
           ))}
 
           {/* Divider + total */}
-          <View style={{ height: 1, backgroundColor: isDark ? C.darkBorder : '#e5e7eb', marginVertical: 10 }} />
+          <View style={{ height: 1, backgroundColor: isDark ? C.darkBorder : 'rgba(34,31,32,0.1)', marginVertical: 10 }} />
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Text style={{ color: isDark ? '#f8fafc' : C.heading, fontFamily: F.bold, fontSize: 14 }}>
+            <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.bold, fontSize: 14 }}>
               {t('courses.totalLabel')}
             </Text>
             <Text style={{ color: accentColor, fontFamily: F.bold, fontSize: 18 }}>
@@ -144,7 +142,7 @@ function ClassRow({ cls, isDark }: { cls: DriveClass; isDark: boolean }) {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => router.push(user ? `/classes/${cls.code}/enrol` : '/login')}
+              onPress={() => open(cls.code)}
               style={{ flex: 1, paddingVertical: 11, borderRadius: 10, alignItems: 'center', backgroundColor: accentColor }}
               activeOpacity={0.85}
             >
@@ -189,9 +187,9 @@ function SeriesTabs({
               paddingHorizontal: 16,
               paddingVertical: 9,
               borderRadius: 20,
-              backgroundColor: isActive ? color : isDark ? '#1a2640' : '#f1f5f9',
+              backgroundColor: isActive ? color : isDark ? C.dark : 'rgba(34,31,32,0.06)',
               borderWidth: isActive ? 0 : 1,
-              borderColor: isDark ? C.darkBorder : '#e5e7eb',
+              borderColor: isDark ? C.darkBorder : 'rgba(34,31,32,0.1)',
             }}
           >
             <Text style={{ color: isActive ? (s.code === 'EXEC' ? C.dark : '#ffffff') : (isDark ? C.mutedDark : C.muted), fontFamily: isActive ? F.bold : F.medium, fontSize: 13 }}>
@@ -219,14 +217,14 @@ function RefresherSection({ isDark }: { isDark: boolean }) {
             key={r.code}
             style={{
               flex: IS_WEB ? 1 : undefined,
-              backgroundColor: isDark ? '#1a2640' : '#ffffff',
+              backgroundColor: isDark ? C.dark : C.white,
               borderRadius: 12,
               padding: 16,
               borderWidth: 1,
-              borderColor: isDark ? C.darkBorder : '#e5e7eb',
+              borderColor: isDark ? C.darkBorder : 'rgba(34,31,32,0.1)',
             }}
           >
-            <Text style={{ color: isDark ? '#f8fafc' : C.heading, fontFamily: F.semibold, fontSize: 14, marginBottom: 6 }}>
+            <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.semibold, fontSize: 14, marginBottom: 6 }}>
               {r.name}
             </Text>
             <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: 20, marginBottom: 2 }}>
@@ -256,11 +254,11 @@ function PaymentNotice({ isDark }: { isDark: boolean }) {
         borderRadius: 14,
         overflow: 'hidden',
         borderWidth: 1,
-        borderColor: 'rgba(251,191,36,0.35)',
+        borderColor: 'rgba(255,216,0,0.35)',
       }}
     >
       {/* Warning bar */}
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: 'rgba(251,191,36,0.15)', paddingHorizontal: 16, paddingVertical: 10 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: 'rgba(255,216,0,0.15)', paddingHorizontal: 16, paddingVertical: 10 }}>
         <AlertTriangle size={15} color={C.yellow} />
         <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: 12, letterSpacing: 0.5 }}>
           {PAYMENT.notice}
@@ -275,16 +273,16 @@ function PaymentNotice({ isDark }: { isDark: boolean }) {
             {t('courses.paymentMpesa')}
           </Text>
           <View style={{ gap: 4 }}>
-            <Text style={{ color: isDark ? '#f8fafc' : C.heading, fontFamily: F.regular, fontSize: 13 }}>
+            <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.regular, fontSize: 13 }}>
               Paybill: <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaPaybill}</Text>
             </Text>
-            <Text style={{ color: isDark ? '#f8fafc' : C.heading, fontFamily: F.regular, fontSize: 13 }}>
+            <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.regular, fontSize: 13 }}>
               Account: <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaAccountName}</Text>
             </Text>
           </View>
         </View>
 
-        {IS_WEB && <View style={{ width: 1, backgroundColor: isDark ? C.darkBorder : '#e5e7eb' }} />}
+        {IS_WEB && <View style={{ width: 1, backgroundColor: isDark ? C.darkBorder : 'rgba(34,31,32,0.1)' }} />}
 
         {/* KCB */}
         <View style={{ flex: IS_WEB ? 1 : undefined }}>
@@ -292,10 +290,10 @@ function PaymentNotice({ isDark }: { isDark: boolean }) {
             {t('courses.paymentKcb')}
           </Text>
           <View style={{ gap: 4 }}>
-            <Text style={{ color: isDark ? '#f8fafc' : C.heading, fontFamily: F.regular, fontSize: 13 }}>
+            <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.regular, fontSize: 13 }}>
               {PAYMENT.bankName}
             </Text>
-            <Text style={{ color: isDark ? '#f8fafc' : C.heading, fontFamily: F.regular, fontSize: 13 }}>
+            <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.regular, fontSize: 13 }}>
               Account: <Text style={{ fontFamily: F.bold }}>{PAYMENT.kcbAccount}</Text>
             </Text>
           </View>
@@ -316,7 +314,7 @@ export default function Courses() {
   const activeMeta    = CLASS_SERIES.find(s => s.code === activeSeries)!;
 
   return (
-    <View style={{ backgroundColor: C.dark, paddingVertical: 72, paddingHorizontal: 24 }}>
+    <View style={{ backgroundColor: C.skyDeep, paddingVertical: 72, paddingHorizontal: 24 }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
 
         {/* Section header */}
@@ -328,9 +326,9 @@ export default function Courses() {
             {t('courses.heading')}
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-            <View style={{ height: 2, width: 40, backgroundColor: 'rgba(251,191,36,0.5)', borderRadius: 2 }} />
+            <View style={{ height: 2, width: 40, backgroundColor: 'rgba(255,216,0,0.5)', borderRadius: 2 }} />
             <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: C.yellow }} />
-            <View style={{ height: 2, width: 40, backgroundColor: 'rgba(251,191,36,0.5)', borderRadius: 2 }} />
+            <View style={{ height: 2, width: 40, backgroundColor: 'rgba(255,216,0,0.5)', borderRadius: 2 }} />
           </View>
         </View>
 

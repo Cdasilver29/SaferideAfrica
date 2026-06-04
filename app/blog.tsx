@@ -1,0 +1,75 @@
+import React from 'react';
+import { View, Text, SafeAreaView, ScrollView } from 'react-native';
+
+import { PageHero } from '@/components/landing/PageHero';
+import Navbar from '@/components/landing/Navbar';
+import Footer from '@/components/landing/Footer';
+import { ArticleCard } from '@/components/landing/ArticleCard';
+
+import { C, F, IS_WEB, MAX_W, BLOG_IMGS } from '@/components/landing/constants';
+import { BLOG_ARTICLES } from '@/data/saferide';
+import { useTheme } from '@/lib/theme';
+
+// ─── Article grid ────────────────────────────────────────────────────────────
+function ArticleGrid() {
+  const T = useTheme();
+
+  return (
+    <View style={{ backgroundColor: T.background, paddingVertical: IS_WEB ? 80 : 48, paddingHorizontal: 24 }}>
+      <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
+
+        {/* Centred caption + title */}
+        <View style={{ marginBottom: 48, alignItems: 'center' }}>
+          <Text
+            style={{
+              fontFamily: F.medium, fontSize: 11, textTransform: 'uppercase',
+              letterSpacing: 2, color: T.mutedForeground, marginBottom: 12,
+            }}
+          >
+            OUR BLOG
+          </Text>
+          <Text
+            style={{
+              fontFamily: F.regular,
+              fontSize: IS_WEB ? 46 : 28,
+              lineHeight: IS_WEB ? 56 : 36,
+              letterSpacing: -0.5,
+              color: T.foreground,
+              textAlign: 'center',
+            }}
+          >
+            News &amp; Articles
+          </Text>
+        </View>
+
+        {/* 3-column grid (1 col on mobile, stacked) */}
+        <View style={IS_WEB ? { flexDirection: 'row', gap: 24, flexWrap: 'wrap' } : { gap: 24 }}>
+          {BLOG_ARTICLES.map((article, i) => (
+            <View
+              key={article.id}
+              style={IS_WEB ? { width: 'calc(33.333% - 16px)' as any } : undefined}
+            >
+              <ArticleCard article={article} image={BLOG_IMGS[i]} />
+            </View>
+          ))}
+        </View>
+
+      </View>
+    </View>
+  );
+}
+
+// ─── Page ────────────────────────────────────────────────────────────────────
+export default function BlogPage() {
+  const T = useTheme();
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: T.background }}>
+      <Navbar />
+      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+        <PageHero overline="Blog" title="News & Articles" />
+        <ArticleGrid />
+        <Footer />
+      </ScrollView>
+    </SafeAreaView>
+  );
+}

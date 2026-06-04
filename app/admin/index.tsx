@@ -38,19 +38,19 @@ function useToast() {
   const show = (text: string) => {
     setMsg(text);
     Animated.sequence([
-      Animated.timing(opacity, { toValue: 1, duration: 220, useNativeDriver: true }),
+      Animated.timing(opacity, { toValue: 1, duration: 220, useNativeDriver: Platform.OS !== 'web' }),
       Animated.delay(2800),
-      Animated.timing(opacity, { toValue: 0, duration: 300, useNativeDriver: true }),
+      Animated.timing(opacity, { toValue: 0, duration: 300, useNativeDriver: Platform.OS !== 'web' }),
     ]).start();
   };
 
   const Toast = () => (
     <Animated.View
-      pointerEvents="none"
       style={{
         position: 'absolute', bottom: 32, left: 20, right: 20,
-        backgroundColor: '#1e293b', borderRadius: 14, padding: 16,
+        backgroundColor: C.dark, borderRadius: 14, padding: 16,
         flexDirection: 'row', alignItems: 'center', gap: 10,
+        pointerEvents: 'none',
         opacity, zIndex: 999,
         shadowColor: '#000', shadowOpacity: 0.25, shadowRadius: 12, elevation: 10,
       }}
@@ -98,8 +98,8 @@ function RejectModal({
             multiline
             numberOfLines={3}
             style={{
-              backgroundColor: '#f9fafb', borderWidth: 1.5,
-              borderColor: reason ? '#ef4444' : C.darkBorder,
+              backgroundColor: C.white, borderWidth: 1.5,
+              borderColor: reason ? C.red : C.darkBorder,
               borderRadius: 12, paddingHorizontal: 14, paddingVertical: 12,
               color: C.heading, fontFamily: F.regular, fontSize: 14,
               textAlignVertical: 'top', minHeight: 80, marginBottom: 20,
@@ -116,7 +116,7 @@ function RejectModal({
             <TouchableOpacity
               onPress={handleConfirm}
               disabled={!reason.trim()}
-              style={{ flex: 1, paddingVertical: 13, borderRadius: 12, alignItems: 'center', backgroundColor: reason.trim() ? '#dc2626' : '#fca5a5' }}
+              style={{ flex: 1, paddingVertical: 13, borderRadius: 12, alignItems: 'center', backgroundColor: reason.trim() ? C.red : 'rgba(225, 29, 46, 0.4)' }}
               activeOpacity={0.85}
             >
               <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: 14 }}>Confirm Rejection</Text>
@@ -158,7 +158,7 @@ function NotesSection({
   };
 
   return (
-    <View style={{ borderTopWidth: 1, borderTopColor: '#f1f5f9', marginTop: 12, paddingTop: 12 }}>
+    <View style={{ borderTopWidth: 1, borderTopColor: 'rgba(34, 31, 32, 0.06)', marginTop: 12, paddingTop: 12 }}>
       <TouchableOpacity
         onPress={() => setOpen(v => !v)}
         style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: open ? 12 : 0 }}
@@ -179,7 +179,7 @@ function NotesSection({
             </Text>
           )}
           {notes.map((n, i) => (
-            <View key={i} style={{ backgroundColor: '#f8fafc', borderRadius: 8, padding: 10, marginBottom: 8 }}>
+            <View key={i} style={{ backgroundColor: C.white, borderRadius: 8, padding: 10, marginBottom: 8 }}>
               <Text style={{ color: C.heading, fontFamily: F.regular, fontSize: 12, lineHeight: 18 }}>{n.text}</Text>
               <Text style={{ color: C.mutedDark, fontFamily: F.regular, fontSize: 10, marginTop: 4 }}>
                 {relativeTime(n.createdAt)} · {n.adminId.slice(0, 8)}
@@ -194,7 +194,7 @@ function NotesSection({
               placeholder="Add a note…"
               placeholderTextColor={C.mutedDark}
               style={{
-                flex: 1, backgroundColor: '#f9fafb', borderWidth: 1,
+                flex: 1, backgroundColor: C.white, borderWidth: 1,
                 borderColor: C.darkBorder, borderRadius: 10,
                 paddingHorizontal: 12, paddingVertical: 9,
                 color: C.heading, fontFamily: F.regular, fontSize: 13,
@@ -247,8 +247,8 @@ function EnrollmentCard({
 
   return (
     <View style={{
-      backgroundColor: '#ffffff', borderRadius: 16, padding: 18, marginBottom: 14,
-      borderWidth: 1, borderColor: '#e5e7eb',
+      backgroundColor: C.white, borderRadius: 16, padding: 18, marginBottom: 14,
+      borderWidth: 1, borderColor: 'rgba(34, 31, 32, 0.1)',
       shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 6, elevation: 1,
     }}>
       {/* Student + class */}
@@ -268,16 +268,16 @@ function EnrollmentCard({
 
       {/* M-Pesa code + time */}
       <View style={{ flexDirection: 'row', gap: 16, marginBottom: 14 }}>
-        <View style={{ flex: 1, backgroundColor: 'rgba(34,197,94,0.08)', borderRadius: 10, padding: 10 }}>
-          <Text style={{ color: '#6b7280', fontFamily: F.semibold, fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 3 }}>
+        <View style={{ flex: 1, backgroundColor: 'rgba(1, 165, 240, 0.08)', borderRadius: 10, padding: 10 }}>
+          <Text style={{ color: C.muted, fontFamily: F.semibold, fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 3 }}>
             M-Pesa Code
           </Text>
-          <Text style={{ color: '#16a34a', fontFamily: F.bold, fontSize: 16, letterSpacing: 1.5 }}>
+          <Text style={{ color: C.skyDeep, fontFamily: F.bold, fontSize: 16, letterSpacing: 1.5 }}>
             {enrollment.mpesaCode ?? '—'}
           </Text>
         </View>
-        <View style={{ flex: 1, backgroundColor: '#f8fafc', borderRadius: 10, padding: 10 }}>
-          <Text style={{ color: '#6b7280', fontFamily: F.semibold, fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 3 }}>
+        <View style={{ flex: 1, backgroundColor: C.white, borderRadius: 10, padding: 10 }}>
+          <Text style={{ color: C.muted, fontFamily: F.semibold, fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 3 }}>
             Submitted
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
@@ -304,7 +304,7 @@ function EnrollmentCard({
           disabled={confirming}
           style={{
             flex: 1, paddingVertical: 12, borderRadius: 12,
-            backgroundColor: '#16a34a',
+            backgroundColor: C.skyDeep,
             flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6,
           }}
           activeOpacity={0.85}
@@ -322,14 +322,14 @@ function EnrollmentCard({
           onPress={() => onReject(enrollment)}
           style={{
             flex: 1, paddingVertical: 12, borderRadius: 12,
-            backgroundColor: 'rgba(220,38,38,0.08)',
-            borderWidth: 1, borderColor: 'rgba(220,38,38,0.3)',
+            backgroundColor: 'rgba(225, 29, 46, 0.08)',
+            borderWidth: 1, borderColor: 'rgba(225, 29, 46, 0.3)',
             flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6,
           }}
           activeOpacity={0.8}
         >
-          <XCircle size={15} color="#dc2626" />
-          <Text style={{ color: '#dc2626', fontFamily: F.bold, fontSize: 14 }}>Reject</Text>
+          <XCircle size={15} color={C.red} />
+          <Text style={{ color: C.red, fontFamily: F.bold, fontSize: 14 }}>Reject</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -358,7 +358,7 @@ export default function AdminScreen() {
   if (!user || user.role !== 'branch_admin') {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 32, backgroundColor: T.background }}>
-        <Shield size={48} color="#cbd5e1" />
+        <Shield size={48} color={C.muted} />
         <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 18, marginTop: 20, textAlign: 'center' }}>
           Admin Access Only
         </Text>
@@ -452,7 +452,7 @@ export default function AdminScreen() {
           <ActivityIndicator color={C.blue} style={{ marginTop: 48 }} size="large" />
         ) : enrollments.length === 0 ? (
           <View style={{ alignItems: 'center', paddingVertical: 56 }}>
-            <CheckCircle size={48} color="#86efac" />
+            <CheckCircle size={48} color={C.skyDeep} />
             <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 16, marginTop: 16 }}>
               All caught up!
             </Text>

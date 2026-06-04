@@ -1,454 +1,451 @@
 import React, { useRef, useState, useEffect } from 'react';
 import {
   View, Text, Image, TouchableOpacity, Animated, Modal,
-  ScrollView as RNScrollView, ViewStyle, Platform,
+  ScrollView as RNScrollView, StyleSheet, Platform, Linking,
+  AccessibilityInfo,
 } from 'react-native';
-import { router } from 'expo-router';
-import { useColorScheme } from 'nativewind';
-import { Menu, X, ChevronRight, Sun, Moon } from 'lucide-react-native';
-import { useTranslation } from 'react-i18next';
-import Reanimated, {
-  useSharedValue, useAnimatedStyle, withSpring, interpolate,
-  Extrapolation, runOnJS, type SharedValue,
+import AnimatedRN, {
+  useSharedValue, useAnimatedStyle, useAnimatedReaction,
+  withSpring, withTiming, withSequence, withDelay, withRepeat,
+  interpolate, runOnJS, cancelAnimation, Easing,
 } from 'react-native-reanimated';
+import type { SharedValue } from 'react-native-reanimated';
+import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
+import { router, usePathname } from 'expo-router';
+import { useColorScheme } from 'nativewind';
+import {
+  Menu, X, ChevronRight, Sun, Moon, Phone, GraduationCap,
+  Home, Info, BookOpen, Wrench, MapPin, Mail, Image as ImageIcon, FileText,
+} from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W, NAV_ITEMS } from './constants';
-import { useAuth } from '@/context/AuthContext';
+import { COMPANY } from '@/data/saferide';
+import { useEnrollModal } from '@/context/EnrollModalContext';
 import LanguageSwitcher from './LanguageSwitcher';
+import LaneStrip from './LaneStrip';
 
-// Facebook blue palette — keeps in sync with --nav-bg-* CSS tokens in global.css
-const FB_SOLID_LIGHT = 'rgb(24,119,242)'
-const FB_GLASS_LIGHT = 'rgba(24,119,242,0.55)'
-const FB_SOLID_DARK  = 'rgb(16,96,204)'
-const FB_GLASS_DARK  = 'rgba(16,96,204,0.55)'
+const LOGO = require('../../../assets/images/saferide-logo.jpg');
 
-const LOGO = require('../../../assets/images/saferide-logo.png');
+// ─── Per-pill gradient config (palette-only colours) ─────────────────────────
+const NAV_PILLS = [
+  { key: 'home',     label: 'Home',     path: '/',         Icon: Home,      gradFrom: C.skyDeep,  gradTo: C.skyLight },
+  { key: 'about',    label: 'About',    path: '/about',    Icon: Info,      gradFrom: C.skyLight, gradTo: C.skyDeep  },
+  { key: 'courses',  label: 'Courses',  path: '/courses',  Icon: BookOpen,  gradFrom: C.yellow,   gradTo: C.skyDeep  },
+  { key: 'services', label: 'Services', path: '/services', Icon: Wrench,    gradFrom: C.skyDeep,  gradTo: C.yellow   },
+  { key: 'gallery',  label: 'Gallery',  path: '/gallery',  Icon: ImageIcon, gradFrom: C.skyLight, gradTo: C.skyDeep  },
+  { key: 'blog',     label: 'Blog',     path: '/blog',     Icon: FileText,  gradFrom: C.yellow,   gradTo: C.skyLight },
+  { key: 'branches', label: 'Branches', path: '/branches', Icon: MapPin,    gradFrom: C.skyDeep,  gradTo: C.skyLight },
+  { key: 'contact',  label: 'Contact',  path: '/contact',  Icon: Mail,      gradFrom: C.yellow,   gradTo: C.red      },
+] as const;
 
-const SECTION_TO_NAV_KEY: Record<string, string> = {
-  hero:     'home',
-  services: 'services',
-  courses:  'courses',
-  about:    'about',
-  gallery:  'gallery',
-  footer:   'contact',
-};
+const PILL_SPRING  = { damping: 14, stiffness: 200 };
+const PILL_H       = 40;   // collapsed height
+const PILL_W_OPEN  = 140;  // expanded width
+const PILL_W_CLOSE = 40;   // collapsed width (circle)
 
-const PILL_COLLAPSED_W = 180;
-const PILL_EXPANDED_W  = 460;   // capped so pill never touches logo or right cluster
-const SPRING_CFG       = { damping: 18, stiffness: 180 } as const;
-const BTN_SPRING       = { friction: 7, tension: 280 } as const;
+// ─── Single gradient pill ─────────────────────────────────────────────────────
+function NavPill({
+  item, isActive,
+}: {
+  item: (typeof NAV_PILLS)[number]
+  isActive: boolean
+}) {
+  const expanded      = useSharedValue(isActive ? 1 : 0);
+  const isHoveredRef  = useRef(false);
 
-// ─── Per-item animated nav item ───────────────────────────────────────────────
-interface PillNavItemProps {
-  item:         typeof NAV_ITEMS[0];
-  index:        number;
-  totalItems:   number;
-  pillProgress: SharedValue<number>;
-  activeSection:string;
-  onPress:      () => void;
-  t:            (key: string) => string;
-}
-
-function PillNavItem({
-  item, index, totalItems, pillProgress, activeSection, onPress, t,
-}: PillNavItemProps) {
-  const { colorScheme } = useColorScheme();
-  const navKey  = SECTION_TO_NAV_KEY[item.section] ?? item.section;
-  const isActive = activeSection === item.section;
-  // In light mode, yellow on Facebook blue is high-contrast and on-brand.
-  // In dark mode, white reads well on the darker blue.
-  const inactiveColor = colorScheme === 'dark' ? 'rgba(255,255,255,0.85)' : C.yellow;
-
-  const style = useAnimatedStyle(() => {
-    const start = 0.05 + index * (0.65 / totalItems);
-    const end   = start + 0.25;
-    const p = interpolate(pillProgress.value, [start, end], [0, 1], Extrapolation.CLAMP);
-    return {
-      opacity: p,
-      transform: [{ translateX: interpolate(p, [0, 1], [14, 0]) }],
-    };
-  });
-
-  return (
-    <Reanimated.View style={style}>
-      <TouchableOpacity
-        onPress={onPress}
-        style={{ paddingHorizontal: 10, paddingVertical: 6 }}
-        activeOpacity={0.75}
-      >
-        <Text
-          style={{
-            color:      isActive ? C.yellow : inactiveColor,
-            fontFamily: isActive ? F.semibold : F.medium,
-            fontSize:   13,
-          }}
-        >
-          {t('nav.' + navKey)}
-        </Text>
-        {isActive && (
-          <View style={{ height: 2, backgroundColor: C.yellow, borderRadius: 1, marginTop: 2 }} />
-        )}
-      </TouchableOpacity>
-    </Reanimated.View>
-  );
-}
-
-// ─── Navbar ───────────────────────────────────────────────────────────────────
-interface NavbarProps {
-  scrollY:       Animated.Value;
-  onNavPress:    (section: string) => void;
-  activeSection: string;
-}
-
-export default function Navbar({ scrollY, onNavPress, activeSection }: NavbarProps) {
-  const { t }    = useTranslation();
-  const { user } = useAuth();
-  const { colorScheme, toggleColorScheme } = useColorScheme();
-  const isDark = colorScheme === 'dark';
-
-  // Sky blue means white text in all states
-  const NAV_FG      = '#ffffff';
-  const NAV_FG_MUTED = isDark ? '#bae6fd' : '#e0f2fe';
-
-  // Pill and button surfaces: white-tinted on Facebook blue
-  const pillBg     = 'rgba(255,255,255,0.15)';
-  const pillBorder = 'rgba(255,255,255,0.28)';
-  const btnBg      = 'rgba(255,255,255,0.18)';
-  const btnBorder  = 'rgba(255,255,255,0.30)';
-
-  const [drawerOpen,   setDrawerOpen]   = useState(false);
-  const [pillExpanded, setPillExpanded] = useState(false);
-  const [isScrolled,   setIsScrolled]   = useState(false);
-
-  // Scroll listener drives the resting→glass transition at 80px
+  // Keep active pill expanded even without hover
   useEffect(() => {
-    const id = scrollY.addListener(({ value }) => setIsScrolled(value > 80));
-    return () => scrollY.removeListener(id);
-  }, [scrollY]);
+    if (!isHoveredRef.current) {
+      expanded.value = withSpring(isActive ? 1 : 0, PILL_SPRING);
+    }
+  }, [isActive]);
 
-  // Reanimated — pill progress (0 = collapsed, 1 = expanded)
-  const pillProgress = useSharedValue(0);
-
-  // RN Animated — drawer slide + button press animations (native driver)
-  const drawerAnim = useRef(new Animated.Value(0)).current;
-  const regAnim    = useRef(new Animated.Value(1)).current;
-  const signAnim   = useRef(new Animated.Value(1)).current;
-
-  const springPress = (anim: Animated.Value, cb: () => void) => {
-    Animated.sequence([
-      Animated.spring(anim, { toValue: 0.92, useNativeDriver: true, ...BTN_SPRING }),
-      Animated.spring(anim, { toValue: 1,    useNativeDriver: true, ...BTN_SPRING }),
-    ]).start(() => cb());
-  };
-
-  // ── Background: Facebook blue at rest → translucent FB blue when scrolled past 80px ──
-  const solidBg  = isDark ? FB_SOLID_DARK : FB_SOLID_LIGHT;
-  const glassyBg = isDark ? FB_GLASS_DARK : FB_GLASS_LIGHT;
-
-  // Web uses CSS variables; native uses hardcoded rgba
-  const navBgWeb    = isScrolled ? 'rgba(var(--nav-bg-glass))' : 'rgb(var(--nav-bg-solid))';
-  const navBgNative = isScrolled ? glassyBg : solidBg;
-
-  // ── Pill animations ────────────────────────────────────────────────────────
-  const expandPill = () => {
-    setPillExpanded(true);
-    pillProgress.value = withSpring(1, SPRING_CFG);
-  };
-
-  const collapsePill = () => {
-    pillProgress.value = withSpring(0, SPRING_CFG, (finished) => {
-      if (finished) runOnJS(setPillExpanded)(false);
-    });
-  };
-
-  const togglePill = () => (pillExpanded ? collapsePill() : expandPill());
-
-  const pillWidthStyle = useAnimatedStyle(() => ({
-    width: interpolate(
-      pillProgress.value,
-      [0, 1],
-      [PILL_COLLAPSED_W, PILL_EXPANDED_W],
-      Extrapolation.CLAMP,
-    ),
+  const pillStyle = useAnimatedStyle(() => ({
+    width: interpolate(expanded.value, [0, 1], [PILL_W_CLOSE, PILL_W_OPEN]),
   }));
 
-  const labelFadeStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(pillProgress.value, [0, 0.2], [1, 0], Extrapolation.CLAMP),
+  const gradStyle = useAnimatedStyle(() => ({
+    opacity: expanded.value,
   }));
 
-  // ── Drawer ─────────────────────────────────────────────────────────────────
-  const openDrawer = () => {
-    setDrawerOpen(true);
-    Animated.timing(drawerAnim, { toValue: 1, duration: 260, useNativeDriver: true }).start();
-  };
+  const iconStyle = useAnimatedStyle(() => ({
+    opacity: 1 - expanded.value,
+    transform: [{ scale: interpolate(expanded.value, [0, 1], [1, 0.5]) }],
+  }));
 
-  const closeDrawer = () => {
-    Animated.timing(drawerAnim, { toValue: 0, duration: 200, useNativeDriver: true }).start(
-      () => setDrawerOpen(false),
-    );
-  };
+  const labelStyle = useAnimatedStyle(() => ({
+    opacity: expanded.value,
+    transform: [{ scale: interpolate(expanded.value, [0, 1], [0.8, 1]) }],
+  }));
 
-  const drawerTranslate = drawerAnim.interpolate({ inputRange: [0, 1], outputRange: [-320, 0] });
-
-  const handleNav = (section: string) => {
-    onNavPress(section);
-    closeDrawer();
-    collapsePill();
-  };
-
-  const activeNavKey = SECTION_TO_NAV_KEY[activeSection] ?? activeSection;
-  const activeLabel  = t('nav.' + activeNavKey);
-
-  const hoverProps = IS_WEB
-    ? ({ onMouseEnter: expandPill, onMouseLeave: collapsePill } as any)
+  // Web hover props — RNW passes these through to the DOM
+  const webHover = Platform.OS === 'web'
+    ? {
+        onMouseEnter: () => {
+          isHoveredRef.current = true;
+          expanded.value = withSpring(1, PILL_SPRING);
+        },
+        onMouseLeave: () => {
+          isHoveredRef.current = false;
+          expanded.value = withSpring(isActive ? 1 : 0, PILL_SPRING);
+        },
+      }
     : {};
 
   return (
+    <TouchableOpacity
+      onPress={() => router.push(item.path as any)}
+      // Native: press briefly expands the pill before navigating
+      onPressIn={() => { if (Platform.OS !== 'web') expanded.value = withSpring(1, PILL_SPRING); }}
+      onPressOut={() => { if (Platform.OS !== 'web') expanded.value = withSpring(isActive ? 1 : 0, PILL_SPRING); }}
+      activeOpacity={0.9}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      {...(webHover as any)}
+    >
+      {/* Outer animated width wrapper */}
+      <AnimatedRN.View style={[pillStyle, styles.pillOuter]}>
+        {/* Gradient fill — fades in on expand */}
+        <AnimatedRN.View style={[StyleSheet.absoluteFillObject, gradStyle]}>
+          <LinearGradient
+            colors={[item.gradFrom, item.gradTo]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={StyleSheet.absoluteFillObject}
+          />
+        </AnimatedRN.View>
+
+        {/* Icon — fades out on expand */}
+        <AnimatedRN.View style={[StyleSheet.absoluteFillObject, styles.pillCenter, iconStyle]}>
+          <item.Icon size={16} color="rgba(34,31,32,0.50)" />
+        </AnimatedRN.View>
+
+        {/* Label — fades in on expand */}
+        <AnimatedRN.View style={[StyleSheet.absoluteFillObject, styles.pillCenter, labelStyle]}>
+          <Text style={styles.pillLabel}>{item.label}</Text>
+        </AnimatedRN.View>
+      </AnimatedRN.View>
+    </TouchableOpacity>
+  );
+}
+
+// ─── Main Navbar ──────────────────────────────────────────────────────────────
+interface NavbarProps {
+  scrollY?: SharedValue<number>;
+}
+
+export default function Navbar({ scrollY }: NavbarProps) {
+  const { t }    = useTranslation();
+  const { colorScheme, toggleColorScheme } = useColorScheme();
+  const isDark   = colorScheme === 'dark';
+  const pathname = usePathname();
+
+  const { open: openEnrollModal } = useEnrollModal();
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const drawerAnim = useRef(new Animated.Value(0)).current;
+
+  const isItemActive = (path: string) =>
+    path === '/' ? pathname === '/' : pathname.startsWith(path);
+
+  // Glass effect when scrolled — driven by Reanimated shared value
+  useAnimatedReaction(
+    () => scrollY?.value ?? 0,
+    (value, prev) => {
+      if (value !== prev) runOnJS(setIsScrolled)(value > 80);
+    },
+  );
+
+  // ── Reduced motion ───────────────────────────────────────────────────────────
+  const [reduceMotion, setReduceMotion] = useState(false);
+  useEffect(() => {
+    AccessibilityInfo.isReduceMotionEnabled().then(setReduceMotion);
+    const sub = AccessibilityInfo.addEventListener('reduceMotionChanged', setReduceMotion);
+    return () => sub.remove();
+  }, []);
+
+  // ── Phone ring-shake every 5 s — silenced if reduceMotion ───────────────────
+  const shake = useSharedValue(0);
+
+  useEffect(() => {
+    if (reduceMotion) {
+      cancelAnimation(shake);
+      shake.value = 0;
+      return;
+    }
+    shake.value = withRepeat(
+      withSequence(
+        withTiming(-8, { duration: 80 }),
+        withTiming( 8, { duration: 80 }),
+        withTiming(-6, { duration: 80 }),
+        withTiming( 6, { duration: 80 }),
+        withTiming(-3, { duration: 80 }),
+        withTiming( 3, { duration: 80 }),
+        withTiming( 0, { duration: 80 }),
+        withDelay(4440, withTiming(0, { duration: 1 })),
+      ),
+      -1,
+      false,
+    );
+  }, [reduceMotion]);
+
+  const phoneShakeStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${shake.value}deg` }],
+  }));
+
+  // ── Enrol glow breath every 2 s — silenced if reduceMotion ──────────────────
+  const glow = useSharedValue(0);
+
+  useEffect(() => {
+    if (reduceMotion) {
+      cancelAnimation(glow);
+      glow.value = 0;
+      return;
+    }
+    glow.value = withRepeat(
+      withTiming(1, { duration: 2000, easing: Easing.inOut(Easing.sin) }),
+      -1,
+      true,
+    );
+  }, [reduceMotion]);
+
+  const enrolGlowStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(glow.value, [0, 1], [0.3, 0.7]);
+    const radius  = interpolate(glow.value, [0, 1], [6, 16]);
+    const size    = interpolate(glow.value, [0, 1], [8, 20]);
+    const elev    = interpolate(glow.value, [0, 1], [4, 10]);
+    return {
+      shadowColor: C.skyDeep,
+      shadowOpacity: opacity,
+      shadowRadius: radius,
+      shadowOffset: { width: 0, height: 0 },
+      elevation: elev,
+      ...(IS_WEB && {
+        boxShadow: `0 0 ${size}px rgba(1,165,240,${opacity})`,
+      }),
+    };
+  });
+
+  // ── Enrol icon nudge on hover / press ────────────────────────────────────────
+  const iconNudge = useSharedValue(0);
+
+  const iconNudgeStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: iconNudge.value }],
+  }));
+
+  // ── Colour tokens — header is always skyDeep in light mode ─────────────────
+  const bg       = isDark ? C.dark    : C.skyDeep;
+  const bgGlass  = isDark ? 'rgba(34,31,32,0.88)' : 'rgba(1,165,240,0.92)';
+  const navBg    = isScrolled ? bgGlass : bg;
+  const borderC  = 'rgba(255,255,255,0.12)';  // white divider works on both dark and skyDeep
+  const iconC    = C.white;                    // always white — readable on both skyDeep and dark
+  const btnBg    = 'rgba(255,255,255,0.15)';   // subtle white tint on coloured bg
+
+  // ── Mobile drawer ───────────────────────────────────────────────────────────
+  const openDrawer = () => {
+    setDrawerOpen(true);
+    Animated.timing(drawerAnim, { toValue: 1, duration: 260, useNativeDriver: Platform.OS !== 'web' }).start();
+  };
+  const closeDrawer = () => {
+    Animated.timing(drawerAnim, { toValue: 0, duration: 200, useNativeDriver: Platform.OS !== 'web' }).start(
+      () => setDrawerOpen(false),
+    );
+  };
+  const drawerTranslate = drawerAnim.interpolate({ inputRange: [0, 1], outputRange: [-300, 0] });
+
+  const handleNav = (path: string) => { router.push(path as any); closeDrawer(); };
+
+  return (
     <>
-      <Animated.View
+      {/* ══════════════════════════════════════════════════════════════════════
+          MAIN ROW — logo  |  gradient pills (web)  |  controls
+      ══════════════════════════════════════════════════════════════════════ */}
+      <View
         style={[
+          styles.row,
           {
-            position:          'relative',
-            zIndex:            50,
-            backgroundColor:   IS_WEB ? navBgWeb : navBgNative,
-            borderBottomWidth: isScrolled ? 1 : 0,
-            borderBottomColor: 'rgba(255,255,255,0.18)',
-          } as ViewStyle,
-          IS_WEB && ({
-            backdropFilter:       isScrolled ? 'blur(18px) saturate(160%)' : 'none',
-            WebkitBackdropFilter: isScrolled ? 'blur(18px) saturate(160%)' : 'none',
-            transition:           'background-color 0.35s ease, backdrop-filter 0.35s ease',
+            backgroundColor: navBg,
+            borderBottomColor: borderC,
+          },
+          IS_WEB && isScrolled && ({
+            backdropFilter:       'blur(18px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(18px) saturate(160%)',
           } as any),
         ]}
       >
-        {/* Native frosted-glass: only when scrolled past 80px */}
+        {/* Native frosted glass */}
         {Platform.OS !== 'web' && isScrolled && (
           <BlurView
             intensity={70}
-            tint="light"
-            style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+            tint="dark"
+            style={StyleSheet.absoluteFillObject}
           />
         )}
 
-        <View
-          style={{
-            maxWidth:          IS_WEB ? MAX_W : undefined,
-            width:             '100%',
-            alignSelf:         'center',
-            flexDirection:     'row',
-            alignItems:        'center',
-            justifyContent:    'space-between',
-            paddingHorizontal: 24,
-            paddingVertical:   14,
-          }}
-        >
+        <View style={[styles.rowInner, IS_WEB ? { maxWidth: MAX_W } : {}]}>
+
           {/* Logo */}
           <TouchableOpacity
-            onPress={() => handleNav('hero')}
-            style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
+            onPress={() => handleNav('/')}
+            style={styles.logoRow}
             activeOpacity={0.85}
           >
-            <Image source={LOGO} style={{ width: 44, height: 44, borderRadius: 8 }} resizeMode="contain" />
+            <Image source={LOGO} style={styles.logoImg} resizeMode="contain" />
             <View>
-              <Text style={{ color: isDark ? NAV_FG : C.yellow, fontFamily: F.bold, fontSize: 17, letterSpacing: 0.3 }}>
-                {t('nav.brand')}
-              </Text>
-              <Text style={{ color: C.yellow, fontFamily: F.regular, fontSize: 9, letterSpacing: 1.5, textTransform: 'uppercase' }}>
-                {t('nav.tagline')}
-              </Text>
+              <Text style={styles.brandName}>{t('nav.brand')}</Text>
+              <Text style={styles.brandTag}>{t('nav.tagline')}</Text>
             </View>
           </TouchableOpacity>
 
-          {/* Web: animated pill nav — flex:1 + margin keeps it from touching logo or right cluster */}
+          {/* Gradient pills — web only, center of the row */}
           {IS_WEB && (
-            <View style={{ flex: 1, alignItems: 'center', marginHorizontal: 16 }}>
-            <TouchableOpacity onPress={togglePill} activeOpacity={1} {...hoverProps}>
-              <Reanimated.View
-                style={[
-                  {
-                    height:            42,
-                    borderRadius:      21,
-                    backgroundColor:   pillBg,
-                    borderWidth:       1,
-                    borderColor:       pillBorder,
-                    flexDirection:     'row',
-                    alignItems:        'center',
-                    justifyContent:    pillExpanded ? 'space-around' : 'center',
-                    overflow:          'hidden',
-                    paddingHorizontal: 12,
-                    shadowColor:       '#000',
-                    shadowOpacity:     0.20,
-                    shadowRadius:      8,
-                    elevation:         4,
-                  },
-                  pillWidthStyle,
-                ]}
-              >
-                <Reanimated.View
-                  pointerEvents="none"
-                  style={[
-                    { position: 'absolute', left: 0, right: 0, alignItems: 'center' },
-                    labelFadeStyle,
-                  ]}
-                >
-                  <Text style={{ color: C.yellow, fontFamily: F.semibold, fontSize: 13 }}>
-                    {activeLabel}
-                  </Text>
-                </Reanimated.View>
-
-                {pillExpanded && NAV_ITEMS.map((item, i) => (
-                  <PillNavItem
-                    key={item.section}
-                    item={item}
-                    index={i}
-                    totalItems={NAV_ITEMS.length}
-                    pillProgress={pillProgress}
-                    activeSection={activeSection}
-                    onPress={() => handleNav(item.section)}
-                    t={t}
-                  />
-                ))}
-              </Reanimated.View>
-            </TouchableOpacity>
+            <View style={styles.pillRow}>
+              {NAV_PILLS.map(pill => (
+                <NavPill key={pill.key} item={pill} isActive={isItemActive(pill.path)} />
+              ))}
             </View>
           )}
 
-          {/* Right cluster */}
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-            {/* Language switcher — web only; mobile accesses it via drawer */}
+          {/* Controls */}
+          <View style={styles.controls}>
             {IS_WEB && <LanguageSwitcher />}
 
-            {/* Dark-mode toggle — white circle on Facebook blue */}
+            {/* Dark-mode toggle */}
             <TouchableOpacity
               onPress={toggleColorScheme}
-              style={{ backgroundColor: btnBg, borderRadius: 8, padding: 8, borderWidth: 1, borderColor: btnBorder }}
+              style={[styles.iconBtn, { backgroundColor: btnBg }]}
               activeOpacity={0.8}
             >
-              {isDark ? <Sun size={16} color={C.yellow} /> : <Moon size={16} color={C.dark} />}
+              {isDark
+                ? <Sun  size={15} color={C.yellow} />
+                : <Moon size={15} color={iconC}    />}
             </TouchableOpacity>
 
-            {/* Register — outlined button, web only, guests only */}
-            {IS_WEB && !user && (
-              <Animated.View style={{ transform: [{ scale: regAnim }] }}>
-                <TouchableOpacity
-                  onPress={() => springPress(regAnim, () => router.push('/register'))}
-                  activeOpacity={1}
-                  style={{
-                    borderWidth: 1.5,
-                    borderColor: isDark ? 'rgba(255,255,255,0.75)' : C.yellow,
-                    paddingHorizontal: 16,
-                    paddingVertical: 8,
-                    borderRadius: 20,
-                  }}
-                >
-                  <Text style={{ color: isDark ? NAV_FG : C.yellow, fontFamily: F.semibold, fontSize: 13 }}>
-                    Register
-                  </Text>
-                </TouchableOpacity>
-              </Animated.View>
-            )}
+            {/* Call Now */}
+            <TouchableOpacity
+              onPress={() => Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`)}
+              activeOpacity={0.85}
+              style={styles.callBtn}
+            >
+              <AnimatedRN.View style={phoneShakeStyle}>
+                <Phone size={13} color={C.white} />
+              </AnimatedRN.View>
+              {IS_WEB && (
+                <Text style={styles.callText}>Call Now</Text>
+              )}
+            </TouchableOpacity>
 
-            {/* Sign In / My Account — yellow filled button */}
-            <Animated.View style={{ transform: [{ scale: signAnim }] }}>
+            {/* Enrol Now */}
+            <AnimatedRN.View style={[{ borderRadius: 18 }, enrolGlowStyle]}>
               <TouchableOpacity
-                onPress={() => springPress(signAnim, () => router.push(user ? '/account' : '/login'))}
-                activeOpacity={1}
-                style={{ backgroundColor: C.yellow, paddingHorizontal: IS_WEB ? 18 : 14, paddingVertical: 9, borderRadius: 20, shadowColor: C.yellow, shadowOpacity: 0.35, shadowRadius: 8, elevation: 4 }}
+                onPress={() => openEnrollModal()}
+                activeOpacity={0.85}
+                style={[styles.enrolBtn, { shadowOpacity: 0, elevation: 0 }]}
+                onPressIn={Platform.OS !== 'web' ? () => { iconNudge.value = withTiming(4, { duration: 150 }); } : undefined}
+                onPressOut={Platform.OS !== 'web' ? () => { iconNudge.value = withTiming(0, { duration: 150 }); } : undefined}
+                {...(IS_WEB ? ({
+                  onMouseEnter: () => { iconNudge.value = withTiming(4, { duration: 150 }); },
+                  onMouseLeave: () => { iconNudge.value = withTiming(0, { duration: 150 }); },
+                } as any) : {})}
               >
-                <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 13 }}>
-                  {user ? 'My Account' : t('nav.signIn')}
-                </Text>
+                <AnimatedRN.View style={iconNudgeStyle}>
+                  <GraduationCap size={13} color={C.dark} />
+                </AnimatedRN.View>
+                <Text style={styles.enrolText}>{IS_WEB ? 'Enrol Now' : 'Enrol'}</Text>
               </TouchableOpacity>
-            </Animated.View>
+            </AnimatedRN.View>
 
             {/* Mobile hamburger */}
             {!IS_WEB && (
               <TouchableOpacity
                 onPress={openDrawer}
-                style={{ backgroundColor: 'rgba(255,255,255,0.15)', borderRadius: 8, padding: 8, borderWidth: 1, borderColor: 'rgba(255,255,255,0.25)' }}
+                style={[styles.iconBtn, { backgroundColor: btnBg }]}
                 activeOpacity={0.8}
               >
-                <Menu size={20} color={NAV_FG} />
+                <Menu size={18} color={iconC} />
               </TouchableOpacity>
             )}
           </View>
         </View>
-      </Animated.View>
+      </View>
 
-      {/* Mobile slide-in drawer */}
+      {/* Lane strip */}
+      <LaneStrip />
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          Mobile drawer
+      ══════════════════════════════════════════════════════════════════════ */}
       {!IS_WEB && (
         <Modal visible={drawerOpen} transparent animationType="none" onRequestClose={closeDrawer}>
-          <TouchableOpacity style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.55)' }} activeOpacity={1} onPress={closeDrawer}>
+          <TouchableOpacity
+            style={{ flex: 1, backgroundColor: 'rgba(34,31,32,0.55)' }}
+            activeOpacity={1}
+            onPress={closeDrawer}
+          >
             <Animated.View
-              style={{
-                position: 'absolute', top: 0, left: 0, bottom: 0, width: 280,
-                backgroundColor: C.darkCard,
-                transform: [{ translateX: drawerTranslate }],
-                shadowColor: '#000', shadowOpacity: 0.5, shadowRadius: 20, elevation: 16,
-              }}
+              style={[
+                styles.drawer,
+                { backgroundColor: isDark ? C.dark : C.white },
+                { transform: [{ translateX: drawerTranslate }] },
+              ]}
             >
               <TouchableOpacity activeOpacity={1}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 20, borderBottomWidth: 1, borderBottomColor: C.darkBorder }}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                    <Image source={LOGO} style={{ width: 36, height: 36, borderRadius: 6 }} resizeMode="contain" />
-                    <Text style={{ color: C.white, fontFamily: F.bold, fontSize: 15 }}>{t('nav.brand')}</Text>
+                {/* Drawer header */}
+                <View style={[styles.drawerHeader, { backgroundColor: C.skyDeep }]}>
+                  <View style={styles.logoRow}>
+                    <Image source={LOGO} style={[styles.logoImg, { width: 32, height: 32 }]} resizeMode="contain" />
+                    <Text style={styles.brandName}>{t('nav.brand')}</Text>
                   </View>
                   <TouchableOpacity onPress={closeDrawer} style={{ padding: 4 }}>
-                    <X size={20} color={C.mutedDark} />
+                    <X size={20} color="rgba(255,255,255,0.70)" />
                   </TouchableOpacity>
                 </View>
 
-                <RNScrollView style={{ paddingTop: 12 }}>
+                {/* Nav items */}
+                <RNScrollView style={{ paddingTop: 8 }}>
                   {NAV_ITEMS.map(item => {
-                    const navKey = SECTION_TO_NAV_KEY[item.section] ?? item.section;
+                    const active = isItemActive(item.path);
                     return (
                       <TouchableOpacity
-                        key={item.section}
-                        onPress={() => handleNav(item.section)}
-                        style={{
-                          flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-                          paddingHorizontal: 20, paddingVertical: 16,
-                          backgroundColor: activeSection === item.section ? 'rgba(251,191,36,0.08)' : 'transparent',
-                          borderLeftWidth: activeSection === item.section ? 3 : 0,
-                          borderLeftColor: C.yellow,
-                        }}
+                        key={item.path}
+                        onPress={() => handleNav(item.path)}
+                        style={[
+                          styles.drawerItem,
+                          active && { backgroundColor: 'rgba(1,165,240,0.08)', borderLeftWidth: 3, borderLeftColor: C.skyDeep },
+                        ]}
                         activeOpacity={0.7}
                       >
-                        <Text style={{ color: activeSection === item.section ? C.yellow : C.white, fontFamily: activeSection === item.section ? F.semibold : F.regular, fontSize: 15 }}>
-                          {t('nav.' + navKey)}
+                        <Text style={{
+                          color:      active ? C.skyDeep : (isDark ? C.white : C.dark),
+                          fontFamily: active ? F.semibold : F.regular,
+                          fontSize:   14,
+                        }}>
+                          {t('nav.' + item.key)}
                         </Text>
-                        <ChevronRight size={16} color={C.mutedDark} />
+                        <ChevronRight size={15} color="rgba(34,31,32,0.40)" />
                       </TouchableOpacity>
                     );
                   })}
 
-                  <View style={{ padding: 20, marginTop: 8, gap: 10 }}>
-                    {user ? (
-                      <TouchableOpacity
-                        onPress={() => { closeDrawer(); router.push('/account'); }}
-                        style={{ backgroundColor: C.yellow, paddingVertical: 14, borderRadius: 12, alignItems: 'center' }}
-                        activeOpacity={0.85}
-                      >
-                        <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 14 }}>My Account</Text>
-                      </TouchableOpacity>
-                    ) : (
-                      <>
-                        <TouchableOpacity
-                          onPress={() => { closeDrawer(); router.push('/login'); }}
-                          style={{ backgroundColor: C.yellow, paddingVertical: 14, borderRadius: 12, alignItems: 'center' }}
-                          activeOpacity={0.85}
-                        >
-                          <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 14 }}>{t('nav.signIn')}</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          onPress={() => { closeDrawer(); router.push('/register'); }}
-                          style={{ paddingVertical: 14, borderRadius: 12, alignItems: 'center', borderWidth: 1, borderColor: C.darkBorder }}
-                          activeOpacity={0.85}
-                        >
-                          <Text style={{ color: C.mutedDark, fontFamily: F.bold, fontSize: 14 }}>Register</Text>
-                        </TouchableOpacity>
-                      </>
-                    )}
+                  {/* Drawer CTAs */}
+                  <View style={styles.drawerCTAs}>
+                    <TouchableOpacity
+                      onPress={() => { closeDrawer(); openEnrollModal(); }}
+                      style={[styles.enrolBtn, { paddingVertical: 13, borderRadius: 11, justifyContent: 'center' }]}
+                      activeOpacity={0.85}
+                    >
+                      <GraduationCap size={15} color={C.dark} />
+                      <Text style={styles.enrolText}>Enrol Now</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => { closeDrawer(); Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`); }}
+                      style={[styles.callBtn, { paddingVertical: 13, borderRadius: 11, justifyContent: 'center' }]}
+                      activeOpacity={0.85}
+                    >
+                      <Phone size={14} color={C.white} />
+                      <Text style={styles.callText}>Call Now</Text>
+                    </TouchableOpacity>
                   </View>
                 </RNScrollView>
               </TouchableOpacity>
@@ -459,3 +456,151 @@ export default function Navbar({ scrollY, onNavPress, activeSection }: NavbarPro
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  row: {
+    borderBottomWidth: 1,
+    zIndex: 50,
+  },
+  rowInner: {
+    width: '100%',
+    alignSelf: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    gap: 8,
+  },
+  logoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    flexShrink: 0,
+  },
+  logoImg: {
+    width: 62,
+    height: 62,
+    borderRadius: 12,
+  },
+  brandName: {
+    fontFamily: F.bold,
+    fontSize: 19,
+    letterSpacing: 0.3,
+    color: C.white,
+  },
+  brandTag: {
+    color: C.yellow,
+    fontFamily: F.semibold,
+    fontSize: 11,
+    letterSpacing: 1.5,
+    textTransform: 'uppercase',
+  },
+  pillRow: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    justifyContent: 'center',
+    flexWrap: 'nowrap',
+    overflow: 'hidden',
+  },
+  pillOuter: {
+    height: PILL_H,
+    borderRadius: PILL_H / 2,
+    backgroundColor: C.white,
+    overflow: 'hidden',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(34,31,32,0.10)',
+  },
+  pillCenter: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pillLabel: {
+    color: C.white,
+    fontFamily: F.bold,
+    fontSize: 10,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  controls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    flexShrink: 0,
+  },
+  iconBtn: {
+    borderRadius: 8,
+    padding: 7,
+  },
+  callBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    backgroundColor: C.red,
+    paddingHorizontal: IS_WEB ? 14 : 10,
+    paddingVertical: 7,
+    borderRadius: 18,
+    shadowColor: C.red,
+    shadowOpacity: 0.35,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  callText: {
+    fontFamily: F.semibold,
+    fontSize: 12,
+    color: C.white,
+  },
+  enrolBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    backgroundColor: C.yellow,
+    paddingHorizontal: IS_WEB ? 16 : 12,
+    paddingVertical: 8,
+    borderRadius: 18,
+    shadowColor: C.yellow,
+    shadowOpacity: 0.35,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  enrolText: {
+    color: C.dark,
+    fontFamily: F.bold,
+    fontSize: 12,
+  },
+  drawer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    width: 280,
+    shadowColor: C.dark,
+    shadowOpacity: 0.5,
+    shadowRadius: 20,
+    elevation: 16,
+  },
+  drawerHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 18,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255,255,255,0.12)',
+  },
+  drawerItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+  },
+  drawerCTAs: {
+    padding: 20,
+    marginTop: 8,
+    gap: 10,
+  },
+});

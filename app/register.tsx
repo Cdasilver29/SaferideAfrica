@@ -10,9 +10,9 @@ import { useAuth } from '../src/context/AuthContext';
 import { BRANCHES } from '../src/data/saferide';
 import { C, F, IS_WEB } from '../src/components/landing/constants';
 
-const LOGO   = require('../assets/images/saferide-logo.png');
+const LOGO   = require('../assets/images/saferide-logo.jpg');
 const BG_SRC = IS_WEB
-  ? { uri: '/DSC_2116.jpg' }
+  ? { uri: '/DSC_2116.webp' }
   : require('../assets/images/car-pic.png');
 const { height: SCREEN_H } = Dimensions.get('window');
 
@@ -39,7 +39,7 @@ function BranchPicker({
         activeOpacity={0.8}
         style={{
           flexDirection: 'row', alignItems: 'center',
-          backgroundColor: '#f9fafb',
+          backgroundColor: '#ffffff',
           borderWidth: 1.5, borderColor: value ? C.yellow : C.darkBorder,
           borderRadius: 12, paddingHorizontal: 14, paddingVertical: 14,
         }}
@@ -54,7 +54,7 @@ function BranchPicker({
         <TouchableOpacity style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', padding: 24 }} activeOpacity={1} onPress={() => setOpen(false)}>
           <TouchableOpacity activeOpacity={1}>
             <View style={{ backgroundColor: '#ffffff', borderRadius: 20, overflow: 'hidden', maxHeight: SCREEN_H * 0.65 }}>
-              <View style={{ padding: 20, borderBottomWidth: 1, borderBottomColor: '#f1f5f9' }}>
+              <View style={{ padding: 20, borderBottomWidth: 1, borderBottomColor: 'rgba(34, 31, 32, 0.06)' }}>
                 <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 16 }}>Select Branch</Text>
               </View>
               <FlatList
@@ -66,8 +66,8 @@ function BranchPicker({
                     style={{
                       flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
                       paddingHorizontal: 20, paddingVertical: 14,
-                      backgroundColor: b.id === value ? '#f0f9ff' : 'transparent',
-                      borderBottomWidth: 1, borderBottomColor: '#f8fafc',
+                      backgroundColor: b.id === value ? 'rgba(88, 204, 247, 0.08)' : 'transparent',
+                      borderBottomWidth: 1, borderBottomColor: 'rgba(34, 31, 32, 0.04)',
                     }}
                     activeOpacity={0.7}
                   >
@@ -123,7 +123,7 @@ function Input({
       secureTextEntry={secureTextEntry}
       editable={editable}
       style={{
-        backgroundColor: '#f9fafb',
+        backgroundColor: '#ffffff',
         borderWidth: 1.5,
         borderColor: filled ? C.yellow : C.darkBorder,
         borderRadius: 12,
@@ -214,9 +214,9 @@ export default function RegisterScreen() {
             <View style={{ backgroundColor: '#ffffff', paddingHorizontal: 28, paddingVertical: 28 }}>
 
               {!!error && (
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: 'rgba(239,68,68,0.08)', borderWidth: 1, borderColor: 'rgba(239,68,68,0.35)', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 12, marginBottom: 20 }}>
-                  <Shield size={14} color="#ef4444" />
-                  <Text style={{ color: '#ef4444', fontFamily: F.regular, fontSize: 13, flex: 1 }}>{error}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: 'rgba(225, 29, 46, 0.08)', borderWidth: 1, borderColor: 'rgba(225, 29, 46, 0.35)', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 12, marginBottom: 20 }}>
+                  <Shield size={14} color={C.red} />
+                  <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13, flex: 1 }}>{error}</Text>
                 </View>
               )}
 
@@ -241,7 +241,7 @@ export default function RegisterScreen() {
               </Field>
 
               <Field label="Password">
-                <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#f9fafb', borderWidth: 1.5, borderColor: password ? C.yellow : C.darkBorder, borderRadius: 12, paddingHorizontal: 14 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', borderWidth: 1.5, borderColor: password ? C.yellow : C.darkBorder, borderRadius: 12, paddingHorizontal: 14 }}>
                   <TextInput
                     value={password} onChangeText={setPassword}
                     placeholder="At least 8 characters"
@@ -256,7 +256,7 @@ export default function RegisterScreen() {
               </Field>
 
               <Field label="Confirm Password">
-                <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#f9fafb', borderWidth: 1.5, borderColor: confirmPassword ? C.yellow : C.darkBorder, borderRadius: 12, paddingHorizontal: 14 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', borderWidth: 1.5, borderColor: confirmPassword ? C.yellow : C.darkBorder, borderRadius: 12, paddingHorizontal: 14 }}>
                   <TextInput
                     value={confirmPassword} onChangeText={setConfirmPassword}
                     placeholder="Repeat your password"

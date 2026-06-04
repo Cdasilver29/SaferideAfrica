@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, TouchableOpacity, Animated, Platform } from 'react-native';
 import { router } from 'expo-router';
 import { useTheme } from '@/lib/theme';
 import {
@@ -26,7 +26,7 @@ function RevealCard({
 }) {
   const anim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
-    Animated.timing(anim, { toValue: 1, duration: 500, delay, useNativeDriver: true }).start();
+    Animated.timing(anim, { toValue: 1, duration: 500, delay, useNativeDriver: Platform.OS !== 'web' }).start();
   }, []);
   return (
     <Animated.View
@@ -51,8 +51,8 @@ function ServiceCard({
   const T = useTheme();
   const Icon      = ICON_MAP[svc.iconName] ?? Shield;
   const scaleAnim = useRef(new Animated.Value(1)).current;
-  const onIn  = () => Animated.spring(scaleAnim, { toValue: 0.97, useNativeDriver: true, tension: 200, friction: 10 }).start();
-  const onOut = () => Animated.spring(scaleAnim, { toValue: 1,    useNativeDriver: true, tension: 200, friction: 10 }).start();
+  const onIn  = () => Animated.spring(scaleAnim, { toValue: 0.97, useNativeDriver: Platform.OS !== 'web', tension: 200, friction: 10 }).start();
+  const onOut = () => Animated.spring(scaleAnim, { toValue: 1,    useNativeDriver: Platform.OS !== 'web', tension: 200, friction: 10 }).start();
 
   return (
     <Animated.View
@@ -121,8 +121,8 @@ function ServiceCard({
         style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
         activeOpacity={0.75}
       >
-        <Text style={{ color: C.blue, fontFamily: F.semibold, fontSize: 12 }}>{readMore}</Text>
-        <ChevronRight size={13} color={C.blue} />
+        <Text style={{ color: C.red, fontFamily: F.semibold, fontSize: 12 }}>{readMore}</Text>
+        <ChevronRight size={13} color={C.red} />
       </TouchableOpacity>
     </Animated.View>
   );

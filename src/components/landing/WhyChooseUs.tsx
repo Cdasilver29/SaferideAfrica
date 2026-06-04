@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Animated } from 'react-native';
+import { View, Text, Animated, Platform } from 'react-native';
 import { BookOpen, Map, Tag, Award, Clock } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W, WHY_FEATURES, STATS } from './constants';
@@ -49,11 +49,11 @@ export default function WhyChooseUs() {
   const featureAnims = useRef(WHY_FEATURES.map(() => new Animated.Value(0))).current;
 
   useEffect(() => {
-    Animated.stagger(100, featureAnims.map(a => Animated.timing(a, { toValue: 1, duration: 480, useNativeDriver: true }))).start();
+    Animated.stagger(100, featureAnims.map(a => Animated.timing(a, { toValue: 1, duration: 480, useNativeDriver: Platform.OS !== 'web' }))).start();
   }, []);
 
   return (
-    <View style={{ backgroundColor: C.darkBg, paddingVertical: 72, paddingHorizontal: 24 }}>
+    <View style={{ backgroundColor: C.skyDeep, paddingVertical: 72, paddingHorizontal: 24 }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
 
         <View style={{ alignItems: 'center', marginBottom: 48 }}>
@@ -64,9 +64,9 @@ export default function WhyChooseUs() {
             {t('whyChooseUs.heading')}
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-            <View style={{ height: 2, width: 40, backgroundColor: 'rgba(251,191,36,0.45)', borderRadius: 2 }} />
+            <View style={{ height: 2, width: 40, backgroundColor: 'rgba(255,216,0,0.45)', borderRadius: 2 }} />
             <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: C.yellow }} />
-            <View style={{ height: 2, width: 40, backgroundColor: 'rgba(251,191,36,0.45)', borderRadius: 2 }} />
+            <View style={{ height: 2, width: 40, backgroundColor: 'rgba(255,216,0,0.45)', borderRadius: 2 }} />
           </View>
         </View>
 
@@ -83,10 +83,10 @@ export default function WhyChooseUs() {
                   transform: [{ translateY: featureAnims[i].interpolate({ inputRange: [0, 1], outputRange: [24, 0] }) }],
                   backgroundColor: 'rgba(255,255,255,0.05)',
                   borderRadius: 16, padding: 22, alignItems: 'center',
-                  borderWidth: 1, borderColor: 'rgba(251,191,36,0.15)',
+                  borderWidth: 1, borderColor: 'rgba(255,216,0,0.15)',
                 }}
               >
-                <View style={{ width: 54, height: 54, borderRadius: 27, backgroundColor: 'rgba(251,191,36,0.15)', alignItems: 'center', justifyContent: 'center', marginBottom: 14, borderWidth: 1, borderColor: 'rgba(251,191,36,0.3)' }}>
+                <View style={{ width: 54, height: 54, borderRadius: 27, backgroundColor: 'rgba(255,216,0,0.15)', alignItems: 'center', justifyContent: 'center', marginBottom: 14, borderWidth: 1, borderColor: 'rgba(255,216,0,0.3)' }}>
                   <Icon size={24} color={C.yellow} />
                 </View>
                 <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: 14, textAlign: 'center', marginBottom: 8 }}>
@@ -100,7 +100,7 @@ export default function WhyChooseUs() {
           })}
         </View>
 
-        <View style={{ height: 1, backgroundColor: C.darkBorder, marginBottom: 44 }} />
+        <View style={{ height: 1, backgroundColor: 'rgba(255,255,255,0.20)', marginBottom: 44 }} />
 
         <View style={IS_WEB ? { flexDirection: 'row', justifyContent: 'space-around' } : { flexDirection: 'row', justifyContent: 'space-around', flexWrap: 'wrap', gap: 24 }}>
           {STATS.map(s => {

@@ -9,9 +9,10 @@ export const COMPANY = {
   tagline:           'Safety Beyond.....',
   address:           'P.O. Box 1126-00300, Nairobi, Kenya',
   hq:                'Donholm, Nairobi',
-  primaryPhone:      '0712 045 710',
+  primaryPhone:      '0746 097 033',
+  primaryEmail:      'saferideafrica777@gmail.com',
   secondaryPhone:    '0757 209 966',
-  phones:            ['0712 045 710', '0757 209 966', '0746 097 033'],
+  phones:            ['0746 097 033', '0757 209 966', '0712 045 710'],
   email:             'saferideafrica777@gmail.com',
   website:           'www.safride-africa-driving-school.com',
   socials: {
@@ -43,7 +44,7 @@ export const BRANCHES = [
     name: 'Donholm',
     isHQ: true,
     address: 'Donholm, Nairobi',
-    phone: '0712 045 710',
+    phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',
     mapsQuery: 'SafeRide Africa Donholm Nairobi',
   },
@@ -52,7 +53,7 @@ export const BRANCHES = [
     name: 'Buruburu',
     isHQ: false,
     address: 'Buruburu, Nairobi',
-    phone: '0712 045 710',
+    phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',
     mapsQuery: 'SafeRide Africa Buruburu Nairobi',
   },
@@ -61,7 +62,7 @@ export const BRANCHES = [
     name: 'Pipeline',
     isHQ: false,
     address: 'Pipeline, Embakasi, Nairobi',
-    phone: '0712 045 710',
+    phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',
     mapsQuery: 'SafeRide Africa Pipeline Embakasi Nairobi',
   },
@@ -70,7 +71,7 @@ export const BRANCHES = [
     name: 'Bee Centre',
     isHQ: false,
     address: 'Bee Centre, Nairobi',
-    phone: '0712 045 710',
+    phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',
     mapsQuery: 'SafeRide Africa Bee Centre Nairobi',
   },
@@ -106,7 +107,7 @@ export const BRANCHES = [
     name: 'Nasra',
     isHQ: false,
     address: 'Nasra, Nairobi',
-    phone: '0712 045 710',
+    phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',
     mapsQuery: 'SafeRide Africa Nasra Nairobi',
   },
@@ -115,7 +116,7 @@ export const BRANCHES = [
     name: 'Tena B',
     isHQ: false,
     address: 'Tena B, Nairobi',
-    phone: '0712 045 710',
+    phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',
     mapsQuery: 'SafeRide Africa Tena B Nairobi',
   },
@@ -135,7 +136,7 @@ export type Branch = typeof BRANCHES[number];
 // Branch GPS coordinates — [latitude, longitude]
 // TODO: verify each with Google Maps right-click → "What's here?"
 export const BRANCH_COORDS: Record<string, [number, number]> = {
-  donholm:   [-1.2934, 36.8946],
+  donholm:   [-1.2912, 36.89219],
   buruburu:  [-1.2826, 36.8740],
   pipeline:  [-1.3197, 36.8930],
   beecentre: [-1.2860, 36.8930],
@@ -299,6 +300,15 @@ export const SERVICES: ServiceItem[] = [
   },
 ];
 
+// ─── Homepage stats ──────────────────────────────────────────────────────────
+
+export const STATS = {
+  branches:    10,
+  instructors: 20,
+  passRate:    98,
+  yearsActive: new Date().getFullYear() - 2015,
+} as const;
+
 // ─── Why Choose Us ───────────────────────────────────────────────────────────
 
 export const WHY_CHOOSE_US = [
@@ -308,3 +318,54 @@ export const WHY_CHOOSE_US = [
   'New NTSA curriculum',
   'Guarantee you become a competent driver on all major and minor roads',
 ] as const;
+
+// ─── Social links ─────────────────────────────────────────────────────────────
+
+export const SOCIALS = {
+  whatsapp:  'https://wa.me/254712045710?text=Hi%20SafeRide%2C%20I%20want%20to%20enquire%20about%20driving%20classes',
+  facebook:  'https://www.facebook.com/safrideafrica',
+  twitter:   'https://twitter.com/safrideafrica',
+  tiktok:    'https://www.tiktok.com/@saferide254',
+  instagram: 'https://www.instagram.com/safe_rideafrica',
+} as const;
+
+// ─── Company story (two paragraphs for the About opener) ─────────────────────
+
+export const COMPANY_STORY = [
+  `Safe Ride Africa Driving School was founded in ${COMPANY.registration.foundedYear} with a single conviction: that every Kenyan driver deserves world-class training, not just a piece of paper. Starting from a single Nairobi location, the school quickly gained a reputation for rigorous instruction, genuine care for students, and an NTSA-aligned curriculum that prepared learners for real roads — not just the test track.`,
+  `In ${COMPANY.registration.incorporatedDate.split(' ').pop()}, the school was formally incorporated as ${COMPANY.legalName} (PVT ${COMPANY.registration.pvt}), formalising five years of growth into a registered institution. Today we operate ${STATS.branches} branches across Nairobi — from Donholm (HQ) to Kayole PCEA — and have trained over 2,100 licensed drivers.`,
+] as const;
+
+// ─── Blog articles ────────────────────────────────────────────────────────────
+
+export interface BlogArticle {
+  id: string;
+  category: string;
+  title: string;
+  description: string;
+  publishDate: string;
+}
+
+export const BLOG_ARTICLES: BlogArticle[] = [
+  {
+    id: 'ntsa-smart-dl-guide',
+    category: 'GUIDES',
+    title: 'How to Apply for an NTSA Smart DL in 2026',
+    description: 'A step-by-step walkthrough of the TIMS portal application, including required documents and common errors to avoid.',
+    publishDate: 'Dec 22, 2025',
+  },
+  {
+    id: 'defensive-driving-basics',
+    category: 'DEFENSIVE',
+    title: 'Five Defensive Driving Habits Every Kenyan Driver Should Know',
+    description: 'Practical lessons drawn from our instructors on managing Nairobi traffic, weather, and unpredictable road conditions.',
+    publishDate: 'Nov 11, 2025',
+  },
+  {
+    id: 'choosing-the-right-class',
+    category: 'CLASSES',
+    title: 'B-Light vs B-Auto: Which Licence Class is Right for You?',
+    description: 'A quick comparison of the two most popular SafeRide classes, with cost, lesson count, and career implications.',
+    publishDate: 'Oct 9, 2025',
+  },
+];

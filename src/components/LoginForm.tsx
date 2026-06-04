@@ -9,12 +9,12 @@ import { Mail, Lock, ArrowRight, Shield, Eye, EyeOff, ChevronLeft } from 'lucide
 import { C, F, IS_WEB } from '@/components/landing/constants';
 import { useAuth } from '@/context/AuthContext';
 
-const LOGO = require('../../assets/images/saferide-logo.png');
+const LOGO = require('../../assets/images/saferide-logo.jpg');
 
 const { height: SCREEN_H } = Dimensions.get('window');
 
 const BG_SRC = IS_WEB
-  ? { uri: '/DSC_2116.jpg' }
+  ? { uri: '/DSC_2116.webp' }
   : require('../../assets/images/car-pic.png');
 
 const LoginForm: React.FC = () => {
@@ -115,14 +115,14 @@ const LoginForm: React.FC = () => {
                 <View
                   style={{
                     flexDirection: 'row', alignItems: 'center', gap: 8,
-                    backgroundColor: 'rgba(239,68,68,0.08)',
-                    borderWidth: 1, borderColor: 'rgba(239,68,68,0.35)',
+                    backgroundColor: 'rgba(225,29,46,0.08)',
+                    borderWidth: 1, borderColor: 'rgba(225,29,46,0.35)',
                     borderRadius: 12, paddingHorizontal: 14, paddingVertical: 12,
                     marginBottom: 20,
                   }}
                 >
-                  <Shield size={14} color="#ef4444" />
-                  <Text style={{ color: '#ef4444', fontFamily: F.regular, fontSize: 13, flex: 1 }}>{error}</Text>
+                  <Shield size={14} color={C.red} />
+                  <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13, flex: 1 }}>{error}</Text>
                 </View>
               )}
 
@@ -134,7 +134,7 @@ const LoginForm: React.FC = () => {
                 <View
                   style={{
                     flexDirection: 'row', alignItems: 'center',
-                    backgroundColor: '#f9fafb',
+                    backgroundColor: C.white,
                     borderWidth: 1.5, borderColor: borderColor(!!email),
                     borderRadius: 12, paddingHorizontal: 14,
                   }}
@@ -162,7 +162,7 @@ const LoginForm: React.FC = () => {
                 <View
                   style={{
                     flexDirection: 'row', alignItems: 'center',
-                    backgroundColor: '#f9fafb',
+                    backgroundColor: C.white,
                     borderWidth: 1.5, borderColor: borderColor(!!password),
                     borderRadius: 12, paddingHorizontal: 14,
                   }}
