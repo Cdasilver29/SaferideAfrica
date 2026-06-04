@@ -33,7 +33,7 @@ function suppressRNWWarnings() {
 export default function RootLayout() {
   suppressRNWWarnings();
 
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     'WorkSans-Regular':  require('../assets/fonts/WorkSans-Regular.ttf'),
     'WorkSans-Medium':   require('../assets/fonts/WorkSans-Medium.ttf'),
     'WorkSans-SemiBold': require('../assets/fonts/WorkSans-SemiBold.ttf'),
@@ -42,9 +42,11 @@ export default function RootLayout() {
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
 
+  // Dismiss splash screen once fonts are ready OR if they fail — never leave
+  // the splash overlay up, which would show as a white screen on web.
   useEffect(() => {
-    if (fontsLoaded) SplashScreen.hideAsync();
-  }, [fontsLoaded]);
+    if (fontsLoaded || fontError) SplashScreen.hideAsync().catch(() => {});
+  }, [fontsLoaded, fontError]);
 
   return (
     <SafeAreaProvider>
