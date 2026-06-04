@@ -1,0 +1,14 @@
+# Treat font files as binary — prevents CRLF corruption on Windows
+*.ttf  binary
+*.otf  binary
+*.woff binary
+*.woff2 binary
+
+# Treat images as binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.ico  binary
+*.svg  text

@@ -34,10 +34,10 @@ export const C = {
 
 // ─── Font names (must match useFonts keys in _layout.tsx) ─────────────────────
 export const F = {
-  regular:  'WorkSans_400Regular',
-  medium:   'WorkSans_500Medium',
-  semibold: 'WorkSans_600SemiBold',
-  bold:     'WorkSans_700Bold',
+  regular:  'WorkSans-Regular',
+  medium:   'WorkSans-Medium',
+  semibold: 'WorkSans-SemiBold',
+  bold:     'WorkSans-Bold',
 };
 
 // ─── Image sources ────────────────────────────────────────────────────────────

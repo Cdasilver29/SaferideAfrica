@@ -4,13 +4,7 @@ import { Platform, View, LogBox } from 'react-native';
 import { Stack } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
-import {
-  useFonts,
-  WorkSans_400Regular,
-  WorkSans_500Medium,
-  WorkSans_600SemiBold,
-  WorkSans_700Bold,
-} from '@expo-google-fonts/work-sans';
+import { useFonts } from 'expo-font';
 import { useColorScheme } from 'nativewind';
 import '../global.css';
 import { AuthProvider } from '../src/context/AuthContext';
@@ -40,10 +34,10 @@ export default function RootLayout() {
   suppressRNWWarnings();
 
   const [fontsLoaded] = useFonts({
-    WorkSans_400Regular,
-    WorkSans_500Medium,
-    WorkSans_600SemiBold,
-    WorkSans_700Bold,
+    'WorkSans-Regular':  require('../assets/fonts/WorkSans-Regular.ttf'),
+    'WorkSans-Medium':   require('../assets/fonts/WorkSans-Medium.ttf'),
+    'WorkSans-SemiBold': require('../assets/fonts/WorkSans-SemiBold.ttf'),
+    'WorkSans-Bold':     require('../assets/fonts/WorkSans-Bold.ttf'),
   });
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
@@ -51,8 +45,6 @@ export default function RootLayout() {
   useEffect(() => {
     if (fontsLoaded) SplashScreen.hideAsync();
   }, [fontsLoaded]);
-
-  if (!fontsLoaded) return null;
 
   return (
     <SafeAreaProvider>
