@@ -57,3 +57,4 @@ next-env.d.ts
 
 # ─── Local reference documents (not shipped) ──────────────────────────────────
 docs/
+supabase/.temp/
