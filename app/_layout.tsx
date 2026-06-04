@@ -33,12 +33,19 @@ function suppressRNWWarnings() {
 export default function RootLayout() {
   suppressRNWWarnings();
 
-  const [fontsLoaded, fontError] = useFonts({
-    'WorkSans-Regular':  require('../assets/fonts/WorkSans-Regular.ttf'),
-    'WorkSans-Medium':   require('../assets/fonts/WorkSans-Medium.ttf'),
-    'WorkSans-SemiBold': require('../assets/fonts/WorkSans-SemiBold.ttf'),
-    'WorkSans-Bold':     require('../assets/fonts/WorkSans-Bold.ttf'),
-  });
+  // Web: CSS @font-face in public/index.html handles font loading natively —
+  // passing {} resolves fontsLoaded=true immediately, no JS font loader needed.
+  // Native: expo-font loads the TTF files from assets/fonts/.
+  const [fontsLoaded, fontError] = useFonts(
+    IS_WEB
+      ? {}
+      : {
+          'WorkSans-Regular':  require('../assets/fonts/WorkSans-Regular.ttf'),
+          'WorkSans-Medium':   require('../assets/fonts/WorkSans-Medium.ttf'),
+          'WorkSans-SemiBold': require('../assets/fonts/WorkSans-SemiBold.ttf'),
+          'WorkSans-Bold':     require('../assets/fonts/WorkSans-Bold.ttf'),
+        }
+  );
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
 
