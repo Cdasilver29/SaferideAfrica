@@ -46,7 +46,7 @@ export default function RootLayout() {
           'WorkSans-Bold':     require('../assets/fonts/WorkSans-Bold.ttf'),
         }
   );
-  const { colorScheme } = useColorScheme();
+  const { colorScheme, setColorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
 
   // Dismiss splash screen once fonts are ready OR if they fail — never leave
@@ -54,6 +54,9 @@ export default function RootLayout() {
   useEffect(() => {
     if (fontsLoaded || fontError) SplashScreen.hideAsync().catch(() => {});
   }, [fontsLoaded, fontError]);
+
+  // Default to light mode regardless of OS preference
+  useEffect(() => { setColorScheme('light'); }, []);
 
   return (
     <SafeAreaProvider>
