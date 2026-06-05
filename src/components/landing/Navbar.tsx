@@ -407,6 +407,15 @@ export default function Navbar({ scrollY }: NavbarProps) {
         </View>
       </View>
 
+      {/* Mobile tagline strip */}
+      {showHamburger && (
+        <View style={{ backgroundColor: navBg, paddingVertical: 5, alignItems: 'center' }}>
+          <Text style={{ color: C.yellow, fontFamily: F.semibold, fontSize: 9, letterSpacing: 2.5, textTransform: 'uppercase' }}>
+            {t('nav.tagline')}
+          </Text>
+        </View>
+      )}
+
       {/* Lane strip */}
       <LaneStrip />
 
