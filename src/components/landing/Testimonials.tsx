@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TouchableOpacity, useWindowDimensions } from 'react-native'
 import Animated, {
   useSharedValue, useAnimatedStyle,
   withSpring, withTiming, runOnJS,
@@ -138,6 +138,9 @@ export default function Testimonials() {
 
   const item = items[displayed] ?? items[0]
 
+  const { width: winW } = useWindowDimensions()
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768)
+
   const CARD_W = IS_WEB ? 210 : 160
   const CARD_H = IS_WEB ? 275 : 210
 
@@ -157,6 +160,9 @@ export default function Testimonials() {
     elevation: 8,
   }
 
+  const MOBILE_PHOTO_W = 140
+  const MOBILE_PHOTO_H = 180
+
   return (
     <View style={{ paddingVertical: 72, paddingHorizontal: 24, backgroundColor: T.background }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
@@ -168,51 +174,92 @@ export default function Testimonials() {
 
         <View style={{
           flexDirection: IS_WEB ? 'row' : 'column',
-          gap: IS_WEB ? 72 : 48,
+          gap: IS_WEB ? 72 : 24,
           alignItems: IS_WEB ? 'center' : 'stretch',
         }}>
 
-          {/* ── Photo stack ─────────────────────────────────────────────────── */}
-          <View style={{
-            width: IS_WEB ? CARD_W + 60 : '100%',
-            height: CARD_H + 60,
-            alignItems: 'center',
-            justifyContent: 'center',
-            alignSelf: IS_WEB ? 'auto' : 'center',
-          }}>
-            {/* Cards share the same anchor point; z-order controls stacking */}
-            <View style={{ width: CARD_W, height: CARD_H }}>
-              {[0, 1, 2].map((i) => (
-                <Animated.View key={i} style={[CARD_BASE, cardAnimStyles[i]]}>
-                  {!imgErrors[i] ? (
-                    <Image
-                      source={PHOTO_SOURCES[i]}
-                      style={{ width: '100%', height: '100%' }}
-                      resizeMode="cover"
-                      onError={() =>
-                        setImgErrors((prev) => {
-                          const next = [...prev]
-                          next[i] = true
-                          return next
-                        })
-                      }
-                    />
-                  ) : (
-                    <View style={{
-                      flex: 1,
-                      backgroundColor: i === 0 ? C.skyDeep : i === 1 ? C.skyLight : C.yellow,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                      <Text style={{ color: C.white, fontFamily: F.bold, fontSize: 42 }}>
-                        {INITIALS[i]}
-                      </Text>
-                    </View>
-                  )}
-                </Animated.View>
-              ))}
+          {/* ── Photo section ───────────────────────────────────────────────── */}
+          {isMobile ? (
+            /* Mobile: single active photo, no overlapping stack */
+            <Animated.View style={[{
+              alignSelf: 'center',
+              width: MOBILE_PHOTO_W,
+              height: MOBILE_PHOTO_H,
+              borderRadius: 16,
+              backgroundColor: C.white,
+              borderWidth: 4,
+              borderColor: C.white,
+              overflow: 'hidden',
+              shadowColor: C.dark,
+              shadowOpacity: 0.20,
+              shadowRadius: 14,
+              shadowOffset: { width: 0, height: 6 },
+              elevation: 8,
+            }, cardAnimStyles[active]]}>
+              {!imgErrors[active] ? (
+                <Image
+                  source={PHOTO_SOURCES[active]}
+                  style={{ width: '100%', height: '100%' }}
+                  resizeMode="cover"
+                  onError={() =>
+                    setImgErrors((prev) => {
+                      const next = [...prev]; next[active] = true; return next;
+                    })
+                  }
+                />
+              ) : (
+                <View style={{
+                  flex: 1,
+                  backgroundColor: active === 0 ? C.skyDeep : active === 1 ? C.skyLight : C.yellow,
+                  alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <Text style={{ color: C.white, fontFamily: F.bold, fontSize: 36 }}>
+                    {INITIALS[active]}
+                  </Text>
+                </View>
+              )}
+            </Animated.View>
+          ) : (
+            /* Desktop: stacked deck */
+            <View style={{
+              width: CARD_W + 60,
+              height: CARD_H + 60,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <View style={{ width: CARD_W, height: CARD_H }}>
+                {[0, 1, 2].map((i) => (
+                  <Animated.View key={i} style={[CARD_BASE, cardAnimStyles[i]]}>
+                    {!imgErrors[i] ? (
+                      <Image
+                        source={PHOTO_SOURCES[i]}
+                        style={{ width: '100%', height: '100%' }}
+                        resizeMode="cover"
+                        onError={() =>
+                          setImgErrors((prev) => {
+                            const next = [...prev]
+                            next[i] = true
+                            return next
+                          })
+                        }
+                      />
+                    ) : (
+                      <View style={{
+                        flex: 1,
+                        backgroundColor: i === 0 ? C.skyDeep : i === 1 ? C.skyLight : C.yellow,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                        <Text style={{ color: C.white, fontFamily: F.bold, fontSize: 42 }}>
+                          {INITIALS[i]}
+                        </Text>
+                      </View>
+                    )}
+                  </Animated.View>
+                ))}
+              </View>
             </View>
-          </View>
+          )}
 
           {/* ── Text panel ──────────────────────────────────────────────────── */}
           <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -222,8 +269,8 @@ export default function Testimonials() {
               <Text style={{
                 color: T.foreground,
                 fontFamily: F.regular,
-                fontSize: IS_WEB ? 18 : 15,
-                lineHeight: IS_WEB ? 32 : 26,
+                fontSize: IS_WEB ? 18 : 14,
+                lineHeight: IS_WEB ? 32 : 22,
                 fontStyle: 'italic',
                 marginBottom: 28,
               }}>

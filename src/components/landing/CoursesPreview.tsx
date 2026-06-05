@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
 import { BookOpen, ArrowRight } from 'lucide-react-native';
 import { useTheme } from '@/lib/theme';
@@ -95,6 +95,8 @@ function CourseCard({ cls }: { cls: (typeof CLASSES)[0] }) {
 
 export default function CoursesPreview() {
   const T       = useTheme();
+  const { width: winW } = useWindowDimensions();
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   const preview = CLASSES.filter(c => PREVIEW_CODES.includes(c.code));
 
   return (
@@ -113,14 +115,23 @@ export default function CoursesPreview() {
           description="Pick a class, see the price, enrol in under five minutes. All NTSA-aligned."
         />
 
-        {IS_WEB ? (
+        {!isMobile ? (
           <View style={{ flexDirection: 'row', gap: 16, marginBottom: 36 }}>
             {preview.map(cls => <CourseCard key={cls.code} cls={cls} />)}
           </View>
         ) : (
-          <View style={{ gap: 14, marginBottom: 36 }}>
-            {preview.map(cls => <CourseCard key={cls.code} cls={cls} />)}
-          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: 12, paddingRight: 24 }}
+            style={{ marginBottom: 36, marginHorizontal: -24 }}
+          >
+            {preview.map(cls => (
+              <View key={cls.code} style={{ width: 260 }}>
+                <CourseCard cls={cls} />
+              </View>
+            ))}
+          </ScrollView>
         )}
 
         <View style={{ alignItems: 'center' }}>

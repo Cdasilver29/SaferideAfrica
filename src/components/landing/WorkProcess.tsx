@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, Animated, Platform, TouchableOpacity } from 'react-native';
+import { View, Text, Animated, Platform, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
 import { useColorScheme } from 'nativewind';
 import AnimatedRN, {
   useSharedValue, useAnimatedStyle,
@@ -63,7 +63,7 @@ function StepCard({
   return (
     <Animated.View
       style={{
-        flex: IS_WEB ? 1 : undefined,
+        flex: 1,
         opacity: anim,
         transform: [{ translateY: anim.interpolate({ inputRange: [0, 1], outputRange: [28, 0] }) }],
         position: 'relative',
@@ -139,6 +139,8 @@ export default function WorkProcess() {
   const { t } = useTranslation();
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
+  const { width: winW } = useWindowDimensions();
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   const anims = useRef(WORK_STEPS.map(() => new Animated.Value(0))).current;
 
   useEffect(() => {
@@ -163,19 +165,41 @@ export default function WorkProcess() {
           </View>
         </View>
 
-        <View style={IS_WEB ? { flexDirection: 'row', gap: 20 } : { gap: 20 }}>
-          {WORK_STEPS.map((step, i) => (
-            <StepCard
-              key={step.num}
-              step={step}
-              i={i}
-              anim={anims[i]}
-              isLast={i === WORK_STEPS.length - 1}
-              isDark={isDark}
-              t={t}
-            />
-          ))}
-        </View>
+        {!isMobile ? (
+          <View style={{ flexDirection: 'row', gap: 20 }}>
+            {WORK_STEPS.map((step, i) => (
+              <StepCard
+                key={step.num}
+                step={step}
+                i={i}
+                anim={anims[i]}
+                isLast={i === WORK_STEPS.length - 1}
+                isDark={isDark}
+                t={t}
+              />
+            ))}
+          </View>
+        ) : (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: 14, paddingRight: 24 }}
+            style={{ marginHorizontal: -24 }}
+          >
+            {WORK_STEPS.map((step, i) => (
+              <View key={step.num} style={{ width: 220 }}>
+                <StepCard
+                  step={step}
+                  i={i}
+                  anim={anims[i]}
+                  isLast={i === WORK_STEPS.length - 1}
+                  isDark={isDark}
+                  t={t}
+                />
+              </View>
+            ))}
+          </ScrollView>
+        )}
       </View>
     </View>
   );

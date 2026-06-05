@@ -79,13 +79,6 @@ function AnimatedPhotoCard({
         <View style={{ position: 'absolute', top: 6, right: 6, backgroundColor: 'rgba(34,31,32,0.45)', borderRadius: 12, padding: 4 }}>
           <ZoomIn size={11} color={C.white} />
         </View>
-        {item.caption ? (
-          <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(34,31,32,0.50)', paddingHorizontal: 8, paddingVertical: 5 }}>
-            <Text style={{ color: C.white, fontFamily: F.regular, fontSize: 10 }} numberOfLines={1}>
-              {item.caption}
-            </Text>
-          </View>
-        ) : null}
       </TouchableOpacity>
     </Animated.View>
   )
@@ -195,10 +188,7 @@ function GalleryGrid() {
                 progressiveRenderingEnabled
                 fadeDuration={150}
               />
-              <Text style={{ color: 'rgba(255,255,255,0.65)', fontFamily: F.regular, fontSize: 13, marginTop: 10, textAlign: 'center', paddingHorizontal: 24 }}>
-                {items[modalIdx].caption}
-              </Text>
-              <Text style={{ color: 'rgba(255,255,255,0.35)', fontFamily: F.regular, fontSize: 12, marginTop: 4 }}>
+              <Text style={{ color: 'rgba(255,255,255,0.35)', fontFamily: F.regular, fontSize: 12, marginTop: 10 }}>
                 {modalIdx + 1} / {total}
               </Text>
               <View style={{ flexDirection: 'row', gap: 24, marginTop: 20 }}>

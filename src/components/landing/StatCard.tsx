@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Platform, Pressable, Text, AccessibilityInfo } from 'react-native';
+import { Platform, Pressable, Text, AccessibilityInfo, useWindowDimensions } from 'react-native';
 import AnimatedRN, {
   useSharedValue, useAnimatedStyle, useAnimatedReaction,
   withTiming, withRepeat, withDelay, interpolate, runOnJS,
@@ -17,6 +17,8 @@ type Props = {
 
 export function StatCard({ icon, value, label, index = 0 }: Props) {
   const T = useTheme();
+  const { width: winW } = useWindowDimensions();
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
 
   const cardBg     = T.isDark ? 'rgba(255,255,255,0.06)' : C.white;
   const cardBorder = T.isDark ? 'rgba(255,255,255,0.15)' : 'rgba(34,31,32,0.06)';
@@ -147,7 +149,7 @@ export function StatCard({ icon, value, label, index = 0 }: Props) {
           {icon}
         </AnimatedRN.View>
 
-        <Text style={{ color: valueFg, fontFamily: F.bold, fontSize: 28, lineHeight: 34 }}>
+        <Text style={{ color: valueFg, fontFamily: F.bold, fontSize: isMobile ? 20 : 28, lineHeight: isMobile ? 26 : 34 }}>
           {displayNum}{suffix}
         </Text>
 

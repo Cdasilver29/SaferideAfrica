@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
 import { ArrowRight } from 'lucide-react-native';
 import { C, F, IS_WEB, MAX_W, ABOUT_IMG } from './constants';
@@ -7,6 +7,9 @@ import { SectionIntro } from './SectionIntro';
 import { FeatureCard } from './FeatureCard';
 
 export default function AboutPreview() {
+  const { width: winW } = useWindowDimensions();
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
+
   return (
     <View style={{ backgroundColor: C.skyDeep, paddingVertical: 64, paddingHorizontal: 24 }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
@@ -19,14 +22,10 @@ export default function AboutPreview() {
         />
 
         <View
-          style={
-            IS_WEB
-              ? { flexDirection: 'row', gap: 32, alignItems: 'flex-start', marginBottom: 40 }
-              : { marginBottom: 40 }
-          }
+          style={{ flexDirection: 'row', gap: isMobile ? 12 : 32, alignItems: 'stretch', marginBottom: 40 }}
         >
           {/* Left — two stacked feature cards */}
-          <View style={IS_WEB ? { flex: 1, gap: 16 } : { gap: 16, marginBottom: 24 }}>
+          <View style={{ flex: 1, gap: isMobile ? 10 : 16 }}>
             <FeatureCard
               variant="primary"
               title="NTSA-Aligned Curriculum"
@@ -40,10 +39,10 @@ export default function AboutPreview() {
           </View>
 
           {/* Right — photo */}
-          <View style={IS_WEB ? { flex: 1 } : {}}>
+          <View style={{ flex: 1 }}>
             <Image
               source={ABOUT_IMG}
-              style={{ width: '100%', height: IS_WEB ? 320 : 220, borderRadius: 24, backgroundColor: 'rgba(1,165,240,0.10)' }}
+              style={{ width: '100%', height: isMobile ? 180 : 320, borderRadius: 24, backgroundColor: 'rgba(1,165,240,0.10)' }}
               resizeMode="cover"
               progressiveRenderingEnabled
               fadeDuration={200}

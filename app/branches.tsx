@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, SafeAreaView, ScrollView, Linking } from 'react-native';
+import { View, Text, TouchableOpacity, SafeAreaView, ScrollView, Linking, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
 import { MapPin, Phone, Clock, Navigation, ArrowRight, MessageCircle } from 'lucide-react-native';
 
@@ -35,7 +35,7 @@ function BranchCard({
           : T.card,
         borderRadius: 16,
         padding: 18,
-        marginBottom: 12,
+        marginBottom: IS_WEB ? 12 : 0,
         borderWidth: isSelected ? 1.5 : isHQ ? 2 : 1,
         borderColor: isSelected ? C.blue : isHQ ? C.yellow : T.border,
         shadowColor: isSelected ? C.blue : '#000',
@@ -147,42 +147,71 @@ function BranchCard({
 // ─── Map + branch list section ────────────────────────────────────────────────
 function BranchDirectory() {
   const T = useTheme();
+  const { width: winW } = useWindowDimensions();
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   const [selectedId, setSelectedId] = useState<string>(BRANCHES[0].id);
 
   return (
     <View style={{ backgroundColor: T.background, paddingVertical: 56, paddingHorizontal: 24 }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
 
-        <View style={IS_WEB ? { flexDirection: 'row', gap: 28, alignItems: 'flex-start' } : {}}>
-
-          {/* Map */}
-          <View style={IS_WEB ? { flex: 3, position: 'sticky' as any, top: 80 } : { marginBottom: 24 }}>
-            <BranchMap
-              activeBranchId={selectedId}
-              onMarkerPress={(id) => setSelectedId(id)}
-            />
+        {!isMobile ? (
+          <View style={{ flexDirection: 'row', gap: 28, alignItems: 'flex-start' }}>
+            {/* Map */}
+            <View style={{ flex: 3, position: 'sticky' as any, top: 80 }}>
+              <BranchMap
+                activeBranchId={selectedId}
+                onMarkerPress={(id) => setSelectedId(id)}
+              />
+            </View>
+            {/* Branch cards — all 10 */}
+            <View style={{ flex: 2, maxHeight: 560 }}>
+              <ScrollView
+                style={{ flex: 1 }}
+                contentContainerStyle={{ paddingBottom: 8 }}
+                showsVerticalScrollIndicator
+                nestedScrollEnabled
+              >
+                {(BRANCHES as readonly Branch[]).map(branch => (
+                  <BranchCard
+                    key={branch.id}
+                    branch={branch}
+                    isSelected={branch.id === selectedId}
+                    onSelect={() => setSelectedId(branch.id)}
+                  />
+                ))}
+              </ScrollView>
+            </View>
           </View>
-
-          {/* Branch cards — all 10 */}
-          <View style={IS_WEB ? { flex: 2, maxHeight: 560 } : {}}>
+        ) : (
+          <>
+            {/* Map full-width on top */}
+            <View style={{ marginBottom: 16 }}>
+              <BranchMap
+                activeBranchId={selectedId}
+                onMarkerPress={(id) => setSelectedId(id)}
+              />
+            </View>
+            {/* Horizontal scroll cards */}
             <ScrollView
-              style={IS_WEB ? { flex: 1 } : undefined}
-              contentContainerStyle={{ paddingBottom: 8 }}
-              showsVerticalScrollIndicator={IS_WEB}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ gap: 12, paddingRight: 24 }}
+              style={{ marginHorizontal: -24 }}
               nestedScrollEnabled
             >
               {(BRANCHES as readonly Branch[]).map(branch => (
-                <BranchCard
-                  key={branch.id}
-                  branch={branch}
-                  isSelected={branch.id === selectedId}
-                  onSelect={() => setSelectedId(branch.id)}
-                />
+                <View key={branch.id} style={{ width: 280 }}>
+                  <BranchCard
+                    branch={branch}
+                    isSelected={branch.id === selectedId}
+                    onSelect={() => setSelectedId(branch.id)}
+                  />
+                </View>
               ))}
             </ScrollView>
-          </View>
-
-        </View>
+          </>
+        )}
       </View>
     </View>
   );

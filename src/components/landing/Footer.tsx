@@ -216,27 +216,41 @@ export default function Footer() {
 
         {/* ── Copyright bar ────────────────────────────────────────────────────── */}
         <View style={{ backgroundColor: bottomBg, paddingVertical: 16, paddingHorizontal: 24 }}>
-          <View style={IS_WEB
-            ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }
-            : { alignItems: 'center' }
-          }>
-            <View style={{ alignItems: IS_WEB ? 'flex-start' : 'center' }}>
-              <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 12, textAlign: 'center', opacity: 0.85 }}>
-                {t('footer.copyright')}
-              </Text>
-              <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 11, textAlign: 'center', opacity: 0.70, marginTop: 3 }}>
-                💻 Developer: calvinedasilver96@gmail.com
-              </Text>
-            </View>
-            {IS_WEB && (
+          {multiCol ? (
+            /* Desktop: NTSA right, text left */
+            <View style={{ maxWidth: MAX_W, width: '100%', alignSelf: 'center', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+              <View>
+                <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 12, opacity: 0.85 }}>
+                  {t('footer.copyright')}
+                </Text>
+                <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 11, opacity: 0.70, marginTop: 3 }}>
+                  💻 Developer: calvinedasilver96@gmail.com
+                </Text>
+              </View>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image source={NTSA_LOGO} style={{ width: 36, height: 36, marginRight: 10 }} resizeMode="contain" />
                 <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 12, opacity: 0.85 }}>
                   {t('footer.certifiedLine')}
                 </Text>
               </View>
-            )}
-          </View>
+            </View>
+          ) : (
+            /* Mobile: NTSA first, then copyright, then developer */
+            <View style={{ alignItems: 'center', gap: 8 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Image source={NTSA_LOGO} style={{ width: 32, height: 32, marginRight: 8 }} resizeMode="contain" />
+                <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 11, opacity: 0.85 }}>
+                  {t('footer.certifiedLine')}
+                </Text>
+              </View>
+              <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 11, textAlign: 'center', opacity: 0.85 }}>
+                {t('footer.copyright')}
+              </Text>
+              <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 10, textAlign: 'center', opacity: 0.70 }}>
+                💻 Developer: calvinedasilver96@gmail.com
+              </Text>
+            </View>
+          )}
         </View>
 
       </View>

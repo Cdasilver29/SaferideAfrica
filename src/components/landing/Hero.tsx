@@ -95,8 +95,8 @@ function AnimatedHeadline({ words, accentFrom }: { words: string[]; accentFrom: 
     return () => { stagger.stop(); pulse.stop(); };
   }, []);
 
-  const fontSize = IS_WEB ? 56 : 36;
-  const lineH    = IS_WEB ? 68 : 46;
+  const fontSize = IS_WEB ? 56 : 26;
+  const lineH    = IS_WEB ? 68 : 34;
 
   return (
     <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 18 }}>
@@ -257,14 +257,14 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
         <TypewriterText key={i18n.language + '-sub'} subheadline={subheadline} />
 
         {/* Trust badges */}
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 32 }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: IS_WEB ? 8 : 6, marginBottom: IS_WEB ? 32 : 16 }}>
           {TRUST_BADGES.map(({ Icon, label }) => (
             <View
               key={label}
-              style={{ flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 12, paddingVertical: 7, borderRadius: 20, backgroundColor: 'rgba(255,255,255,0.10)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.20)' }}
+              style={{ flexDirection: 'row', alignItems: 'center', gap: IS_WEB ? 6 : 4, paddingHorizontal: IS_WEB ? 12 : 8, paddingVertical: IS_WEB ? 7 : 4, borderRadius: 20, backgroundColor: 'rgba(255,255,255,0.10)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.20)' }}
             >
-              <Icon size={12} color={C.yellow} />
-              <Text style={{ color: C.white, fontFamily: F.medium, fontSize: 12 }}>{label}</Text>
+              <Icon size={IS_WEB ? 12 : 10} color={C.yellow} />
+              <Text style={{ color: C.white, fontFamily: F.medium, fontSize: IS_WEB ? 12 : 10 }}>{label}</Text>
             </View>
           ))}
         </View>

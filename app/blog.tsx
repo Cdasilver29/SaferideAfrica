@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, useWindowDimensions } from 'react-native';
 
 import { PageHero } from '@/components/landing/PageHero';
 import Navbar from '@/components/landing/Navbar';
@@ -13,6 +13,8 @@ import { useTheme } from '@/lib/theme';
 // ─── Article grid ────────────────────────────────────────────────────────────
 function ArticleGrid() {
   const T = useTheme();
+  const { width: winW } = useWindowDimensions();
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
 
   return (
     <View style={{ backgroundColor: T.background, paddingVertical: IS_WEB ? 80 : 48, paddingHorizontal: 24 }}>
@@ -42,12 +44,18 @@ function ArticleGrid() {
           </Text>
         </View>
 
-        {/* 3-column grid (1 col on mobile, stacked) */}
-        <View style={IS_WEB ? { flexDirection: 'row', gap: 24, flexWrap: 'wrap' } : { gap: 24 }}>
+        {/* 3-column on desktop, 2-column grid on mobile */}
+        <View style={isMobile
+          ? { flexDirection: 'row', flexWrap: 'wrap', gap: 14 }
+          : { flexDirection: 'row', gap: 24, flexWrap: 'wrap' }
+        }>
           {BLOG_ARTICLES.map((article, i) => (
             <View
               key={article.id}
-              style={IS_WEB ? { width: 'calc(33.333% - 16px)' as any } : undefined}
+              style={isMobile
+                ? { width: '48%' }
+                : { width: 'calc(33.333% - 16px)' as any }
+              }
             >
               <ArticleCard article={article} image={BLOG_IMGS[i]} />
             </View>

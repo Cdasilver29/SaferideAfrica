@@ -301,11 +301,13 @@ export default function Navbar({ scrollY }: NavbarProps) {
               style={[styles.logoImg, !showPills && { width: 36, height: 36, borderRadius: 8 }]}
               resizeMode="contain"
             />
-            {showPills && (
+            {showPills ? (
               <View>
                 <Text style={styles.brandName}>{t('nav.brand')}</Text>
                 <Text style={styles.brandTag}>{t('nav.tagline')}</Text>
               </View>
+            ) : (
+              <Text style={[styles.brandName, { fontSize: 13 }]}>{t('nav.brand')}</Text>
             )}
           </TouchableOpacity>
 
@@ -372,6 +374,19 @@ export default function Navbar({ scrollY }: NavbarProps) {
               </TouchableOpacity>
             </AnimatedRN.View>
 
+            {/* Call Now — icon only on mobile */}
+            {showHamburger && (
+              <TouchableOpacity
+                onPress={() => Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`)}
+                activeOpacity={0.85}
+                style={[styles.iconBtn, { backgroundColor: C.red }]}
+              >
+                <AnimatedRN.View style={phoneShakeStyle}>
+                  <Phone size={15} color={C.white} />
+                </AnimatedRN.View>
+              </TouchableOpacity>
+            )}
+
             {/* Hamburger — native always, and narrow web viewports */}
             {showHamburger && (
               <TouchableOpacity
@@ -410,7 +425,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
                 {/* Drawer header */}
                 <View style={[styles.drawerHeader, { backgroundColor: C.skyDeep }]}>
                   <View style={styles.logoRow}>
-                    <Image source={LOGO} style={[styles.logoImg, { width: 32, height: 32 }]} resizeMode="contain" />
+                    <Image source={LOGO} style={[styles.logoImg, { width: 52, height: 52 }]} resizeMode="contain" />
                     <Text style={styles.brandName}>{t('nav.brand')}</Text>
                   </View>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>

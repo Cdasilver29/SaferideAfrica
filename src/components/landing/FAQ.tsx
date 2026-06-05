@@ -21,7 +21,7 @@ function AccordionItem({ q, a, isOpen, onToggle }: { q: string; a: string; isOpe
   };
 
   const arrowRotate = rotateAnim.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '180deg'] });
-  const answerHeight = heightAnim.interpolate({ inputRange: [0, 1], outputRange: [0, 120] });
+  const answerHeight = heightAnim.interpolate({ inputRange: [0, 1], outputRange: [0, 200] });
 
   return (
     <View style={{ borderRadius: 12, overflow: 'hidden', marginBottom: 10, borderWidth: 1, borderColor: isOpen ? C.yellow : C.darkBorder, backgroundColor: isOpen ? 'rgba(251,191,36,0.06)' : 'rgba(255,255,255,0.04)' }}>
@@ -122,8 +122,10 @@ export default function FAQ() {
 
   const faqItems = t('faq.items', { returnObjects: true }) as Array<{ q: string; a: string }>;
 
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
+
   return (
-    <View style={{ position: 'relative', paddingVertical: 72, paddingHorizontal: 24, overflow: 'hidden' }}>
+    <View style={{ position: 'relative', paddingVertical: IS_WEB ? 72 : 40, paddingHorizontal: 24, overflow: 'hidden' }}>
       <Image source={HERO_SRC} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%' }} resizeMode="cover" />
       <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(10,18,36,0.88)', pointerEvents: 'none' } as any} />
 
@@ -142,8 +144,8 @@ export default function FAQ() {
           </View>
         </View>
 
-        <View style={IS_WEB ? { flexDirection: 'row', gap: 48, alignItems: 'flex-start' } : {}}>
-          <View style={IS_WEB ? { flex: 1 } : { marginBottom: 32 }}>
+        <View style={!isMobile ? { flexDirection: 'row', gap: 48, alignItems: 'flex-start' } : {}}>
+          <View style={!isMobile ? { flex: 1 } : { marginBottom: 32 }}>
             {faqItems.map((item, i) => (
               <AccordionItem
                 key={i}
@@ -154,7 +156,7 @@ export default function FAQ() {
               />
             ))}
           </View>
-          <View style={IS_WEB ? { width: Math.min(380, winW * 0.42) } : {}}>
+          <View style={!isMobile ? { width: Math.min(380, winW * 0.42) } : {}}>
             <ContactForm />
           </View>
         </View>

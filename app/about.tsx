@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, SafeAreaView, Image, Pressable, Linking, Platform } from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, Image, Pressable, Linking, Platform, useWindowDimensions } from 'react-native';
 import Animated, {
   useSharedValue, useAnimatedStyle,
   withRepeat, withTiming, Easing,
@@ -66,9 +66,11 @@ function ClippedHeroImage({ source }: { source: any }) {
 
 function StatItem({ value, label, large }: { value: string; label: string; large?: boolean }) {
   const T = useTheme()
+  const { width: winW } = useWindowDimensions()
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768)
   return (
     <View style={{ alignItems: 'flex-start' }}>
-      <Text style={{ color: C.skyDeep, fontFamily: F.bold, fontSize: large ? 36 : 14 }}>
+      <Text style={{ color: C.skyDeep, fontFamily: F.bold, fontSize: large ? (isMobile ? 26 : 36) : 14 }}>
         {value}
       </Text>
       <Text
@@ -218,10 +220,10 @@ function AboutOpener() {
                 staggerDuration={0.1}
                 startDelay={0.3}
                 style={{
-                  fontSize: IS_WEB ? 40 : 28,
+                  fontSize: IS_WEB ? 40 : 22,
                   fontFamily: F.semibold,
                   color: T.foreground,
-                  lineHeight: IS_WEB ? 48 : 36,
+                  lineHeight: IS_WEB ? 48 : 30,
                 }}
               />
             </View>
@@ -368,6 +370,8 @@ function CompanyStory() {
 // ─── Vision · Mission · Values ────────────────────────────────────────────────
 function VisionMissionValues() {
   const T = useTheme();
+  const { width: winW } = useWindowDimensions();
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
 
   const cols = [
     {
@@ -418,15 +422,16 @@ function VisionMissionValues() {
           </View>
         </View>
 
-        <View style={IS_WEB ? { flexDirection: 'row', gap: 20 } : { gap: 16 }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: isMobile ? 12 : 20 }}>
           {cols.map(col => (
             <View
               key={col.heading}
               style={{
-                flex: IS_WEB ? 1 : undefined,
+                flex: isMobile ? undefined : 1,
+                width: isMobile ? '48%' : undefined,
                 backgroundColor: T.card,
                 borderRadius: 20,
-                padding: IS_WEB ? 28 : 22,
+                padding: isMobile ? 18 : 28,
                 borderWidth: 1,
                 borderColor: T.border,
               }}
@@ -508,27 +513,32 @@ function Achievements() {
 
 // ─── Management ───────────────────────────────────────────────────────────────
 
-function MemberAvatar({ photo, initials, color }: { photo?: string; initials: string; color: string }) {
+function MemberAvatar({ photo, initials, color, small }: { photo?: string; initials: string; color: string; small?: boolean }) {
   const [imgError, setImgError] = useState(false);
+  const size = small ? 38 : 52;
+  const radius = size / 2;
+  const fontSize = small ? 12 : 16;
   if (photo && !imgError) {
     return (
       <Image
         source={{ uri: photo }}
-        style={{ width: 52, height: 52, borderRadius: 26, flexShrink: 0, backgroundColor: color }}
+        style={{ width: size, height: size, borderRadius: radius, flexShrink: 0, backgroundColor: color }}
         resizeMode="cover"
         onError={() => setImgError(true)}
       />
     );
   }
   return (
-    <View style={{ width: 52, height: 52, borderRadius: 26, backgroundColor: color, alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-      <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: 16 }}>{initials}</Text>
+    <View style={{ width: size, height: size, borderRadius: radius, backgroundColor: color, alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+      <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize }}>{initials}</Text>
     </View>
   );
 }
 
 function Management() {
   const T = useTheme();
+  const { width: winW } = useWindowDimensions();
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
 
   const team: Array<{ title: string; name: string; initials: string; photo?: string }> = [
     ...MANAGEMENT.map(m => ({ ...m, initials: m.name.split(' ').map(w => w[0]).join('').slice(0, 2) })),
@@ -578,18 +588,18 @@ function Management() {
           </View>
         </View>
 
-        <View style={IS_WEB ? { flexDirection: 'row', flexWrap: 'wrap', gap: 16 } : { gap: 14 }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: isMobile ? 10 : 16 }}>
           {team.map((member, i) => (
             <View
               key={member.title}
               style={{
-                width: IS_WEB ? 'calc(50% - 8px)' as any : undefined,
+                width: isMobile ? '48%' : ('calc(50% - 8px)' as any),
                 backgroundColor: T.card,
                 borderRadius: 16,
-                padding: 20,
+                padding: isMobile ? 12 : 20,
                 flexDirection: 'row',
                 alignItems: 'center',
-                gap: 16,
+                gap: isMobile ? 10 : 16,
                 borderWidth: 1,
                 borderColor: T.border,
               }}
@@ -598,10 +608,11 @@ function Management() {
                 photo={member.photo}
                 initials={member.initials}
                 color={AVATAR_COLORS[i % AVATAR_COLORS.length]}
+                small={isMobile}
               />
               <View style={{ flex: 1 }}>
-                <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 15 }}>{member.name}</Text>
-                <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 12, marginTop: 3 }}>
+                <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: isMobile ? 12 : 15 }} numberOfLines={1}>{member.name}</Text>
+                <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: isMobile ? 10 : 12, marginTop: 2 }} numberOfLines={2}>
                   {member.title}
                 </Text>
               </View>

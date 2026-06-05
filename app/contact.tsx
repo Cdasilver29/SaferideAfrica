@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  View, Text, TextInput, TouchableOpacity, SafeAreaView, ScrollView, Linking, Platform,
+  View, Text, TextInput, TouchableOpacity, SafeAreaView, ScrollView, Linking, Platform, useWindowDimensions,
 } from 'react-native';
 import { router } from 'expo-router';
 import { AlertTriangle, Mail, Phone, MapPin, ArrowRight, Send, Globe } from 'lucide-react-native';
@@ -392,6 +392,8 @@ function MapPreview() {
 // ─── Page ────────────────────────────────────────────────────────────────────
 export default function ContactPage() {
   const T = useTheme();
+  const { width: winW } = useWindowDimensions();
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: T.background }}>
       <Navbar />
@@ -399,7 +401,7 @@ export default function ContactPage() {
         <PageHero overline="Get in Touch" title="Contact Us" />
 
         {/* Two-column layout */}
-        <View style={{ paddingVertical: 56, paddingHorizontal: 24 }}>
+        <View style={{ paddingVertical: isMobile ? 32 : 56, paddingHorizontal: isMobile ? 16 : 24 }}>
           <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
             <View style={IS_WEB ? { flexDirection: 'row', gap: 36, alignItems: 'flex-start' } : { gap: 24 }}>
 
