@@ -44,16 +44,16 @@ function ArticleGrid() {
           </Text>
         </View>
 
-        {/* 3-column on desktop, 2-column grid on mobile */}
+        {/* 3-column on desktop, single-column on mobile */}
         <View style={isMobile
-          ? { flexDirection: 'row', flexWrap: 'wrap', gap: 14 }
+          ? { gap: 16 }
           : { flexDirection: 'row', gap: 24, flexWrap: 'wrap' }
         }>
           {BLOG_ARTICLES.map((article, i) => (
             <View
               key={article.id}
               style={isMobile
-                ? { width: '48%' }
+                ? { width: '100%' }
                 : { width: 'calc(33.333% - 16px)' as any }
               }
             >

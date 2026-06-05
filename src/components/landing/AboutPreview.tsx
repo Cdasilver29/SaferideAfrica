@@ -24,7 +24,20 @@ export default function AboutPreview() {
         <View
           style={{ flexDirection: 'row', gap: isMobile ? 12 : 32, alignItems: 'stretch', marginBottom: 40 }}
         >
-          {/* Left — two stacked feature cards */}
+          {/* Photo — first on mobile (left), second on desktop (right) */}
+          {isMobile && (
+            <View style={{ flex: 1 }}>
+              <Image
+                source={ABOUT_IMG}
+                style={{ width: '100%', height: 180, borderRadius: 24, backgroundColor: 'rgba(1,165,240,0.10)' }}
+                resizeMode="cover"
+                progressiveRenderingEnabled
+                fadeDuration={200}
+              />
+            </View>
+          )}
+
+          {/* Feature cards */}
           <View style={{ flex: 1, gap: isMobile ? 10 : 16 }}>
             <FeatureCard
               variant="primary"
@@ -38,16 +51,18 @@ export default function AboutPreview() {
             />
           </View>
 
-          {/* Right — photo */}
-          <View style={{ flex: 1 }}>
-            <Image
-              source={ABOUT_IMG}
-              style={{ width: '100%', height: isMobile ? 180 : 320, borderRadius: 24, backgroundColor: 'rgba(1,165,240,0.10)' }}
-              resizeMode="cover"
-              progressiveRenderingEnabled
-              fadeDuration={200}
-            />
-          </View>
+          {/* Photo — second on desktop (right side) */}
+          {!isMobile && (
+            <View style={{ flex: 1 }}>
+              <Image
+                source={ABOUT_IMG}
+                style={{ width: '100%', height: 320, borderRadius: 24, backgroundColor: 'rgba(1,165,240,0.10)' }}
+                resizeMode="cover"
+                progressiveRenderingEnabled
+                fadeDuration={200}
+              />
+            </View>
+          )}
         </View>
 
         {/* CTA */}

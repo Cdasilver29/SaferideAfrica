@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
 import { BookOpen, ArrowRight } from 'lucide-react-native';
@@ -18,7 +18,6 @@ function CourseCard({ cls }: { cls: (typeof CLASSES)[0] }) {
   return (
     <View
       style={{
-        flex: 1,
         backgroundColor: isExec ? C.dark : T.card,
         borderRadius: 18,
         padding: 22,
@@ -99,6 +98,21 @@ export default function CoursesPreview() {
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   const preview = CLASSES.filter(c => PREVIEW_CODES.includes(c.code));
 
+  const scrollRef = useRef<ScrollView>(null);
+  const idxRef    = useRef(0);
+  const [activeDot, setActiveDot] = useState(0);
+  const cardW = winW - 48;
+
+  useEffect(() => {
+    if (!isMobile) return;
+    const timer = setInterval(() => {
+      idxRef.current = (idxRef.current + 1) % preview.length;
+      scrollRef.current?.scrollTo({ x: idxRef.current * cardW, animated: true });
+      setActiveDot(idxRef.current);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [isMobile, cardW, preview.length]);
+
   return (
     <View
       style={{
@@ -117,21 +131,46 @@ export default function CoursesPreview() {
 
         {!isMobile ? (
           <View style={{ flexDirection: 'row', gap: 16, marginBottom: 36 }}>
-            {preview.map(cls => <CourseCard key={cls.code} cls={cls} />)}
-          </View>
-        ) : (
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ gap: 12, paddingRight: 24 }}
-            style={{ marginBottom: 36, marginHorizontal: -24 }}
-          >
             {preview.map(cls => (
-              <View key={cls.code} style={{ width: 260 }}>
+              <View key={cls.code} style={{ flex: 1 }}>
                 <CourseCard cls={cls} />
               </View>
             ))}
-          </ScrollView>
+          </View>
+        ) : (
+          <>
+            <ScrollView
+              ref={scrollRef}
+              horizontal
+              pagingEnabled
+              showsHorizontalScrollIndicator={false}
+              style={{ marginBottom: 12 }}
+              onMomentumScrollEnd={(e) => {
+                const idx = Math.round(e.nativeEvent.contentOffset.x / cardW);
+                idxRef.current = idx;
+                setActiveDot(idx);
+              }}
+            >
+              {preview.map(cls => (
+                <View key={cls.code} style={{ width: cardW }}>
+                  <CourseCard cls={cls} />
+                </View>
+              ))}
+            </ScrollView>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 6, marginBottom: 36 }}>
+              {preview.map((_, i) => (
+                <View
+                  key={i}
+                  style={{
+                    width: i === activeDot ? 18 : 6,
+                    height: 6,
+                    borderRadius: 3,
+                    backgroundColor: i === activeDot ? C.red : 'rgba(0,0,0,0.18)',
+                  }}
+                />
+              ))}
+            </View>
+          </>
         )}
 
         <View style={{ alignItems: 'center' }}>

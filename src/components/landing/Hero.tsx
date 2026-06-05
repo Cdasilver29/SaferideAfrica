@@ -62,9 +62,9 @@ function TypewriterText({ subheadline }: { subheadline: string }) {
       style={{
         color: 'rgba(255,255,255,0.82)',
         fontFamily: F.regular,
-        fontSize: IS_WEB ? 16 : 14,
-        lineHeight: IS_WEB ? 28 : 23,
-        marginBottom: 28,
+        fontSize: IS_WEB ? 16 : 12,
+        lineHeight: IS_WEB ? 28 : 20,
+        marginBottom: IS_WEB ? 28 : 16,
         maxWidth: IS_WEB ? 540 : undefined,
         minHeight: IS_WEB ? 60 : 48,
       }}
@@ -95,8 +95,8 @@ function AnimatedHeadline({ words, accentFrom }: { words: string[]; accentFrom: 
     return () => { stagger.stop(); pulse.stop(); };
   }, []);
 
-  const fontSize = IS_WEB ? 56 : 26;
-  const lineH    = IS_WEB ? 68 : 34;
+  const fontSize = IS_WEB ? 56 : 20;
+  const lineH    = IS_WEB ? 68 : 26;
 
   return (
     <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 18 }}>
@@ -163,8 +163,8 @@ function GlowingEnrolButton({ onPress }: { onPress: () => void }) {
       <TouchableOpacity
         onPress={onPress}
         style={{
-          paddingVertical: 15,
-          paddingHorizontal: 28,
+          paddingVertical: IS_WEB ? 15 : 11,
+          paddingHorizontal: IS_WEB ? 28 : 16,
           borderRadius: 12,
           flexDirection: 'row',
           alignItems: 'center',
@@ -273,7 +273,7 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
           <TouchableOpacity
             onPress={onScrollToCourses}
-            style={{ backgroundColor: C.yellow, paddingVertical: 15, paddingHorizontal: 32, borderRadius: 12, flexDirection: 'row', alignItems: 'center', gap: 8, shadowColor: C.yellow, shadowOpacity: 0.45, shadowRadius: 14, elevation: 6 }}
+            style={{ backgroundColor: C.yellow, paddingVertical: IS_WEB ? 15 : 11, paddingHorizontal: IS_WEB ? 32 : 20, borderRadius: 12, flexDirection: 'row', alignItems: 'center', gap: 8, shadowColor: C.yellow, shadowOpacity: 0.45, shadowRadius: 14, elevation: 6 }}
             activeOpacity={0.85}
           >
             <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 15 }}>{t('hero.exploreCourses')}</Text>
