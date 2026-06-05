@@ -308,7 +308,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
               </View>
             ) : (
               <Text
-                style={[styles.brandName, { fontSize: 11 }]}
+                style={[styles.brandName, { fontSize: 15 }]}
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
@@ -432,7 +432,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
                 <View style={[styles.drawerHeader, { backgroundColor: C.skyDeep }]}>
                   <View style={styles.logoRow}>
                     <Image source={LOGO} style={[styles.logoImg, { width: 52, height: 52 }]} resizeMode="contain" />
-                    <Text style={styles.brandName}>{t('nav.brand')}</Text>
+                    <Text style={[styles.brandName, { fontSize: 14 }]} numberOfLines={1}>{t('nav.brand')}</Text>
                   </View>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
                     <TouchableOpacity
