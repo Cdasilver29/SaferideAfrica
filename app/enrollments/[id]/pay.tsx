@@ -16,6 +16,7 @@ import { initiateStkPush, waitForPayment, StkStatus } from '../../../src/api/mpe
 import { splitIntoThree, installmentDueDates } from '../../../src/lib/installments';
 import { PAYMENT } from '../../../src/data/saferide';
 import { C, F, IS_WEB } from '../../../src/components/landing/constants';
+import { useTheme } from '../../../src/lib/theme';
 
 const KSH = (n: number) => 'Ksh ' + n.toLocaleString('en-KE');
 
@@ -24,18 +25,20 @@ const MPESA_CODE_RE = /^[A-Za-z0-9]{10}$/;
 type StkState = 'idle' | 'pending' | 'confirmed' | 'failed';
 
 function InfoCard({ children, accent = false }: { children: React.ReactNode; accent?: boolean }) {
+  const T = useTheme();
   return (
-    <View style={{ backgroundColor: accent ? 'rgba(251,191,36,0.08)' : '#ffffff', borderRadius: 16, padding: 20, marginBottom: 16, borderWidth: 1, borderColor: accent ? 'rgba(251,191,36,0.35)' : 'rgba(34, 31, 32, 0.1)' }}>
+    <View style={{ backgroundColor: accent ? 'rgba(251,191,36,0.08)' : T.card, borderRadius: 16, padding: 20, marginBottom: 16, borderWidth: 1, borderColor: accent ? 'rgba(251,191,36,0.35)' : T.border }}>
       {children}
     </View>
   );
 }
 
 function PaymentRow({ label, value, bold = false }: { label: string; value: string; bold?: boolean }) {
+  const T = useTheme();
   return (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: 'rgba(34, 31, 32, 0.06)' }}>
-      <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 13 }}>{label}</Text>
-      <Text style={{ color: C.heading, fontFamily: bold ? F.bold : F.medium, fontSize: bold ? 16 : 13 }}>{value}</Text>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: T.border }}>
+      <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13 }}>{label}</Text>
+      <Text style={{ color: T.foreground, fontFamily: bold ? F.bold : F.medium, fontSize: bold ? 16 : 13 }}>{value}</Text>
     </View>
   );
 }
@@ -51,6 +54,7 @@ function buildPreviewInstallments(total: number): InstallmentEntry[] {
 }
 
 export default function PayScreen() {
+  const T = useTheme();
   const { id } = useLocalSearchParams<{ id: string }>();
 
   const [enrollment,  setEnrollment]  = useState<Enrollment | null>(null);
@@ -145,7 +149,7 @@ export default function PayScreen() {
   // ── Loading ──────────────────────────────────────────────────────────────────
   if (loadingData) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff' }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: T.background }}>
         <ActivityIndicator color={C.blue} size="large" />
       </View>
     );
@@ -153,8 +157,8 @@ export default function PayScreen() {
 
   if (!enrollment) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 32 }}>
-        <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 16, textAlign: 'center' }}>Enrollment not found.</Text>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 32, backgroundColor: T.background }}>
+        <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 16, textAlign: 'center' }}>Enrollment not found.</Text>
         <TouchableOpacity onPress={() => router.replace('/account')} style={{ marginTop: 20 }}>
           <Text style={{ color: C.blue, fontFamily: F.semibold }}>Back to Account</Text>
         </TouchableOpacity>
@@ -166,14 +170,14 @@ export default function PayScreen() {
   if (success || enrollment.status === 'confirmed') {
     const isInstallment = paymentPlan === 'installments_3';
     return (
-      <View style={{ flex: 1, backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', padding: 32 }}>
-        <View style={{ width: 72, height: 72, borderRadius: 36, backgroundColor: 'rgba(1, 165, 240, 0.12)', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
+      <View style={{ flex: 1, backgroundColor: T.background, justifyContent: 'center', alignItems: 'center', padding: 32 }}>
+        <View style={{ width: 72, height: 72, borderRadius: 36, backgroundColor: 'rgba(1,165,240,0.12)', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
           <CheckCircle size={36} color={C.skyDeep} />
         </View>
-        <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 22, textAlign: 'center', marginBottom: 12 }}>
+        <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 22, textAlign: 'center', marginBottom: 12 }}>
           {isInstallment ? 'Installment 1 Submitted!' : 'Payment Submitted!'}
         </Text>
-        <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 14, textAlign: 'center', lineHeight: 22, marginBottom: 32, maxWidth: 320 }}>
+        <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 14, textAlign: 'center', lineHeight: 22, marginBottom: 32, maxWidth: 320 }}>
           {isInstallment
             ? 'Your branch admin will confirm installment 1 shortly. Installments 2 and 3 can be tracked on your account page.'
             : "Your branch admin will confirm shortly. You'll receive an email and SMS once confirmed."}
@@ -196,15 +200,15 @@ export default function PayScreen() {
   // ── STK Push pending state ───────────────────────────────────────────────────
   if (stkState === 'pending') {
     return (
-      <View style={{ flex: 1, backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', padding: 32 }}>
+      <View style={{ flex: 1, backgroundColor: T.background, justifyContent: 'center', alignItems: 'center', padding: 32 }}>
         <ActivityIndicator size="large" color={C.blue} style={{ marginBottom: 24 }} />
-        <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 20, textAlign: 'center', marginBottom: 10 }}>
+        <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 20, textAlign: 'center', marginBottom: 10 }}>
           Waiting for M-Pesa...
         </Text>
-        <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 14, textAlign: 'center', lineHeight: 22, marginBottom: 8, maxWidth: 300 }}>
+        <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 14, textAlign: 'center', lineHeight: 22, marginBottom: 8, maxWidth: 300 }}>
           A payment prompt of {KSH(payAmount)} was sent to {dispPhone}.
         </Text>
-        <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 14, textAlign: 'center', lineHeight: 22, marginBottom: 32, maxWidth: 300 }}>
+        <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 14, textAlign: 'center', lineHeight: 22, marginBottom: 32, maxWidth: 300 }}>
           Open your M-Pesa app and enter your PIN to complete the payment.
         </Text>
         <TouchableOpacity
@@ -223,7 +227,7 @@ export default function PayScreen() {
   // ── Main pay screen ──────────────────────────────────────────────────────────
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: '#ffffff' }}
+      style={{ flex: 1, backgroundColor: T.background }}
       contentContainerStyle={{ flexGrow: 1, paddingBottom: 60 }}
       showsVerticalScrollIndicator={false}
       keyboardShouldPersistTaps="handled"
@@ -238,13 +242,13 @@ export default function PayScreen() {
           </TouchableOpacity>
         </View>
 
-        <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 22, marginBottom: 6 }}>Payment</Text>
-        <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 13, marginBottom: 20 }}>
+        <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 22, marginBottom: 6 }}>Payment</Text>
+        <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13, marginBottom: 20 }}>
           {enrollment.className} — {KSH(enrollment.totalAmount)}
         </Text>
 
         {/* ── Segmented control: Full vs Installments ── */}
-        <View style={{ flexDirection: 'row', backgroundColor: 'rgba(34, 31, 32, 0.08)', borderRadius: 12, padding: 4, marginBottom: 20 }}>
+        <View style={{ flexDirection: 'row', backgroundColor: T.isDark ? 'rgba(255,255,255,0.08)' : 'rgba(34,31,32,0.08)', borderRadius: 12, padding: 4, marginBottom: 20 }}>
           {(['full', 'installments_3'] as PaymentPlan[]).map(plan => {
             const active = paymentPlan === plan;
             return (
@@ -253,7 +257,7 @@ export default function PayScreen() {
                 onPress={() => setPaymentPlan(plan)}
                 style={{
                   flex: 1, paddingVertical: 10, borderRadius: 9, alignItems: 'center',
-                  backgroundColor: active ? '#ffffff' : 'transparent',
+                  backgroundColor: active ? T.card : 'transparent',
                   shadowColor: active ? '#000' : 'transparent',
                   shadowOpacity: active ? 0.06 : 0,
                   shadowRadius: active ? 4 : 0,
@@ -261,7 +265,7 @@ export default function PayScreen() {
                 }}
                 activeOpacity={0.8}
               >
-                <Text style={{ fontFamily: active ? F.bold : F.medium, fontSize: 13, color: active ? C.heading : C.muted }}>
+                <Text style={{ fontFamily: active ? F.bold : F.medium, fontSize: 13, color: active ? T.foreground : T.mutedForeground }}>
                   {plan === 'full' ? 'Pay in full' : '3 installments'}
                 </Text>
               </TouchableOpacity>
@@ -272,8 +276,8 @@ export default function PayScreen() {
         {/* ── Installment schedule ── */}
         {paymentPlan === 'installments_3' && (
           <>
-            <View style={{ backgroundColor: '#ffffff', borderRadius: 16, padding: 20, marginBottom: 16, borderWidth: 1, borderColor: 'rgba(34, 31, 32, 0.1)' }}>
-              <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 15, marginBottom: 14 }}>Installment Schedule</Text>
+            <View style={{ backgroundColor: T.card, borderRadius: 16, padding: 20, marginBottom: 16, borderWidth: 1, borderColor: T.border }}>
+              <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 15, marginBottom: 14 }}>Installment Schedule</Text>
               {preview.map((inst, idx) => (
                 <View
                   key={inst.number}
@@ -281,12 +285,12 @@ export default function PayScreen() {
                     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
                     paddingVertical: 12,
                     borderBottomWidth: idx < preview.length - 1 ? 1 : 0,
-                    borderBottomColor: 'rgba(34, 31, 32, 0.06)',
+                    borderBottomColor: T.border,
                   }}
                 >
                   <View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                      <Text style={{ color: inst.number === 1 ? C.blue : C.heading, fontFamily: F.semibold, fontSize: 14 }}>
+                      <Text style={{ color: inst.number === 1 ? C.blue : T.foreground, fontFamily: F.semibold, fontSize: 14 }}>
                         Installment {inst.number}
                       </Text>
                       {inst.number === 1 && (
@@ -295,11 +299,11 @@ export default function PayScreen() {
                         </View>
                       )}
                     </View>
-                    <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 12, marginTop: 3 }}>
+                    <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 12, marginTop: 3 }}>
                       Due {inst.dueAt}
                     </Text>
                   </View>
-                  <Text style={{ color: inst.number === 1 ? C.blue : C.heading, fontFamily: F.bold, fontSize: 16 }}>
+                  <Text style={{ color: inst.number === 1 ? C.blue : T.foreground, fontFamily: F.bold, fontSize: 16 }}>
                     {KSH(inst.amount)}
                   </Text>
                 </View>
@@ -310,7 +314,7 @@ export default function PayScreen() {
               <Info size={15} color={C.blue} style={{ marginTop: 1 }} />
               <View style={{ flex: 1 }}>
                 <Text style={{ color: C.blue, fontFamily: F.bold, fontSize: 12, marginBottom: 3 }}>Why pay in installments?</Text>
-                <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 12, lineHeight: 18 }}>
+                <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 12, lineHeight: 18 }}>
                   Spread the cost over three M-Pesa payments. The branch admin will track each.
                 </Text>
               </View>
@@ -326,7 +330,7 @@ export default function PayScreen() {
 
         {/* Paybill reference card */}
         <InfoCard accent>
-          <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 15, marginBottom: 14 }}>Lipa Na M-Pesa</Text>
+          <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 15, marginBottom: 14 }}>Lipa Na M-Pesa</Text>
           <PaymentRow label="Paybill Number" value={PAYMENT.mpesaPaybill} bold />
           <PaymentRow label="Account Name"   value={PAYMENT.mpesaAccountName} />
           <PaymentRow label="Amount" value={KSH(payAmount)} bold />
@@ -335,7 +339,7 @@ export default function PayScreen() {
         {/* KCB card — only shown for full payment */}
         {paymentPlan === 'full' && (
           <InfoCard>
-            <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 15, marginBottom: 14 }}>{PAYMENT.bankName} Bank Transfer</Text>
+            <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 15, marginBottom: 14 }}>{PAYMENT.bankName} Bank Transfer</Text>
             <PaymentRow label="Account Number" value={PAYMENT.kcbAccount} bold />
             <PaymentRow label="Account Name"   value={PAYMENT.mpesaAccountName} />
             <PaymentRow label="Amount"         value={KSH(enrollment.totalAmount)} bold />
@@ -343,11 +347,11 @@ export default function PayScreen() {
         )}
 
         {/* ── STK Push CTA ─────────────────────────────────────────────────── */}
-        <View style={{ backgroundColor: '#ffffff', borderRadius: 16, padding: 20, borderWidth: 1, borderColor: 'rgba(34, 31, 32, 0.1)', marginBottom: 20 }}>
-          <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 15, marginBottom: 6 }}>
+        <View style={{ backgroundColor: T.card, borderRadius: 16, padding: 20, borderWidth: 1, borderColor: T.border, marginBottom: 20 }}>
+          <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 15, marginBottom: 6 }}>
             {paymentPlan === 'installments_3' ? 'Pay Installment 1' : 'Pay Now'}
           </Text>
-          <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 13, marginBottom: 16, lineHeight: 20 }}>
+          <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13, marginBottom: 16, lineHeight: 20 }}>
             We'll send a payment prompt to {dispPhone}. Enter your M-Pesa PIN when it arrives.
           </Text>
 
@@ -389,8 +393,8 @@ export default function PayScreen() {
 
           {/* Manual entry section */}
           {showManual && (
-            <View style={{ marginTop: 16, paddingTop: 16, borderTopWidth: 1, borderTopColor: 'rgba(34, 31, 32, 0.08)' }}>
-              <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 13, marginBottom: 14, lineHeight: 20 }}>
+            <View style={{ marginTop: 16, paddingTop: 16, borderTopWidth: 1, borderTopColor: T.border }}>
+              <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13, marginBottom: 14, lineHeight: 20 }}>
                 {paymentPlan === 'installments_3'
                   ? `Enter your M-Pesa code for installment 1 (${KSH(preview[0].amount)}).`
                   : `After paying via M-Pesa or KCB, enter your 10-character transaction code below.`}
@@ -403,17 +407,17 @@ export default function PayScreen() {
                 </View>
               )}
 
-              <Text style={{ color: C.dark, fontFamily: F.semibold, fontSize: 11, letterSpacing: 1.1, textTransform: 'uppercase', marginBottom: 8 }}>
+              <Text style={{ color: T.foreground, fontFamily: F.semibold, fontSize: 11, letterSpacing: 1.1, textTransform: 'uppercase', marginBottom: 8 }}>
                 M-Pesa Transaction Code
               </Text>
               <TextInput
                 value={mpesaCode}
                 onChangeText={v => setMpesaCode(v.toUpperCase().slice(0, 10))}
                 placeholder="e.g. QKR1AB2345"
-                placeholderTextColor={C.mutedDark}
+                placeholderTextColor={T.mutedForeground}
                 autoCapitalize="characters"
                 maxLength={10}
-                style={{ backgroundColor: C.white, borderWidth: 1.5, borderColor: mpesaCode.length === 10 ? C.yellow : C.darkBorder, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 13, color: C.heading, fontFamily: F.bold, fontSize: 16, letterSpacing: 2, marginBottom: 14 }}
+                style={{ backgroundColor: T.card, borderWidth: 1.5, borderColor: mpesaCode.length === 10 ? C.yellow : T.border, borderRadius: 12, paddingHorizontal: 14, paddingVertical: 13, color: T.foreground, fontFamily: F.bold, fontSize: 16, letterSpacing: 2, marginBottom: 14 }}
               />
 
               <TouchableOpacity
@@ -424,7 +428,7 @@ export default function PayScreen() {
               >
                 {submitting
                   ? <ActivityIndicator color={C.dark} size="small" />
-                  : <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 14 }}>
+                  : <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 14 }}>
                       {paymentPlan === 'installments_3' ? 'Submit Installment 1' : 'Submit Code'}
                     </Text>
                 }
