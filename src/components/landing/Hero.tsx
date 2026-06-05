@@ -8,7 +8,7 @@ import AnimatedRN, {
 } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
-import { Award, CheckCircle, Users, ChevronDown, ArrowRight } from 'lucide-react-native';
+import { ChevronDown, ArrowRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, SCREEN_H, HERO_SRC } from './constants';
 import { KenBurnsBackground } from '../animations/KenBurnsBackground';
@@ -195,12 +195,6 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
   const accentFrom   = Math.max(0, visibleWords.length - 2);
   const subheadline  = t('hero.subheadline');
 
-  const TRUST_BADGES = [
-    { Icon: CheckCircle, label: t('hero.trustNtsa') },
-    { Icon: Award,       label: t('hero.trustAward') },
-    { Icon: Users,       label: t('hero.trustPassRate') },
-  ];
-
   const heroH = IS_WEB ? 580 : SCREEN_H * 0.80;
 
   return (
@@ -255,19 +249,6 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
 
         {/* Typewriter sub-headline */}
         <TypewriterText key={i18n.language + '-sub'} subheadline={subheadline} />
-
-        {/* Trust badges */}
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: IS_WEB ? 8 : 6, marginBottom: IS_WEB ? 32 : 16 }}>
-          {TRUST_BADGES.map(({ Icon, label }) => (
-            <View
-              key={label}
-              style={{ flexDirection: 'row', alignItems: 'center', gap: IS_WEB ? 6 : 4, paddingHorizontal: IS_WEB ? 12 : 8, paddingVertical: IS_WEB ? 7 : 4, borderRadius: 20, backgroundColor: 'rgba(255,255,255,0.10)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.20)' }}
-            >
-              <Icon size={IS_WEB ? 12 : 10} color={C.yellow} />
-              <Text style={{ color: C.white, fontFamily: F.medium, fontSize: IS_WEB ? 12 : 10 }}>{label}</Text>
-            </View>
-          ))}
-        </View>
 
         {/* CTA buttons */}
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>

@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, useWindowDimensions } from 'react-native';
-import { Building2, Users, Trophy, Award } from 'lucide-react-native';
 import { useTheme } from '@/lib/theme';
-import { C, IS_WEB, MAX_W } from './constants';
+import { IS_WEB, MAX_W } from './constants';
 import { StatCard } from './StatCard';
 import { STATS } from '@/data/saferide';
 
@@ -15,26 +14,10 @@ export default function StatStrip() {
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
 
   const cards = [
-    {
-      icon:  <Building2 size={28} color={C.skyDeep} />,
-      value: `${STATS.branches}+`,
-      label: 'Branches across Nairobi',
-    },
-    {
-      icon:  <Users size={28} color={C.skyDeep} />,
-      value: `${STATS.instructors}+`,
-      label: 'Certified Instructors',
-    },
-    {
-      icon:  <Trophy size={28} color={C.skyDeep} />,
-      value: `${STATS.passRate}%`,
-      label: 'First-Try Pass Rate',
-    },
-    {
-      icon:  <Award size={28} color={C.skyDeep} />,
-      value: `${STATS.yearsActive}+`,
-      label: 'Years on the Road',
-    },
+    { value: `${STATS.branches}+`,    label: 'Branches across Nairobi' },
+    { value: `${STATS.instructors}+`, label: 'Certified Instructors' },
+    { value: `${STATS.passRate}%`,    label: 'First-Try Pass Rate' },
+    { value: `${STATS.yearsActive}+`, label: 'Years on the Road' },
   ];
 
   return (
@@ -69,7 +52,7 @@ export default function StatStrip() {
       >
         {cards.map((c, i) => (
           <View key={c.label} style={isMobile ? { width: '48%' } : { flex: 1 }}>
-            <StatCard icon={c.icon} value={c.value} label={c.label} index={i} />
+            <StatCard value={c.value} label={c.label} index={i} />
           </View>
         ))}
       </View>

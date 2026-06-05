@@ -3,19 +3,18 @@ import { Platform, Pressable, Text, AccessibilityInfo, useWindowDimensions } fro
 import AnimatedRN, {
   useSharedValue, useAnimatedStyle, useAnimatedReaction,
   withTiming, withRepeat, withDelay, interpolate, runOnJS,
-  cancelAnimation, Easing,
+  Easing,
 } from 'react-native-reanimated';
 import { useTheme } from '@/lib/theme';
 import { C, F, IS_WEB } from './constants';
 
 type Props = {
-  icon: React.ReactNode;
   value: string;
   label: string;
   index?: number;
 };
 
-export function StatCard({ icon, value, label, index = 0 }: Props) {
+export function StatCard({ value, label, index = 0 }: Props) {
   const T = useTheme();
   const { width: winW } = useWindowDimensions();
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
@@ -53,30 +52,6 @@ export function StatCard({ icon, value, label, index = 0 }: Props) {
     () => Math.floor(progress.value),
     (val) => runOnJS(setDisplayNum)(val),
   );
-
-  // ── Icon pulse — skipped if reduceMotion ────────────────────────────────────
-  const pulse = useSharedValue(0);
-
-  useEffect(() => {
-    if (reduceMotion) {
-      cancelAnimation(pulse);
-      pulse.value = 0;
-      return;
-    }
-    pulse.value = withDelay(
-      index * 400,
-      withRepeat(
-        withTiming(1, { duration: 1000, easing: Easing.inOut(Easing.sin) }),
-        -1,
-        true,
-      ),
-    );
-  }, [reduceMotion]);
-
-  const iconPulseStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: interpolate(pulse.value, [0, 1], [1, 1.08]) }],
-    opacity: interpolate(pulse.value, [0, 1], [1, 0.85]),
-  }));
 
   // ── Yellow glow breath — staggered per card ─────────────────────────────────
   const glow = useSharedValue(0);
@@ -145,10 +120,6 @@ export function StatCard({ icon, value, label, index = 0 }: Props) {
         ]}
         {...(IS_WEB ? ({ onMouseEnter: liftIn, onMouseLeave: liftOut } as any) : {})}
       >
-        <AnimatedRN.View style={[{ marginBottom: 12 }, iconPulseStyle]}>
-          {icon}
-        </AnimatedRN.View>
-
         <Text style={{ color: valueFg, fontFamily: F.bold, fontSize: isMobile ? 20 : 28, lineHeight: isMobile ? 26 : 34 }}>
           {displayNum}{suffix}
         </Text>

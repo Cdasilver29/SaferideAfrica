@@ -301,13 +301,11 @@ export default function Navbar({ scrollY }: NavbarProps) {
               style={[styles.logoImg, !showPills && { width: 36, height: 36, borderRadius: 8 }]}
               resizeMode="contain"
             />
-            {showPills ? (
+            {showPills && (
               <View>
                 <Text style={styles.brandName}>{t('nav.brand')}</Text>
                 <Text style={styles.brandTag}>{t('nav.tagline')}</Text>
               </View>
-            ) : (
-              <Text style={[styles.brandName, { fontSize: 13 }]}>{t('nav.brand')}</Text>
             )}
           </TouchableOpacity>
 
