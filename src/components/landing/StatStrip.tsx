@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, useWindowDimensions } from 'react-native';
 import { useTheme } from '@/lib/theme';
-import { IS_WEB, MAX_W } from './constants';
+import { C, IS_WEB, MAX_W } from './constants';
 import { StatCard } from './StatCard';
 import { STATS } from '@/data/saferide';
 
