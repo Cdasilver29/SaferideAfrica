@@ -288,7 +288,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
           />
         )}
 
-        <View style={[styles.rowInner, IS_WEB ? { maxWidth: MAX_W } : {}]}>
+        <View style={[styles.rowInner, IS_WEB ? { maxWidth: MAX_W } : { gap: 6 }]}>
 
           {/* Logo */}
           <TouchableOpacity
@@ -298,7 +298,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
           >
             <Image
               source={LOGO}
-              style={[styles.logoImg, !showPills && { width: 36, height: 36, borderRadius: 8 }]}
+              style={[styles.logoImg, !showPills && { width: 40, height: 40, borderRadius: 9 }]}
               resizeMode="contain"
             />
             {showPills ? (
@@ -308,7 +308,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
               </View>
             ) : (
               <Text
-                style={[styles.brandName, { fontSize: 13 }]}
+                style={[styles.brandName, { fontSize: 15 }]}
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
@@ -379,19 +379,6 @@ export default function Navbar({ scrollY }: NavbarProps) {
                 <Text style={styles.enrolText}>{showPills ? 'Enrol Now' : 'Enrol'}</Text>
               </TouchableOpacity>
             </AnimatedRN.View>
-
-            {/* Call Now — icon only on mobile */}
-            {showHamburger && (
-              <TouchableOpacity
-                onPress={() => Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`)}
-                activeOpacity={0.85}
-                style={[styles.iconBtn, { backgroundColor: C.red }]}
-              >
-                <AnimatedRN.View style={phoneShakeStyle}>
-                  <Phone size={15} color={C.white} />
-                </AnimatedRN.View>
-              </TouchableOpacity>
-            )}
 
             {/* Hamburger — native always, and narrow web viewports */}
             {showHamburger && (
