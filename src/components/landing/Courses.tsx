@@ -3,7 +3,7 @@ import {
   View, Text, TouchableOpacity, ScrollView, LayoutAnimation, Platform, UIManager,
 } from 'react-native';
 import Animated, {
-  useSharedValue, useAnimatedStyle, withSpring,
+  useSharedValue, useAnimatedStyle, withSpring, withSequence, withTiming, interpolateColor,
 } from 'react-native-reanimated';
 import { router } from 'expo-router';
 import { ChevronDown, ChevronUp, CheckCircle, AlertTriangle } from 'lucide-react-native';
@@ -91,26 +91,48 @@ function ClassRow({ cls, isDark }: { cls: DriveClass; isDark: boolean }) {
   const { open } = useEnrollModal();
   const accentColor = SERIES_COLORS[cls.series];
 
+  const blink = useSharedValue(0);
+  const blinkStyle = useAnimatedStyle(() => ({
+    borderColor: interpolateColor(
+      blink.value,
+      [0, 1],
+      [isDark ? C.darkBorder : 'rgba(34,31,32,0.1)', C.yellow],
+    ),
+  }));
+
+  const triggerBlink = () => {
+    blink.value = withSequence(
+      withTiming(1, { duration: 120 }),
+      withTiming(0, { duration: 120 }),
+      withTiming(1, { duration: 120 }),
+      withTiming(0, { duration: 220 }),
+    );
+  };
+
   const toggle = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setExpanded(v => !v);
   };
 
   return (
-    <View
-      style={{
-        backgroundColor: isDark ? C.dark : C.white,
-        borderRadius: 14,
-        marginBottom: 10,
-        borderWidth: 1,
-        borderColor: isDark ? C.darkBorder : 'rgba(34,31,32,0.1)',
-        overflow: 'hidden',
-      }}
+    <Animated.View
+      style={[
+        {
+          backgroundColor: isDark ? C.dark : C.white,
+          borderRadius: 14,
+          marginBottom: 10,
+          borderWidth: 1,
+          overflow: 'hidden',
+        },
+        blinkStyle,
+      ]}
     >
       {/* Main row — tap to expand */}
       <TouchableOpacity
         onPress={toggle}
+        onPressIn={triggerBlink}
         activeOpacity={0.8}
+        {...(IS_WEB ? ({ onMouseEnter: triggerBlink } as any) : {})}
         style={{
           flexDirection: 'row',
           alignItems: 'center',
@@ -201,7 +223,7 @@ function ClassRow({ cls, isDark }: { cls: DriveClass; isDark: boolean }) {
           />
         </View>
       )}
-    </View>
+    </Animated.View>
   );
 }
 

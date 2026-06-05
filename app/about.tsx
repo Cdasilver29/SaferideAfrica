@@ -505,10 +505,30 @@ function Achievements() {
 }
 
 // ─── Management ───────────────────────────────────────────────────────────────
+
+function MemberAvatar({ photo, initials, color }: { photo?: string; initials: string; color: string }) {
+  const [imgError, setImgError] = useState(false);
+  if (photo && !imgError) {
+    return (
+      <Image
+        source={{ uri: photo }}
+        style={{ width: 52, height: 52, borderRadius: 26, flexShrink: 0, backgroundColor: color }}
+        resizeMode="cover"
+        onError={() => setImgError(true)}
+      />
+    );
+  }
+  return (
+    <View style={{ width: 52, height: 52, borderRadius: 26, backgroundColor: color, alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+      <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: 16 }}>{initials}</Text>
+    </View>
+  );
+}
+
 function Management() {
   const T = useTheme();
 
-  const team = [
+  const team: Array<{ title: string; name: string; initials: string; photo?: string }> = [
     ...MANAGEMENT.map(m => ({ ...m, initials: m.name.split(' ').map(w => w[0]).join('').slice(0, 2) })),
     { title: 'Operations Manager', name: 'TBD',          initials: 'OM' },
     { title: 'Branch Managers',    name: '10 Locations', initials: 'BM' },
@@ -572,19 +592,11 @@ function Management() {
                 borderColor: T.border,
               }}
             >
-              <View
-                style={{
-                  width: 52,
-                  height: 52,
-                  borderRadius: 26,
-                  backgroundColor: AVATAR_COLORS[i % AVATAR_COLORS.length],
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}
-              >
-                <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: 16 }}>{member.initials}</Text>
-              </View>
+              <MemberAvatar
+                photo={member.photo}
+                initials={member.initials}
+                color={AVATAR_COLORS[i % AVATAR_COLORS.length]}
+              />
               <View style={{ flex: 1 }}>
                 <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 15 }}>{member.name}</Text>
                 <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 12, marginTop: 3 }}>

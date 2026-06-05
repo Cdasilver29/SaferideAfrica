@@ -52,11 +52,12 @@ function AnimatedCounter({ target, suffix, label }: { target: number; suffix: st
 // ── Feature card with entrance stagger + sway + yellow coat ──────────────────
 
 function FeatureItem({
-  feat, index, t,
+  feat, index, t, cardW,
 }: {
   feat: typeof WHY_FEATURES[0];
   index: number;
   t: (key: string) => string;
+  cardW: any;
 }) {
   const Icon = ICON_MAP[feat.iconName] ?? BookOpen;
   const tKey = WHY_KEY_MAP[feat.iconName] ?? feat.iconName;
@@ -194,7 +195,7 @@ export default function WhyChooseUs() {
           : { gap: 14, marginBottom: 44 }
         }>
           {WHY_FEATURES.map((feat, i) => (
-            <FeatureItem key={feat.title} feat={feat} index={i} t={t} />
+            <FeatureItem key={feat.title} feat={feat} index={i} t={t} cardW={cardW} />
           ))}
         </View>
 
