@@ -5,7 +5,7 @@ import Animated, {
   withSpring, withSequence, withTiming, interpolate,
 } from 'react-native-reanimated';
 import { router } from 'expo-router';
-import { Shield, Star, Users, BookOpen, ArrowRight } from 'lucide-react-native';
+import { ArrowRight } from 'lucide-react-native';
 import { useTheme } from '@/lib/theme';
 import { C, F, IS_WEB, MAX_W, SERVICES_IMG } from './constants';
 import { SectionIntro } from './SectionIntro';
@@ -37,13 +37,10 @@ const PREVIEW_SERVICES = [
   },
 ];
 
-const ICON_MAP: Record<string, React.ComponentType<any>> = { Shield, Star, Users, BookOpen };
-
 // ── Animated card ─────────────────────────────────────────────────────────────
 
 function ServiceCard({ svc }: { svc: typeof PREVIEW_SERVICES[0] }) {
-  const T    = useTheme();
-  const Icon = ICON_MAP[svc.iconName] ?? Shield;
+  const T = useTheme();
 
   const lift   = useSharedValue(0);   // 0 idle → 1 active
   const rotate = useSharedValue(0);   // degrees for the sway
@@ -109,13 +106,6 @@ function ServiceCard({ svc }: { svc: typeof PREVIEW_SERVICES[0] }) {
           minWidth: IS_WEB ? undefined : '47%',
         }}
       >
-        <View style={{
-          width: 52, height: 52, borderRadius: 26,
-          backgroundColor: C.skyDeep, alignItems: 'center', justifyContent: 'center',
-          marginBottom: 12,
-        }}>
-          <Icon size={22} color={C.white} />
-        </View>
         <View style={{ width: 24, height: 3, borderRadius: 2, backgroundColor: C.yellow, marginBottom: 10 }} />
         <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 14, textAlign: 'center', marginBottom: 8, lineHeight: 20 }}>
           {svc.name}

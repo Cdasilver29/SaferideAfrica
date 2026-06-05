@@ -7,18 +7,10 @@ import AnimatedRN, {
 } from 'react-native-reanimated';
 import { router } from 'expo-router';
 import { useTheme } from '@/lib/theme';
-import {
-  Shield, Award, Star, Users, Navigation, BookOpen,
-  GraduationCap, CheckCircle, Monitor, ChevronRight, Briefcase,
-} from 'lucide-react-native';
+import { ChevronRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { SERVICES, ServiceItem } from '@/data/saferide';
 import { C, F, IS_WEB, MAX_W } from './constants';
-
-const ICON_MAP: Record<string, React.ComponentType<any>> = {
-  Shield, Award, Star, Users, Navigation, BookOpen,
-  GraduationCap, CheckCircle, Monitor, Briefcase,
-};
 
 function ServiceCard({
   svc,
@@ -29,8 +21,7 @@ function ServiceCard({
   readMore: string;
   entranceDelay: number;
 }) {
-  const T    = useTheme();
-  const Icon = ICON_MAP[svc.iconName] ?? Shield;
+  const T = useTheme();
 
   // Entrance
   const enterOp = useSharedValue(0);
@@ -113,17 +104,6 @@ function ServiceCard({
           borderRadius: 18,
         }}
       >
-        {/* Icon circle */}
-        <View style={{
-          width: 54, height: 54, borderRadius: 27,
-          backgroundColor: C.blue,
-          alignItems: 'center', justifyContent: 'center',
-          marginBottom: 12,
-          shadowColor: C.blue, shadowOpacity: 0.3, shadowRadius: 8, elevation: 4,
-        }}>
-          <Icon size={24} color="#ffffff" />
-        </View>
-
         {/* Yellow accent bar */}
         <View style={{ width: 24, height: 3, borderRadius: 2, backgroundColor: C.yellow, marginBottom: 10 }} />
 

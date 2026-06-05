@@ -224,7 +224,7 @@ export default function Footer() {
                   {t('footer.copyright')}
                 </Text>
                 <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 11, opacity: 0.70, marginTop: 3 }}>
-                  💻 Developer: calvinedasilver96@gmail.com
+                  Developer: calvinedasilver96@gmail.com
                 </Text>
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -247,7 +247,7 @@ export default function Footer() {
                 {t('footer.copyright')}
               </Text>
               <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 10, textAlign: 'center', opacity: 0.70 }}>
-                💻 Developer: calvinedasilver96@gmail.com
+                Developer: calvinedasilver96@gmail.com
               </Text>
             </View>
           )}

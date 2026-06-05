@@ -5,11 +5,8 @@ import AnimatedRN, {
   withSpring, withSequence, withTiming, withDelay,
   interpolate,
 } from 'react-native-reanimated';
-import { BookOpen, Map, Tag, Award, Clock } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W, WHY_FEATURES, STATS } from './constants';
-
-const ICON_MAP: Record<string, React.ComponentType<any>> = { BookOpen, Map, Tag, Award, Clock };
 
 const WHY_KEY_MAP: Record<string, string> = {
   BookOpen: 'onlineClasses',
@@ -59,7 +56,6 @@ function FeatureItem({
   t: (key: string) => string;
   cardW: any;
 }) {
-  const Icon = ICON_MAP[feat.iconName] ?? BookOpen;
   const tKey = WHY_KEY_MAP[feat.iconName] ?? feat.iconName;
 
   // Entrance (stagger by index)
@@ -136,17 +132,6 @@ function FeatureItem({
         {...(IS_WEB ? ({ onMouseEnter: onEnter, onMouseLeave: onLeave } as any) : {})}
         style={{ padding: 22, alignItems: 'center', borderRadius: 16 }}
       >
-        {/* Icon circle */}
-        <View style={{
-          width: 54, height: 54, borderRadius: 27,
-          backgroundColor: 'rgba(255,216,0,0.15)',
-          alignItems: 'center', justifyContent: 'center',
-          marginBottom: 14,
-          borderWidth: 1, borderColor: 'rgba(255,216,0,0.3)',
-        }}>
-          <Icon size={24} color={C.yellow} />
-        </View>
-
         <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: 14, textAlign: 'center', marginBottom: 8 }}>
           {t(`whyChooseUs.items.${tKey}.title`)}
         </Text>

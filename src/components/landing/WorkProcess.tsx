@@ -1,15 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, Animated, Platform, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
+import { View, Text, Animated, Platform, ScrollView, useWindowDimensions } from 'react-native';
 import { useColorScheme } from 'nativewind';
-import AnimatedRN, {
-  useSharedValue, useAnimatedStyle,
-  withSpring, withSequence, withTiming,
-} from 'react-native-reanimated';
-import { CheckSquare, Users, CreditCard, Car } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W, WORK_STEPS } from './constants';
-
-const ICON_MAP: Record<string, React.ComponentType<any>> = { CheckSquare, Users, CreditCard, Car };
 
 const STEP_KEY_MAP: Record<string, string> = {
   '01': 'selectPlan',
@@ -30,35 +23,7 @@ function StepCard({
   isDark: boolean;
   t: (key: string) => string;
 }) {
-  const Icon = ICON_MAP[step.iconName] ?? Car;
-  const key  = STEP_KEY_MAP[step.num] ?? step.num;
-
-  const sway = useSharedValue(0);
-
-  // Rotation around the top center: shift up half-height, rotate, shift back
-  const iconAnimStyle = useAnimatedStyle(() => ({
-    transform: [
-      { translateY: -32 },
-      { rotate: `${sway.value}deg` },
-      { translateY: 32 },
-    ],
-  }));
-
-  const triggerSway = () => {
-    sway.value = withSequence(
-      withTiming(-10, { duration: 110 }),
-      withSpring(8,   { damping: 3,  stiffness: 70 }),
-      withSpring(-5,  { damping: 4,  stiffness: 70 }),
-      withSpring(3,   { damping: 5,  stiffness: 80 }),
-      withSpring(0,   { damping: 7,  stiffness: 80 }),
-    );
-  };
-
-  // Auto-trigger once on mount, staggered per card
-  useEffect(() => {
-    const id = setTimeout(triggerSway, i * 250 + 700);
-    return () => clearTimeout(id);
-  }, []);
+  const key = STEP_KEY_MAP[step.num] ?? step.num;
 
   return (
     <Animated.View
@@ -81,45 +46,17 @@ function StepCard({
         borderWidth: 1,
         borderColor: isDark ? C.darkBorder : 'rgba(34,31,32,0.1)',
       }}>
-        {/* Icon circle with pendulum sway */}
-        <View style={{ position: 'relative', marginBottom: 20, alignSelf: IS_WEB ? 'center' : 'flex-start' }}>
-          <AnimatedRN.View style={iconAnimStyle}>
-            <TouchableOpacity
-              onPressIn={triggerSway}
-              activeOpacity={0.92}
-              {...(IS_WEB ? ({ onMouseEnter: triggerSway } as any) : {})}
-              style={{
-                width: 64,
-                height: 64,
-                borderRadius: 32,
-                backgroundColor: C.blue,
-                alignItems: 'center',
-                justifyContent: 'center',
-                shadowColor: C.blue,
-                shadowOpacity: 0.3,
-                shadowRadius: 10,
-                elevation: 4,
-              }}
-            >
-              <Icon size={26} color="#ffffff" />
-            </TouchableOpacity>
-          </AnimatedRN.View>
-
-          {/* Step number badge — fixed, doesn't sway */}
-          <View style={{
-            position: 'absolute',
-            top: -6, right: -6,
-            width: 24, height: 24,
-            borderRadius: 12,
-            backgroundColor: C.yellow,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderWidth: 2,
-            borderColor: '#ffffff',
-            zIndex: 1,
-          }}>
-            <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 9 }}>{step.num}</Text>
-          </View>
+        {/* Step number badge */}
+        <View style={{
+          width: 36, height: 36,
+          borderRadius: 18,
+          backgroundColor: C.yellow,
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: 16,
+          alignSelf: IS_WEB ? 'center' : 'flex-start',
+        }}>
+          <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 13 }}>{step.num}</Text>
         </View>
 
         <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.bold, fontSize: 16, marginBottom: 8, textAlign: IS_WEB ? 'center' : 'left' }}>
