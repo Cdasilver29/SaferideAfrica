@@ -220,6 +220,8 @@ function BranchDirectory() {
 // ─── HQ callout banner ────────────────────────────────────────────────────────
 function HQCallout() {
   const T = useTheme();
+  const { width: winW } = useWindowDimensions();
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   const hq = BRANCHES.find(b => b.isHQ)!;
   return (
     <View style={{ paddingHorizontal: 24, paddingBottom: 32 }}>
@@ -231,9 +233,8 @@ function HQCallout() {
             padding: 20,
             borderWidth: 2,
             borderColor: C.yellow,
-            flexDirection: IS_WEB ? 'row' : 'column',
-            alignItems: IS_WEB ? 'center' : 'flex-start',
-            gap: IS_WEB ? 20 : 10,
+            gap: isMobile ? 12 : 20,
+            ...(isMobile ? {} : { flexDirection: 'row', alignItems: 'center' }),
           }}
         >
           <View
@@ -249,7 +250,7 @@ function HQCallout() {
               Headquarters
             </Text>
           </View>
-          <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 15, flex: IS_WEB ? 1 : undefined }}>
+          <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 15, flex: isMobile ? undefined : 1 }}>
             {hq.name} — {hq.address}
           </Text>
           <TouchableOpacity
@@ -266,6 +267,7 @@ function HQCallout() {
               paddingHorizontal: 16,
               paddingVertical: 9,
               borderRadius: 20,
+              alignSelf: 'flex-start',
             }}
             activeOpacity={0.85}
           >

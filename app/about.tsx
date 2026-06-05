@@ -151,6 +151,8 @@ function SocialBadge({ url, icon }: { url: string; icon: React.ReactElement }) {
 function AboutOpener() {
   const T = useTheme()
   const router = useRouter()
+  const { width: winW } = useWindowDimensions()
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768)
   const iconColor = T.isDark ? C.white : C.dark
   const mutedColor = T.isDark ? 'rgba(255,255,255,0.6)' : 'rgba(34,31,32,0.6)'
   const yearsActive = new Date().getFullYear() - COMPANY.registration.foundedYear
@@ -209,65 +211,28 @@ function AboutOpener() {
         </View>
 
         {/* Main content: headline + paragraphs + CTA */}
-        <View style={IS_WEB ? { flexDirection: 'row', gap: 48 } : { gap: 32 }}>
-
-          {/* Left: headline + two-column paragraphs */}
-          <View style={{ flex: IS_WEB ? 2 : 1 }}>
-            <View style={{ marginBottom: 24 }}>
-              <VerticalCutReveal
-                text="Driving Safety Beyond Limits Since 2015."
-                splitBy="words"
-                staggerDuration={0.1}
-                startDelay={0.3}
-                style={{
-                  fontSize: IS_WEB ? 40 : 22,
-                  fontFamily: F.semibold,
-                  color: T.foreground,
-                  lineHeight: IS_WEB ? 48 : 30,
-                }}
-              />
-            </View>
-            <View style={IS_WEB ? { flexDirection: 'row', gap: 24 } : { gap: 16 }}>
-              <Text
-                style={{
-                  flex: 1, fontFamily: F.regular, fontSize: 14, lineHeight: 24,
-                  color: mutedColor, textAlign: 'justify',
-                }}
-              >
-                {COMPANY_STORY[0]}
-              </Text>
-              <Text
-                style={{
-                  flex: 1, fontFamily: F.regular, fontSize: 14, lineHeight: 24,
-                  color: mutedColor, textAlign: 'justify',
-                }}
-              >
-                {COMPANY_STORY[1]}
-              </Text>
-            </View>
-          </View>
-
-          {/* Right: brand wordmark + CTA */}
-          <View
-            style={{
-              flex: IS_WEB ? 1 : undefined,
-              alignItems: IS_WEB ? 'flex-end' : 'flex-start',
-              justifyContent: 'center',
-            }}
-          >
-            <Text style={{ fontFamily: F.bold, fontSize: 22, color: C.skyDeep, marginBottom: 4 }}>
-              SAFE RIDE AFRICA
-            </Text>
-            <Text style={{ fontFamily: F.regular, fontSize: 12, color: mutedColor, marginBottom: 24 }}>
-              NTSA-Registered Driving School · Since {COMPANY.registration.foundedYear}
-            </Text>
+        {isMobile ? (
+          /* ── Mobile: linear stack — headline → paragraph → enrol button ── */
+          <View style={{ gap: 18 }}>
+            <VerticalCutReveal
+              text="Driving Safety Beyond Limits Since 2015."
+              splitBy="words"
+              staggerDuration={0.1}
+              startDelay={0.3}
+              style={{
+                fontSize: 22,
+                fontFamily: F.semibold,
+                color: T.foreground,
+                lineHeight: 30,
+              }}
+            />
             <Text
               style={{
-                fontFamily: F.medium, fontSize: 14, color: T.foreground,
-                marginBottom: 14, textAlign: IS_WEB ? 'right' : 'left',
+                fontFamily: F.regular, fontSize: 14, lineHeight: 24,
+                color: mutedColor, textAlign: 'justify',
               }}
             >
-              Ready to start your driving journey?
+              {COMPANY_STORY[0]}{' '}{COMPANY_STORY[1]}
             </Text>
             <Pressable
               onPress={() => router.push('/courses' as any)}
@@ -275,6 +240,7 @@ function AboutOpener() {
                 flexDirection: 'row', alignItems: 'center', gap: 8,
                 backgroundColor: C.skyDeep, borderRadius: 10,
                 paddingHorizontal: 20, paddingVertical: 12,
+                alignSelf: 'flex-start',
               }}
             >
               <Text style={{ fontFamily: F.bold, fontSize: 14, color: C.white }}>
@@ -283,8 +249,79 @@ function AboutOpener() {
               <ArrowRight size={16} color={C.white} />
             </Pressable>
           </View>
+        ) : (
+          /* ── Desktop: two-column layout ── */
+          <View style={{ flexDirection: 'row', gap: 48 }}>
 
-        </View>
+            {/* Left: headline + two-column paragraphs */}
+            <View style={{ flex: 2 }}>
+              <View style={{ marginBottom: 24 }}>
+                <VerticalCutReveal
+                  text="Driving Safety Beyond Limits Since 2015."
+                  splitBy="words"
+                  staggerDuration={0.1}
+                  startDelay={0.3}
+                  style={{
+                    fontSize: 40,
+                    fontFamily: F.semibold,
+                    color: T.foreground,
+                    lineHeight: 48,
+                  }}
+                />
+              </View>
+              <View style={{ flexDirection: 'row', gap: 24 }}>
+                <Text
+                  style={{
+                    flex: 1, fontFamily: F.regular, fontSize: 14, lineHeight: 24,
+                    color: mutedColor, textAlign: 'justify',
+                  }}
+                >
+                  {COMPANY_STORY[0]}
+                </Text>
+                <Text
+                  style={{
+                    flex: 1, fontFamily: F.regular, fontSize: 14, lineHeight: 24,
+                    color: mutedColor, textAlign: 'justify',
+                  }}
+                >
+                  {COMPANY_STORY[1]}
+                </Text>
+              </View>
+            </View>
+
+            {/* Right: brand wordmark + CTA */}
+            <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
+              <Text style={{ fontFamily: F.bold, fontSize: 22, color: C.skyDeep, marginBottom: 4 }}>
+                SAFE RIDE AFRICA
+              </Text>
+              <Text style={{ fontFamily: F.regular, fontSize: 12, color: mutedColor, marginBottom: 24 }}>
+                NTSA-Registered Driving School · Since {COMPANY.registration.foundedYear}
+              </Text>
+              <Text
+                style={{
+                  fontFamily: F.medium, fontSize: 14, color: T.foreground,
+                  marginBottom: 14, textAlign: 'right',
+                }}
+              >
+                Ready to start your driving journey?
+              </Text>
+              <Pressable
+                onPress={() => router.push('/courses' as any)}
+                style={{
+                  flexDirection: 'row', alignItems: 'center', gap: 8,
+                  backgroundColor: C.skyDeep, borderRadius: 10,
+                  paddingHorizontal: 20, paddingVertical: 12,
+                }}
+              >
+                <Text style={{ fontFamily: F.bold, fontSize: 14, color: C.white }}>
+                  ENROL WITH US
+                </Text>
+                <ArrowRight size={16} color={C.white} />
+              </Pressable>
+            </View>
+
+          </View>
+        )}
       </View>
     </View>
   )
