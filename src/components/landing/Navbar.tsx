@@ -296,11 +296,17 @@ export default function Navbar({ scrollY }: NavbarProps) {
             style={styles.logoRow}
             activeOpacity={0.85}
           >
-            <Image source={LOGO} style={styles.logoImg} resizeMode="contain" />
-            <View>
-              <Text style={styles.brandName}>{t('nav.brand')}</Text>
-              <Text style={styles.brandTag}>{t('nav.tagline')}</Text>
-            </View>
+            <Image
+              source={LOGO}
+              style={[styles.logoImg, !showPills && { width: 36, height: 36, borderRadius: 8 }]}
+              resizeMode="contain"
+            />
+            {showPills && (
+              <View>
+                <Text style={styles.brandName}>{t('nav.brand')}</Text>
+                <Text style={styles.brandTag}>{t('nav.tagline')}</Text>
+              </View>
+            )}
           </TouchableOpacity>
 
           {/* Gradient pills — wide screens only */}
@@ -395,7 +401,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
                 { transform: [{ translateX: drawerTranslate }] },
               ]}
             >
-              <TouchableOpacity activeOpacity={1}>
+              <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
                 {/* Drawer header */}
                 <View style={[styles.drawerHeader, { backgroundColor: C.skyDeep }]}>
                   <View style={styles.logoRow}>
@@ -408,7 +414,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
                 </View>
 
                 {/* Nav items */}
-                <RNScrollView style={{ paddingTop: 8 }}>
+                <RNScrollView style={{ paddingTop: 8, flex: 1 }}>
                   {NAV_ITEMS.map(item => {
                     const active = isItemActive(item.path);
                     return (
