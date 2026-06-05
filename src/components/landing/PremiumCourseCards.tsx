@@ -202,7 +202,7 @@ function PremiumCard({ cls }: { cls: (typeof CLASSES)[0] }) {
 
         {/* CTA button */}
         <TouchableOpacity
-          onPress={() => router.push(`/classes/${cls.code}/enrol` as any)}
+          onPress={() => router.push(`/classes/${cls.code}` as any)}
           activeOpacity={0.85}
           style={[
             styles.cta,

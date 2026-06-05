@@ -17,8 +17,6 @@ const FOOTER_NAV = [
   { label: 'Gallery',  path: '/gallery' },
   { label: 'Blog',     path: '/blog' },
   { label: 'Contact',  path: '/contact' },
-  { label: 'Login',    path: '/login' },
-  { label: 'Register', path: '/register' },
 ];
 
 const LOGO      = require('../../../assets/images/saferide-logo.jpg');

@@ -45,13 +45,19 @@ export const HERO_SRC = IS_WEB
   ? { uri: '/DSC_2116.webp' }
   : require('../../../assets/images/car-pic.png');
 
+// "Built for Kenyan Roads" section on home page
 export const ABOUT_IMG = IS_WEB
-  ? { uri: '/DSC_2116.webp' }
+  ? { uri: '/gallery/DSC_2089.webp' }
   : require('../../../assets/images/car-pic.png');
 
-// Photo used in the Services Preview section (left-hand image)
+// "WHO WE ARE" opener on the About page
+export const ABOUT_OPENER_IMG = IS_WEB
+  ? { uri: '/gallery/DSC_6830.webp' }
+  : require('../../../assets/images/car-pic.png');
+
+// "Programmes Tailored to How You Drive" section
 export const SERVICES_IMG = IS_WEB
-  ? { uri: '/DSC_2116.webp' }
+  ? { uri: '/student-driver.webp' }
   : require('../../../assets/images/car-pic.png');
 
 export const GALLERY_IMGS: { uri: string; caption: string }[] | { src: any; caption: string }[] = IS_WEB

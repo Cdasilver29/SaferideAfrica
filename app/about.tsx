@@ -22,7 +22,7 @@ import {
   COMPANY, VISION, MISSION, CORE_VALUES, MANAGEMENT, WHY_CHOOSE_US,
   COMPANY_STORY, SOCIALS, STATS as SAFERIDE_STATS,
 } from '@/data/saferide';
-import { C, F, IS_WEB, MAX_W, ABOUT_IMG } from '@/components/landing/constants';
+import { C, F, IS_WEB, MAX_W, ABOUT_IMG, ABOUT_OPENER_IMG } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
 
 // ─── About opener sub-components ─────────────────────────────────────────────
@@ -183,7 +183,7 @@ function AboutOpener() {
         </View>
 
         {/* Clipped hero image */}
-        <ClippedHeroImage source={ABOUT_IMG} />
+        <ClippedHeroImage source={ABOUT_OPENER_IMG} />
 
         {/* Stats line */}
         <View
