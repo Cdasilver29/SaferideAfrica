@@ -307,13 +307,18 @@ export default function Navbar({ scrollY }: NavbarProps) {
                 <Text style={styles.brandTag}>{t('nav.tagline')}</Text>
               </View>
             ) : (
-              <Text
-                style={[styles.brandName, { fontSize: 14, flexShrink: 1 }]}
-                numberOfLines={1}
-                ellipsizeMode="tail"
-              >
-                {t('nav.brand')}
-              </Text>
+              <View style={{ flexShrink: 1 }}>
+                <Text
+                  style={[styles.brandName, { fontSize: 14 }]}
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                >
+                  {t('nav.brand')}
+                </Text>
+                <Text style={[styles.brandTag, { fontSize: 8, letterSpacing: 1.5 }]} numberOfLines={1}>
+                  {t('nav.tagline')}
+                </Text>
+              </View>
             )}
           </TouchableOpacity>
 
@@ -406,15 +411,6 @@ export default function Navbar({ scrollY }: NavbarProps) {
           </View>
         </View>
       </View>
-
-      {/* Mobile tagline strip */}
-      {showHamburger && (
-        <View style={{ backgroundColor: navBg, paddingVertical: 5, alignItems: 'center' }}>
-          <Text style={{ color: C.yellow, fontFamily: F.semibold, fontSize: 9, letterSpacing: 2.5, textTransform: 'uppercase' }}>
-            {t('nav.tagline')}
-          </Text>
-        </View>
-      )}
 
       {/* Lane strip */}
       <LaneStrip />
