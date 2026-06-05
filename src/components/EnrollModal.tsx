@@ -90,7 +90,7 @@ function validate(f: FormFields): FormErrors {
   return e;
 }
 
-// ─── Small atoms ─────────────────────────────────────────────────────────────
+// ─── Atoms ───────────────────────────────────────────────────────────────────
 
 function FieldError({ msg }: { msg?: string }) {
   if (!msg) return null;
@@ -101,8 +101,7 @@ function StyledInput({
   value, onChangeText, onBlur, placeholder, keyboardType, autoCapitalize, hasError, name,
 }: {
   value: string; onChangeText: (v: string) => void; onBlur?: () => void;
-  placeholder?: string; keyboardType?: any; autoCapitalize?: any; hasError?: boolean;
-  name?: string;
+  placeholder?: string; keyboardType?: any; autoCapitalize?: any; hasError?: boolean; name?: string;
 }) {
   return (
     <TextInput
@@ -110,11 +109,10 @@ function StyledInput({
       onChangeText={onChangeText}
       onBlur={onBlur}
       placeholder={placeholder}
-      placeholderTextColor="rgba(34,31,32,0.35)"
+      placeholderTextColor="rgba(1,165,240,0.35)"
       keyboardType={keyboardType}
       autoCapitalize={autoCapitalize ?? 'none'}
       style={[s.input, hasError && s.inputError]}
-      // Enables browser autofill on web
       {...(name ? ({ id: name, name } as any) : {})}
     />
   );
@@ -129,8 +127,8 @@ function PickerField({
   return (
     <View style={[s.pickerWrap, hasError && s.inputError]}>
       <Picker selectedValue={value} onValueChange={v => onChange(v as string)}
-              style={s.picker} dropdownIconColor={C.dark}>
-        <Picker.Item label={placeholder} value="" color="rgba(34,31,32,0.38)" />
+              style={s.picker} dropdownIconColor={C.skyDeep}>
+        <Picker.Item label={placeholder} value="" color="rgba(1,165,240,0.45)" />
         {items.map(i => (
           <Picker.Item
             key={i.value}
@@ -178,13 +176,23 @@ function Field({ label, children, error }: { label: string; children: React.Reac
   );
 }
 
+function SectionHeader({ title }: { title: string }) {
+  return (
+    <View style={s.sectionHeader}>
+      <View style={s.sectionPill}>
+        <Text style={s.sectionTitle}>{title}</Text>
+      </View>
+      <View style={s.sectionLine} />
+    </View>
+  );
+}
+
 // ─── Main modal ───────────────────────────────────────────────────────────────
 
 export default function EnrollModal() {
   const { isOpen, close, presetCourseCode } = useEnrollModal();
   const { width: winW } = useWindowDimensions();
-  // Responsive modal: full-screen sheet on small, centered card on wide
-  const modalW = Math.min(680, winW - 32);
+  const modalW    = Math.min(680, winW - 32);
   const modalLeft = (winW - modalW) / 2;
 
   const [form,        setForm]        = useState<FormFields>(DEFAULT_FORM);
@@ -197,7 +205,7 @@ export default function EnrollModal() {
   const btnShakeStyle = useAnimatedStyle(() => ({ transform: [{ translateX: btnX.value }] }));
 
   const selectedClass   = CLASSES.find(c => c.code === form.courseCode);
-  const canInstallments = !!selectedClass;           // available for all courses once one is selected
+  const canInstallments = !!selectedClass;
   const [i1, i2, i3]   = selectedClass ? splitIntoThree(selectedClass.total) : [0, 0, 0];
   const payAmount       = form.paymentPlan === 'installments_3' ? i1 : (selectedClass?.total ?? 0);
 
@@ -211,7 +219,6 @@ export default function EnrollModal() {
 
   const err = (key: keyof FormFields) => touched.has(key) ? errors[key] : undefined;
 
-  // Reset on open
   useEffect(() => {
     if (isOpen) {
       setForm({ ...DEFAULT_FORM, courseCode: presetCourseCode ?? '' });
@@ -222,14 +229,12 @@ export default function EnrollModal() {
     }
   }, [isOpen, presetCourseCode]);
 
-  // Auto-fill M-Pesa from phone
   useEffect(() => {
     if (form.phone && !touched.has('mpesaNumber')) {
       setF('mpesaNumber', form.phone);
     }
   }, [form.phone]);
 
-  // Web: body scroll lock + Escape
   useEffect(() => {
     if (Platform.OS !== 'web') return;
     const body = (document as any).body;
@@ -270,7 +275,6 @@ export default function EnrollModal() {
     try {
       setSubmitState('submitting');
 
-      // 1. Create local enrollment record
       const enrollment = await createEnrollment({
         userId:          `guest_${Date.now()}`,
         branchId:        form.branchId,
@@ -284,7 +288,6 @@ export default function EnrollModal() {
         paymentPlan:     form.paymentPlan,
       });
 
-      // 2. Fire the M-Pesa STK Push via Supabase Edge Function
       const checkoutRequestId = await initiateStkPush({
         phone:             form.mpesaNumber || form.phone,
         amount:            payAmount,
@@ -293,10 +296,8 @@ export default function EnrollModal() {
         installmentNumber: form.paymentPlan === 'installments_3' ? 1 : undefined,
       });
 
-      // 3. Show "check your phone" UI immediately
       setSubmitState('awaiting_pin');
 
-      // 4. Poll every 5 s until the callback confirms success/failure (max 2 min)
       const result = await waitForPayment(checkoutRequestId);
 
       if (result.status === 'success') {
@@ -317,7 +318,7 @@ export default function EnrollModal() {
     close();
   };
 
-  // ── State views ─────────────────────────────────────────────────────────────
+  // ── State screens ─────────────────────────────────────────────────────────
 
   const AwaitingPinContent = () => (
     <View style={s.centredState}>
@@ -345,7 +346,8 @@ export default function EnrollModal() {
         Your branch admin will confirm shortly.{'\n'}
         You'll receive a confirmation SMS and email.
       </Text>
-      <TouchableOpacity onPress={close} activeOpacity={0.85} style={[s.submitBtn, { marginTop: 32, paddingHorizontal: 48 }]}>
+      <TouchableOpacity onPress={close} activeOpacity={0.85}
+        style={[s.submitBtn, { marginTop: 32, paddingHorizontal: 48 }]}>
         <Text style={s.submitText}>Done</Text>
       </TouchableOpacity>
     </View>
@@ -353,10 +355,8 @@ export default function EnrollModal() {
 
   const isNonIdle = submitState === 'awaiting_pin' || submitState === 'success';
 
-  const branchItems = BRANCHES.map(b => ({ label: b.name + (b.isHQ ? ' (HQ)' : ''), value: b.id }));
-
-  // Grouped course list — same series structure as the Courses page
-  const courseItems = CLASS_SERIES.flatMap(series => {
+  const branchItems  = BRANCHES.map(b => ({ label: b.name + (b.isHQ ? ' (HQ)' : ''), value: b.id }));
+  const courseItems  = CLASS_SERIES.flatMap(series => {
     const seriesCourses = CLASSES.filter(c => c.series === series.code);
     return [
       { label: `── ${series.label}  (${series.subtitle}) ──`, value: `__hdr_${series.code}`, enabled: false },
@@ -367,7 +367,6 @@ export default function EnrollModal() {
       })),
     ];
   });
-
   const planOptions  = [
     { label: 'Full Payment',   value: 'full' },
     { label: '3 Installments', value: 'installments_3' },
@@ -381,10 +380,8 @@ export default function EnrollModal() {
       onRequestClose={handleClose}
       accessibilityViewIsModal
     >
-      {/* Backdrop */}
       <TouchableOpacity style={s.backdrop} activeOpacity={1} onPress={handleClose} />
 
-      {/* Card — full-sheet on mobile, centered box on wide screens */}
       <View
         style={[
           s.card,
@@ -392,19 +389,22 @@ export default function EnrollModal() {
             top: '4%' as any, bottom: '4%' as any,
             left: modalLeft, right: undefined as any,
             width: modalW,
-            borderRadius: 18,
-            borderTopLeftRadius: 18, borderTopRightRadius: 18,
+            borderRadius: 20,
+            borderTopLeftRadius: 20, borderTopRightRadius: 20,
           },
         ]}
         accessibilityLabel="Enrol form"
         accessible
       >
 
-        {/* Header */}
+        {/* ── Sky-blue header ─────────────────────────────────────────── */}
         <View style={s.header}>
-          <Text style={s.headerTitle}>Enrol Now</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={s.headerTitle}>Enrol Now</Text>
+            <Text style={s.headerSub}>SafeRide Africa Driving School</Text>
+          </View>
           <TouchableOpacity onPress={handleClose} style={s.closeBtn} activeOpacity={0.7}>
-            <X size={20} color={C.dark} />
+            <X size={20} color={C.white} />
           </TouchableOpacity>
         </View>
 
@@ -415,10 +415,8 @@ export default function EnrollModal() {
               submitState === 'awaiting_pin' ? <AwaitingPinContent /> : <SuccessContent />
             ) : (
               <>
-                {/* ── Section 1 — Your Details ─────────────────────── */}
-                <View style={s.sectionHeader}>
-                  <Text style={s.sectionTitle}>Your Details</Text>
-                </View>
+                {/* ── Section 1 — Your Details ──────────────────────── */}
+                <SectionHeader title="Your Details" />
 
                 <Field label="Full Name *" error={err('fullName')}>
                   <StyledInput value={form.fullName} onChangeText={v => setF('fullName', v)}
@@ -444,10 +442,8 @@ export default function EnrollModal() {
                     keyboardType="phone-pad" hasError={!!err('phone')} name="phone" />
                 </Field>
 
-                {/* ── Section 2 — Course ───────────────────────────── */}
-                <View style={s.sectionHeader}>
-                  <Text style={s.sectionTitle}>Your Course</Text>
-                </View>
+                {/* ── Section 2 — Your Course ───────────────────────── */}
+                <SectionHeader title="Your Course" />
 
                 <Field label="Branch *" error={err('branchId')}>
                   <PickerField value={form.branchId}
@@ -469,25 +465,21 @@ export default function EnrollModal() {
                     keyboardType="numeric" hasError={!!err('startDate')} name="startDate" />
                 </Field>
 
-                {/* ── Section 3 — Payment ──────────────────────────── */}
-                <View style={s.sectionHeader}>
-                  <Text style={s.sectionTitle}>Payment</Text>
-                </View>
+                {/* ── Section 3 — Payment ───────────────────────────── */}
+                <SectionHeader title="Payment" />
 
-                {/* Payment plan selector */}
                 <Field label="Payment Plan">
                   <SegmentedControl options={planOptions} value={form.paymentPlan}
                     onChange={v => setF('paymentPlan', v as FormFields['paymentPlan'])} />
                 </Field>
 
-                {/* Installment breakdown */}
                 {form.paymentPlan === 'installments_3' && selectedClass && (
                   <View style={s.installmentCard}>
                     <Text style={s.installmentTitle}>Installment Breakdown</Text>
                     {[
-                      { label: 'Today (Installment 1)',        amount: i1 },
-                      { label: 'In 10 days (Installment 2)',   amount: i2 },
-                      { label: 'In 20 days (Installment 3)',   amount: i3 },
+                      { label: 'Today (Installment 1)',       amount: i1 },
+                      { label: 'In 10 days (Installment 2)',  amount: i2 },
+                      { label: 'In 20 days (Installment 3)',  amount: i3 },
                     ].map(row => (
                       <View key={row.label} style={s.installmentRow}>
                         <Text style={s.installmentLabel}>{row.label}</Text>
@@ -497,7 +489,6 @@ export default function EnrollModal() {
                   </View>
                 )}
 
-                {/* Amount summary pill */}
                 {selectedClass && (
                   <View style={s.amountPill}>
                     <Text style={s.amountLabel}>Amount due today</Text>
@@ -505,7 +496,6 @@ export default function EnrollModal() {
                   </View>
                 )}
 
-                {/* M-Pesa number */}
                 <Field label="M-Pesa Number *" error={err('mpesaNumber')}>
                   <StyledInput value={form.mpesaNumber}
                     onChangeText={v => { setF('mpesaNumber', v); touch('mpesaNumber'); }}
@@ -513,48 +503,27 @@ export default function EnrollModal() {
                     placeholder="Auto-filled from your phone"
                     keyboardType="phone-pad" hasError={!!err('mpesaNumber')} name="mpesaNumber" />
                   <Text style={s.mpesaHint}>
-                    The M-Pesa prompt will be sent to this number. Change it if you are paying from a different line.
+                    The M-Pesa prompt will be sent to this number. Change it if paying from a different line.
                   </Text>
                 </Field>
 
-                {/* Payment instructions — identical layout to Courses page */}
-                <View style={{
-                  marginBottom: 18, borderRadius: 12, overflow: 'hidden',
-                  borderWidth: 1.5, borderColor: 'rgba(225,29,46,0.40)',
-                }}>
-                  {/* Warning bar */}
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: 'rgba(225,29,46,0.12)', paddingHorizontal: 14, paddingVertical: 10 }}>
+                {/* Payment instructions */}
+                <View style={s.paymentBox}>
+                  <View style={s.paymentWarnBar}>
                     <AlertTriangle size={14} color={C.red} />
-                    <Text style={{ color: C.red, fontFamily: F.bold, fontSize: 12, letterSpacing: 0.8, flex: 1 }}>
-                      {PAYMENT.notice}
-                    </Text>
+                    <Text style={s.paymentWarnText}>{PAYMENT.notice}</Text>
                   </View>
-                  {/* Yellow body — red text pops */}
-                  <View style={{ backgroundColor: C.yellow, paddingHorizontal: 14, paddingVertical: 14, gap: 10 }}>
-                    {/* M-Pesa */}
-                    <View>
-                      <Text style={{ color: C.red, fontFamily: F.bold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 }}>
-                        M-Pesa Lipa Na M-Pesa
-                      </Text>
-                      <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
-                        Paybill: <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaPaybill}</Text>
-                      </Text>
-                      <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
-                        Account: <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaAccountName}</Text>
-                      </Text>
+                  <View style={s.paymentBody}>
+                    <View style={s.paymentMethod}>
+                      <Text style={s.paymentMethodTitle}>M-Pesa Lipa Na M-Pesa</Text>
+                      <Text style={s.paymentDetail}>Paybill: <Text style={s.paymentBold}>{PAYMENT.mpesaPaybill}</Text></Text>
+                      <Text style={s.paymentDetail}>Account: <Text style={s.paymentBold}>{PAYMENT.mpesaAccountName}</Text></Text>
                     </View>
-                    <View style={{ height: 1, backgroundColor: 'rgba(225,29,46,0.25)' }} />
-                    {/* KCB */}
-                    <View>
-                      <Text style={{ color: C.red, fontFamily: F.bold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 }}>
-                        Bank Transfer
-                      </Text>
-                      <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
-                        {PAYMENT.bankName}
-                      </Text>
-                      <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
-                        Account: <Text style={{ fontFamily: F.bold }}>{PAYMENT.kcbAccount}</Text>
-                      </Text>
+                    <View style={s.paymentDivider} />
+                    <View style={s.paymentMethod}>
+                      <Text style={s.paymentMethodTitle}>Bank Transfer</Text>
+                      <Text style={s.paymentDetail}>{PAYMENT.bankName}</Text>
+                      <Text style={s.paymentDetail}>Account: <Text style={s.paymentBold}>{PAYMENT.kcbAccount}</Text></Text>
                     </View>
                   </View>
                 </View>
@@ -563,10 +532,8 @@ export default function EnrollModal() {
                 <TouchableOpacity
                   onPress={() => setF('termsAccepted', !form.termsAccepted)}
                   activeOpacity={0.7} style={s.termsRow}>
-                  <View style={[s.checkbox,
-                    form.termsAccepted && s.checkboxChecked,
-                    !!err('termsAccepted') && s.checkboxError]}>
-                    {form.termsAccepted && <Check size={11} color={C.white} />}
+                  <View style={[s.checkbox, form.termsAccepted && s.checkboxChecked, !!err('termsAccepted') && s.checkboxError]}>
+                    {form.termsAccepted && <Check size={12} color={C.white} />}
                   </View>
                   <Text style={s.termsText}>
                     I agree to SafeRide's terms of service and the strict no-cash payment policy.
@@ -592,15 +559,13 @@ export default function EnrollModal() {
                 <Text style={s.errorBannerText}>{submitError}</Text>
               </View>
             )}
-            <Text style={s.footerCaption}>
-              Tap below to receive an M-Pesa PIN prompt on your phone.
-            </Text>
+            <Text style={s.footerCaption}>Tap below to receive an M-Pesa PIN prompt on your phone.</Text>
             <AnimatedRN.View style={btnShakeStyle}>
               <TouchableOpacity onPress={handleSubmit} activeOpacity={0.85}
                 disabled={submitState === 'submitting'}
                 style={[s.submitBtn, submitState === 'submitting' && { opacity: 0.72 }]}>
                 {submitState === 'submitting' && (
-                  <ActivityIndicator size="small" color={C.dark} style={{ marginRight: 8 }} />
+                  <ActivityIndicator size="small" color={C.white} style={{ marginRight: 8 }} />
                 )}
                 <Text style={s.submitText}>
                   {submitState === 'submitting' ? 'Sending prompt…' : 'Send M-Pesa Prompt'}
@@ -618,145 +583,200 @@ export default function EnrollModal() {
 // ─── Styles ───────────────────────────────────────────────────────────────────
 
 const s = StyleSheet.create({
-  backdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.60)' },
+  backdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1,25,50,0.72)' },
 
   card: {
     position: 'absolute', bottom: 0, left: 0, right: 0,
     maxHeight: '92%' as any,
-    backgroundColor: C.white,
-    borderTopLeftRadius: 22, borderTopRightRadius: 22,
+    backgroundColor: '#F4FAFF',
+    borderTopLeftRadius: 24, borderTopRightRadius: 24,
     overflow: 'hidden',
   },
+
+  // ── Sky-blue header ──────────────────────────────────────────────────────
   header: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 20, paddingVertical: 16,
-    borderBottomWidth: 1, borderBottomColor: 'rgba(34,31,32,0.07)',
+    backgroundColor: C.skyDeep,
+    paddingHorizontal: 20,
+    paddingTop: 22,
+    paddingBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    // Subtle bottom shimmer
+    shadowColor: C.skyDeep,
+    shadowOpacity: 0.22,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 6,
   },
-  headerTitle: { fontFamily: F.bold, fontSize: 18, color: C.dark },
-  closeBtn: { padding: 6, borderRadius: 8, backgroundColor: 'rgba(34,31,32,0.06)' },
+  headerTitle: { fontFamily: F.bold, fontSize: 20, color: C.white },
+  headerSub:   { fontFamily: F.regular, fontSize: 12, color: 'rgba(255,255,255,0.68)', marginTop: 3 },
+  closeBtn: {
+    padding: 9, borderRadius: 10,
+    backgroundColor: 'rgba(255,255,255,0.18)',
+  },
 
   scroll:        { flex: 1 },
-  scrollContent: { paddingHorizontal: 20, paddingBottom: 24 },
+  scrollContent: { paddingHorizontal: 20, paddingTop: 6, paddingBottom: 24 },
 
+  // ── Section pills ────────────────────────────────────────────────────────
   sectionHeader: {
-    marginTop: 22, marginBottom: 14,
-    paddingBottom: 8,
-    borderBottomWidth: 1, borderBottomColor: 'rgba(34,31,32,0.07)',
+    flexDirection: 'row', alignItems: 'center', gap: 10,
+    marginTop: 22, marginBottom: 16,
+  },
+  sectionPill: {
+    backgroundColor: C.skyDeep,
+    borderRadius: 20,
+    paddingHorizontal: 14,
+    paddingVertical: 5,
   },
   sectionTitle: {
-    fontFamily: F.bold, fontSize: 12, color: C.skyDeep,
+    fontFamily: F.bold, fontSize: 11, color: C.white,
     letterSpacing: 0.8, textTransform: 'uppercase',
   },
+  sectionLine: { flex: 1, height: 1.5, backgroundColor: 'rgba(1,165,240,0.18)', borderRadius: 1 },
 
-  fieldWrap:  { marginBottom: 14 },
-  label:      { fontFamily: F.semibold, fontSize: 13, color: C.dark, marginBottom: 6 },
+  // ── Fields ───────────────────────────────────────────────────────────────
+  fieldWrap: { marginBottom: 14 },
+  label: {
+    fontFamily: F.semibold, fontSize: 12, color: C.skyDeep,
+    marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5,
+  },
   input: {
-    borderWidth: 1, borderColor: 'rgba(34,31,32,0.15)',
-    borderRadius: 10, paddingHorizontal: 14, paddingVertical: 11,
+    borderWidth: 1.5, borderColor: 'rgba(1,165,240,0.28)',
+    borderRadius: 12, paddingHorizontal: 14, paddingVertical: 13,
     fontFamily: F.regular, fontSize: 14, color: C.dark,
+    backgroundColor: C.white,
   },
   inputError: { borderColor: C.red },
   fieldError: { fontFamily: F.regular, fontSize: 12, color: C.red, marginTop: 4 },
 
   pickerWrap: {
-    borderWidth: 1, borderColor: 'rgba(34,31,32,0.15)',
-    borderRadius: 10, overflow: 'hidden',
+    borderWidth: 1.5, borderColor: 'rgba(1,165,240,0.28)',
+    borderRadius: 12, overflow: 'hidden', backgroundColor: C.white,
   },
-  picker: { height: 44, color: C.dark },
+  picker: { height: 48, color: C.dark },
 
+  // ── Segmented ────────────────────────────────────────────────────────────
   segmented: {
-    flexDirection: 'row', borderRadius: 10,
-    borderWidth: 1, borderColor: 'rgba(34,31,32,0.12)', overflow: 'hidden',
+    flexDirection: 'row', borderRadius: 12,
+    borderWidth: 1.5, borderColor: 'rgba(1,165,240,0.28)',
+    overflow: 'hidden', backgroundColor: C.white,
   },
-  segment:         { flex: 1, paddingVertical: 11, alignItems: 'center' },
-  segmentActive:   { backgroundColor: C.skyDeep },
-  segmentDisabled: { opacity: 0.35 },
-  segmentText:     { fontFamily: F.regular, fontSize: 13, color: C.dark },
-  segmentTextActive: { fontFamily: F.semibold, color: C.white },
-  planCaption: { fontFamily: F.regular, fontSize: 11, color: 'rgba(34,31,32,0.45)', marginTop: 6 },
+  segment:           { flex: 1, paddingVertical: 13, alignItems: 'center' },
+  segmentActive:     { backgroundColor: C.skyDeep },
+  segmentDisabled:   { opacity: 0.35 },
+  segmentText:       { fontFamily: F.medium,  fontSize: 13, color: C.dark },
+  segmentTextActive: { fontFamily: F.bold,    fontSize: 13, color: C.white },
+  planCaption:       { fontFamily: F.regular, fontSize: 11, color: 'rgba(34,31,32,0.45)', marginTop: 6 },
 
+  // ── Installment card ─────────────────────────────────────────────────────
   installmentCard: {
-    backgroundColor: 'rgba(1,165,240,0.05)',
-    borderRadius: 12, padding: 14, marginBottom: 14,
-    borderWidth: 1, borderColor: 'rgba(1,165,240,0.18)',
+    backgroundColor: 'rgba(1,165,240,0.07)',
+    borderRadius: 14, padding: 16, marginBottom: 14,
+    borderWidth: 1.5, borderColor: 'rgba(1,165,240,0.22)',
   },
   installmentTitle: {
-    fontFamily: F.semibold, fontSize: 11, color: C.skyDeep,
-    textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 10,
+    fontFamily: F.bold, fontSize: 11, color: C.skyDeep,
+    textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 12,
   },
   installmentRow: {
     flexDirection: 'row', justifyContent: 'space-between',
-    paddingVertical: 6,
-    borderBottomWidth: 1, borderBottomColor: 'rgba(1,165,240,0.10)',
+    paddingVertical: 8,
+    borderBottomWidth: 1, borderBottomColor: 'rgba(1,165,240,0.12)',
   },
-  installmentLabel:  { fontFamily: F.regular, fontSize: 13, color: C.dark },
-  installmentAmount: { fontFamily: F.semibold, fontSize: 13, color: C.dark },
+  installmentLabel:  { fontFamily: F.regular,  fontSize: 13, color: 'rgba(34,31,32,0.65)' },
+  installmentAmount: { fontFamily: F.bold,     fontSize: 13, color: C.skyDeep },
 
+  // ── Amount pill ──────────────────────────────────────────────────────────
   amountPill: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    backgroundColor: C.yellow, borderRadius: 12,
-    paddingHorizontal: 18, paddingVertical: 12, marginBottom: 16,
+    backgroundColor: C.yellow, borderRadius: 14,
+    paddingHorizontal: 18, paddingVertical: 14, marginBottom: 16,
+    shadowColor: C.yellow, shadowOpacity: 0.25, shadowRadius: 8, elevation: 3,
   },
   amountLabel: { fontFamily: F.semibold, fontSize: 13, color: C.dark },
-  amountValue: { fontFamily: F.bold,    fontSize: 18, color: C.dark },
+  amountValue: { fontFamily: F.bold,    fontSize: 20, color: C.dark },
 
   mpesaHint: {
     fontFamily: F.regular, fontSize: 11,
     color: 'rgba(34,31,32,0.45)', marginTop: 5, lineHeight: 15,
   },
 
+  // ── Payment instruction box ───────────────────────────────────────────────
+  paymentBox: {
+    marginBottom: 18, borderRadius: 14, overflow: 'hidden',
+    borderWidth: 1.5, borderColor: 'rgba(225,29,46,0.38)',
+  },
+  paymentWarnBar: {
+    flexDirection: 'row', alignItems: 'center', gap: 8,
+    backgroundColor: 'rgba(225,29,46,0.10)',
+    paddingHorizontal: 14, paddingVertical: 10,
+  },
+  paymentWarnText: { color: C.red, fontFamily: F.bold, fontSize: 12, letterSpacing: 0.6, flex: 1 },
+  paymentBody:     { backgroundColor: C.yellow, paddingHorizontal: 14, paddingVertical: 14, gap: 10 },
+  paymentMethod:   {},
+  paymentMethodTitle: {
+    color: C.red, fontFamily: F.bold, fontSize: 11,
+    textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4,
+  },
+  paymentDetail:  { color: C.red, fontFamily: F.regular, fontSize: 13 },
+  paymentBold:    { fontFamily: F.bold },
+  paymentDivider: { height: 1, backgroundColor: 'rgba(225,29,46,0.20)', marginVertical: 10 },
 
+  // ── Terms ────────────────────────────────────────────────────────────────
   termsRow: {
-    flexDirection: 'row', alignItems: 'flex-start',
-    gap: 10, marginBottom: 14,
+    flexDirection: 'row', alignItems: 'flex-start', gap: 10, marginBottom: 14,
+    backgroundColor: 'rgba(1,165,240,0.06)',
+    borderRadius: 12, padding: 14,
+    borderWidth: 1.5, borderColor: 'rgba(1,165,240,0.18)',
   },
   checkbox: {
-    width: 20, height: 20, borderRadius: 5,
-    borderWidth: 1.5, borderColor: 'rgba(34,31,32,0.28)',
+    width: 22, height: 22, borderRadius: 6,
+    borderWidth: 2, borderColor: 'rgba(1,165,240,0.38)',
     alignItems: 'center', justifyContent: 'center',
     flexShrink: 0, marginTop: 1,
   },
   checkboxChecked: { backgroundColor: C.skyDeep, borderColor: C.skyDeep },
   checkboxError:   { borderColor: C.red },
-  termsText: {
-    flex: 1, fontFamily: F.regular, fontSize: 13, color: C.dark, lineHeight: 19,
-  },
+  termsText: { flex: 1, fontFamily: F.regular, fontSize: 13, color: C.dark, lineHeight: 19 },
 
+  // ── Footer ───────────────────────────────────────────────────────────────
   footer: {
-    paddingHorizontal: 20, paddingVertical: 14,
-    borderTopWidth: 1, borderTopColor: 'rgba(34,31,32,0.07)',
+    paddingHorizontal: 20, paddingVertical: 16,
+    borderTopWidth: 1, borderTopColor: 'rgba(1,165,240,0.14)',
     backgroundColor: C.white,
   },
   errorBanner: {
     flexDirection: 'row', alignItems: 'flex-start', gap: 8,
     backgroundColor: 'rgba(225,29,46,0.07)',
-    borderRadius: 10, padding: 12, marginBottom: 12,
+    borderRadius: 12, padding: 12, marginBottom: 12,
     borderWidth: 1, borderColor: 'rgba(225,29,46,0.22)',
   },
-  errorBannerText: {
-    flex: 1, fontFamily: F.regular, fontSize: 13, color: C.red, lineHeight: 18,
-  },
+  errorBannerText: { flex: 1, fontFamily: F.regular, fontSize: 13, color: C.red, lineHeight: 18 },
   footerCaption: {
     fontFamily: F.regular, fontSize: 12,
     color: 'rgba(34,31,32,0.45)', textAlign: 'center', marginBottom: 10,
   },
+
+  // ── Submit — sky blue ────────────────────────────────────────────────────
   submitBtn: {
-    backgroundColor: C.yellow, paddingVertical: 15, borderRadius: 14,
+    backgroundColor: C.skyDeep,
+    paddingVertical: 16, borderRadius: 14,
     alignItems: 'center', justifyContent: 'center',
     flexDirection: 'row', gap: 6,
+    shadowColor: C.skyDeep, shadowOpacity: 0.40, shadowRadius: 14, elevation: 6,
   },
-  submitText: { fontFamily: F.bold, fontSize: 15, color: C.dark },
+  submitText: { fontFamily: F.bold, fontSize: 15, color: C.white },
 
-  centredState: { alignItems: 'center', paddingVertical: 48, paddingHorizontal: 24 },
+  // ── State screens ────────────────────────────────────────────────────────
+  centredState: { alignItems: 'center', paddingVertical: 52, paddingHorizontal: 24 },
   pingRing: {
-    width: 88, height: 88, borderRadius: 44,
-    backgroundColor: 'rgba(1,165,240,0.08)',
-    borderWidth: 2, borderColor: 'rgba(1,165,240,0.22)',
-    alignItems: 'center', justifyContent: 'center', marginBottom: 24,
+    width: 92, height: 92, borderRadius: 46,
+    backgroundColor: 'rgba(1,165,240,0.10)',
+    borderWidth: 2.5, borderColor: 'rgba(1,165,240,0.28)',
+    alignItems: 'center', justifyContent: 'center', marginBottom: 28,
   },
   stateHeading: { fontFamily: F.bold, fontSize: 22, color: C.dark, marginBottom: 12, textAlign: 'center' },
-  stateBody:    {
-    fontFamily: F.regular, fontSize: 15,
-    color: 'rgba(34,31,32,0.60)', textAlign: 'center', lineHeight: 23,
-  },
+  stateBody:    { fontFamily: F.regular, fontSize: 15, color: 'rgba(34,31,32,0.60)', textAlign: 'center', lineHeight: 24 },
 });
