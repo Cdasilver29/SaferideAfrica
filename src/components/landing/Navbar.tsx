@@ -298,7 +298,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
           >
             <Image
               source={LOGO}
-              style={[styles.logoImg, !showPills && { width: 40, height: 40, borderRadius: 9 }]}
+              style={[styles.logoImg, !showPills && { width: 36, height: 36, borderRadius: 8 }]}
               resizeMode="contain"
             />
             {showPills ? (
@@ -308,7 +308,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
               </View>
             ) : (
               <Text
-                style={[styles.brandName, { fontSize: 15 }]}
+                style={[styles.brandName, { fontSize: 12 }]}
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
