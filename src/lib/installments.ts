@@ -11,12 +11,12 @@ export function splitIntoThree(total: number): [number, number, number] {
   return [base + remainder, base, base];
 }
 
-/** ISO date strings for today, today+30d, today+60d */
+/** ISO date strings for today, today+10d, today+20d */
 export function installmentDueDates(): [string, string, string] {
   const pad   = (n: number) => String(n).padStart(2, '0');
   const iso   = (d: Date)   => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
   const today = new Date();
-  const d30   = new Date(today); d30.setDate(today.getDate() + 30);
-  const d60   = new Date(today); d60.setDate(today.getDate() + 60);
-  return [iso(today), iso(d30), iso(d60)];
+  const d10   = new Date(today); d10.setDate(today.getDate() + 10);
+  const d20   = new Date(today); d20.setDate(today.getDate() + 20);
+  return [iso(today), iso(d10), iso(d20)];
 }

@@ -1,19 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Animated, {
+  useSharedValue, useAnimatedStyle, withRepeat, withTiming, Easing,
+} from 'react-native-reanimated';
 import Svg, { Line } from 'react-native-svg';
 import { C } from './constants';
 
-// Road lane markings: 44 px yellow dash, 28 px gap — replicates a real centre-line
-const H    = 28;   // strip height (24–32 px spec)
-const DASH = 44;
-const GAP  = 28;
+const H      = 28;
+const DASH   = 44;
+const GAP    = 28;
+const PERIOD = DASH + GAP; // 72 px — one full dash+gap cycle
 
-export default function LaneStrip() {
+export default function LaneStrip({ reverse = false }: { reverse?: boolean }) {
   const [stripW, setStripW] = useState(0);
+  // Left-to-right starts one period to the left so it can slide right
+  const offset = useSharedValue(reverse ? -PERIOD : 0);
+
+  useEffect(() => {
+    if (stripW === 0) return;
+    if (reverse) {
+      // Left-to-right: -PERIOD → 0, snap, repeat
+      offset.value = withRepeat(
+        withTiming(0, { duration: 1200, easing: Easing.linear }),
+        -1,
+        false,
+      );
+    } else {
+      // Right-to-left: 0 → -PERIOD, snap, repeat
+      offset.value = withRepeat(
+        withTiming(-PERIOD, { duration: 1200, easing: Easing.linear }),
+        -1,
+        false,
+      );
+    }
+  }, [stripW]);
+
+  const animStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: offset.value }],
+  }));
+
+  // 2 extra periods of width guarantee no gap is visible at any translateX value
+  const svgW = stripW > 0 ? stripW + PERIOD * 2 : 0;
 
   return (
-    // Shadow wrapper — must NOT carry overflow:hidden so iOS renders the drop-shadow
     <View
       style={{
         zIndex:        50,
@@ -24,12 +54,10 @@ export default function LaneStrip() {
         elevation:     5,
       }}
     >
-      {/* Clipping container — measures the real rendered width */}
       <View
         onLayout={e => setStripW(e.nativeEvent.layout.width)}
         style={{ height: H, overflow: 'hidden' }}
       >
-        {/* Sky-light → Sky-deep gradient */}
         <LinearGradient
           colors={[C.skyLight, C.skyDeep]}
           start={{ x: 0, y: 0 }}
@@ -37,49 +65,25 @@ export default function LaneStrip() {
           style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
         />
 
-        {/* Dashed yellow centre lane — rendered once width is known */}
-        {stripW > 0 && (
-          <Svg
-            width={stripW}
-            height={H}
-            style={{ position: 'absolute', top: 0, left: 0 }}
-          >
-            <Line
-              x1={0}
-              y1={H / 2}
-              x2={stripW}
-              y2={H / 2}
-              stroke={C.yellow}
-              strokeWidth={3}
-              strokeLinecap="round"
-              strokeDasharray={`${DASH} ${GAP}`}
-            />
-          </Svg>
+        {svgW > 0 && (
+          <Animated.View style={[{ position: 'absolute', top: 0, left: 0 }, animStyle]}>
+            <Svg width={svgW} height={H}>
+              <Line
+                x1={0}
+                y1={H / 2}
+                x2={svgW}
+                y2={H / 2}
+                stroke={C.yellow}
+                strokeWidth={3}
+                strokeLinecap="round"
+                strokeDasharray={`${DASH} ${GAP}`}
+              />
+            </Svg>
+          </Animated.View>
         )}
 
-        {/* Top gloss edge — 1 px white/30 */}
-        <View
-          style={{
-            position:        'absolute',
-            top:             0,
-            left:            0,
-            right:           0,
-            height:          1,
-            backgroundColor: 'rgba(255,255,255,0.30)',
-          }}
-        />
-
-        {/* Bottom shadow edge — 1 px dark/12 */}
-        <View
-          style={{
-            position:        'absolute',
-            bottom:          0,
-            left:            0,
-            right:           0,
-            height:          1,
-            backgroundColor: 'rgba(34,31,32,0.12)',
-          }}
-        />
+        <View style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, backgroundColor: 'rgba(255,255,255,0.30)' }} />
+        <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, backgroundColor: 'rgba(34,31,32,0.12)' }} />
       </View>
     </View>
   );

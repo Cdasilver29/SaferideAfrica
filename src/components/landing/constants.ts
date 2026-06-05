@@ -46,31 +46,62 @@ export const HERO_SRC = IS_WEB
   : require('../../../assets/images/car-pic.png');
 
 export const ABOUT_IMG = IS_WEB
-  ? { uri: '/gallery/DSC_6966.webp' }
+  ? { uri: '/DSC_2116.webp' }
   : require('../../../assets/images/car-pic.png');
 
-export const GALLERY_IMGS = IS_WEB
+// Photo used in the Services Preview section (left-hand image)
+export const SERVICES_IMG = IS_WEB
+  ? { uri: '/DSC_2116.webp' }
+  : require('../../../assets/images/car-pic.png');
+
+export const GALLERY_IMGS: { uri: string; caption: string }[] | { src: any; caption: string }[] = IS_WEB
   ? [
-      { uri: '/gallery/DSC_6866.webp', caption: 'Practical session' },
-      { uri: '/gallery/DSC_2699.webp', caption: 'Road training' },
-      { uri: '/gallery/DSC_7956.webp', caption: 'Highway skills' },
-      { uri: '/gallery/DSC_7991.webp', caption: 'Instructor guidance' },
-      { uri: '/gallery/DSC_2225.webp', caption: 'Student practice' },
-      { uri: '/gallery/DSC_6903.webp', caption: 'Defensive driving' },
-      { uri: '/gallery/DSC_6830.webp', caption: 'Happy Family' },
-      { uri: '/gallery/DSC_6966.webp', caption: 'Practical session' },
-      { uri: '/gallery/DSC_7825.webp', caption: 'Theory class' },
-      { uri: '/gallery/DSC_6824.webp', caption: 'Road Training' },
-      { uri: '/gallery/DSC_2976.webp', caption: 'Driving test' },
-      { uri: '/gallery/DSC_2258.webp', caption: 'Highway skills' },
-      { uri: '/gallery/DSC_2725.webp', caption: 'Happy Family' },
-      { uri: '/gallery/DSC_2179.webp', caption: 'Branches' },
-      { uri: '/gallery/DSC_7824.webp', caption: 'Testimonial' },
-      { uri: '/gallery/DSC_7879.webp', caption: 'Bodaboda training' },
-      { uri: '/gallery/DSC_7904.webp', caption: 'Happy customers' },
-      { uri: '/gallery/DSC_6927.webp', caption: 'Car training' },  
+      { uri: '/gallery/DSC_2089.webp',     caption: 'Training session' },
+      { uri: '/gallery/DSC_2116.webp',     caption: 'Road practice' },
+      { uri: '/gallery/DSC_2179.webp',     caption: 'Branches' },
+      { uri: '/gallery/DSC_2225.webp',     caption: 'Student practice' },
+      { uri: '/gallery/DSC_2258.webp',     caption: 'Highway skills' },
+      { uri: '/gallery/DSC_2411.webp',     caption: 'Practical session' },
+      { uri: '/gallery/DSC_2678.webp',     caption: 'Instructor guidance' },
+      { uri: '/gallery/DSC_2691.webp',     caption: 'Road training' },
+      { uri: '/gallery/DSC_2699.webp',     caption: 'Road training' },
+      { uri: '/gallery/DSC_2709.webp',     caption: 'Driving lesson' },
+      { uri: '/gallery/DSC_2725.webp',     caption: 'Happy students' },
+      { uri: '/gallery/DSC_2798.webp',     caption: 'Practical session' },
+      { uri: '/gallery/DSC_2976.webp',     caption: 'Driving test' },
+      { uri: '/gallery/DSC_6800.webp',     caption: 'Road safety' },
+      { uri: '/gallery/DSC_6824.webp',     caption: 'Road training' },
+      { uri: '/gallery/DSC_6830.webp',     caption: 'Happy family' },
+      { uri: '/gallery/DSC_6866.webp',     caption: 'Practical session' },
+      { uri: '/gallery/DSC_6903.webp',     caption: 'Defensive driving' },
+      { uri: '/gallery/DSC_6912.webp',     caption: 'Instructor guidance' },
+      { uri: '/gallery/DSC_6927.webp',     caption: 'Car training' },
+      { uri: '/gallery/DSC_6966.webp',     caption: 'Practical session' },
+      { uri: '/gallery/DSC_6994.webp',     caption: 'Student progress' },
+      { uri: '/gallery/DSC_7014.webp',     caption: 'Road skills' },
+      { uri: '/gallery/DSC_7016.webp',     caption: 'Theory class' },
+      { uri: '/gallery/DSC_7765.webp',     caption: 'Training day' },
+      { uri: '/gallery/DSC_7786.webp',     caption: 'Practical lesson' },
+      { uri: '/gallery/DSC_7796.webp',     caption: 'Highway training' },
+      { uri: '/gallery/DSC_7805.webp',     caption: 'Driving session' },
+      { uri: '/gallery/DSC_7824.webp',     caption: 'Testimonial' },
+      { uri: '/gallery/DSC_7825.webp',     caption: 'Theory class' },
+      { uri: '/gallery/DSC_7832.webp',     caption: 'Road practice' },
+      { uri: '/gallery/DSC_7834.webp',     caption: 'Student confidence' },
+      { uri: '/gallery/DSC_7860.webp',     caption: 'Instructor session' },
+      { uri: '/gallery/DSC_7863.webp',     caption: 'Driving skills' },
+      { uri: '/gallery/DSC_7879.webp',     caption: 'Bodaboda training' },
+      { uri: '/gallery/DSC_7902.webp',     caption: 'Road lesson' },
+      { uri: '/gallery/DSC_7904.webp',     caption: 'Happy customers' },
+      { uri: '/gallery/DSC_7925.webp',     caption: 'Instructor guidance' },
+      { uri: '/gallery/DSC_7946.webp',     caption: 'Practical session' },
+      { uri: '/gallery/DSC_7956.webp',     caption: 'Highway skills' },
+      { uri: '/gallery/DSC_7976.webp',     caption: 'Instructor' },
+      { uri: '/gallery/DSC_7981.webp',     caption: 'Training day' },
+      { uri: '/gallery/DSC_7991.webp',     caption: 'Instructor guidance' },
+      { uri: '/gallery/DSC_7998.webp',     caption: 'Road confidence' },
     ]
-  : Array(9).fill(null).map((_, i) => ({
+  : Array(9).fill(null).map(() => ({
       src: require('../../../assets/images/car-pic.png'),
       caption: 'Training session',
     }));

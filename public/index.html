@@ -72,6 +72,14 @@
     <!-- ── Hero image preload — speeds up LCP ────────────────────────────── -->
     <link rel="preload" as="image" href="/DSC_2116.webp" />
 
+    <!-- ── React Native Web layout reset (required for flex:1 to fill viewport) ── -->
+    <!-- https://necolas.github.io/react-native-web/docs/setup/#root-element -->
+    <style id="expo-reset">
+      html, body { height: 100%; }
+      body { overflow: hidden; }
+      #root { display: flex; height: 100%; flex: 1; }
+    </style>
+
     <!-- ── Font preload — fetch before JS so text renders immediately ─────── -->
     <link rel="preload" href="/fonts/WorkSans-Regular.ttf"  as="font" type="font/ttf" crossorigin>
     <link rel="preload" href="/fonts/WorkSans-Medium.ttf"   as="font" type="font/ttf" crossorigin>

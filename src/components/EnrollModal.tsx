@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   Modal, View, Text, TextInput, TouchableOpacity, ScrollView,
   StyleSheet, Platform, KeyboardAvoidingView, ActivityIndicator,
+  useWindowDimensions,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import AnimatedRN, {
@@ -9,9 +10,10 @@ import AnimatedRN, {
 } from 'react-native-reanimated';
 import { X, Check, CheckCircle, AlertTriangle } from 'lucide-react-native';
 import { useEnrollModal } from '../context/EnrollModalContext';
-import { BRANCHES, CLASSES, PAYMENT } from '../data/saferide';
+import { BRANCHES, CLASSES, CLASS_SERIES, PAYMENT } from '../data/saferide';
 import { splitIntoThree } from '../lib/installments';
 import { createEnrollment } from '../api/enrollments';
+import { initiateStkPush, waitForPayment } from '../api/mpesa';
 import { C, F, IS_WEB } from './landing/constants';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -122,14 +124,22 @@ function PickerField({
   value, onChange, items, placeholder, hasError,
 }: {
   value: string; onChange: (v: string) => void;
-  items: { label: string; value: string }[]; placeholder: string; hasError?: boolean;
+  items: { label: string; value: string; enabled?: boolean }[]; placeholder: string; hasError?: boolean;
 }) {
   return (
     <View style={[s.pickerWrap, hasError && s.inputError]}>
       <Picker selectedValue={value} onValueChange={v => onChange(v as string)}
               style={s.picker} dropdownIconColor={C.dark}>
         <Picker.Item label={placeholder} value="" color="rgba(34,31,32,0.38)" />
-        {items.map(i => <Picker.Item key={i.value} label={i.label} value={i.value} color={C.dark} />)}
+        {items.map(i => (
+          <Picker.Item
+            key={i.value}
+            label={i.label}
+            value={i.value}
+            enabled={i.enabled !== false}
+            color={i.enabled === false ? C.skyDeep : C.dark}
+          />
+        ))}
       </Picker>
     </View>
   );
@@ -172,11 +182,16 @@ function Field({ label, children, error }: { label: string; children: React.Reac
 
 export default function EnrollModal() {
   const { isOpen, close, presetCourseCode } = useEnrollModal();
+  const { width: winW } = useWindowDimensions();
+  // Responsive modal: full-screen sheet on small, centered card on wide
+  const modalW = Math.min(680, winW - 32);
+  const modalLeft = (winW - modalW) / 2;
 
   const [form,        setForm]        = useState<FormFields>(DEFAULT_FORM);
   const [errors,      setErrors]      = useState<FormErrors>({});
   const [touched,     setTouched]     = useState<Set<keyof FormFields>>(new Set());
   const [submitState, setSubmitState] = useState<SubmitState>('idle');
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const btnX = useSharedValue(0);
   const btnShakeStyle = useAnimatedStyle(() => ({ transform: [{ translateX: btnX.value }] }));
@@ -203,6 +218,7 @@ export default function EnrollModal() {
       setErrors({});
       setTouched(new Set());
       setSubmitState('idle');
+      setSubmitError(null);
     }
   }, [isOpen, presetCourseCode]);
 
@@ -249,11 +265,13 @@ export default function EnrollModal() {
       return;
     }
 
+    setSubmitError(null);
+
     try {
       setSubmitState('submitting');
 
-      // TODO(backend): replace with real M-Pesa Daraja STK Push call
-      await createEnrollment({
+      // 1. Create local enrollment record
+      const enrollment = await createEnrollment({
         userId:          `guest_${Date.now()}`,
         branchId:        form.branchId,
         classCode:       form.courseCode,
@@ -266,10 +284,30 @@ export default function EnrollModal() {
         paymentPlan:     form.paymentPlan,
       });
 
+      // 2. Fire the M-Pesa STK Push via Supabase Edge Function
+      const checkoutRequestId = await initiateStkPush({
+        phone:             form.mpesaNumber || form.phone,
+        amount:            payAmount,
+        accountRef:        enrollment.id.slice(0, 12),
+        enrollmentId:      enrollment.id,
+        installmentNumber: form.paymentPlan === 'installments_3' ? 1 : undefined,
+      });
+
+      // 3. Show "check your phone" UI immediately
       setSubmitState('awaiting_pin');
-      await new Promise(r => setTimeout(r, 2000));
-      setSubmitState('success');
-    } catch {
+
+      // 4. Poll every 5 s until the callback confirms success/failure (max 2 min)
+      const result = await waitForPayment(checkoutRequestId);
+
+      if (result.status === 'success') {
+        setSubmitState('success');
+      } else {
+        setSubmitError(result.resultDesc ?? 'Payment was not completed. Please try again.');
+        setSubmitState('idle');
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
+      setSubmitError(msg);
       setSubmitState('idle');
     }
   };
@@ -315,8 +353,21 @@ export default function EnrollModal() {
 
   const isNonIdle = submitState === 'awaiting_pin' || submitState === 'success';
 
-  const branchItems  = BRANCHES.map(b => ({ label: b.name + (b.isHQ ? ' (HQ)' : ''), value: b.id }));
-  const courseItems  = CLASSES.map(c => ({ label: `${c.name} — Ksh ${c.total.toLocaleString()}`, value: c.code }));
+  const branchItems = BRANCHES.map(b => ({ label: b.name + (b.isHQ ? ' (HQ)' : ''), value: b.id }));
+
+  // Grouped course list — same series structure as the Courses page
+  const courseItems = CLASS_SERIES.flatMap(series => {
+    const seriesCourses = CLASSES.filter(c => c.series === series.code);
+    return [
+      { label: `── ${series.label}  (${series.subtitle}) ──`, value: `__hdr_${series.code}`, enabled: false },
+      ...seriesCourses.map(c => ({
+        label:   `${c.name} — Ksh ${c.total.toLocaleString()}`,
+        value:   c.code,
+        enabled: true,
+      })),
+    ];
+  });
+
   const planOptions  = [
     { label: 'Full Payment',   value: 'full' },
     { label: '3 Installments', value: 'installments_3' },
@@ -333,8 +384,21 @@ export default function EnrollModal() {
       {/* Backdrop */}
       <TouchableOpacity style={s.backdrop} activeOpacity={1} onPress={handleClose} />
 
-      {/* Card */}
-      <View style={[s.card, IS_WEB && s.cardWeb]} accessibilityLabel="Enrol form" accessible>
+      {/* Card — full-sheet on mobile, centered box on wide screens */}
+      <View
+        style={[
+          s.card,
+          IS_WEB && winW >= 520 && {
+            top: '4%' as any, bottom: '4%' as any,
+            left: modalLeft, right: undefined as any,
+            width: modalW,
+            borderRadius: 18,
+            borderTopLeftRadius: 18, borderTopRightRadius: 18,
+          },
+        ]}
+        accessibilityLabel="Enrol form"
+        accessible
+      >
 
         {/* Header */}
         <View style={s.header}>
@@ -422,8 +486,8 @@ export default function EnrollModal() {
                     <Text style={s.installmentTitle}>Installment Breakdown</Text>
                     {[
                       { label: 'Today (Installment 1)',        amount: i1 },
-                      { label: 'In 30 days (Installment 2)',   amount: i2 },
-                      { label: 'In 60 days (Installment 3)',   amount: i3 },
+                      { label: 'In 10 days (Installment 2)',   amount: i2 },
+                      { label: 'In 20 days (Installment 3)',   amount: i3 },
                     ].map(row => (
                       <View key={row.label} style={s.installmentRow}>
                         <Text style={s.installmentLabel}>{row.label}</Text>
@@ -502,6 +566,12 @@ export default function EnrollModal() {
         {/* Footer */}
         {!isNonIdle && (
           <View style={s.footer}>
+            {submitError && (
+              <View style={s.errorBanner}>
+                <AlertTriangle size={14} color={C.red} />
+                <Text style={s.errorBannerText}>{submitError}</Text>
+              </View>
+            )}
             <Text style={s.footerCaption}>
               Tap below to receive an M-Pesa PIN prompt on your phone.
             </Text>
@@ -537,15 +607,6 @@ const s = StyleSheet.create({
     borderTopLeftRadius: 22, borderTopRightRadius: 22,
     overflow: 'hidden',
   },
-  cardWeb: {
-    top: '4%' as any, bottom: '4%' as any,
-    left: '50%' as any, right: undefined as any,
-    transform: [{ translateX: -340 }],
-    width: 680,
-    borderRadius: 18,
-    borderTopLeftRadius: 18, borderTopRightRadius: 18,
-  },
-
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: 20, paddingVertical: 16,
@@ -667,6 +728,15 @@ const s = StyleSheet.create({
     paddingHorizontal: 20, paddingVertical: 14,
     borderTopWidth: 1, borderTopColor: 'rgba(34,31,32,0.07)',
     backgroundColor: C.white,
+  },
+  errorBanner: {
+    flexDirection: 'row', alignItems: 'flex-start', gap: 8,
+    backgroundColor: 'rgba(225,29,46,0.07)',
+    borderRadius: 10, padding: 12, marginBottom: 12,
+    borderWidth: 1, borderColor: 'rgba(225,29,46,0.22)',
+  },
+  errorBannerText: {
+    flex: 1, fontFamily: F.regular, fontSize: 13, color: C.red, lineHeight: 18,
   },
   footerCaption: {
     fontFamily: F.regular, fontSize: 12,

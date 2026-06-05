@@ -1,12 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Animated, Platform } from 'react-native';
+import { View, Text, Animated, Platform, TouchableOpacity, useWindowDimensions } from 'react-native';
+import AnimatedRN, {
+  useSharedValue, useAnimatedStyle,
+  withSpring, withSequence, withTiming, withDelay,
+  interpolate,
+} from 'react-native-reanimated';
 import { BookOpen, Map, Tag, Award, Clock } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W, WHY_FEATURES, STATS } from './constants';
 
 const ICON_MAP: Record<string, React.ComponentType<any>> = { BookOpen, Map, Tag, Award, Clock };
 
-// Maps iconName → translation key in whyChooseUs.items
 const WHY_KEY_MAP: Record<string, string> = {
   BookOpen: 'onlineClasses',
   Map:      'onlineTracking',
@@ -15,12 +19,13 @@ const WHY_KEY_MAP: Record<string, string> = {
   Clock:    'perfectTiming',
 };
 
-// Maps stat label from constants → translation key in whyChooseUs.stats
 const STAT_KEY_MAP: Record<string, string> = {
   'Total Learners':     'totalLearners',
   'Current Students':   'currentStudents',
   'Expert Instructors': 'expertInstructors',
 };
+
+// ── Animated counter ──────────────────────────────────────────────────────────
 
 function AnimatedCounter({ target, suffix, label }: { target: number; suffix: string; label: string }) {
   const anim = useRef(new Animated.Value(0)).current;
@@ -44,18 +49,131 @@ function AnimatedCounter({ target, suffix, label }: { target: number; suffix: st
   );
 }
 
-export default function WhyChooseUs() {
-  const { t } = useTranslation();
-  const featureAnims = useRef(WHY_FEATURES.map(() => new Animated.Value(0))).current;
+// ── Feature card with entrance stagger + sway + yellow coat ──────────────────
+
+function FeatureItem({
+  feat, index, t,
+}: {
+  feat: typeof WHY_FEATURES[0];
+  index: number;
+  t: (key: string) => string;
+}) {
+  const Icon = ICON_MAP[feat.iconName] ?? BookOpen;
+  const tKey = WHY_KEY_MAP[feat.iconName] ?? feat.iconName;
+
+  // Entrance (stagger by index)
+  const enterOp = useSharedValue(0);
+  const enterY  = useSharedValue(24);
+
+  // Hover / press sway
+  const lift   = useSharedValue(0);
+  const rotate = useSharedValue(0);
 
   useEffect(() => {
-    Animated.stagger(100, featureAnims.map(a => Animated.timing(a, { toValue: 1, duration: 480, useNativeDriver: Platform.OS !== 'web' }))).start();
+    enterOp.value = withDelay(index * 100, withTiming(1,  { duration: 480 }));
+    enterY.value  = withDelay(index * 100, withTiming(0,  { duration: 480 }));
   }, []);
+
+  const onEnter = () => {
+    lift.value   = withSpring(1, { damping: 7, stiffness: 220 });
+    // Quick tilt left → spring sway right — the signature sway
+    rotate.value = withSequence(
+      withTiming(-2.5, { duration: 90 }),
+      withSpring(2.5, { damping: 5, stiffness: 180 }),
+    );
+  };
+
+  const onLeave = () => {
+    lift.value   = withSpring(0, { damping: 10, stiffness: 200 });
+    rotate.value = withSpring(0, { damping: 8,  stiffness: 200 });
+  };
+
+  const animStyle = useAnimatedStyle(() => {
+    const glowOp   = interpolate(lift.value, [0, 1], [0.12, 0.90]);
+    const shadowR  = interpolate(lift.value, [0, 1], [0, 28]);
+    const borderOp = interpolate(lift.value, [0, 1], [0.15, 1]);
+
+    return {
+      opacity:   enterOp.value,
+      transform: [
+        { translateY: enterY.value },
+        { scale:      interpolate(lift.value, [0, 1], [1, 1.06]) },
+        { translateY: interpolate(lift.value, [0, 1], [0, -8]) },
+        { rotate:     `${rotate.value}deg` },
+      ],
+      // Yellow coat — border brightens from dim to full yellow on hover
+      borderColor:   `rgba(255,216,0,${borderOp})`,
+      // Yellow glow shadow
+      shadowColor:   C.yellow,
+      shadowOpacity: interpolate(lift.value, [0, 1], [0.10, 0.75]),
+      shadowRadius:  shadowR,
+      shadowOffset:  { width: 0, height: 4 },
+      elevation:     interpolate(lift.value, [0, 1], [2, 18]),
+      ...(IS_WEB && {
+        // @ts-ignore web-only
+        boxShadow: `0 0 ${shadowR}px rgba(255,216,0,${glowOp}), 0 4px 16px rgba(255,216,0,${(glowOp * 0.5).toFixed(2)})`,
+      }),
+    };
+  });
+
+  return (
+    <AnimatedRN.View
+      style={[
+        {
+          width: cardW,
+          backgroundColor: 'rgba(255,255,255,0.05)',
+          borderRadius: 16,
+          borderWidth: 1.5,
+        },
+        animStyle,
+      ]}
+    >
+      <TouchableOpacity
+        activeOpacity={0.92}
+        onPressIn={onEnter}
+        onPressOut={onLeave}
+        {...(IS_WEB ? ({ onMouseEnter: onEnter, onMouseLeave: onLeave } as any) : {})}
+        style={{ padding: 22, alignItems: 'center', borderRadius: 16 }}
+      >
+        {/* Icon circle */}
+        <View style={{
+          width: 54, height: 54, borderRadius: 27,
+          backgroundColor: 'rgba(255,216,0,0.15)',
+          alignItems: 'center', justifyContent: 'center',
+          marginBottom: 14,
+          borderWidth: 1, borderColor: 'rgba(255,216,0,0.3)',
+        }}>
+          <Icon size={24} color={C.yellow} />
+        </View>
+
+        <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: 14, textAlign: 'center', marginBottom: 8 }}>
+          {t(`whyChooseUs.items.${tKey}.title`)}
+        </Text>
+        <Text style={{ color: C.mutedDark, fontFamily: F.regular, fontSize: 12, lineHeight: 18, textAlign: 'center' }}>
+          {t(`whyChooseUs.items.${tKey}.desc`)}
+        </Text>
+      </TouchableOpacity>
+    </AnimatedRN.View>
+  );
+}
+
+// ── Section ───────────────────────────────────────────────────────────────────
+
+export default function WhyChooseUs() {
+  const { t } = useTranslation();
+  const { width: winW } = useWindowDimensions();
+  // Responsive columns: 1 col <480, 2 col <768, 3 col <1024, 5 col 1024+
+  const cardW: any = !IS_WEB ? undefined
+    : winW < 480  ? '100%'
+    : winW < 768  ? 'calc(50% - 9px)'
+    : winW < 1024 ? 'calc(33.33% - 12px)'
+    : 'calc(20% - 18px)';
 
   return (
     <View style={{ backgroundColor: C.skyDeep, paddingVertical: 72, paddingHorizontal: 24 }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
 
+        {/* Heading */}
         <View style={{ alignItems: 'center', marginBottom: 48 }}>
           <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: 11, letterSpacing: 2.5, textTransform: 'uppercase', marginBottom: 10 }}>
             {t('whyChooseUs.overline')}
@@ -70,39 +188,24 @@ export default function WhyChooseUs() {
           </View>
         </View>
 
-        <View style={IS_WEB ? { flexDirection: 'row', flexWrap: 'wrap', gap: 18, marginBottom: 56 } : { gap: 14, marginBottom: 44 }}>
-          {WHY_FEATURES.map((feat, i) => {
-            const Icon = ICON_MAP[feat.iconName] ?? BookOpen;
-            const key  = WHY_KEY_MAP[feat.iconName] ?? feat.iconName;
-            return (
-              <Animated.View
-                key={feat.title}
-                style={{
-                  width: IS_WEB ? 'calc(20% - 18px)' as any : undefined,
-                  opacity: featureAnims[i],
-                  transform: [{ translateY: featureAnims[i].interpolate({ inputRange: [0, 1], outputRange: [24, 0] }) }],
-                  backgroundColor: 'rgba(255,255,255,0.05)',
-                  borderRadius: 16, padding: 22, alignItems: 'center',
-                  borderWidth: 1, borderColor: 'rgba(255,216,0,0.15)',
-                }}
-              >
-                <View style={{ width: 54, height: 54, borderRadius: 27, backgroundColor: 'rgba(255,216,0,0.15)', alignItems: 'center', justifyContent: 'center', marginBottom: 14, borderWidth: 1, borderColor: 'rgba(255,216,0,0.3)' }}>
-                  <Icon size={24} color={C.yellow} />
-                </View>
-                <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: 14, textAlign: 'center', marginBottom: 8 }}>
-                  {t(`whyChooseUs.items.${key}.title`)}
-                </Text>
-                <Text style={{ color: C.mutedDark, fontFamily: F.regular, fontSize: 12, lineHeight: 18, textAlign: 'center' }}>
-                  {t(`whyChooseUs.items.${key}.desc`)}
-                </Text>
-              </Animated.View>
-            );
-          })}
+        {/* Feature cards */}
+        <View style={IS_WEB
+          ? { flexDirection: 'row', flexWrap: 'wrap', gap: 18, marginBottom: 56 }
+          : { gap: 14, marginBottom: 44 }
+        }>
+          {WHY_FEATURES.map((feat, i) => (
+            <FeatureItem key={feat.title} feat={feat} index={i} t={t} />
+          ))}
         </View>
 
+        {/* Divider */}
         <View style={{ height: 1, backgroundColor: 'rgba(255,255,255,0.20)', marginBottom: 44 }} />
 
-        <View style={IS_WEB ? { flexDirection: 'row', justifyContent: 'space-around' } : { flexDirection: 'row', justifyContent: 'space-around', flexWrap: 'wrap', gap: 24 }}>
+        {/* Stats */}
+        <View style={IS_WEB
+          ? { flexDirection: 'row', justifyContent: 'space-around' }
+          : { flexDirection: 'row', justifyContent: 'space-around', flexWrap: 'wrap', gap: 24 }
+        }>
           {STATS.map(s => {
             const statKey = STAT_KEY_MAP[s.label] ?? s.label;
             return (

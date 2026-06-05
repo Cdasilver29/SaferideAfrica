@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import {
   View, Text, Image, TouchableOpacity, Animated, Modal,
   ScrollView as RNScrollView, StyleSheet, Platform, Linking,
-  AccessibilityInfo,
+  AccessibilityInfo, useWindowDimensions,
 } from 'react-native';
 import AnimatedRN, {
   useSharedValue, useAnimatedStyle, useAnimatedReaction,
@@ -139,8 +139,13 @@ export default function Navbar({ scrollY }: NavbarProps) {
   const { colorScheme, toggleColorScheme } = useColorScheme();
   const isDark   = colorScheme === 'dark';
   const pathname = usePathname();
+  const { width: winW } = useWindowDimensions();
 
   const { open: openEnrollModal } = useEnrollModal();
+
+  // On web: show gradient pills when viewport ≥ 768 px, hamburger drawer below that
+  const showPills    = IS_WEB && winW >= 768;
+  const showHamburger = !IS_WEB || (IS_WEB && winW < 768);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -298,8 +303,8 @@ export default function Navbar({ scrollY }: NavbarProps) {
             </View>
           </TouchableOpacity>
 
-          {/* Gradient pills — web only, center of the row */}
-          {IS_WEB && (
+          {/* Gradient pills — wide screens only */}
+          {showPills && (
             <View style={styles.pillRow}>
               {NAV_PILLS.map(pill => (
                 <NavPill key={pill.key} item={pill} isActive={isItemActive(pill.path)} />
@@ -309,7 +314,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
 
           {/* Controls */}
           <View style={styles.controls}>
-            {IS_WEB && <LanguageSwitcher />}
+            {showPills && <LanguageSwitcher />}
 
             {/* Dark-mode toggle */}
             <TouchableOpacity
@@ -331,7 +336,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
               <AnimatedRN.View style={phoneShakeStyle}>
                 <Phone size={13} color={C.white} />
               </AnimatedRN.View>
-              {IS_WEB && (
+              {showPills && (
                 <Text style={styles.callText}>Call Now</Text>
               )}
             </TouchableOpacity>
@@ -352,12 +357,12 @@ export default function Navbar({ scrollY }: NavbarProps) {
                 <AnimatedRN.View style={iconNudgeStyle}>
                   <GraduationCap size={13} color={C.dark} />
                 </AnimatedRN.View>
-                <Text style={styles.enrolText}>{IS_WEB ? 'Enrol Now' : 'Enrol'}</Text>
+                <Text style={styles.enrolText}>{showPills ? 'Enrol Now' : 'Enrol'}</Text>
               </TouchableOpacity>
             </AnimatedRN.View>
 
-            {/* Mobile hamburger */}
-            {!IS_WEB && (
+            {/* Hamburger — native always, and narrow web viewports */}
+            {showHamburger && (
               <TouchableOpacity
                 onPress={openDrawer}
                 style={[styles.iconBtn, { backgroundColor: btnBg }]}
@@ -376,7 +381,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
       {/* ══════════════════════════════════════════════════════════════════════
           Mobile drawer
       ══════════════════════════════════════════════════════════════════════ */}
-      {!IS_WEB && (
+      {showHamburger && (
         <Modal visible={drawerOpen} transparent animationType="none" onRequestClose={closeDrawer}>
           <TouchableOpacity
             style={{ flex: 1, backgroundColor: 'rgba(34,31,32,0.55)' }}

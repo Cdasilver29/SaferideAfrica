@@ -8,7 +8,7 @@ export const COMPANY = {
   legalName:         'Safe Ride Africa Driving School Ltd',
   tagline:           'Safety Beyond.....',
   address:           'P.O. Box 1126-00300, Nairobi, Kenya',
-  hq:                'Donholm, Nairobi',
+  hq:                'Buruburu, Nairobi',
   primaryPhone:      '0746 097 033',
   primaryEmail:      'saferideafrica777@gmail.com',
   secondaryPhone:    '0757 209 966',
@@ -42,7 +42,7 @@ export const BRANCHES = [
   {
     id: 'donholm',
     name: 'Donholm',
-    isHQ: true,
+    isHQ: false,
     address: 'Donholm, Nairobi',
     phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',
@@ -51,7 +51,7 @@ export const BRANCHES = [
   {
     id: 'buruburu',
     name: 'Buruburu',
-    isHQ: false,
+    isHQ: true,
     address: 'Buruburu, Nairobi',
     phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',
@@ -333,7 +333,7 @@ export const SOCIALS = {
 
 export const COMPANY_STORY = [
   `Safe Ride Africa Driving School was founded in ${COMPANY.registration.foundedYear} with a single conviction: that every Kenyan driver deserves world-class training, not just a piece of paper. Starting from a single Nairobi location, the school quickly gained a reputation for rigorous instruction, genuine care for students, and an NTSA-aligned curriculum that prepared learners for real roads — not just the test track.`,
-  `In ${COMPANY.registration.incorporatedDate.split(' ').pop()}, the school was formally incorporated as ${COMPANY.legalName} (PVT ${COMPANY.registration.pvt}), formalising five years of growth into a registered institution. Today we operate ${STATS.branches} branches across Nairobi — from Donholm (HQ) to Kayole PCEA — and have trained over 2,100 licensed drivers.`,
+  `In ${COMPANY.registration.incorporatedDate.split(' ').pop()}, the school was formally incorporated as ${COMPANY.legalName} (PVT ${COMPANY.registration.pvt}), formalising five years of growth into a registered institution. Today we operate ${STATS.branches} branches across Nairobi — from Buruburu (HQ) to Kayole PCEA — and have trained over 2,100 licensed drivers.`,
 ] as const;
 
 // ─── Blog articles ────────────────────────────────────────────────────────────

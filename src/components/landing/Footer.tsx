@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, Linking } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, Linking, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
 import { Phone, Mail, MapPin, Send } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
@@ -28,6 +28,9 @@ export default function Footer() {
   const { t } = useTranslation();
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
+  const { width: winW } = useWindowDimensions();
+  // Use row layout on wide web, stack on small screens & native
+  const multiCol = IS_WEB && winW >= 768;
 
   const [email, setEmail]           = useState('');
   const [subscribed, setSubscribed] = useState(false);
@@ -61,18 +64,18 @@ export default function Footer() {
 
   return (
     <>
-      <LaneStrip />
+      <LaneStrip reverse />
 
       {/* ── Main footer body ─────────────────────────────────────────────────── */}
       <View style={{ backgroundColor: mainBg }}>
         <View style={{ paddingHorizontal: 24, paddingTop: 48, paddingBottom: 36 }}>
           <View style={[
             IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {},
-            IS_WEB ? { flexDirection: 'row', gap: 48 } : { gap: 32 },
+            multiCol ? { flexDirection: 'row', gap: 48 } : { gap: 32 },
           ]}>
 
             {/* Brand column */}
-            <View style={IS_WEB ? { flex: 2 } : {}}>
+            <View style={multiCol ? { flex: 2 } : {}}>
               <TouchableOpacity
                 onPress={() => router.push('/')}
                 style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 14 }}
@@ -117,8 +120,8 @@ export default function Footer() {
               </View>
             </View>
 
-            {/* Our Courses — web only */}
-            {IS_WEB && (
+            {/* Our Courses — wide screens only */}
+            {multiCol && (
               <View style={{ flex: 1 }}>
                 <Text style={{ color: headingC, fontFamily: F.bold, fontSize: 14, marginBottom: 16 }}>
                   {t('footer.coursesColumnTitle')}
@@ -131,8 +134,8 @@ export default function Footer() {
               </View>
             )}
 
-            {/* Navigate — web only */}
-            {IS_WEB && (
+            {/* Navigate — wide screens only */}
+            {multiCol && (
               <View style={{ flex: 1 }}>
                 <Text style={{ color: headingC, fontFamily: F.bold, fontSize: 14, marginBottom: 16 }}>Navigate</Text>
                 {FOOTER_NAV.map(item => (
@@ -149,7 +152,7 @@ export default function Footer() {
             )}
 
             {/* Newsletter */}
-            <View style={IS_WEB ? { flex: 1.5 } : {}}>
+            <View style={multiCol ? { flex: 1.5 } : {}}>
               <Text style={{ color: headingC, fontFamily: F.bold, fontSize: 14, marginBottom: 8 }}>
                 {t('footer.newsletterTitle')}
               </Text>
@@ -219,9 +222,14 @@ export default function Footer() {
             ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }
             : { alignItems: 'center' }
           }>
-            <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 12, textAlign: 'center', opacity: 0.85 }}>
-              {t('footer.copyright')}
-            </Text>
+            <View style={{ alignItems: IS_WEB ? 'flex-start' : 'center' }}>
+              <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 12, textAlign: 'center', opacity: 0.85 }}>
+                {t('footer.copyright')}
+              </Text>
+              <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 11, textAlign: 'center', opacity: 0.70, marginTop: 3 }}>
+                💻 Developer: calvinedasilver96@gmail.com
+              </Text>
+            </View>
             {IS_WEB && (
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image source={NTSA_LOGO} style={{ width: 36, height: 36, marginRight: 10 }} resizeMode="contain" />

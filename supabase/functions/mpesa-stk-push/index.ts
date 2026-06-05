@@ -9,9 +9,10 @@ import { corsHeaders }  from '../_shared/cors.ts';
 const CONSUMER_KEY    = Deno.env.get('MPESA_CONSUMER_KEY')!;
 const CONSUMER_SECRET = Deno.env.get('MPESA_CONSUMER_SECRET')!;
 const PASSKEY         = Deno.env.get('MPESA_PASSKEY')!;
-const SHORT_CODE      = Deno.env.get('MPESA_SHORTCODE') ?? '522533';
+const SHORT_CODE      = Deno.env.get('MPESA_SHORTCODE') ?? '174379';
 const CALLBACK_URL    = Deno.env.get('MPESA_CALLBACK_URL')!;
-const DARAJA_BASE     = 'https://api.safaricom.co.ke';
+// sandbox.safaricom.co.ke for test credentials; api.safaricom.co.ke for live
+const DARAJA_BASE     = Deno.env.get('MPESA_BASE_URL') ?? 'https://sandbox.safaricom.co.ke';
 
 async function getDarajaToken(): Promise<string> {
   const creds = btoa(`${CONSUMER_KEY}:${CONSUMER_SECRET}`);

@@ -1,5 +1,10 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Animated, Platform } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import AnimatedRN, {
+  useSharedValue, useAnimatedStyle,
+  withSpring, withSequence, withTiming, withDelay,
+  interpolate,
+} from 'react-native-reanimated';
 import { router } from 'expo-router';
 import { useTheme } from '@/lib/theme';
 import {
@@ -15,116 +20,134 @@ const ICON_MAP: Record<string, React.ComponentType<any>> = {
   GraduationCap, CheckCircle, Monitor, Briefcase,
 };
 
-function RevealCard({
-  children,
-  delay = 0,
-  flex,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  flex?: number;
-}) {
-  const anim = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    Animated.timing(anim, { toValue: 1, duration: 500, delay, useNativeDriver: Platform.OS !== 'web' }).start();
-  }, []);
-  return (
-    <Animated.View
-      style={{
-        flex,
-        opacity: anim,
-        transform: [{ translateY: anim.interpolate({ inputRange: [0, 1], outputRange: [24, 0] }) }],
-      }}
-    >
-      {children}
-    </Animated.View>
-  );
-}
-
 function ServiceCard({
   svc,
   readMore,
+  entranceDelay,
 }: {
   svc: ServiceItem;
   readMore: string;
+  entranceDelay: number;
 }) {
-  const T = useTheme();
-  const Icon      = ICON_MAP[svc.iconName] ?? Shield;
-  const scaleAnim = useRef(new Animated.Value(1)).current;
-  const onIn  = () => Animated.spring(scaleAnim, { toValue: 0.97, useNativeDriver: Platform.OS !== 'web', tension: 200, friction: 10 }).start();
-  const onOut = () => Animated.spring(scaleAnim, { toValue: 1,    useNativeDriver: Platform.OS !== 'web', tension: 200, friction: 10 }).start();
+  const T    = useTheme();
+  const Icon = ICON_MAP[svc.iconName] ?? Shield;
+
+  // Entrance
+  const enterOp = useSharedValue(0);
+  const enterY  = useSharedValue(24);
+
+  // Hover / press — zoom-out (scale > 1) + sway
+  const zoom   = useSharedValue(0);
+  const rotate = useSharedValue(0);
+
+  useEffect(() => {
+    enterOp.value = withDelay(entranceDelay, withTiming(1, { duration: 500 }));
+    enterY.value  = withDelay(entranceDelay, withTiming(0, { duration: 500 }));
+  }, []);
+
+  const onEnter = () => {
+    // Zoom out = card expands toward viewer (scale > 1)
+    zoom.value   = withSpring(1, { damping: 7, stiffness: 200 });
+    // Quick tilt left → spring sway right
+    rotate.value = withSequence(
+      withTiming(-2, { duration: 85 }),
+      withSpring(2, { damping: 5, stiffness: 180 }),
+    );
+  };
+
+  const onLeave = () => {
+    zoom.value   = withSpring(0, { damping: 10, stiffness: 200 });
+    rotate.value = withSpring(0, { damping: 8,  stiffness: 200 });
+  };
+
+  const animStyle = useAnimatedStyle(() => {
+    const glowOp   = interpolate(zoom.value, [0, 1], [0.08, 0.85]);
+    const shadowR  = interpolate(zoom.value, [0, 1], [10, 30]);
+    const borderOp = interpolate(zoom.value, [0, 1], [0.10, 1.0]);
+
+    return {
+      opacity:   enterOp.value,
+      transform: [
+        { translateY: enterY.value },
+        // Zoom OUT — card grows toward the viewer
+        { scale:      interpolate(zoom.value, [0, 1], [1, 1.07]) },
+        { translateY: interpolate(zoom.value, [0, 1], [0, -8]) },
+        { rotate:     `${rotate.value}deg` },
+      ],
+      // Round shiny yellow coat
+      borderColor:   `rgba(255,216,0,${borderOp})`,
+      shadowColor:   C.yellow,
+      shadowOpacity: interpolate(zoom.value, [0, 1], [0.07, 0.75]),
+      shadowRadius:  shadowR,
+      shadowOffset:  { width: 0, height: 4 },
+      elevation:     interpolate(zoom.value, [0, 1], [2, 18]),
+      ...(IS_WEB && {
+        // @ts-ignore web-only
+        boxShadow: `0 0 ${shadowR}px rgba(255,216,0,${glowOp}), 0 4px 20px rgba(255,216,0,${(glowOp * 0.45).toFixed(2)})`,
+      }),
+    };
+  });
 
   return (
-    <Animated.View
-      style={{
-        flex: 1,
-        transform: [{ scale: scaleAnim }],
-        backgroundColor: T.card,
-        borderRadius: 18,
-        padding: 20,
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: T.border,
-        shadowColor: C.blue,
-        shadowOpacity: 0.07,
-        shadowRadius: 10,
-        elevation: 2,
-      }}
-    >
-      <View
-        style={{
-          width: 54,
-          height: 54,
-          borderRadius: 27,
-          backgroundColor: C.blue,
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: 12,
-          shadowColor: C.blue,
-          shadowOpacity: 0.3,
-          shadowRadius: 8,
-          elevation: 4,
-        }}
-      >
-        <Icon size={24} color="#ffffff" />
-      </View>
-      <View style={{ width: 24, height: 3, borderRadius: 2, backgroundColor: C.yellow, marginBottom: 10 }} />
-      <Text
-        style={{
-          color: T.foreground,
-          fontFamily: F.bold,
-          fontSize: 14,
-          textAlign: 'center',
-          marginBottom: 7,
-          lineHeight: 20,
-        }}
-      >
-        {svc.name}
-      </Text>
-      <Text
-        style={{
-          color: T.mutedForeground,
-          fontFamily: F.regular,
-          fontSize: 12,
-          lineHeight: 18,
-          textAlign: 'center',
-          marginBottom: 12,
+    <AnimatedRN.View
+      style={[
+        {
           flex: 1,
+          backgroundColor: T.card,
+          borderRadius: 18,
+          borderWidth: 1.5,
+        },
+        animStyle,
+      ]}
+    >
+      <TouchableOpacity
+        onPress={() => router.push(`/services/${svc.code}` as any)}
+        onPressIn={onEnter}
+        onPressOut={onLeave}
+        {...(IS_WEB ? ({ onMouseEnter: onEnter, onMouseLeave: onLeave } as any) : {})}
+        activeOpacity={0.92}
+        style={{
+          flex: 1,
+          padding: 20,
+          alignItems: 'center',
+          borderRadius: 18,
         }}
       >
-        {svc.shortDesc}
-      </Text>
-      <TouchableOpacity
-        onPress={() => router.push(`/services/${svc.code}`)}
-        onPressIn={onIn}
-        onPressOut={onOut}
-        style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
-        activeOpacity={0.75}
-      >
-        <Text style={{ color: C.red, fontFamily: F.semibold, fontSize: 12 }}>{readMore}</Text>
-        <ChevronRight size={13} color={C.red} />
+        {/* Icon circle */}
+        <View style={{
+          width: 54, height: 54, borderRadius: 27,
+          backgroundColor: C.blue,
+          alignItems: 'center', justifyContent: 'center',
+          marginBottom: 12,
+          shadowColor: C.blue, shadowOpacity: 0.3, shadowRadius: 8, elevation: 4,
+        }}>
+          <Icon size={24} color="#ffffff" />
+        </View>
+
+        {/* Yellow accent bar */}
+        <View style={{ width: 24, height: 3, borderRadius: 2, backgroundColor: C.yellow, marginBottom: 10 }} />
+
+        <Text style={{
+          color: T.foreground, fontFamily: F.bold, fontSize: 14,
+          textAlign: 'center', marginBottom: 7, lineHeight: 20,
+        }}>
+          {svc.name}
+        </Text>
+
+        <Text style={{
+          color: T.mutedForeground, fontFamily: F.regular, fontSize: 12,
+          lineHeight: 18, textAlign: 'center', marginBottom: 12, flex: 1,
+        }}>
+          {svc.shortDesc}
+        </Text>
+
+        {/* Read More link */}
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+          <Text style={{ color: C.red, fontFamily: F.semibold, fontSize: 12 }}>{readMore}</Text>
+          <ChevronRight size={13} color={C.red} />
+        </View>
       </TouchableOpacity>
-    </Animated.View>
+    </AnimatedRN.View>
   );
 }
 
@@ -159,9 +182,12 @@ export default function Services() {
         {rows.map((pair, rowIdx) => (
           <View key={rowIdx} style={{ flexDirection: 'row', gap: 14, marginBottom: 14 }}>
             {pair.map((svc, colIdx) => (
-              <RevealCard key={svc.code} delay={(rowIdx * 2 + colIdx) * 60} flex={1}>
-                <ServiceCard svc={svc} readMore={readMore} />
-              </RevealCard>
+              <ServiceCard
+                key={svc.code}
+                svc={svc}
+                readMore={readMore}
+                entranceDelay={(rowIdx * 2 + colIdx) * 60}
+              />
             ))}
             {pair.length === 1 && <View style={{ flex: 1 }} />}
           </View>
