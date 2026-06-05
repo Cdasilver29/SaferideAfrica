@@ -91,9 +91,7 @@ export default function RootLayout() {
                 <Stack.Screen name="contact" />
                 <Stack.Screen name="gallery" />
                 <Stack.Screen name="blog" />
-                <Stack.Screen name="login" />
-                <Stack.Screen name="register" />
-                <Stack.Screen name="services/[code]" />
+<Stack.Screen name="services/[code]" />
                 <Stack.Screen name="blog/[id]" />
                 <Stack.Screen name="account/index" />
                 <Stack.Screen name="classes/index" />

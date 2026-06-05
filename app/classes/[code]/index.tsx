@@ -2,10 +2,10 @@ import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Platform } from 'react-native';
 import { ArrowLeft, CheckCircle } from 'lucide-react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { useAuth } from '../../../src/context/AuthContext';
 import { CLASSES } from '../../../src/data/saferide';
 import { C, F, IS_WEB, MAX_W } from '../../../src/components/landing/constants';
 import { useTheme } from '../../../src/lib/theme';
+import { useEnrollModal } from '../../../src/context/EnrollModalContext';
 
 const KSH = (n: number) => (n === 0 ? '—' : 'Ksh ' + n.toLocaleString('en-KE'));
 
@@ -21,7 +21,7 @@ export default function ClassDetailPage() {
   const router = useRouter();
   const T = useTheme();
   const { code } = useLocalSearchParams<{ code: string }>();
-  const { user } = useAuth();
+  const { open: openEnroll } = useEnrollModal();
 
   const cls = CLASSES.find(c => c.code === code);
 
@@ -105,13 +105,11 @@ export default function ClassDetailPage() {
 
         {/* Enrol CTA */}
         <TouchableOpacity
-          onPress={() => router.push(user ? `/classes/${cls.code}/enrol` : '/login')}
+          onPress={() => openEnroll(cls.code)}
           style={{ backgroundColor: C.yellow, paddingVertical: 16, borderRadius: 14, alignItems: 'center' }}
           activeOpacity={0.85}
         >
-          <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 15 }}>
-            {user ? 'Enrol Now' : 'Sign In to Enrol'}
-          </Text>
+          <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 15 }}>Enrol Now</Text>
         </TouchableOpacity>
 
       </View>

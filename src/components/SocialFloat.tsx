@@ -18,6 +18,7 @@ const SOCIALS = {
   twitter:   'https://twitter.com/safrideafrica',
   tiktok:    'https://www.tiktok.com/@saferide254',
   instagram: 'https://www.instagram.com/safe_rideafrica',
+  youtube:   'https://www.youtube.com/@saferide254',
 }
 
 const COLORS = {
@@ -26,6 +27,7 @@ const COLORS = {
   twitter:   '#000000',
   tiktok:    '#000000',
   instagram: '#E4405F',
+  youtube:   '#FF0000',
 }
 
 const WA_PATH =
@@ -37,7 +39,7 @@ const TT_PATH =
 const BUTTON_SIZE = 38
 const ICON_SIZE = 16
 const SPACING = 48
-const TOTAL_HEIGHT = BUTTON_SIZE + SPACING * 4
+const TOTAL_HEIGHT = BUTTON_SIZE + SPACING * 5
 
 const isWeb = Platform.OS === 'web'
 
@@ -84,6 +86,14 @@ function TwitterXIcon({ size = 24, color = '#fff' }: { size?: number; color?: st
   )
 }
 
+function YouTubeIcon({ size = 24, color = '#fff' }: { size?: number; color?: string }) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24">
+      <Path fill={color} d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    </Svg>
+  )
+}
+
 type SpreadConfig = {
   key: keyof typeof SOCIALS
   color: string
@@ -96,6 +106,7 @@ const SPREAD_ICONS: SpreadConfig[] = [
   { key: 'tiktok',   color: COLORS.tiktok,    spreadIndex: 2, icon: <TikTokIcon size={ICON_SIZE} /> },
   { key: 'twitter',  color: COLORS.twitter,   spreadIndex: 3, icon: <TwitterXIcon size={ICON_SIZE} /> },
   { key: 'facebook', color: COLORS.facebook,  spreadIndex: 4, icon: <FacebookIcon size={ICON_SIZE} /> },
+  { key: 'youtube',  color: COLORS.youtube,   spreadIndex: 5, icon: <YouTubeIcon size={ICON_SIZE} /> },
 ]
 
 function SpreadItem({

@@ -97,7 +97,7 @@ export default function AccountScreen() {
   }
 
   if (!user) {
-    router.replace('/login');
+    router.replace('/');
     return null;
   }
 

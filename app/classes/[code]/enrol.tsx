@@ -39,7 +39,7 @@ export default function EnrolScreen() {
   if (authLoading) {
     return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff' }}><ActivityIndicator color={C.blue} size="large" /></View>;
   }
-  if (!user) { router.replace('/login'); return null; }
+  if (!user) { router.replace('/classes'); return null; }
   if (!cls)  { router.replace('/classes'); return null; }
 
   const branch = (BRANCHES as readonly typeof BRANCHES[number][]).find(b => b.id === user.branchId);

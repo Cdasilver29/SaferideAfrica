@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Animated, Image, Platform, UIManager } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Animated, Image, Platform, UIManager, Linking } from 'react-native';
 import { ChevronDown, Send } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W, HERO_SRC } from './constants';
@@ -55,6 +55,11 @@ function ContactForm() {
 
   const handleSend = () => {
     if (!form.name || !form.email) return;
+    const subject = encodeURIComponent(form.subject || 'Website Enquiry');
+    const body = encodeURIComponent(
+      `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone || '—'}\n\n${form.message}`
+    );
+    Linking.openURL(`mailto:saferideafrica777@gmail.com?subject=${subject}&body=${body}`);
     setSent(true);
     setTimeout(() => setSent(false), 3000);
     setForm({ name: '', email: '', phone: '', subject: '', message: '' });
