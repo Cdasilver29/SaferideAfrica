@@ -27,6 +27,8 @@ const STAT_KEY_MAP: Record<string, string> = {
 function AnimatedCounter({ target, suffix, label }: { target: number; suffix: string; label: string }) {
   const anim = useRef(new Animated.Value(0)).current;
   const [display, setDisplay] = useState(0);
+  const { width: winW } = useWindowDimensions();
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
 
   useEffect(() => {
     const listener = anim.addListener(({ value }) => setDisplay(Math.floor(value)));
@@ -35,11 +37,11 @@ function AnimatedCounter({ target, suffix, label }: { target: number; suffix: st
   }, []);
 
   return (
-    <View style={{ alignItems: 'center', flex: IS_WEB ? 1 : undefined }}>
-      <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: IS_WEB ? 44 : 36 }}>
+    <View style={{ alignItems: 'center', flex: 1 }}>
+      <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: isMobile ? 22 : 44 }}>
         {display}{suffix}
       </Text>
-      <Text style={{ color: 'rgba(255,255,255,0.7)', fontFamily: F.regular, fontSize: 13, marginTop: 4, textAlign: 'center' }}>
+      <Text style={{ color: 'rgba(255,255,255,0.7)', fontFamily: F.regular, fontSize: isMobile ? 11 : 13, marginTop: 4, textAlign: 'center' }}>
         {label}
       </Text>
     </View>
@@ -188,10 +190,7 @@ export default function WhyChooseUs() {
         <View style={{ height: 1, backgroundColor: 'rgba(255,255,255,0.20)', marginBottom: 44 }} />
 
         {/* Stats */}
-        <View style={IS_WEB
-          ? { flexDirection: 'row', justifyContent: 'space-around' }
-          : { flexDirection: 'row', justifyContent: 'space-around', flexWrap: 'wrap', gap: 24 }
-        }>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around', gap: 8 }}>
           {STATS.map(s => {
             const statKey = STAT_KEY_MAP[s.label] ?? s.label;
             return (
