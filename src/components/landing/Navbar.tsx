@@ -308,7 +308,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
               </View>
             ) : (
               <Text
-                style={[styles.brandName, { fontSize: 12 }]}
+                style={[styles.brandName, { fontSize: 14, flexShrink: 1 }]}
                 numberOfLines={1}
                 ellipsizeMode="tail"
               >
