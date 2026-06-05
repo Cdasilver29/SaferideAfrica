@@ -74,6 +74,7 @@ function RejectModal({
   onCancel: () => void;
   onConfirm: (reason: string) => void;
 }) {
+  const T = useTheme();
   const [reason, setReason] = useState('');
 
   const handleConfirm = () => {
@@ -85,33 +86,33 @@ function RejectModal({
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onCancel}>
       <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.55)', justifyContent: 'center', padding: 24 }}>
-        <View style={{ backgroundColor: '#ffffff', borderRadius: 20, padding: 24 }}>
-          <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 17, marginBottom: 6 }}>Reject Enrollment</Text>
-          <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 13, marginBottom: 16 }}>
+        <View style={{ backgroundColor: T.card, borderRadius: 20, padding: 24, borderWidth: 1, borderColor: T.border }}>
+          <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 17, marginBottom: 6 }}>Reject Enrollment</Text>
+          <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13, marginBottom: 16 }}>
             Provide a reason for rejection. This will be stored on the enrollment record.
           </Text>
           <TextInput
             value={reason}
             onChangeText={setReason}
             placeholder="e.g. Invalid M-Pesa code, insufficient amount…"
-            placeholderTextColor={C.mutedDark}
+            placeholderTextColor={T.mutedForeground}
             multiline
             numberOfLines={3}
             style={{
-              backgroundColor: C.white, borderWidth: 1.5,
-              borderColor: reason ? C.red : C.darkBorder,
+              backgroundColor: T.muted, borderWidth: 1.5,
+              borderColor: reason ? C.red : T.border,
               borderRadius: 12, paddingHorizontal: 14, paddingVertical: 12,
-              color: C.heading, fontFamily: F.regular, fontSize: 14,
+              color: T.foreground, fontFamily: F.regular, fontSize: 14,
               textAlignVertical: 'top', minHeight: 80, marginBottom: 20,
             }}
           />
           <View style={{ flexDirection: 'row', gap: 12 }}>
             <TouchableOpacity
               onPress={onCancel}
-              style={{ flex: 1, paddingVertical: 13, borderRadius: 12, alignItems: 'center', borderWidth: 1, borderColor: C.darkBorder }}
+              style={{ flex: 1, paddingVertical: 13, borderRadius: 12, alignItems: 'center', borderWidth: 1, borderColor: T.border }}
               activeOpacity={0.8}
             >
-              <Text style={{ color: C.muted, fontFamily: F.bold, fontSize: 14 }}>Cancel</Text>
+              <Text style={{ color: T.mutedForeground, fontFamily: F.bold, fontSize: 14 }}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={handleConfirm}
@@ -141,6 +142,7 @@ function NotesSection({
   adminId: string;
   onNoteAdded: (updated: Enrollment) => void;
 }) {
+  const T = useTheme();
   const [open,    setOpen]    = useState(false);
   const [text,    setText]    = useState('');
   const [saving,  setSaving]  = useState(false);
@@ -158,30 +160,30 @@ function NotesSection({
   };
 
   return (
-    <View style={{ borderTopWidth: 1, borderTopColor: 'rgba(34, 31, 32, 0.06)', marginTop: 12, paddingTop: 12 }}>
+    <View style={{ borderTopWidth: 1, borderTopColor: T.border, marginTop: 12, paddingTop: 12 }}>
       <TouchableOpacity
         onPress={() => setOpen(v => !v)}
         style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: open ? 12 : 0 }}
         activeOpacity={0.7}
       >
-        <MessageSquare size={13} color={C.muted} />
-        <Text style={{ color: C.muted, fontFamily: F.semibold, fontSize: 12 }}>
+        <MessageSquare size={13} color={T.mutedForeground} />
+        <Text style={{ color: T.mutedForeground, fontFamily: F.semibold, fontSize: 12 }}>
           Admin Notes ({notes.length})
         </Text>
-        {open ? <ChevronUp size={13} color={C.muted} /> : <ChevronDown size={13} color={C.muted} />}
+        {open ? <ChevronUp size={13} color={T.mutedForeground} /> : <ChevronDown size={13} color={T.mutedForeground} />}
       </TouchableOpacity>
 
       {open && (
         <>
           {notes.length === 0 && (
-            <Text style={{ color: C.mutedDark, fontFamily: F.regular, fontSize: 12, marginBottom: 10 }}>
+            <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 12, marginBottom: 10 }}>
               No notes yet.
             </Text>
           )}
           {notes.map((n, i) => (
-            <View key={i} style={{ backgroundColor: C.white, borderRadius: 8, padding: 10, marginBottom: 8 }}>
-              <Text style={{ color: C.heading, fontFamily: F.regular, fontSize: 12, lineHeight: 18 }}>{n.text}</Text>
-              <Text style={{ color: C.mutedDark, fontFamily: F.regular, fontSize: 10, marginTop: 4 }}>
+            <View key={i} style={{ backgroundColor: T.muted, borderRadius: 8, padding: 10, marginBottom: 8 }}>
+              <Text style={{ color: T.foreground, fontFamily: F.regular, fontSize: 12, lineHeight: 18 }}>{n.text}</Text>
+              <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 10, marginTop: 4 }}>
                 {relativeTime(n.createdAt)} · {n.adminId.slice(0, 8)}
               </Text>
             </View>
@@ -192,12 +194,12 @@ function NotesSection({
               value={text}
               onChangeText={setText}
               placeholder="Add a note…"
-              placeholderTextColor={C.mutedDark}
+              placeholderTextColor={T.mutedForeground}
               style={{
-                flex: 1, backgroundColor: C.white, borderWidth: 1,
-                borderColor: C.darkBorder, borderRadius: 10,
+                flex: 1, backgroundColor: T.muted, borderWidth: 1,
+                borderColor: T.border, borderRadius: 10,
                 paddingHorizontal: 12, paddingVertical: 9,
-                color: C.heading, fontFamily: F.regular, fontSize: 13,
+                color: T.foreground, fontFamily: F.regular, fontSize: 13,
               }}
             />
             <TouchableOpacity
@@ -233,6 +235,7 @@ function EnrollmentCard({
   onReject: (e: Enrollment) => void;
   onUpdate: (e: Enrollment) => void;
 }) {
+  const T = useTheme();
   const [confirming, setConfirming] = useState(false);
 
   const handleConfirm = async () => {
@@ -247,8 +250,8 @@ function EnrollmentCard({
 
   return (
     <View style={{
-      backgroundColor: C.white, borderRadius: 16, padding: 18, marginBottom: 14,
-      borderWidth: 1, borderColor: 'rgba(34, 31, 32, 0.1)',
+      backgroundColor: T.card, borderRadius: 16, padding: 18, marginBottom: 14,
+      borderWidth: 1, borderColor: T.border,
       shadowColor: '#000', shadowOpacity: 0.04, shadowRadius: 6, elevation: 1,
     }}>
       {/* Student + class */}
@@ -256,33 +259,33 @@ function EnrollmentCard({
         <View style={{ flex: 1 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 3 }}>
             <User size={13} color={C.blue} />
-            <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 15 }}>{enrollment.studentName}</Text>
+            <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 15 }}>{enrollment.studentName}</Text>
           </View>
-          <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 12 }}>{enrollment.studentPhone}</Text>
+          <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 12 }}>{enrollment.studentPhone}</Text>
         </View>
         <View style={{ alignItems: 'flex-end' }}>
           <Text style={{ color: C.blue, fontFamily: F.bold, fontSize: 16 }}>{KSH(enrollment.totalAmount)}</Text>
-          <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 11, marginTop: 2 }}>{enrollment.className}</Text>
+          <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 11, marginTop: 2 }}>{enrollment.className}</Text>
         </View>
       </View>
 
       {/* M-Pesa code + time */}
       <View style={{ flexDirection: 'row', gap: 16, marginBottom: 14 }}>
         <View style={{ flex: 1, backgroundColor: 'rgba(1, 165, 240, 0.08)', borderRadius: 10, padding: 10 }}>
-          <Text style={{ color: C.muted, fontFamily: F.semibold, fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 3 }}>
+          <Text style={{ color: T.mutedForeground, fontFamily: F.semibold, fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 3 }}>
             M-Pesa Code
           </Text>
           <Text style={{ color: C.skyDeep, fontFamily: F.bold, fontSize: 16, letterSpacing: 1.5 }}>
             {enrollment.mpesaCode ?? '—'}
           </Text>
         </View>
-        <View style={{ flex: 1, backgroundColor: C.white, borderRadius: 10, padding: 10 }}>
-          <Text style={{ color: C.muted, fontFamily: F.semibold, fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 3 }}>
+        <View style={{ flex: 1, backgroundColor: T.muted, borderRadius: 10, padding: 10 }}>
+          <Text style={{ color: T.mutedForeground, fontFamily: F.semibold, fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 3 }}>
             Submitted
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-            <Clock size={12} color={C.muted} />
-            <Text style={{ color: C.heading, fontFamily: F.medium, fontSize: 13 }}>
+            <Clock size={12} color={T.mutedForeground} />
+            <Text style={{ color: T.foreground, fontFamily: F.medium, fontSize: 13 }}>
               {relativeTime(enrollment.updatedAt)}
             </Text>
           </View>
@@ -358,11 +361,11 @@ export default function AdminScreen() {
   if (!user || user.role !== 'branch_admin') {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 32, backgroundColor: T.background }}>
-        <Shield size={48} color={C.muted} />
-        <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 18, marginTop: 20, textAlign: 'center' }}>
+        <Shield size={48} color={T.mutedForeground} />
+        <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 18, marginTop: 20, textAlign: 'center' }}>
           Admin Access Only
         </Text>
-        <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 14, marginTop: 8, textAlign: 'center' }}>
+        <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 14, marginTop: 8, textAlign: 'center' }}>
           You must be a branch admin to view this screen.
         </Text>
         <TouchableOpacity onPress={() => router.replace('/account')} style={{ marginTop: 24, backgroundColor: C.yellow, paddingHorizontal: 28, paddingVertical: 12, borderRadius: 12 }} activeOpacity={0.85}>
@@ -453,16 +456,16 @@ export default function AdminScreen() {
         ) : enrollments.length === 0 ? (
           <View style={{ alignItems: 'center', paddingVertical: 56 }}>
             <CheckCircle size={48} color={C.skyDeep} />
-            <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 16, marginTop: 16 }}>
+            <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 16, marginTop: 16 }}>
               All caught up!
             </Text>
-            <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 13, marginTop: 6, textAlign: 'center' }}>
+            <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13, marginTop: 6, textAlign: 'center' }}>
               No enrollments awaiting confirmation for {branch?.name ?? 'this branch'}.
             </Text>
           </View>
         ) : (
           <>
-            <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 13, marginBottom: 16 }}>
+            <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13, marginBottom: 16 }}>
               {enrollments.length} enrollment{enrollments.length !== 1 ? 's' : ''} awaiting confirmation
             </Text>
             {enrollments.map(e => (

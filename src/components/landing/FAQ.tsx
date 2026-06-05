@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Animated, Image, Platform, UIManager, Linking } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Animated, Image, Platform, UIManager, Linking, useWindowDimensions } from 'react-native';
 import { ChevronDown, Send } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W, HERO_SRC } from './constants';
@@ -117,6 +117,7 @@ function ContactForm() {
 
 export default function FAQ() {
   const { t } = useTranslation();
+  const { width: winW } = useWindowDimensions();
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   const faqItems = t('faq.items', { returnObjects: true }) as Array<{ q: string; a: string }>;
@@ -153,7 +154,7 @@ export default function FAQ() {
               />
             ))}
           </View>
-          <View style={IS_WEB ? { width: 380 } : {}}>
+          <View style={IS_WEB ? { width: Math.min(380, winW * 0.42) } : {}}>
             <ContactForm />
           </View>
         </View>

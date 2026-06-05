@@ -17,7 +17,7 @@ export default function BlogPostPage() {
   if (!post) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 32 }}>
-        <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 16 }}>Post not found.</Text>
+        <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 16 }}>Post not found.</Text>
         <TouchableOpacity onPress={() => router.replace('/')} style={{ marginTop: 20 }}>
           <Text style={{ color: C.blue, fontFamily: F.semibold }}>Go Home</Text>
         </TouchableOpacity>
@@ -52,8 +52,8 @@ export default function BlogPostPage() {
             </Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-            <Calendar size={13} color={C.muted} />
-            <Text style={{ color: C.muted, fontFamily: F.medium, fontSize: 13 }}>{post.date}</Text>
+            <Calendar size={13} color={T.mutedForeground} />
+            <Text style={{ color: T.mutedForeground, fontFamily: F.medium, fontSize: 13 }}>{post.date}</Text>
           </View>
         </View>
 

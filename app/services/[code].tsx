@@ -16,7 +16,7 @@ export default function ServiceDetailPage() {
   if (!svc) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 32 }}>
-        <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 16 }}>Service not found.</Text>
+        <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 16 }}>Service not found.</Text>
         <TouchableOpacity onPress={() => router.replace('/')} style={{ marginTop: 20 }}>
           <Text style={{ color: C.blue, fontFamily: F.semibold }}>Go Home</Text>
         </TouchableOpacity>

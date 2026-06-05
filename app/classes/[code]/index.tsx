@@ -28,7 +28,7 @@ export default function ClassDetailPage() {
   if (!cls) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 32 }}>
-        <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 16 }}>Class not found.</Text>
+        <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 16 }}>Class not found.</Text>
         <TouchableOpacity onPress={() => router.replace('/classes')} style={{ marginTop: 20 }}>
           <Text style={{ color: C.blue, fontFamily: F.semibold }}>Browse Classes</Text>
         </TouchableOpacity>

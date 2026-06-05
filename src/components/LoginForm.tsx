@@ -209,10 +209,10 @@ const LoginForm: React.FC = () => {
               </TouchableOpacity>
 
               {/* Register link */}
-              <TouchableOpacity onPress={() => router.push('/register')} style={{ marginTop: 20, alignItems: 'center' }} activeOpacity={0.7}>
+              <TouchableOpacity onPress={() => router.push('/' as any)} style={{ marginTop: 20, alignItems: 'center' }} activeOpacity={0.7}>
                 <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 13 }}>
                   Don't have an account?{' '}
-                  <Text style={{ color: C.blue, fontFamily: F.semibold }}>Register</Text>
+                  <Text style={{ color: C.blue, fontFamily: F.semibold }}>Contact Us</Text>
                 </Text>
               </TouchableOpacity>
 

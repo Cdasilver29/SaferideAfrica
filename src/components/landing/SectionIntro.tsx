@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { C, F, IS_WEB } from './constants';
 import { WavyLine } from './WavyLine';
+import { useTheme } from '@/lib/theme';
 
 type Props = {
   badge: string;
@@ -11,9 +12,10 @@ type Props = {
 };
 
 export function SectionIntro({ badge, title, description, invert }: Props) {
-  const fg     = invert ? C.white   : C.dark;
-  const muted  = invert ? C.mutedDark : C.muted;
-  const pillBg = invert ? 'rgba(255,255,255,0.10)' : 'rgba(34,31,32,0.05)';
+  const T      = useTheme();
+  const fg     = invert ? C.white      : T.foreground;
+  const muted  = invert ? C.mutedDark  : T.mutedForeground;
+  const pillBg = invert ? 'rgba(255,255,255,0.10)' : T.border;
 
   return (
     <View style={{ alignItems: 'center', paddingHorizontal: 16, marginBottom: 40 }}>
@@ -30,7 +32,7 @@ export function SectionIntro({ badge, title, description, invert }: Props) {
       <WavyLine invert={invert} />
 
       {description ? (
-        <Text style={{ color: muted, fontFamily: F.regular, fontSize: 14, lineHeight: 22, textAlign: 'center', maxWidth: 560, marginTop: 12 }}>
+        <Text style={{ color: muted, fontFamily: F.regular, fontSize: 14, lineHeight: 22, textAlign: 'center', maxWidth: IS_WEB ? 560 : undefined, marginTop: 12 }}>
           {description}
         </Text>
       ) : null}

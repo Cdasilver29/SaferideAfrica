@@ -65,6 +65,7 @@ function ClippedHeroImage({ source }: { source: any }) {
 }
 
 function StatItem({ value, label, large }: { value: string; label: string; large?: boolean }) {
+  const T = useTheme()
   return (
     <View style={{ alignItems: 'flex-start' }}>
       <Text style={{ color: C.skyDeep, fontFamily: F.bold, fontSize: large ? 36 : 14 }}>
@@ -72,7 +73,7 @@ function StatItem({ value, label, large }: { value: string; label: string; large
       </Text>
       <Text
         style={{
-          color: 'rgba(34,31,32,0.6)',
+          color: T.mutedForeground,
           fontFamily: F.regular,
           fontSize: 12,
           textTransform: large ? 'uppercase' : 'none',
@@ -86,8 +87,9 @@ function StatItem({ value, label, large }: { value: string; label: string; large
 }
 
 function VertDivider() {
+  const T = useTheme()
   return (
-    <View style={{ width: 1, height: 14, backgroundColor: 'rgba(34,31,32,0.2)', alignSelf: 'center' }} />
+    <View style={{ width: 1, height: 14, backgroundColor: T.border, alignSelf: 'center' }} />
   )
 }
 

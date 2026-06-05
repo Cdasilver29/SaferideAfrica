@@ -122,10 +122,10 @@ function StepCard({
           </View>
         </View>
 
-        <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: 16, marginBottom: 8, textAlign: IS_WEB ? 'center' : 'left' }}>
+        <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.bold, fontSize: 16, marginBottom: 8, textAlign: IS_WEB ? 'center' : 'left' }}>
           {t(`workProcess.steps.${key}.title`)}
         </Text>
-        <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 13, lineHeight: 21, textAlign: IS_WEB ? 'center' : 'left' }}>
+        <Text style={{ color: isDark ? C.mutedDark : C.muted, fontFamily: F.regular, fontSize: 13, lineHeight: 21, textAlign: IS_WEB ? 'center' : 'left' }}>
           {t(`workProcess.steps.${key}.desc`)}
         </Text>
       </View>
@@ -153,7 +153,7 @@ export default function WorkProcess() {
           <Text style={{ color: C.blue, fontFamily: F.bold, fontSize: 11, letterSpacing: 2.5, textTransform: 'uppercase', marginBottom: 10 }}>
             {t('workProcess.overline')}
           </Text>
-          <Text style={{ color: C.heading, fontFamily: F.bold, fontSize: IS_WEB ? 34 : 26, textAlign: 'center', lineHeight: IS_WEB ? 44 : 34, marginBottom: 12 }}>
+          <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.bold, fontSize: IS_WEB ? 34 : 26, textAlign: 'center', lineHeight: IS_WEB ? 44 : 34, marginBottom: 12 }}>
             {t('workProcess.heading')}
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>

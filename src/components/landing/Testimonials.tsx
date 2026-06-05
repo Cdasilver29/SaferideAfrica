@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight, Star, Quote } from 'lucide-react-native'
 import { useTranslation } from 'react-i18next'
 import { C, F, IS_WEB, MAX_W } from './constants'
 import { SectionIntro } from './SectionIntro'
+import { useTheme } from '@/lib/theme'
 
 const PHOTO_SOURCES = IS_WEB
   ? [
@@ -30,6 +31,7 @@ const N      = 3
 
 export default function Testimonials() {
   const { t } = useTranslation()
+  const T = useTheme()
   const items = t('testimonials.items', { returnObjects: true }) as Array<{
     text: string; name: string; role: string
   }>
@@ -156,7 +158,7 @@ export default function Testimonials() {
   }
 
   return (
-    <View style={{ paddingVertical: 72, paddingHorizontal: 24, backgroundColor: C.white }}>
+    <View style={{ paddingVertical: 72, paddingHorizontal: 24, backgroundColor: T.background }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
 
         <SectionIntro
@@ -218,7 +220,7 @@ export default function Testimonials() {
               <Quote size={38} color={C.yellow} style={{ marginBottom: 20 }} />
 
               <Text style={{
-                color: C.dark,
+                color: T.foreground,
                 fontFamily: F.regular,
                 fontSize: IS_WEB ? 18 : 15,
                 lineHeight: IS_WEB ? 32 : 26,
@@ -234,11 +236,11 @@ export default function Testimonials() {
                 ))}
               </View>
 
-              <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: IS_WEB ? 20 : 17 }}>
+              <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: IS_WEB ? 20 : 17 }}>
                 {item.name}
               </Text>
               <Text style={{
-                color: 'rgba(34,31,32,0.6)',
+                color: T.mutedForeground,
                 fontFamily: F.regular,
                 fontSize: 13,
                 marginTop: 4,
@@ -255,11 +257,11 @@ export default function Testimonials() {
                 style={{
                   width: 48, height: 48, borderRadius: 24,
                   borderWidth: 1.5,
-                  borderColor: 'rgba(34,31,32,0.2)',
+                  borderColor: T.border,
                   alignItems: 'center', justifyContent: 'center',
                 }}
               >
-                <ChevronLeft size={20} color={C.dark} />
+                <ChevronLeft size={20} color={T.foreground} />
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -287,7 +289,7 @@ export default function Testimonials() {
                     height: 6,
                     width: i === active ? 24 : 6,
                     borderRadius: 3,
-                    backgroundColor: i === active ? C.skyDeep : 'rgba(34,31,32,0.18)',
+                    backgroundColor: i === active ? C.skyDeep : T.border,
                   }} />
                 </TouchableOpacity>
               ))}

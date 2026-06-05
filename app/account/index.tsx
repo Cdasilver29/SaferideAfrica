@@ -62,7 +62,7 @@ function EnrollmentRow({ e }: { e: Enrollment }) {
         )}
       </View>
       {showInstallmentProgress && (
-        <Text style={{ color: C.muted, fontFamily: F.regular, fontSize: 12, marginTop: 8 }}>
+        <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 12, marginTop: 8 }}>
           Installment {paidCount} of 3 submitted · {3 - paidCount} remaining
         </Text>
       )}

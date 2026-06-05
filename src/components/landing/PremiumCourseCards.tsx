@@ -12,6 +12,7 @@ import { CheckCircle, ArrowRight, Star } from 'lucide-react-native'
 import { CLASSES } from '@/data/saferide'
 import { C, F, IS_WEB, MAX_W } from './constants'
 import { SectionIntro } from './SectionIntro'
+import { useTheme } from '@/lib/theme'
 
 const PREVIEW_CODES = ['B-LIGHT', 'B-AUTO', 'EXECUTIVE']
 
@@ -129,6 +130,7 @@ function PremiumCard({ cls }: { cls: (typeof CLASSES)[0] }) {
   }))
 
   const isExec = cls.code === 'EXECUTIVE'
+  const T = useTheme()
 
   return (
     // Outer border container — 2 px padding reveals rotating gradient as a border
@@ -145,7 +147,7 @@ function PremiumCard({ cls }: { cls: (typeof CLASSES)[0] }) {
 
       {/* Inner card — covers center, leaving 2 px gradient border visible */}
       <View
-        style={[styles.cardInner, { backgroundColor: isExec ? C.dark : 'rgba(255,255,255,0.88)' }]}
+        style={[styles.cardInner, { backgroundColor: isExec ? C.dark : T.card }]}
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {...(webPointerProps as any)}
       >
@@ -180,21 +182,21 @@ function PremiumCard({ cls }: { cls: (typeof CLASSES)[0] }) {
         </Text>
 
         {/* Name + lesson line */}
-        <Text style={[styles.className, { color: isExec ? C.white : C.dark }]}>
+        <Text style={[styles.className, { color: isExec ? C.white : T.foreground }]}>
           {cls.name}
         </Text>
-        <Text style={[styles.lessonLine, { color: isExec ? 'rgba(255,255,255,0.55)' : 'rgba(34,31,32,0.5)' }]}>
+        <Text style={[styles.lessonLine, { color: isExec ? 'rgba(255,255,255,0.55)' : T.mutedForeground }]}>
           {meta?.lessonLine}
         </Text>
 
         {/* Divider */}
-        <View style={[styles.divider, { backgroundColor: isExec ? 'rgba(255,255,255,0.12)' : 'rgba(34,31,32,0.08)' }]} />
+        <View style={[styles.divider, { backgroundColor: isExec ? 'rgba(255,255,255,0.12)' : T.border }]} />
 
         {/* Feature list */}
         {meta?.features.map((feat) => (
           <View key={feat} style={styles.featureRow}>
             <CheckCircle size={14} color={isExec ? C.yellow : C.skyDeep} />
-            <Text style={[styles.featureText, { color: isExec ? 'rgba(255,255,255,0.80)' : 'rgba(34,31,32,0.75)' }]}>
+            <Text style={[styles.featureText, { color: isExec ? 'rgba(255,255,255,0.80)' : T.mutedForeground }]}>
               {feat}
             </Text>
           </View>
@@ -222,9 +224,10 @@ function PremiumCard({ cls }: { cls: (typeof CLASSES)[0] }) {
 // ─── Section ──────────────────────────────────────────────────────────────────
 export function PremiumCourseCards() {
   const premiumClasses = CLASSES.filter((c) => PREVIEW_CODES.includes(c.code))
+  const T = useTheme()
 
   return (
-    <View style={styles.section}>
+    <View style={[styles.section, { backgroundColor: T.background }]}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
         <SectionIntro
           badge="Most Popular"
@@ -246,7 +249,6 @@ const styles = StyleSheet.create({
   section: {
     paddingVertical: 56,
     paddingHorizontal: 20,
-    backgroundColor: 'rgba(1,165,240,0.04)',
   },
   row: {
     flexDirection: 'column',
