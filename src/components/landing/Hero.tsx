@@ -233,10 +233,19 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
       ]}>
 
         {/* NTSA badge */}
-        <View style={{ flexDirection: 'row', marginBottom: isMobile ? 14 : 24 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20, backgroundColor: 'rgba(255,216,0,0.15)', borderWidth: 1, borderColor: 'rgba(255,216,0,0.4)' }}>
-            <Image source={NTSA_LOGO} style={{ width: 20, height: 20 }} resizeMode="contain" />
-            <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: 11, letterSpacing: 1.2, textTransform: 'uppercase' }}>
+        <View style={{ marginBottom: isMobile ? 14 : 24, alignSelf: isMobile ? 'center' : 'flex-start' }}>
+          <View style={{
+            flexDirection: 'row', alignItems: 'center',
+            gap: isMobile ? 5 : 8,
+            paddingHorizontal: isMobile ? 10 : 14,
+            paddingVertical: isMobile ? 5 : 7,
+            borderRadius: 20,
+            backgroundColor: 'rgba(255,216,0,0.15)',
+            borderWidth: 1,
+            borderColor: 'rgba(255,216,0,0.4)',
+          }}>
+            <Image source={NTSA_LOGO} style={{ width: isMobile ? 14 : 20, height: isMobile ? 14 : 20 }} resizeMode="contain" />
+            <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: isMobile ? 9 : 11, letterSpacing: 1.2, textTransform: 'uppercase' }}>
               {t('hero.badge')}
             </Text>
           </View>
