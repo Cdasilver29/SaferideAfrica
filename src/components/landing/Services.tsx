@@ -179,19 +179,32 @@ export default function Services() {
           </View>
         </View>
 
-        {rows.map((pair, rowIdx) => (
-          <View key={rowIdx} style={{ flexDirection: 'row', gap: 14, marginBottom: 14 }}>
-            {pair.map((svc, colIdx) => (
+        {IS_WEB ? (
+          rows.map((pair, rowIdx) => (
+            <View key={rowIdx} style={{ flexDirection: 'row', gap: 14, marginBottom: 14 }}>
+              {pair.map((svc, colIdx) => (
+                <ServiceCard
+                  key={svc.code}
+                  svc={svc}
+                  readMore={readMore}
+                  entranceDelay={(rowIdx * 2 + colIdx) * 60}
+                />
+              ))}
+              {pair.length === 1 && <View style={{ flex: 1 }} />}
+            </View>
+          ))
+        ) : (
+          <View style={{ gap: 14 }}>
+            {SERVICES.map((svc, idx) => (
               <ServiceCard
                 key={svc.code}
                 svc={svc}
                 readMore={readMore}
-                entranceDelay={(rowIdx * 2 + colIdx) * 60}
+                entranceDelay={idx * 60}
               />
             ))}
-            {pair.length === 1 && <View style={{ flex: 1 }} />}
           </View>
-        ))}
+        )}
 
       </View>
     </View>

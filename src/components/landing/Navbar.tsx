@@ -318,34 +318,39 @@ export default function Navbar({ scrollY }: NavbarProps) {
             </View>
           )}
 
+          {/* Spacer — pushes controls to the right on mobile (pills fill this on web) */}
+          {!showPills && <View style={{ flex: 1 }} />}
+
           {/* Controls */}
           <View style={styles.controls}>
             {showPills && <LanguageSwitcher />}
 
-            {/* Dark-mode toggle */}
-            <TouchableOpacity
-              onPress={toggleColorScheme}
-              style={[styles.iconBtn, { backgroundColor: btnBg }]}
-              activeOpacity={0.8}
-            >
-              {isDark
-                ? <Sun  size={15} color={C.yellow} />
-                : <Moon size={15} color={iconC}    />}
-            </TouchableOpacity>
+            {/* Dark-mode toggle — web only; tap the drawer header button on mobile */}
+            {showPills && (
+              <TouchableOpacity
+                onPress={toggleColorScheme}
+                style={[styles.iconBtn, { backgroundColor: btnBg }]}
+                activeOpacity={0.8}
+              >
+                {isDark
+                  ? <Sun  size={15} color={C.yellow} />
+                  : <Moon size={15} color={iconC}    />}
+              </TouchableOpacity>
+            )}
 
-            {/* Call Now */}
-            <TouchableOpacity
-              onPress={() => Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`)}
-              activeOpacity={0.85}
-              style={styles.callBtn}
-            >
-              <AnimatedRN.View style={phoneShakeStyle}>
-                <Phone size={13} color={C.white} />
-              </AnimatedRN.View>
-              {showPills && (
+            {/* Call Now — web only; accessible via drawer CTA on mobile */}
+            {showPills && (
+              <TouchableOpacity
+                onPress={() => Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`)}
+                activeOpacity={0.85}
+                style={styles.callBtn}
+              >
+                <AnimatedRN.View style={phoneShakeStyle}>
+                  <Phone size={13} color={C.white} />
+                </AnimatedRN.View>
                 <Text style={styles.callText}>Call Now</Text>
-              )}
-            </TouchableOpacity>
+              </TouchableOpacity>
+            )}
 
             {/* Enrol Now */}
             <AnimatedRN.View style={[{ borderRadius: 18 }, enrolGlowStyle]}>
@@ -408,9 +413,20 @@ export default function Navbar({ scrollY }: NavbarProps) {
                     <Image source={LOGO} style={[styles.logoImg, { width: 32, height: 32 }]} resizeMode="contain" />
                     <Text style={styles.brandName}>{t('nav.brand')}</Text>
                   </View>
-                  <TouchableOpacity onPress={closeDrawer} style={{ padding: 4 }}>
-                    <X size={20} color="rgba(255,255,255,0.70)" />
-                  </TouchableOpacity>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <TouchableOpacity
+                      onPress={toggleColorScheme}
+                      style={{ padding: 7, borderRadius: 8, backgroundColor: 'rgba(255,255,255,0.15)' }}
+                      activeOpacity={0.8}
+                    >
+                      {isDark
+                        ? <Sun  size={15} color={C.yellow} />
+                        : <Moon size={15} color="rgba(255,255,255,0.85)" />}
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={closeDrawer} style={{ padding: 4 }}>
+                      <X size={20} color="rgba(255,255,255,0.70)" />
+                    </TouchableOpacity>
+                  </View>
                 </View>
 
                 {/* Nav items */}

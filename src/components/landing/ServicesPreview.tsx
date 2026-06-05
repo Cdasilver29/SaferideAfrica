@@ -160,11 +160,6 @@ export default function ServicesPreview() {
   const sideLayout = IS_WEB && winW >= 860;
   const photoW = sideLayout ? Math.min(400, winW * 0.35) : undefined;
 
-  const rows: typeof PREVIEW_SERVICES[] = [];
-  for (let i = 0; i < PREVIEW_SERVICES.length; i += 2) {
-    rows.push(PREVIEW_SERVICES.slice(i, i + 2));
-  }
-
   return (
     <View style={{ backgroundColor: T.background, paddingVertical: 64, paddingHorizontal: 24 }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
@@ -219,12 +214,9 @@ export default function ServicesPreview() {
               fadeDuration={200}
             />
             <SectionIntro badge="What We Offer" title="Programmes Tailored to How You Drive" />
-            <View style={{ marginBottom: 36 }}>
-              {rows.map((pair, rowIdx) => (
-                <View key={rowIdx} style={{ flexDirection: 'row', gap: 12, marginBottom: 12 }}>
-                  {pair.map(svc => <ServiceCard key={svc.code} svc={svc} />)}
-                  {pair.length === 1 && <View style={{ flex: 1 }} />}
-                </View>
+            <View style={{ gap: 14, marginBottom: 36 }}>
+              {PREVIEW_SERVICES.map(svc => (
+                <ServiceCard key={svc.code} svc={svc} />
               ))}
             </View>
             <SeeAllBtn />

@@ -42,7 +42,7 @@ function ZoomBtn({
   const onOut = () => { scale.value = withSpring(1,    { damping: 8, stiffness: 200 }); };
 
   return (
-    <Animated.View style={[{ flex: 1 }, animStyle]}>
+    <Animated.View style={[IS_WEB ? { flex: 1 } : {}, animStyle]}>
       <TouchableOpacity
         onPress={onPress}
         onPressIn={onIn}
@@ -66,16 +66,25 @@ function ZoomButtons({
   onDetails: () => void; onEnrol: () => void;
 }) {
   return (
-    <View style={{ flexDirection: 'row', gap: 10, marginTop: 14 }}>
+    <View style={IS_WEB
+      ? { flexDirection: 'row', gap: 10, marginTop: 14 }
+      : { gap: 8, marginTop: 14 }
+    }>
       <ZoomBtn
         onPress={onDetails}
-        style={{ flex: 1, paddingVertical: 11, borderRadius: 10, alignItems: 'center', borderWidth: 1, borderColor: accentColor }}
+        style={IS_WEB
+          ? { flex: 1, paddingVertical: 11, borderRadius: 10, alignItems: 'center' as const, borderWidth: 1, borderColor: accentColor }
+          : { paddingVertical: 12, borderRadius: 10, alignItems: 'center' as const, borderWidth: 1, borderColor: accentColor }
+        }
       >
         <Text style={{ color: accentColor, fontFamily: F.semibold, fontSize: 13 }}>{detailsLabel}</Text>
       </ZoomBtn>
       <ZoomBtn
         onPress={onEnrol}
-        style={{ flex: 1, paddingVertical: 11, borderRadius: 10, alignItems: 'center', backgroundColor: accentColor }}
+        style={IS_WEB
+          ? { flex: 1, paddingVertical: 11, borderRadius: 10, alignItems: 'center' as const, backgroundColor: accentColor }
+          : { paddingVertical: 12, borderRadius: 10, alignItems: 'center' as const, backgroundColor: accentColor }
+        }
       >
         <Text style={{ color: isBright ? C.dark : '#ffffff', fontFamily: F.bold, fontSize: 13 }}>{enrolLabel}</Text>
       </ZoomBtn>
