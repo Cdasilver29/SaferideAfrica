@@ -2,21 +2,116 @@ import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Platform } from 'react-native';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { BLOG_POSTS } from '../../src/components/landing/constants';
+import { BLOG_ARTICLES, BlogSection } from '../../src/data/saferide';
 import { C, F, IS_WEB } from '../../src/components/landing/constants';
 import { useTheme } from '../../src/lib/theme';
+
+function BodyBlock({ block, T }: { block: BlogSection; T: any }) {
+  if (block.type === 'heading') {
+    return (
+      <Text
+        style={{
+          color: T.foreground,
+          fontFamily: F.bold,
+          fontSize: IS_WEB ? 20 : 17,
+          lineHeight: IS_WEB ? 28 : 24,
+          marginTop: 28,
+          marginBottom: 10,
+        }}
+      >
+        {block.text}
+      </Text>
+    );
+  }
+
+  if (block.type === 'paragraph') {
+    return (
+      <Text
+        style={{
+          color: T.mutedForeground,
+          fontFamily: F.regular,
+          fontSize: 15,
+          lineHeight: 26,
+          marginBottom: 16,
+        }}
+      >
+        {block.text}
+      </Text>
+    );
+  }
+
+  if (block.type === 'list') {
+    return (
+      <View style={{ marginBottom: 16, gap: 10 }}>
+        {block.items?.map((item, i) => (
+          <View key={i} style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
+            <View
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: 3,
+                backgroundColor: C.skyDeep,
+                marginTop: 10,
+                flexShrink: 0,
+              }}
+            />
+            <Text
+              style={{
+                flex: 1,
+                color: T.mutedForeground,
+                fontFamily: F.regular,
+                fontSize: 15,
+                lineHeight: 26,
+              }}
+            >
+              {item}
+            </Text>
+          </View>
+        ))}
+      </View>
+    );
+  }
+
+  if (block.type === 'callout') {
+    return (
+      <View
+        style={{
+          backgroundColor: T.isDark ? 'rgba(1,165,240,0.12)' : 'rgba(1,165,240,0.07)',
+          borderLeftWidth: 3,
+          borderLeftColor: C.skyDeep,
+          borderRadius: 8,
+          padding: 16,
+          marginTop: 8,
+          marginBottom: 16,
+        }}
+      >
+        <Text
+          style={{
+            color: T.foreground,
+            fontFamily: F.medium,
+            fontSize: 14,
+            lineHeight: 24,
+          }}
+        >
+          {block.text}
+        </Text>
+      </View>
+    );
+  }
+
+  return null;
+}
 
 export default function BlogPostPage() {
   const router = useRouter();
   const T = useTheme();
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  const index = parseInt(id ?? '0', 10);
-  const post = BLOG_POSTS[index];
+  const post = BLOG_ARTICLES.find(a => a.id === id);
 
   if (!post) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 32 }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 32, backgroundColor: T.background }}>
         <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 16 }}>Post not found.</Text>
         <TouchableOpacity onPress={() => router.replace('/')} style={{ marginTop: 20 }}>
           <Text style={{ color: C.blue, fontFamily: F.semibold }}>Go Home</Text>
@@ -35,46 +130,48 @@ export default function BlogPostPage() {
 
         {/* Back */}
         <TouchableOpacity
-          onPress={() => router.canGoBack() ? router.back() : router.replace('/')}
+          onPress={() => router.canGoBack() ? router.back() : router.replace('/blog')}
           style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingTop: Platform.OS === 'ios' ? 60 : 40, paddingBottom: 24 }}
           activeOpacity={0.7}
-          accessibilityLabel="Back"
         >
           <ArrowLeft size={22} color={C.blue} />
           <Text style={{ color: C.blue, fontFamily: F.semibold, fontSize: 14 }}>Back</Text>
         </TouchableOpacity>
 
-        {/* Category + date */}
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+        {/* Category + meta */}
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 16, flexWrap: 'wrap' }}>
           <View style={{ backgroundColor: C.yellow, borderRadius: 20, paddingHorizontal: 12, paddingVertical: 4 }}>
             <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.8 }}>
-              Driving Tips
+              {post.category}
             </Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
             <Calendar size={13} color={T.mutedForeground} />
-            <Text style={{ color: T.mutedForeground, fontFamily: F.medium, fontSize: 13 }}>{post.date}</Text>
+            <Text style={{ color: T.mutedForeground, fontFamily: F.medium, fontSize: 13 }}>{post.publishDate}</Text>
+          </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+            <Clock size={13} color={T.mutedForeground} />
+            <Text style={{ color: T.mutedForeground, fontFamily: F.medium, fontSize: 13 }}>{post.readTime}</Text>
           </View>
         </View>
 
         {/* Title */}
-        <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: IS_WEB ? 28 : 22, lineHeight: IS_WEB ? 38 : 30, marginBottom: 16 }}>
+        <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: IS_WEB ? 30 : 22, lineHeight: IS_WEB ? 40 : 30, marginBottom: 12 }}>
           {post.title}
         </Text>
 
-        <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 15, lineHeight: 25, marginBottom: 32 }}>
-          {post.excerpt}
+        {/* Description / lead */}
+        <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 15, lineHeight: 26, marginBottom: 32, fontStyle: 'italic' }}>
+          {post.description}
         </Text>
 
-        <View style={{ backgroundColor: T.card, borderRadius: 16, padding: 24, borderWidth: 1, borderColor: T.border, alignItems: 'center' }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-            <Clock size={20} color={T.mutedForeground} />
-            <Text style={{ color: T.foreground, fontFamily: F.semibold, fontSize: 15 }}>Full article coming soon</Text>
-          </View>
-          <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13, textAlign: 'center', lineHeight: 20 }}>
-            Our team is working on the full article. Check back shortly or follow us on social media for updates.
-          </Text>
-        </View>
+        {/* Divider */}
+        <View style={{ height: 1, backgroundColor: T.border, marginBottom: 28 }} />
+
+        {/* Article body */}
+        {post.body.map((block, i) => (
+          <BodyBlock key={i} block={block} T={T} />
+        ))}
 
       </View>
     </ScrollView>

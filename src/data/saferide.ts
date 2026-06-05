@@ -338,12 +338,20 @@ export const COMPANY_STORY = [
 
 // ─── Blog articles ────────────────────────────────────────────────────────────
 
+export interface BlogSection {
+  type: 'paragraph' | 'heading' | 'list' | 'callout';
+  text?: string;
+  items?: string[];
+}
+
 export interface BlogArticle {
   id: string;
   category: string;
   title: string;
   description: string;
   publishDate: string;
+  readTime: string;
+  body: BlogSection[];
 }
 
 export const BLOG_ARTICLES: BlogArticle[] = [
@@ -353,6 +361,77 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     title: 'How to Apply for an NTSA Smart DL in 2026',
     description: 'A step-by-step walkthrough of the TIMS portal application, including required documents and common errors to avoid.',
     publishDate: 'Dec 22, 2025',
+    readTime: '5 min read',
+    body: [
+      {
+        type: 'paragraph',
+        text: "Kenya's National Transport and Safety Authority (NTSA) has fully transitioned to the Smart Driving Licence (Smart DL) system. Whether you are applying for your first licence after completing your training at SafeRide Africa, or upgrading from an older laminated licence, here is the complete 2026 guide.",
+      },
+      {
+        type: 'heading',
+        text: 'What Is the NTSA Smart DL?',
+      },
+      {
+        type: 'paragraph',
+        text: 'The Smart DL is Kenya\'s second-generation driving licence. It features an embedded microchip containing your biometric data, digital photograph, vehicle class authorisation, and a record of any traffic offences. It is linked to NTSA\'s automated enforcement cameras and police handheld devices for real-time compliance monitoring. A three-year Smart DL costs Ksh 3,050.',
+      },
+      {
+        type: 'heading',
+        text: 'Documents You Will Need',
+      },
+      {
+        type: 'list',
+        items: [
+          'Original National ID or valid Kenyan passport',
+          'Valid Provisional Driving Licence (PDL) — obtained after passing the NTSA theory test',
+          'Completed NTSA TIMS online application (tims.ntsa.go.ke)',
+          'Payment receipt of Ksh 3,050 via M-Pesa, bank, or Huduma Centre counter',
+          'Passport-sized photograph (if not captured biometrically at the Huduma Centre)',
+        ],
+      },
+      {
+        type: 'heading',
+        text: 'Step-by-Step Application Process',
+      },
+      {
+        type: 'list',
+        items: [
+          'Step 1 — Register on the NTSA TIMS portal at tims.ntsa.go.ke using your National ID number and create an account.',
+          'Step 2 — Log in and navigate to "Driving Licence Application." Select your vehicle class (Class B for light vehicles is the most common for new drivers).',
+          'Step 3 — Fill in your personal details and upload the required documents. Double-check that your name matches your National ID exactly.',
+          'Step 4 — Make payment of Ksh 3,050. M-Pesa Paybill number 641700, account number: your ID number.',
+          'Step 5 — Book a biometric appointment at one of the 15 Huduma Centres nationwide. Nairobi options include Huduma Centre GPO, Westlands, and Embakasi.',
+          'Step 6 — Attend your appointment for fingerprinting and photograph capture. Arrive with your original ID and payment receipt.',
+          'Step 7 — Collect your Smart DL — typically ready within 5 to 10 working days from your biometric appointment.',
+        ],
+      },
+      {
+        type: 'heading',
+        text: 'Common Mistakes to Avoid',
+      },
+      {
+        type: 'list',
+        items: [
+          'Applying without a valid PDL — your PDL must be current and match your applied vehicle class.',
+          'Selecting the wrong vehicle class — confirm with your instructor whether you need Class B (light vehicles), Class C (heavy commercial), or another category.',
+          'Outstanding NTSA fines — unpaid penalties can block your application. Check and clear any fines on the TIMS portal first.',
+          'Expired National ID — ensure your ID is valid. An expired ID will cause your biometric appointment to fail.',
+          'Incorrect M-Pesa payment details — always use your own ID number as the account reference, not your phone number.',
+        ],
+      },
+      {
+        type: 'heading',
+        text: 'How SafeRide Africa Helps',
+      },
+      {
+        type: 'paragraph',
+        text: 'At SafeRide Africa, Smart DL application guidance is included in every full course at no extra charge. Our instructors walk you through TIMS registration, PDL application, theory test booking, payment, and biometric scheduling. We have assisted over 2,100 drivers through this process across our 10 Nairobi branches.',
+      },
+      {
+        type: 'callout',
+        text: 'Need help with your Smart DL? Contact SafeRide Africa on 0746 097 033 or WhatsApp us. We will guide you through the full application from start to finish.',
+      },
+    ],
   },
   {
     id: 'defensive-driving-basics',
@@ -360,6 +439,71 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     title: 'Five Defensive Driving Habits Every Kenyan Driver Should Know',
     description: 'Practical lessons drawn from our instructors on managing Nairobi traffic, weather, and unpredictable road conditions.',
     publishDate: 'Nov 11, 2025',
+    readTime: '6 min read',
+    body: [
+      {
+        type: 'paragraph',
+        text: "Kenya recorded 5,009 road fatalities in 2025 — a 5.5% increase from 2024. Pedestrians alone accounted for 1,889 of those deaths. These are not just statistics; they are preventable tragedies. Defensive driving is the discipline that separates drivers who navigate Kenyan roads safely from those who become part of those numbers.",
+      },
+      {
+        type: 'heading',
+        text: '1. The Three-Second Following Rule',
+      },
+      {
+        type: 'paragraph',
+        text: 'Most rear-end collisions happen because drivers follow too closely. The three-second rule is simple: pick a fixed point on the road ahead — a sign, a pothole, a marking. Count the seconds between the car in front crossing it and you reaching it. If it is less than three, you are too close. On wet roads, in poor visibility, or at night, extend this to five seconds minimum. On Nairobi\'s most congested routes — Thika Road, Mombasa Road, Ngong Road — matatus and boda bodas will test this buffer every few minutes.',
+      },
+      {
+        type: 'heading',
+        text: '2. Scan Far Ahead, Not Just in Front',
+      },
+      {
+        type: 'paragraph',
+        text: 'New drivers fixate on the car directly ahead. Experienced defensive drivers scan 12 to 15 seconds down the road — roughly 200 to 300 metres at 60 km/h. This gives you reaction time for sudden stops, pedestrians crossing mid-block, debris, animals, or potholes. At SafeRide Africa, our instructors train this habit from the very first practical lesson — it is the single most effective way to avoid emergency braking.',
+      },
+      {
+        type: 'heading',
+        text: '3. Check Blind Spots Every Time',
+      },
+      {
+        type: 'paragraph',
+        text: 'No mirror setup eliminates every blind spot. Before changing lanes, overtaking, or pulling out from a junction, physically turn your head to check. This takes under one second. Motorcyclists are the highest-risk hazard in blind spots — boda bodas travel fast, fill gaps quickly, and are difficult to detect in mirrors, especially at night or in heavy rain.',
+      },
+      {
+        type: 'heading',
+        text: '4. Adapt Your Speed to Conditions',
+      },
+      {
+        type: 'paragraph',
+        text: "The posted speed limit is a legal maximum, not a recommended target. On Nairobi's unpaved estate roads, during the long rains, or on the Nakuru and Mombasa highways in early morning fog, reducing speed by 20 to 30 km/h below the limit is the correct decision. NTSA data consistently identifies speed as a contributing factor in the majority of fatal crashes. Our defensive driving module at SafeRide teaches you to read the road — not just the speedometer.",
+      },
+      {
+        type: 'heading',
+        text: '5. Anticipate Pedestrian Movement',
+      },
+      {
+        type: 'paragraph',
+        text: "Kenya's pedestrian fatality rate is among the highest in sub-Saharan Africa. Near bus stages, schools, open-air markets, and informal settlements, expect unpredictable movement at all times. Slow down before pedestrian crossings even when you have right of way. At night, assume pedestrians may step out anywhere — very few Nairobi roads outside the CBD have adequate lighting.",
+      },
+      {
+        type: 'heading',
+        text: 'The SafeRide Defensive Driving Module',
+      },
+      {
+        type: 'list',
+        items: [
+          'Hazard perception training — identifying risks before they become emergencies',
+          'Emergency braking and vehicle control under panic conditions',
+          'Night driving and low-visibility techniques',
+          'Managing road rage and aggressive driver interactions',
+          'Navigating roundabouts, junctions, and unmarked intersections safely',
+        ],
+      },
+      {
+        type: 'callout',
+        text: "SafeRide Africa's defensive driving module is included in every B-Light, B-Auto, C-Light, and BC full course. It is the training behind our 98% NTSA first-attempt pass rate — and more importantly, it keeps our graduates safe long after the test.",
+      },
+    ],
   },
   {
     id: 'choosing-the-right-class',
@@ -367,5 +511,65 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     title: 'B-Light vs B-Auto: Which Licence Class is Right for You?',
     description: 'A quick comparison of the two most popular SafeRide classes, with cost, lesson count, and career implications.',
     publishDate: 'Oct 9, 2025',
+    readTime: '4 min read',
+    body: [
+      {
+        type: 'paragraph',
+        text: "When most Kenyans decide to get their driving licence, the first question is simple: which class? The two most popular options at SafeRide Africa are Class B — Light (Manual) and Class B — Auto. Both cover the same NTSA syllabus and road test, but the vehicle type and long-term implications differ significantly.",
+      },
+      {
+        type: 'heading',
+        text: 'What Each Class Covers',
+      },
+      {
+        type: 'paragraph',
+        text: 'Class B — Light (Manual) trains you on a dual-control manual transmission car — the type used in most Kenyan taxis, personal cars, PSV minibuses, and commercial fleets. Class B — Auto trains you on an automatic transmission vehicle, increasingly common in newer private cars and imported second-hand vehicles from Japan. Both classes include 20 practical driving lessons, NTSA theory preparation, a defensive driving module, the NTSA road test, and Smart DL application guidance.',
+      },
+      {
+        type: 'heading',
+        text: 'Cost Comparison',
+      },
+      {
+        type: 'list',
+        items: [
+          'B — Light (Manual): Ksh 16,000 total — includes PDL, theory, 20 lessons, road test, and Smart DL guidance',
+          'B — Auto: Ksh 16,000 total — same package, automatic vehicle',
+          'Executive Class: Ksh 24,000 — private lessons, fully flexible, home pickup on request',
+          'Additional government fees: Interim Licence Ksh 780 + Smart DL Ksh 3,050 (payable to NTSA separately)',
+        ],
+      },
+      {
+        type: 'heading',
+        text: 'Which Should You Choose?',
+      },
+      {
+        type: 'paragraph',
+        text: 'If you plan to drive a personal car, work in ride-hailing (Uber/Bolt), or enter the transport industry, Class B — Light (Manual) gives you the broadest flexibility. The majority of vehicles on Kenyan roads are manual. Crucially, a manual licence also permits you to drive automatic vehicles — but not the other way around.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Class B — Auto is the right choice if you specifically intend to drive an automatic vehicle and are not comfortable with manual gear changes. It is also popular with students who have physical limitations that make a clutch difficult to operate. Note that an automatic-only licence does NOT permit you to drive a manual vehicle — if you later want to switch, you would need to retrain and retest.',
+      },
+      {
+        type: 'heading',
+        text: 'What About the Executive Class?',
+      },
+      {
+        type: 'paragraph',
+        text: "SafeRide's Executive Class (Ksh 24,000) is our premium private training option. It is designed for students who want a dedicated instructor, fully flexible lesson scheduling, personalised pacing, and optional home pickup. It covers any vehicle class and is particularly popular with professionals, returning drivers, and those with tight schedules.",
+      },
+      {
+        type: 'heading',
+        text: 'New NTSA Licence Classes in 2026',
+      },
+      {
+        type: 'paragraph',
+        text: 'NTSA has expanded the licence class system beyond the old BCE categories to more specialised categories tailored to specific vehicle types. If you are applying for a commercial, PSV, or heavy-vehicle licence, speak to our instructors — we offer C-Light, BC, D/PSV, and BPSV courses as well.',
+      },
+      {
+        type: 'callout',
+        text: 'Our recommendation for most first-time Kenyan drivers: Class B — Light (Manual). The flexibility across every vehicle type on Kenyan roads is unmatched. Not sure? Call us on 0746 097 033 and we will help you choose at no obligation.',
+      },
+    ],
   },
 ];
