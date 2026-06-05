@@ -8,7 +8,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { LinearGradient } from 'expo-linear-gradient'
 import { router } from 'expo-router'
-import { CheckCircle, ArrowRight, Star } from 'lucide-react-native'
+import { ArrowRight, Star } from 'lucide-react-native'
 import { CLASSES } from '@/data/saferide'
 import { C, F, IS_WEB, MAX_W } from './constants'
 import { SectionIntro } from './SectionIntro'
@@ -195,7 +195,7 @@ function PremiumCard({ cls, isNarrow }: { cls: (typeof CLASSES)[0]; isNarrow: bo
         {/* Feature list */}
         {meta?.features.map((feat) => (
           <View key={feat} style={styles.featureRow}>
-            <CheckCircle size={14} color={isExec ? C.yellow : C.skyDeep} />
+            <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: isExec ? C.yellow : C.skyDeep, flexShrink: 0 }} />
             <Text style={[styles.featureText, { color: isExec ? 'rgba(255,255,255,0.80)' : T.mutedForeground }]}>
               {feat}
             </Text>

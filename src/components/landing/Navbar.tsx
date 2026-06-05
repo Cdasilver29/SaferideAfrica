@@ -293,7 +293,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
           {/* Logo */}
           <TouchableOpacity
             onPress={() => handleNav('/')}
-            style={styles.logoRow}
+            style={[styles.logoRow, !showPills && { flexShrink: 1 }]}
             activeOpacity={0.85}
           >
             <Image
@@ -301,11 +301,19 @@ export default function Navbar({ scrollY }: NavbarProps) {
               style={[styles.logoImg, !showPills && { width: 36, height: 36, borderRadius: 8 }]}
               resizeMode="contain"
             />
-            {showPills && (
+            {showPills ? (
               <View>
                 <Text style={styles.brandName}>{t('nav.brand')}</Text>
                 <Text style={styles.brandTag}>{t('nav.tagline')}</Text>
               </View>
+            ) : (
+              <Text
+                style={[styles.brandName, { fontSize: 13 }]}
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {t('nav.brand')}
+              </Text>
             )}
           </TouchableOpacity>
 

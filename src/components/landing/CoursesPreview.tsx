@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
-import { BookOpen, ArrowRight } from 'lucide-react-native';
+import { ArrowRight } from 'lucide-react-native';
 import { useTheme } from '@/lib/theme';
 import { CLASSES } from '@/data/saferide';
 import { C, F, IS_WEB, MAX_W } from './constants';
@@ -65,12 +65,9 @@ function CourseCard({ cls }: { cls: (typeof CLASSES)[0] }) {
       </View>
 
       {cls.lessons && (
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 16 }}>
-          <BookOpen size={13} color={isExec ? C.mutedDark : T.mutedForeground as string} />
-          <Text style={{ color: isExec ? C.mutedDark : T.mutedForeground, fontFamily: F.regular, fontSize: 12 }}>
-            {cls.lessons} lessons included
-          </Text>
-        </View>
+        <Text style={{ color: isExec ? C.mutedDark : T.mutedForeground, fontFamily: F.regular, fontSize: 12, marginBottom: 16 }}>
+          {cls.lessons} lessons included
+        </Text>
       )}
 
       <TouchableOpacity
