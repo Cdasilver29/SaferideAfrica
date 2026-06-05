@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  View, Text, Image, TouchableOpacity, Animated, Platform,
+  View, Text, Image, TouchableOpacity, Animated, Platform, useWindowDimensions,
 } from 'react-native';
 import AnimatedRN, {
   useSharedValue, useAnimatedStyle, withRepeat, withTiming,
@@ -99,7 +99,7 @@ function AnimatedHeadline({ words, accentFrom }: { words: string[]; accentFrom: 
   const lineH    = IS_WEB ? 68 : 26;
 
   return (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 18 }}>
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: IS_WEB ? 18 : 12 }}>
       {words.filter(w => w.length > 0).map((word, i) => {
         const isAccent = i >= accentFrom;
         const anim     = anims[i] ?? new Animated.Value(1);
@@ -189,6 +189,8 @@ interface HeroProps {
 
 export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
   const { t, i18n } = useTranslation();
+  const { width: winW } = useWindowDimensions();
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
 
   const words        = t('hero.headlineWords', { returnObjects: true }) as string[];
   const visibleWords = words.filter(w => w.length > 0);
@@ -226,12 +228,12 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
       />
 
       <View style={[
-        { flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', paddingHorizontal: 24, paddingTop: 20, paddingBottom: 32 },
-        IS_WEB ? { maxWidth: 720, paddingHorizontal: 48, paddingTop: 24 } : {},
+        { flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', paddingHorizontal: 24, paddingTop: isMobile ? 14 : 20, paddingBottom: 32 },
+        IS_WEB && !isMobile ? { maxWidth: 720, paddingHorizontal: 48, paddingTop: 24 } : {},
       ]}>
 
         {/* NTSA badge */}
-        <View style={{ flexDirection: 'row', marginBottom: 24 }}>
+        <View style={{ flexDirection: 'row', marginBottom: isMobile ? 14 : 24 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20, backgroundColor: 'rgba(255,216,0,0.15)', borderWidth: 1, borderColor: 'rgba(255,216,0,0.4)' }}>
             <Image source={NTSA_LOGO} style={{ width: 20, height: 20 }} resizeMode="contain" />
             <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: 11, letterSpacing: 1.2, textTransform: 'uppercase' }}>
@@ -250,19 +252,21 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
         {/* Typewriter sub-headline */}
         <TypewriterText key={i18n.language + '-sub'} subheadline={subheadline} />
 
-        {/* CTA buttons */}
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
-          <TouchableOpacity
-            onPress={onScrollToCourses}
-            style={{ backgroundColor: C.yellow, paddingVertical: IS_WEB ? 15 : 11, paddingHorizontal: IS_WEB ? 32 : 20, borderRadius: 12, flexDirection: 'row', alignItems: 'center', gap: 8, shadowColor: C.yellow, shadowOpacity: 0.45, shadowRadius: 14, elevation: 6 }}
-            activeOpacity={0.85}
-          >
-            <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 15 }}>{t('hero.exploreCourses')}</Text>
-            <ChevronDown size={17} color={C.dark} />
-          </TouchableOpacity>
+        {/* CTA buttons — hidden on mobile (Navbar Enrol button covers this) */}
+        {!isMobile && (
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
+            <TouchableOpacity
+              onPress={onScrollToCourses}
+              style={{ backgroundColor: C.yellow, paddingVertical: 15, paddingHorizontal: 32, borderRadius: 12, flexDirection: 'row', alignItems: 'center', gap: 8, shadowColor: C.yellow, shadowOpacity: 0.45, shadowRadius: 14, elevation: 6 }}
+              activeOpacity={0.85}
+            >
+              <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 15 }}>{t('hero.exploreCourses')}</Text>
+              <ChevronDown size={17} color={C.dark} />
+            </TouchableOpacity>
 
-          <GlowingEnrolButton onPress={onEnrol ?? (() => router.push('/courses' as any))} />
-        </View>
+            <GlowingEnrolButton onPress={onEnrol ?? (() => router.push('/courses' as any))} />
+          </View>
+        )}
       </View>
 
       {IS_WEB && (
