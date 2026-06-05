@@ -13,7 +13,7 @@ import Animated, {
 import Svg, { Path, Rect, Circle } from 'react-native-svg'
 
 const SOCIALS = {
-  whatsapp:  'https://wa.me/254712045710?text=Hi%20SafeRide%2C%20I%20want%20to%20enquire%20about%20driving%20classes',
+  whatsapp:  'https://wa.me/254746097033?text=Hi%20SafeRide%2C%20I%20want%20to%20enquire%20about%20driving%20classes',
   facebook:  'https://www.facebook.com/safrideafrica',
   twitter:   'https://twitter.com/safrideafrica',
   tiktok:    'https://www.tiktok.com/@saferide254',

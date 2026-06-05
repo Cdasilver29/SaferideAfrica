@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import {
-  View, Text, TouchableOpacity, StyleSheet, Platform,
+  View, Text, TouchableOpacity, StyleSheet, Platform, useWindowDimensions,
 } from 'react-native'
 import Animated, {
   useSharedValue, useAnimatedStyle,
@@ -55,7 +55,7 @@ const CARD_META: Record<string, { badge?: string; lessonLine: string; features: 
 const KSH = (n: number) => 'Ksh ' + n.toLocaleString('en-KE')
 
 // ─── Single premium card ──────────────────────────────────────────────────────
-function PremiumCard({ cls }: { cls: (typeof CLASSES)[0] }) {
+function PremiumCard({ cls, isNarrow }: { cls: (typeof CLASSES)[0]; isNarrow: boolean }) {
   const meta = CARD_META[cls.code]
 
   // ── Gradient border rotation (loops 0→360° every 8 s) ──────────────────────
@@ -134,7 +134,7 @@ function PremiumCard({ cls }: { cls: (typeof CLASSES)[0] }) {
 
   return (
     // Outer border container — 2 px padding reveals rotating gradient as a border
-    <View style={[styles.borderOuter, IS_WEB ? { flex: 1 } : { width: '100%' }]}>
+    <View style={[styles.borderOuter, isNarrow ? { width: '100%' } : { flex: 1 }]}>
       {/* Rotating gradient — positioned absolutely, larger than card */}
       <Animated.View style={[gradientWrapStyle, { pointerEvents: 'none' } as any]}>
         <LinearGradient
@@ -225,6 +225,8 @@ function PremiumCard({ cls }: { cls: (typeof CLASSES)[0] }) {
 export function PremiumCourseCards() {
   const premiumClasses = CLASSES.filter((c) => PREVIEW_CODES.includes(c.code))
   const T = useTheme()
+  const { width: winW } = useWindowDimensions()
+  const isNarrow = !IS_WEB || (IS_WEB && winW < 768)
 
   return (
     <View style={[styles.section, { backgroundColor: T.background }]}>
@@ -235,9 +237,9 @@ export function PremiumCourseCards() {
           description="The classes most Kenyan drivers choose. All include theory, road test, and Smart DL guidance."
         />
 
-        <View style={[styles.row, IS_WEB ? { flexDirection: 'row', gap: 20 } : { gap: 20 }]}>
+        <View style={[styles.row, isNarrow ? { gap: 20 } : { flexDirection: 'row', gap: 20 }]}>
           {premiumClasses.map((cls) => (
-            <PremiumCard key={cls.code} cls={cls} />
+            <PremiumCard key={cls.code} cls={cls} isNarrow={isNarrow} />
           ))}
         </View>
       </View>

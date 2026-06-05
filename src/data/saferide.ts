@@ -11,8 +11,8 @@ export const COMPANY = {
   hq:                'Buruburu, Nairobi',
   primaryPhone:      '0746 097 033',
   primaryEmail:      'saferideafrica777@gmail.com',
-  secondaryPhone:    '0757 209 966',
-  phones:            ['0746 097 033', '0757 209 966', '0712 045 710'],
+  secondaryPhone:    '0746 097 033',
+  phones:            ['0746 097 033'],
   email:             'saferideafrica777@gmail.com',
   website:           'www.safride-africa-driving-school.com',
   socials: {
@@ -322,7 +322,7 @@ export const WHY_CHOOSE_US = [
 // ─── Social links ─────────────────────────────────────────────────────────────
 
 export const SOCIALS = {
-  whatsapp:  'https://wa.me/254712045710?text=Hi%20SafeRide%2C%20I%20want%20to%20enquire%20about%20driving%20classes',
+  whatsapp:  'https://wa.me/254746097033?text=Hi%20SafeRide%2C%20I%20want%20to%20enquire%20about%20driving%20classes',
   facebook:  'https://www.facebook.com/safrideafrica',
   twitter:   'https://twitter.com/safrideafrica',
   tiktok:    'https://www.tiktok.com/@saferide254',

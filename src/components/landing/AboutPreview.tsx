@@ -21,38 +21,48 @@ export default function AboutPreview() {
           description="Since 2015, SafeRide has trained drivers across 10 branches in Nairobi with one promise: safety beyond a licence."
         />
 
-        <View
-          style={{ flexDirection: 'row', gap: isMobile ? 12 : 32, alignItems: 'stretch', marginBottom: 40 }}
-        >
-          {/* Photo — first on mobile (left), second on desktop (right) */}
-          {isMobile && (
-            <View style={{ flex: 1 }}>
-              <Image
-                source={ABOUT_IMG}
-                style={{ width: '100%', height: 180, borderRadius: 24, backgroundColor: 'rgba(1,165,240,0.10)' }}
-                resizeMode="cover"
-                progressiveRenderingEnabled
-                fadeDuration={200}
+        {isMobile ? (
+          /* Mobile: full-width image on top, cards side-by-side below */
+          <View style={{ marginBottom: 40, gap: 16 }}>
+            <Image
+              source={ABOUT_IMG}
+              style={{ width: '100%', height: 240, borderRadius: 20, backgroundColor: 'rgba(1,165,240,0.10)' }}
+              resizeMode="cover"
+              progressiveRenderingEnabled
+              fadeDuration={200}
+            />
+            <View style={{ flexDirection: 'row', gap: 12 }}>
+              <View style={{ flex: 1 }}>
+                <FeatureCard
+                  variant="primary"
+                  title="NTSA-Aligned Curriculum"
+                  description="Certified instructors teach the full NTSA curriculum — theory, road rules, Smart DL application, and real-road practice."
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <FeatureCard
+                  variant="accent"
+                  title="Flexible Lesson Slots"
+                  description="Morning, afternoon, or weekend — pick the slot that fits your life. 10 branches across Nairobi so you never travel far."
+                />
+              </View>
+            </View>
+          </View>
+        ) : (
+          /* Desktop: feature cards stacked on left, large image on right */
+          <View style={{ flexDirection: 'row', gap: 32, alignItems: 'stretch', marginBottom: 40 }}>
+            <View style={{ flex: 1, gap: 16 }}>
+              <FeatureCard
+                variant="primary"
+                title="NTSA-Aligned Curriculum"
+                description="Certified instructors teach the full NTSA curriculum — theory, road rules, Smart DL application, and real-road practice."
+              />
+              <FeatureCard
+                variant="accent"
+                title="Flexible Lesson Slots"
+                description="Morning, afternoon, or weekend — pick the slot that fits your life. 10 branches across Nairobi so you never travel far."
               />
             </View>
-          )}
-
-          {/* Feature cards */}
-          <View style={{ flex: 1, gap: isMobile ? 10 : 16 }}>
-            <FeatureCard
-              variant="primary"
-              title="NTSA-Aligned Curriculum"
-              description="Certified instructors teach the full NTSA curriculum — theory, road rules, Smart DL application, and real-road practice."
-            />
-            <FeatureCard
-              variant="accent"
-              title="Flexible Lesson Slots"
-              description="Morning, afternoon, or weekend — pick the slot that fits your life. 10 branches across Nairobi so you never travel far."
-            />
-          </View>
-
-          {/* Photo — second on desktop (right side) */}
-          {!isMobile && (
             <View style={{ flex: 1 }}>
               <Image
                 source={ABOUT_IMG}
@@ -62,8 +72,8 @@ export default function AboutPreview() {
                 fadeDuration={200}
               />
             </View>
-          )}
-        </View>
+          </View>
+        )}
 
         {/* CTA */}
         <View style={{ alignItems: 'center' }}>

@@ -298,6 +298,8 @@ function ContactForm() {
 // ─── Payment info card ────────────────────────────────────────────────────────
 function PaymentInfo() {
   const T = useTheme();
+  const { width: winW } = useWindowDimensions();
+  const isWide = IS_WEB && winW >= 768;
   return (
     <View
       style={{
@@ -329,10 +331,10 @@ function PaymentInfo() {
             paddingVertical: 14,
             backgroundColor: T.card,
           },
-          IS_WEB ? { flexDirection: 'row', gap: 24 } : { gap: 12 },
+          isWide ? { flexDirection: 'row', gap: 24 } : { gap: 12 },
         ]}
       >
-        <View style={{ flex: IS_WEB ? 1 : undefined }}>
+        <View style={{ flex: isWide ? 1 : undefined }}>
           <Text style={{ color: T.mutedForeground, fontFamily: F.semibold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }}>
             M-Pesa Lipa Na M-Pesa
           </Text>
@@ -343,10 +345,10 @@ function PaymentInfo() {
             Account: <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaAccountName}</Text>
           </Text>
         </View>
-        {IS_WEB && (
+        {isWide && (
           <View style={{ width: 1, backgroundColor: T.border }} />
         )}
-        <View style={{ flex: IS_WEB ? 1 : undefined }}>
+        <View style={{ flex: isWide ? 1 : undefined }}>
           <Text style={{ color: T.mutedForeground, fontFamily: F.semibold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }}>
             Bank Transfer — {PAYMENT.bankName}
           </Text>
@@ -403,15 +405,15 @@ export default function ContactPage() {
         {/* Two-column layout */}
         <View style={{ paddingVertical: isMobile ? 32 : 56, paddingHorizontal: isMobile ? 16 : 24 }}>
           <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
-            <View style={IS_WEB ? { flexDirection: 'row', gap: 36, alignItems: 'flex-start' } : { gap: 24 }}>
+            <View style={!isMobile ? { flexDirection: 'row', gap: 36, alignItems: 'flex-start' } : { gap: 24 }}>
 
               {/* Left — contact info */}
-              <View style={IS_WEB ? { flex: 1 } : {}}>
+              <View style={!isMobile ? { flex: 1 } : {}}>
                 <ContactInfo />
               </View>
 
               {/* Right — form */}
-              <View style={IS_WEB ? { flex: 1.3 } : {}}>
+              <View style={!isMobile ? { flex: 1.3 } : {}}>
                 <ContactForm />
               </View>
 
