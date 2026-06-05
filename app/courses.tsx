@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, SafeAreaView, ScrollView, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
 import { Info, ArrowRight, MessageCircle } from 'lucide-react-native';
 
@@ -18,6 +18,8 @@ const KSH = (n: number) => 'Ksh ' + n.toLocaleString('en-KE');
 // ─── Extra fees note ─────────────────────────────────────────────────────────
 function ExtraFeesNote() {
   const T = useTheme();
+  const { width: winW } = useWindowDimensions();
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   return (
     <View style={{ backgroundColor: T.background, paddingHorizontal: 24, paddingTop: 32, paddingBottom: 8 }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
@@ -26,20 +28,20 @@ function ExtraFeesNote() {
             backgroundColor: T.isDark ? 'rgba(1, 165, 240, 0.08)' : 'rgba(1, 165, 240, 0.06)',
             borderRadius: 14,
             padding: 18,
-            flexDirection: IS_WEB ? 'row' : 'column',
-            alignItems: IS_WEB ? 'center' : 'flex-start',
-            gap: IS_WEB ? 20 : 12,
+            flexDirection: isMobile ? 'column' : 'row',
+            alignItems: isMobile ? 'flex-start' : 'center',
+            gap: isMobile ? 12 : 20,
             borderWidth: 1,
             borderColor: T.isDark ? 'rgba(1, 165, 240, 0.25)' : 'rgba(1, 165, 240, 0.18)',
           }}
         >
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <Info size={16} color={C.blue} />
             <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 13 }}>
               Additional Government Fees
             </Text>
           </View>
-          <View style={IS_WEB ? { flexDirection: 'row', gap: 24 } : { gap: 8 }}>
+          <View style={isMobile ? { gap: 8 } : { flexDirection: 'row', gap: 24 }}>
             <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13 }}>
               Interim Licence:{' '}
               <Text style={{ color: C.red, fontFamily: F.bold }}>{KSH(EXTRA_FEES.interimLicence)}</Text>
