@@ -42,11 +42,11 @@ function ExtraFeesNote() {
           <View style={IS_WEB ? { flexDirection: 'row', gap: 24 } : { gap: 8 }}>
             <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13 }}>
               Interim Licence:{' '}
-              <Text style={{ color: C.blue, fontFamily: F.bold }}>{KSH(EXTRA_FEES.interimLicence)}</Text>
+              <Text style={{ color: C.red, fontFamily: F.bold }}>{KSH(EXTRA_FEES.interimLicence)}</Text>
             </Text>
             <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13 }}>
               Smart DL Application:{' '}
-              <Text style={{ color: C.blue, fontFamily: F.bold }}>{KSH(EXTRA_FEES.smartDL)}</Text>
+              <Text style={{ color: C.red, fontFamily: F.bold }}>{KSH(EXTRA_FEES.smartDL)}</Text>
             </Text>
           </View>
         </View>

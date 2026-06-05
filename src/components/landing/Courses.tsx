@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import {
   View, Text, TouchableOpacity, ScrollView, LayoutAnimation, Platform, UIManager,
 } from 'react-native';
+import Animated, {
+  useSharedValue, useAnimatedStyle, withSpring,
+} from 'react-native-reanimated';
 import { router } from 'expo-router';
 import { ChevronDown, ChevronUp, CheckCircle, AlertTriangle } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +26,62 @@ const SERIES_COLORS: Record<SeriesCode, string> = {
   D:    C.yellow,   // minibus/PSV — accent
   EXEC: C.yellow,   // executive — accent
 };
+
+// ─── Zoom-out animated button pair ───────────────────────────────────────────
+
+function ZoomBtn({
+  onPress, style, children,
+}: {
+  onPress: () => void;
+  style: object;
+  children: React.ReactNode;
+}) {
+  const scale = useSharedValue(1);
+  const animStyle = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
+  const onIn  = () => { scale.value = withSpring(1.08, { damping: 6, stiffness: 220 }); };
+  const onOut = () => { scale.value = withSpring(1,    { damping: 8, stiffness: 200 }); };
+
+  return (
+    <Animated.View style={[{ flex: 1 }, animStyle]}>
+      <TouchableOpacity
+        onPress={onPress}
+        onPressIn={onIn}
+        onPressOut={onOut}
+        {...(IS_WEB ? ({ onMouseEnter: onIn, onMouseLeave: onOut } as any) : {})}
+        activeOpacity={0.9}
+        style={style}
+      >
+        {children}
+      </TouchableOpacity>
+    </Animated.View>
+  );
+}
+
+function ZoomButtons({
+  accentColor, classCode, isBright,
+  detailsLabel, enrolLabel, onDetails, onEnrol,
+}: {
+  accentColor: string; classCode: string; isBright: boolean;
+  detailsLabel: string; enrolLabel: string;
+  onDetails: () => void; onEnrol: () => void;
+}) {
+  return (
+    <View style={{ flexDirection: 'row', gap: 10, marginTop: 14 }}>
+      <ZoomBtn
+        onPress={onDetails}
+        style={{ flex: 1, paddingVertical: 11, borderRadius: 10, alignItems: 'center', borderWidth: 1, borderColor: accentColor }}
+      >
+        <Text style={{ color: accentColor, fontFamily: F.semibold, fontSize: 13 }}>{detailsLabel}</Text>
+      </ZoomBtn>
+      <ZoomBtn
+        onPress={onEnrol}
+        style={{ flex: 1, paddingVertical: 11, borderRadius: 10, alignItems: 'center', backgroundColor: accentColor }}
+      >
+        <Text style={{ color: isBright ? C.dark : '#ffffff', fontFamily: F.bold, fontSize: 13 }}>{enrolLabel}</Text>
+      </ZoomBtn>
+    </View>
+  );
+}
 
 // ─── Class row with expandable breakdown ─────────────────────────────────────
 
@@ -131,26 +190,15 @@ function ClassRow({ cls, isDark }: { cls: DriveClass; isDark: boolean }) {
             </Text>
           </View>
 
-          <View style={{ flexDirection: 'row', gap: 10, marginTop: 14 }}>
-            <TouchableOpacity
-              onPress={() => router.push(`/classes/${cls.code}`)}
-              style={{ flex: 1, paddingVertical: 11, borderRadius: 10, alignItems: 'center', borderWidth: 1, borderColor: accentColor }}
-              activeOpacity={0.8}
-            >
-              <Text style={{ color: accentColor, fontFamily: F.semibold, fontSize: 13 }}>
-                {t('courses.readMore') || 'Details'}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => open(cls.code)}
-              style={{ flex: 1, paddingVertical: 11, borderRadius: 10, alignItems: 'center', backgroundColor: accentColor }}
-              activeOpacity={0.85}
-            >
-              <Text style={{ color: cls.series === 'EXEC' ? C.dark : '#ffffff', fontFamily: F.bold, fontSize: 13 }}>
-                {t('courses.enrolNow')}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <ZoomButtons
+            accentColor={accentColor}
+            classCode={cls.code}
+            isBright={cls.series === 'EXEC'}
+            detailsLabel={t('courses.readMore') || 'Details'}
+            enrolLabel={t('courses.enrolNow')}
+            onDetails={() => router.push(`/classes/${cls.code}`)}
+            onEnrol={() => open(cls.code)}
+          />
         </View>
       )}
     </View>
@@ -253,47 +301,47 @@ function PaymentNotice({ isDark }: { isDark: boolean }) {
         marginTop: 32,
         borderRadius: 14,
         overflow: 'hidden',
-        borderWidth: 1,
-        borderColor: 'rgba(255,216,0,0.35)',
+        borderWidth: 1.5,
+        borderColor: 'rgba(225,29,46,0.40)',
       }}
     >
-      {/* Warning bar */}
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: 'rgba(255,216,0,0.15)', paddingHorizontal: 16, paddingVertical: 10 }}>
-        <AlertTriangle size={15} color={C.yellow} />
-        <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: 12, letterSpacing: 0.5 }}>
+      {/* Warning bar — red */}
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: 'rgba(225,29,46,0.12)', paddingHorizontal: 16, paddingVertical: 10 }}>
+        <AlertTriangle size={15} color={C.red} />
+        <Text style={{ color: C.red, fontFamily: F.bold, fontSize: 12, letterSpacing: 0.8 }}>
           {PAYMENT.notice}
         </Text>
       </View>
 
-      {/* Payment methods */}
-      <View style={[{ paddingHorizontal: 16, paddingVertical: 14 }, IS_WEB ? { flexDirection: 'row', gap: 24 } : { gap: 12 }]}>
+      {/* Payment methods — yellow background so red text is fully visible */}
+      <View style={[{ paddingHorizontal: 16, paddingVertical: 14, backgroundColor: C.yellow }, IS_WEB ? { flexDirection: 'row', gap: 24 } : { gap: 12 }]}>
         {/* M-Pesa */}
         <View style={{ flex: IS_WEB ? 1 : undefined }}>
-          <Text style={{ color: isDark ? C.mutedDark : C.muted, fontFamily: F.semibold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }}>
+          <Text style={{ color: C.red, fontFamily: F.bold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }}>
             {t('courses.paymentMpesa')}
           </Text>
           <View style={{ gap: 4 }}>
-            <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.regular, fontSize: 13 }}>
+            <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
               Paybill: <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaPaybill}</Text>
             </Text>
-            <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.regular, fontSize: 13 }}>
+            <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
               Account: <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaAccountName}</Text>
             </Text>
           </View>
         </View>
 
-        {IS_WEB && <View style={{ width: 1, backgroundColor: isDark ? C.darkBorder : 'rgba(34,31,32,0.1)' }} />}
+        {IS_WEB && <View style={{ width: 1, backgroundColor: 'rgba(225,29,46,0.20)' }} />}
 
         {/* KCB */}
         <View style={{ flex: IS_WEB ? 1 : undefined }}>
-          <Text style={{ color: isDark ? C.mutedDark : C.muted, fontFamily: F.semibold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }}>
+          <Text style={{ color: C.red, fontFamily: F.bold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }}>
             {t('courses.paymentKcb')}
           </Text>
           <View style={{ gap: 4 }}>
-            <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.regular, fontSize: 13 }}>
+            <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
               {PAYMENT.bankName}
             </Text>
-            <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.regular, fontSize: 13 }}>
+            <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
               Account: <Text style={{ fontFamily: F.bold }}>{PAYMENT.kcbAccount}</Text>
             </Text>
           </View>

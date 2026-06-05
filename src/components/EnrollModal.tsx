@@ -517,25 +517,45 @@ export default function EnrollModal() {
                   </Text>
                 </Field>
 
-                {/* Payment instructions */}
-                <View style={s.paymentInstructions}>
-                  <Text style={s.piTitle}>How to Pay</Text>
-                  <View style={s.piRow}>
-                    <Text style={s.piKey}>M-Pesa Paybill</Text>
-                    <Text style={s.piVal}>{PAYMENT.mpesaPaybill}</Text>
-                  </View>
-                  <View style={s.piRow}>
-                    <Text style={s.piKey}>Account Name</Text>
-                    <Text style={s.piVal}>{PAYMENT.mpesaAccountName}</Text>
-                  </View>
-                  <View style={s.piRow}>
-                    <Text style={s.piKey}>KCB Account</Text>
-                    <Text style={s.piVal}>{PAYMENT.kcbAccount}</Text>
-                  </View>
-                  {/* Red warning banner */}
-                  <View style={s.noCashBanner}>
+                {/* Payment instructions — identical layout to Courses page */}
+                <View style={{
+                  marginBottom: 18, borderRadius: 12, overflow: 'hidden',
+                  borderWidth: 1.5, borderColor: 'rgba(225,29,46,0.40)',
+                }}>
+                  {/* Warning bar */}
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: 'rgba(225,29,46,0.12)', paddingHorizontal: 14, paddingVertical: 10 }}>
                     <AlertTriangle size={14} color={C.red} />
-                    <Text style={s.noCashText}>{PAYMENT.notice}</Text>
+                    <Text style={{ color: C.red, fontFamily: F.bold, fontSize: 12, letterSpacing: 0.8, flex: 1 }}>
+                      {PAYMENT.notice}
+                    </Text>
+                  </View>
+                  {/* Yellow body — red text pops */}
+                  <View style={{ backgroundColor: C.yellow, paddingHorizontal: 14, paddingVertical: 14, gap: 10 }}>
+                    {/* M-Pesa */}
+                    <View>
+                      <Text style={{ color: C.red, fontFamily: F.bold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 }}>
+                        M-Pesa Lipa Na M-Pesa
+                      </Text>
+                      <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
+                        Paybill: <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaPaybill}</Text>
+                      </Text>
+                      <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
+                        Account: <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaAccountName}</Text>
+                      </Text>
+                    </View>
+                    <View style={{ height: 1, backgroundColor: 'rgba(225,29,46,0.25)' }} />
+                    {/* KCB */}
+                    <View>
+                      <Text style={{ color: C.red, fontFamily: F.bold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 }}>
+                        Bank Transfer
+                      </Text>
+                      <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
+                        {PAYMENT.bankName}
+                      </Text>
+                      <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
+                        Account: <Text style={{ fontFamily: F.bold }}>{PAYMENT.kcbAccount}</Text>
+                      </Text>
+                    </View>
                   </View>
                 </View>
 
@@ -685,28 +705,6 @@ const s = StyleSheet.create({
     color: 'rgba(34,31,32,0.45)', marginTop: 5, lineHeight: 15,
   },
 
-  paymentInstructions: {
-    backgroundColor: 'rgba(34,31,32,0.03)',
-    borderRadius: 12, padding: 16, marginBottom: 18,
-    borderWidth: 1, borderColor: 'rgba(34,31,32,0.08)',
-  },
-  piTitle: { fontFamily: F.bold, fontSize: 13, color: C.dark, marginBottom: 10 },
-  piRow:   { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 5 },
-  piKey:   { fontFamily: F.regular, fontSize: 13, color: 'rgba(34,31,32,0.55)' },
-  piVal:   { fontFamily: F.semibold, fontSize: 13, color: C.dark },
-
-  noCashBanner: {
-    flexDirection: 'row', alignItems: 'center', gap: 8,
-    backgroundColor: 'rgba(225,29,46,0.08)',
-    borderRadius: 8, paddingHorizontal: 12, paddingVertical: 9,
-    marginTop: 12,
-    borderWidth: 1, borderColor: 'rgba(225,29,46,0.25)',
-  },
-  noCashText: {
-    fontFamily: F.bold, fontSize: 13,
-    color: C.red, letterSpacing: 0.3,
-    flex: 1,
-  },
 
   termsRow: {
     flexDirection: 'row', alignItems: 'flex-start',

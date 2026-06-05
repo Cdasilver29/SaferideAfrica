@@ -65,24 +65,29 @@ export async function pollStkStatus(checkoutRequestId: string): Promise<StkResul
 }
 
 /**
- * Polls every 5 s until the payment succeeds, fails, or times out (default 2 min).
- * Call onStatusChange to drive UI updates without awaiting the whole loop.
+ * Polls every 5 s until the payment succeeds, fails, or times out (90 s default).
+ * Network errors and "transaction not found" (callback not yet received) are
+ * treated as transient — the loop continues rather than throwing.
  */
 export async function waitForPayment(
   checkoutRequestId: string,
   onStatusChange?: (status: StkStatus) => void,
-  timeoutMs = 120_000,
+  timeoutMs = 90_000,
 ): Promise<StkResult> {
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
     await new Promise(r => setTimeout(r, 5_000));
-    const result = await pollStkStatus(checkoutRequestId);
-    onStatusChange?.(result.status);
-    if (result.status !== 'pending') return result;
+    try {
+      const result = await pollStkStatus(checkoutRequestId);
+      onStatusChange?.(result.status);
+      if (result.status !== 'pending') return result;
+    } catch {
+      // Callback hasn't arrived yet or transient network error — keep polling
+    }
   }
   return {
     status:       'failed',
     mpesaReceipt: null,
-    resultDesc:   'Payment timed out. Please try again or enter your M-Pesa code manually.',
+    resultDesc:   'No response from M-Pesa after 90 s. If you entered your PIN the payment may still complete — check your M-Pesa messages.',
   };
 }
