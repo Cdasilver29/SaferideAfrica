@@ -18,7 +18,7 @@ export default function AboutPreview() {
           invert
           badge="About Us"
           title="Built for Kenyan Roads"
-          description="Since 2015, SafeRide has trained drivers across 10 branches in Nairobi with one promise: safety beyond a licence."
+          description="Since 2015, SafeRide has trained drivers across 12 branches in Nairobi with one promise: safety beyond a licence."
         />
 
         {isMobile ? (
@@ -43,7 +43,7 @@ export default function AboutPreview() {
                 <FeatureCard
                   variant="accent"
                   title="Flexible Lesson Slots"
-                  description="Morning, afternoon, or weekend — pick the slot that fits your life. 10 branches across Nairobi so you never travel far."
+                  description="Morning, afternoon, or weekend — pick the slot that fits your life. 12 branches across Nairobi so you never travel far."
                 />
               </View>
             </View>
@@ -60,7 +60,7 @@ export default function AboutPreview() {
               <FeatureCard
                 variant="accent"
                 title="Flexible Lesson Slots"
-                description="Morning, afternoon, or weekend — pick the slot that fits your life. 10 branches across Nairobi so you never travel far."
+                description="Morning, afternoon, or weekend — pick the slot that fits your life. 12 branches across Nairobi so you never travel far."
               />
             </View>
             <View style={{ flex: 1 }}>

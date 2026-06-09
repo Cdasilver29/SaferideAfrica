@@ -323,7 +323,7 @@ export default function BranchesPage() {
     <SafeAreaView style={{ flex: 1, backgroundColor: T.background }}>
       <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-        <PageHero overline="Our Locations" title="Our 10 Branches" />
+        <PageHero overline="Our Locations" title="Our 12 Branches" />
         <BranchDirectory />
         <HQCallout />
         <ContactCTA />

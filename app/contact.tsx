@@ -384,7 +384,7 @@ function MapPreview() {
           borderRadius: 10,
         }}
       >
-        <Text style={{ color: C.blue, fontFamily: F.semibold, fontSize: 13 }}>See all 10 branches</Text>
+        <Text style={{ color: C.blue, fontFamily: F.semibold, fontSize: 13 }}>See all 12 branches</Text>
         <ArrowRight size={14} color={C.blue} />
       </TouchableOpacity>
     </View>

@@ -65,8 +65,8 @@ export default function BranchesPreview() {
 
         <SectionIntro
           badge="Find Us"
-          title="10 Branches Across Nairobi"
-          description="From Donholm HQ to Karen, Westlands, Thika Road and beyond — there's always a SafeRide branch near you."
+          title="12 Branches Across Nairobi"
+          description="From Donholm HQ to Kayole, Embakasi, Kagundo Road and beyond — there's always a SafeRide branch near you."
         />
 
         {/* Map + branch list */}
@@ -131,7 +131,7 @@ export default function BranchesPreview() {
             }}
           >
             <Text style={{ color: C.white, fontFamily: F.semibold, fontSize: 14 }}>
-              Find all 10 branches
+              Find all 12 branches
             </Text>
             <ArrowRight size={16} color={C.white} />
           </TouchableOpacity>
