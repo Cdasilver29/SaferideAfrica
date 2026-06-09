@@ -41,8 +41,8 @@ export const MANAGEMENT = [
 export const BRANCHES = [
   {
     id: 'donholm',
-    name: 'Donholm HQ',
-    isHQ: true,
+    name: 'Donholm',
+    isHQ: false,
     address: 'Donholm, Nairobi',
     phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',
@@ -51,7 +51,7 @@ export const BRANCHES = [
   {
     id: 'buruburu',
     name: 'Buru Buru',
-    isHQ: false,
+    isHQ: true,
     address: 'Buru Buru, Nairobi',
     phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',

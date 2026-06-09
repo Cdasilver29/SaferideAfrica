@@ -66,7 +66,7 @@ export default function BranchesPreview() {
         <SectionIntro
           badge="Find Us"
           title="12 Branches Across Nairobi"
-          description="From Donholm HQ to Kayole, Embakasi, Kagundo Road and beyond — there's always a SafeRide branch near you."
+          description="From Buru Buru HQ to Kayole, Embakasi, Kagundo Road and beyond — there's always a SafeRide branch near you."
         />
 
         {/* Map + branch list */}
