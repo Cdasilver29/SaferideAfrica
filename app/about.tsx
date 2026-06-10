@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { View, Text, ScrollView, SafeAreaView, Image, Pressable, Linking, Platform, useWindowDimensions } from 'react-native';
 import Animated, {
   useSharedValue, useAnimatedStyle,
-  withRepeat, withTiming, Easing,
+  withRepeat, withTiming, withDelay, interpolate, Easing,
 } from 'react-native-reanimated';
 import { useRouter } from 'expo-router';
-import { Eye, Target, Heart, CheckCircle, Asterisk, ArrowRight } from 'lucide-react-native';
+import { CheckCircle, Asterisk, ArrowRight } from 'lucide-react-native';
 import Svg, { Path, Rect, Circle } from 'react-native-svg';
+import { useInView } from '@/hooks/useInView';
 
 import { PageHero } from '@/components/landing/PageHero';
 import Navbar      from '@/components/landing/Navbar';
@@ -404,27 +405,135 @@ function CompanyStory() {
   );
 }
 
+// ─── What Drives Us card ────────────────────────────────────────────────────
+function WhatDrivesUsCard({
+  emoji, accent, heading, body, index, inView, width, padding, emojiSize,
+}: {
+  emoji: string;
+  accent: string;
+  heading: string;
+  body: string;
+  index: number;
+  inView: boolean;
+  width?: string;
+  padding: number;
+  emojiSize: number;
+}) {
+  const T = useTheme();
+  const badgeSize = emojiSize + 28;
+
+  // Idle float, runs on every viewport, staggered per card
+  const float = useSharedValue(0);
+  useEffect(() => {
+    float.value = withDelay(
+      index * 300,
+      withRepeat(withTiming(1, { duration: 2400, easing: Easing.inOut(Easing.ease) }), -1, true),
+    );
+  }, []);
+
+  // Hover (web) / press (native) lift + emoji scale, same shared value drives both
+  const lift = useSharedValue(0);
+  const liftIn  = () => { lift.value = withTiming(1, { duration: 200 }); };
+  const liftOut = () => { lift.value = withTiming(0, { duration: 200 }); };
+
+  // Scroll-in reveal, fires once when the section enters view
+  const reveal = useSharedValue(0);
+  useEffect(() => {
+    if (inView) {
+      reveal.value = withDelay(index * 150, withTiming(1, { duration: 500 }));
+    }
+  }, [inView]);
+
+  const cardStyle = useAnimatedStyle(() => ({
+    opacity: reveal.value,
+    transform: [
+      { translateY: interpolate(reveal.value, [0, 1], [20, 0]) },
+      { translateY: withTiming(lift.value === 1 ? -6 : 0, { duration: 200 }) },
+    ],
+  }));
+
+  const emojiStyle = useAnimatedStyle(() => ({
+    transform: [
+      { translateY: interpolate(float.value, [0, 1], [0, -4]) },
+      { scale: withTiming(lift.value === 1 ? 1.15 : 1, { duration: 200 }) },
+    ],
+  }));
+
+  return (
+    <Animated.View
+      style={[
+        {
+          flex: width ? undefined : 1,
+          width: width as any,
+          backgroundColor: T.card,
+          borderRadius: 20,
+          padding,
+          borderWidth: 1,
+          borderColor: T.border,
+        },
+        cardStyle,
+      ]}
+    >
+      <Pressable
+        onHoverIn={liftIn}
+        onHoverOut={liftOut}
+        onPressIn={liftIn}
+        onPressOut={liftOut}
+        style={{ minHeight: 44 }}
+      >
+        <View
+          style={{
+            width: badgeSize,
+            height: badgeSize,
+            borderRadius: badgeSize / 2,
+            backgroundColor: accent,
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 14,
+          }}
+        >
+          <Animated.Text style={[{ fontSize: emojiSize, lineHeight: emojiSize * 1.2 }, emojiStyle]}>
+            {emoji}
+          </Animated.Text>
+        </View>
+        <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 16, marginBottom: 10 }}>
+          {heading}
+        </Text>
+        <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13, lineHeight: 22 }}>
+          {body}
+        </Text>
+      </Pressable>
+    </Animated.View>
+  );
+}
+
 // ─── Vision · Mission · Values ────────────────────────────────────────────────
 function VisionMissionValues() {
   const T = useTheme();
   const { width: winW } = useWindowDimensions();
-  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
+  const { ref, inView } = useInView();
 
-  const cols = [
+  const cols = winW < 640 ? 1 : winW < 1024 ? 2 : 4;
+  const gap = cols === 1 ? 12 : cols === 2 ? 16 : 20;
+  const padding = cols === 1 ? 16 : 24;
+  const emojiSize = cols === 1 ? 40 : cols === 2 ? 48 : 56;
+  const cardWidth = cols === 1 ? '100%' : cols === 2 ? (IS_WEB ? 'calc(50% - 8px)' : '48%') : undefined;
+
+  const items = [
     {
-      icon:    <Eye size={22} color={C.blue} />,
+      emoji:   '👁️',
       accent:  'rgba(1, 165, 240, 0.12)',
       heading: 'Vision',
       body:    VISION,
     },
     {
-      icon:    <Target size={22} color={C.amber} />,
+      emoji:   '🎯',
       accent:  'rgba(255, 216, 0, 0.12)',
       heading: 'Mission',
       body:    MISSION,
     },
     {
-      icon:    <Heart size={22} color={C.yellow} />,
+      emoji:   '❤️',
       accent:  'rgba(255, 216, 0, 0.12)',
       heading: 'Core Values',
       body:    CORE_VALUES.join(' · '),
@@ -459,40 +568,20 @@ function VisionMissionValues() {
           </View>
         </View>
 
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: isMobile ? 12 : 20 }}>
-          {cols.map(col => (
-            <View
-              key={col.heading}
-              style={{
-                flex: isMobile ? undefined : 1,
-                width: isMobile ? '48%' : undefined,
-                backgroundColor: T.card,
-                borderRadius: 20,
-                padding: isMobile ? 18 : 28,
-                borderWidth: 1,
-                borderColor: T.border,
-              }}
-            >
-              <View
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 22,
-                  backgroundColor: col.accent,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: 14,
-                }}
-              >
-                {col.icon}
-              </View>
-              <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 16, marginBottom: 10 }}>
-                {col.heading}
-              </Text>
-              <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13, lineHeight: 22 }}>
-                {col.body}
-              </Text>
-            </View>
+        <View ref={ref} style={{ flexDirection: 'row', flexWrap: 'wrap', gap }}>
+          {items.map((item, i) => (
+            <WhatDrivesUsCard
+              key={item.heading}
+              emoji={item.emoji}
+              accent={item.accent}
+              heading={item.heading}
+              body={item.body}
+              index={i}
+              inView={inView}
+              width={cardWidth}
+              padding={padding}
+              emojiSize={emojiSize}
+            />
           ))}
         </View>
       </View>
