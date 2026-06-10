@@ -640,8 +640,8 @@ function Achievements() {
 // ─── Management ───────────────────────────────────────────────────────────────
 
 const ROLE_EMOJI: Record<string, string> = {
-  'Chief Executive Officer': '\u{1F454}', // necktie
-  'General Manager':         '\u{1F9D1}‍\u{1F4BC}', // office worker
+  'Chief Executive Officer': '\u{1F9D1}‍\u{1F4BC}', // office worker
+  'General Manager':         '\u{1F454}', // necktie
   'Operations Manager':      '⚙️', // gear
   'Branch Managers':         '\u{1F3E2}', // office building
 };
