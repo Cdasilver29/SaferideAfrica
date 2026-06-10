@@ -16,9 +16,6 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const KSH = (n: number) =>
-  n === 0 ? '—' : 'Ksh ' + n.toLocaleString('en-KE');
-
 const SERIES_COLORS: Record<SeriesCode, string> = {
   A:    C.skyLight, // motorcycles — sky-light
   B:    C.skyDeep,  // standard — sky-deep (primary)
@@ -170,57 +167,23 @@ function ClassRow({ cls, isDark }: { cls: DriveClass; isDark: boolean }) {
           )}
         </View>
 
-        {/* Total price */}
-        <Text style={{ color: accentColor, fontFamily: F.bold, fontSize: 16 }}>
-          {KSH(cls.total)}
-        </Text>
-
         {/* Expand icon */}
         {expanded
           ? <ChevronUp size={16} color={isDark ? C.mutedDark : C.muted} />
           : <ChevronDown size={16} color={isDark ? C.mutedDark : C.muted} />}
       </TouchableOpacity>
 
-      {/* Expanded breakdown */}
+      {/* Expanded actions */}
       {expanded && (
         <View
           style={{
             paddingHorizontal: 20,
+            paddingTop: 4,
             paddingBottom: 16,
             borderTopWidth: 1,
             borderTopColor: isDark ? C.darkBorder : 'rgba(34,31,32,0.06)',
           }}
         >
-          <Text style={{ color: isDark ? C.mutedDark : C.muted, fontFamily: F.semibold, fontSize: 11, letterSpacing: 1.2, textTransform: 'uppercase', marginBottom: 12, marginTop: 12 }}>
-            {t('courses.whatsIncluded')}
-          </Text>
-
-          {[
-            { label: t('courses.schoolFees'), value: cls.fees },
-            { label: t('courses.pdlFee'),     value: cls.pdl },
-            { label: t('courses.examsFee'),    value: cls.exams },
-            { label: t('courses.defensiveFee'),value: cls.defensive },
-          ].map(({ label, value }) => (
-            <View
-              key={label}
-              style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 6 }}
-            >
-              <Text style={{ color: isDark ? C.mutedDark : C.muted, fontFamily: F.regular, fontSize: 13 }}>{label}</Text>
-              <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.medium, fontSize: 13 }}>{KSH(value)}</Text>
-            </View>
-          ))}
-
-          {/* Divider + total */}
-          <View style={{ height: 1, backgroundColor: isDark ? C.darkBorder : 'rgba(34,31,32,0.1)', marginVertical: 10 }} />
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.bold, fontSize: 14 }}>
-              {t('courses.totalLabel')}
-            </Text>
-            <Text style={{ color: accentColor, fontFamily: F.bold, fontSize: 18 }}>
-              {KSH(cls.total)}
-            </Text>
-          </View>
-
           <ZoomButtons
             accentColor={accentColor}
             classCode={cls.code}
@@ -298,7 +261,8 @@ function RefresherSection({ isDark }: { isDark: boolean }) {
               flex: IS_WEB ? 1 : undefined,
               backgroundColor: isDark ? C.dark : C.white,
               borderRadius: 12,
-              padding: 16,
+              paddingHorizontal: 16,
+              paddingVertical: 22,
               borderWidth: 1,
               borderColor: isDark ? C.darkBorder : 'rgba(34,31,32,0.1)',
             }}
@@ -306,13 +270,7 @@ function RefresherSection({ isDark }: { isDark: boolean }) {
             <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.semibold, fontSize: 14, marginBottom: 6 }}>
               {r.name}
             </Text>
-            <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: 20, marginBottom: 2 }}>
-              {KSH(r.perLesson)}
-            </Text>
             <Text style={{ color: isDark ? C.mutedDark : C.muted, fontFamily: F.regular, fontSize: 12 }}>
-              {t('courses.perLesson')}
-            </Text>
-            <Text style={{ color: isDark ? C.mutedDark : C.muted, fontFamily: F.regular, fontSize: 11, marginTop: 6 }}>
               {t('courses.minLessons', { count: r.minLessons })}
             </Text>
           </View>

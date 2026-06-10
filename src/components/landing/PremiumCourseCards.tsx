@@ -52,8 +52,6 @@ const CARD_META: Record<string, { badge?: string; lessonLine: string; features: 
   },
 }
 
-const KSH = (n: number) => 'Ksh ' + n.toLocaleString('en-KE')
-
 // ─── Single premium card ──────────────────────────────────────────────────────
 function PremiumCard({ cls, isNarrow }: { cls: (typeof CLASSES)[0]; isNarrow: boolean }) {
   const meta = CARD_META[cls.code]
@@ -177,8 +175,8 @@ function PremiumCard({ cls, isNarrow }: { cls: (typeof CLASSES)[0]; isNarrow: bo
         )}
 
         {/* Price */}
-        <Text style={[styles.price, { color: isExec ? C.yellow : C.skyDeep }]}>
-          {KSH(cls.total)}
+        <Text style={[styles.price, { color: isExec ? 'rgba(255,255,255,0.70)' : T.mutedForeground }]}>
+          Pricing shown at enrollment
         </Text>
 
         {/* Name + lesson line */}
@@ -284,10 +282,10 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   price: {
-    fontFamily: F.bold,
-    fontSize: IS_WEB ? 52 : 40,
-    lineHeight: IS_WEB ? 60 : 48,
-    marginBottom: 6,
+    fontFamily: F.semibold,
+    fontSize: 14,
+    lineHeight: 20,
+    marginBottom: 18,
   },
   className: {
     fontFamily: F.bold,

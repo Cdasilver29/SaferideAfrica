@@ -7,8 +7,6 @@ import { C, F, IS_WEB, MAX_W } from '../../../src/components/landing/constants';
 import { useTheme } from '../../../src/lib/theme';
 import { useEnrollModal } from '../../../src/context/EnrollModalContext';
 
-const KSH = (n: number) => (n === 0 ? '—' : 'Ksh ' + n.toLocaleString('en-KE'));
-
 const INCLUDED = [
   'Theoretical road safety lessons',
   'Practical driving sessions with certified instructors',
@@ -68,26 +66,6 @@ export default function ClassDetailPage() {
               {cls.lessons} practical lessons included
             </Text>
           )}
-        </View>
-
-        {/* Fee breakdown */}
-        <View style={{ backgroundColor: T.card, borderRadius: 16, padding: 22, borderWidth: 1, borderColor: T.border, marginBottom: 16 }}>
-          <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 15, marginBottom: 16 }}>Fee Breakdown</Text>
-          {[
-            { label: 'School Fees', value: cls.fees },
-            { label: 'PDL',         value: cls.pdl  },
-            { label: 'Exams',       value: cls.exams },
-            { label: 'Defensive',   value: cls.defensive },
-          ].map(row => (
-            <View key={row.label} style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: T.border }}>
-              <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 14 }}>{row.label}</Text>
-              <Text style={{ color: T.foreground, fontFamily: F.medium, fontSize: 14 }}>{KSH(row.value)}</Text>
-            </View>
-          ))}
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 14, marginTop: 4 }}>
-            <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 15 }}>Total</Text>
-            <Text style={{ color: C.blue, fontFamily: F.bold, fontSize: 22 }}>{KSH(cls.total)}</Text>
-          </View>
         </View>
 
         {/* What's included */}

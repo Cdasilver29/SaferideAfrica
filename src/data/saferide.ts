@@ -267,7 +267,7 @@ export const SERVICES: ServiceItem[] = [
     name:      'Executive Classes',
     iconName:  'Star',
     shortDesc: 'Premium one-on-one training with a personalised schedule, ideal for busy professionals.',
-    fullDesc:  'The Executive Class offers a truly personalised driving experience. Sessions are booked around your schedule and delivered by our most senior instructors. Whether you are learning from scratch or refining existing skills, the Executive programme delivers discreet, flexible, results-focused training at a flat Ksh 24,000 — no hidden charges.',
+    fullDesc:  'The Executive Class offers a truly personalised driving experience. Sessions are booked around your schedule and delivered by our most senior instructors. Whether you are learning from scratch or refining existing skills, the Executive programme delivers discreet, flexible, results-focused training, with current pricing available at enrollment and no hidden charges.',
   },
   {
     code:      'LADIES',
@@ -552,9 +552,9 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       {
         type: 'list',
         items: [
-          'B — Light (Manual): Ksh 16,000 total — includes PDL, theory, 20 lessons, road test, and Smart DL guidance',
-          'B — Auto: Ksh 16,000 total — same package, automatic vehicle',
-          'Executive Class: Ksh 24,000 — private lessons, fully flexible, home pickup on request',
+          'B — Light (Manual): current pricing available at enrollment, includes PDL, theory, 20 lessons, road test, and Smart DL guidance',
+          'B — Auto: current pricing available at enrollment, same package, automatic vehicle',
+          'Executive Class: current pricing available at enrollment, private lessons, fully flexible, home pickup on request',
           `Additional government fees: Interim Licence Ksh ${EXTRA_FEES.interimLicence.toLocaleString('en-KE')} + Smart DL Ksh 3,050 (payable to NTSA separately)`,
         ],
       },
@@ -576,7 +576,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'paragraph',
-        text: "SafeRide's Executive Class (Ksh 24,000) is our premium private training option. It is designed for students who want a dedicated instructor, fully flexible lesson scheduling, personalised pacing, and optional home pickup. It covers any vehicle class and is particularly popular with professionals, returning drivers, and those with tight schedules.",
+        text: "SafeRide's Executive Class is our premium private training option. It is designed for students who want a dedicated instructor, fully flexible lesson scheduling, personalised pacing, and optional home pickup. It covers any vehicle class and is particularly popular with professionals, returning drivers, and those with tight schedules.",
       },
       {
         type: 'heading',

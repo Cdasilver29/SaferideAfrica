@@ -8,8 +8,6 @@ import { CLASSES, CLASS_SERIES, SeriesCode, DriveClass } from '../../src/data/sa
 import { C, F, IS_WEB, MAX_W } from '../../src/components/landing/constants';
 import { useTheme } from '../../src/lib/theme';
 
-const KSH = (n: number) => 'Ksh ' + n.toLocaleString('en-KE');
-
 const SERIES_COLORS: Record<SeriesCode, string> = {
   A:    C.skyLight,
   B:    C.skyDeep,
@@ -42,7 +40,6 @@ function ClassCard({ cls }: { cls: DriveClass }) {
       <View style={{ flex: 1 }}>
         <Text style={{ color: T.foreground, fontFamily: F.semibold, fontSize: 14, marginBottom: 4 }}>{cls.name}</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-          <Text style={{ color, fontFamily: F.bold, fontSize: 16 }}>{KSH(cls.total)}</Text>
           {cls.lessons !== null && (
             <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 12 }}>{cls.lessons} lessons</Text>
           )}

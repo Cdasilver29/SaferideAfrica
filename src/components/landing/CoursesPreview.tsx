@@ -58,11 +58,9 @@ function CourseCard({ cls }: { cls: (typeof CLASSES)[0] }) {
         {cls.name}
       </Text>
 
-      <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 4, marginBottom: 12 }}>
-        <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: IS_WEB ? 26 : 22 }}>
-          Ksh {cls.total.toLocaleString()}
-        </Text>
-      </View>
+      <Text style={{ color: isExec ? C.mutedDark : T.mutedForeground, fontFamily: F.semibold, fontSize: 14, marginBottom: 12 }}>
+        Pricing shown at enrollment
+      </Text>
 
       {cls.lessons && (
         <Text style={{ color: isExec ? C.mutedDark : T.mutedForeground, fontFamily: F.regular, fontSize: 12, marginBottom: 16 }}>
@@ -123,7 +121,7 @@ export default function CoursesPreview() {
         <SectionIntro
           badge="Our Courses"
           title="Master the Road with World-Class Training"
-          description="Pick a class, see the price, enrol in under five minutes. All NTSA-aligned."
+          description="Pick a class, enrol in under five minutes, pricing shown at enrollment. All NTSA-aligned."
         />
 
         {!isMobile ? (
@@ -177,7 +175,7 @@ export default function CoursesPreview() {
             style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
           >
             <Text style={{ color: C.red, fontFamily: F.semibold, fontSize: 15 }}>
-              View full pricing list
+              View all classes
             </Text>
             <ArrowRight size={15} color={C.red} />
           </TouchableOpacity>
