@@ -32,8 +32,10 @@ export const MISSION = 'To facilitate the very best theoretical and practical sa
 export const CORE_VALUES = ['Professionalism', 'Team Work', 'Customer Care', 'Communication', 'Honesty'] as const;
 
 export const MANAGEMENT = [
-  { title: 'CEO / Director',  name: 'Grace Wanjiru', photo: '/gracewanjiru.webp' },
-  { title: 'General Manager', name: 'Felix Mwai',    photo: '/felixmwai.webp'    },
+  { title: 'Chief Executive Officer' },
+  { title: 'General Manager' },
+  { title: 'Operations Manager' },
+  { title: 'Branch Managers' },
 ] as const;
 
 // ─── Branches ────────────────────────────────────────────────────────────────

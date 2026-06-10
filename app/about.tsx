@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, ScrollView, SafeAreaView, Image, Pressable, Linking, Platform, useWindowDimensions } from 'react-native';
 import Animated, {
   useSharedValue, useAnimatedStyle,
@@ -550,24 +550,23 @@ function Achievements() {
 
 // ─── Management ───────────────────────────────────────────────────────────────
 
-function MemberAvatar({ photo, initials, color, small }: { photo?: string; initials: string; color: string; small?: boolean }) {
-  const [imgError, setImgError] = useState(false);
-  const size = small ? 38 : 52;
-  const radius = size / 2;
-  const fontSize = small ? 12 : 16;
-  if (photo && !imgError) {
-    return (
-      <Image
-        source={{ uri: photo }}
-        style={{ width: size, height: size, borderRadius: radius, flexShrink: 0, backgroundColor: color }}
-        resizeMode="cover"
-        onError={() => setImgError(true)}
-      />
-    );
-  }
+function SilhouetteAvatar() {
   return (
-    <View style={{ width: size, height: size, borderRadius: radius, backgroundColor: color, alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-      <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize }}>{initials}</Text>
+    <View
+      style={{
+        width: '26%',
+        aspectRatio: 1,
+        borderRadius: 999,
+        backgroundColor: 'rgba(34,31,32,0.08)',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0,
+        overflow: 'hidden',
+      }}
+    >
+      <Svg viewBox="0 0 24 24" width="58%" height="58%">
+        <Path fill={C.dark} d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z" />
+      </Svg>
     </View>
   );
 }
@@ -575,15 +574,8 @@ function MemberAvatar({ photo, initials, color, small }: { photo?: string; initi
 function Management() {
   const T = useTheme();
   const { width: winW } = useWindowDimensions();
-  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
-
-  const team: Array<{ title: string; name: string; initials: string; photo?: string }> = [
-    ...MANAGEMENT.map(m => ({ ...m, initials: m.name.split(' ').map(w => w[0]).join('').slice(0, 2) })),
-    { title: 'Operations Manager', name: 'TBD',          initials: 'OM' },
-    { title: 'Branch Managers',    name: '10 Locations', initials: 'BM' },
-  ];
-
-  const AVATAR_COLORS = [C.blue, C.amberDark, C.skyDeep, C.yellow];
+  const cols = winW < 640 ? 1 : winW < 1024 ? 2 : 4;
+  const cardWidth = cols === 1 ? '100%' : cols === 2 ? (IS_WEB ? 'calc(50% - 8px)' : '48%') : (IS_WEB ? 'calc(25% - 12px)' : '48%');
 
   return (
     <View
@@ -625,34 +617,26 @@ function Management() {
           </View>
         </View>
 
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: isMobile ? 10 : 16 }}>
-          {team.map((member, i) => (
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: cols === 1 ? 12 : 16 }}>
+          {MANAGEMENT.map((role) => (
             <View
-              key={member.title}
+              key={role.title}
               style={{
-                width: isMobile ? '48%' : ('calc(50% - 8px)' as any),
+                width: cardWidth as any,
                 backgroundColor: T.card,
                 borderRadius: 16,
-                padding: isMobile ? 12 : 20,
+                padding: cols === 1 ? 16 : 20,
                 flexDirection: 'row',
                 alignItems: 'center',
-                gap: isMobile ? 10 : 16,
+                gap: 14,
                 borderWidth: 1,
                 borderColor: T.border,
               }}
             >
-              <MemberAvatar
-                photo={member.photo}
-                initials={member.initials}
-                color={AVATAR_COLORS[i % AVATAR_COLORS.length]}
-                small={isMobile}
-              />
-              <View style={{ flex: 1 }}>
-                <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: isMobile ? 12 : 15 }} numberOfLines={1}>{member.name}</Text>
-                <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: isMobile ? 10 : 12, marginTop: 2 }} numberOfLines={2}>
-                  {member.title}
-                </Text>
-              </View>
+              <SilhouetteAvatar />
+              <Text style={{ flex: 1, color: T.foreground, fontFamily: F.bold, fontSize: cols === 1 ? 14 : 15, lineHeight: cols === 1 ? 20 : 22 }}>
+                {role.title}
+              </Text>
             </View>
           ))}
         </View>
