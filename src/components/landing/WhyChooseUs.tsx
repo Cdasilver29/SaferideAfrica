@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Animated, Platform, TouchableOpacity, useWindowDimensions } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, TouchableOpacity, useWindowDimensions } from 'react-native';
 import AnimatedRN, {
   useSharedValue, useAnimatedStyle,
   withSpring, withSequence, withTiming, withDelay,
@@ -7,6 +7,8 @@ import AnimatedRN, {
 } from 'react-native-reanimated';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W, WHY_FEATURES, STATS } from './constants';
+import { CountUp } from '@/components/CountUp';
+import { useInView } from '@/hooks/useInView';
 
 const WHY_KEY_MAP: Record<string, string> = {
   BookOpen: 'onlineClasses',
@@ -24,24 +26,21 @@ const STAT_KEY_MAP: Record<string, string> = {
 
 // ── Animated counter ──────────────────────────────────────────────────────────
 
-function AnimatedCounter({ target, suffix, label }: { target: number; suffix: string; label: string }) {
-  const anim = useRef(new Animated.Value(0)).current;
-  const [display, setDisplay] = useState(0);
+function StatCounter({ target, suffix, label, inView }: { target: number; suffix: string; label: string; inView: boolean }) {
   const { width: winW } = useWindowDimensions();
-  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
-
-  useEffect(() => {
-    const listener = anim.addListener(({ value }) => setDisplay(Math.floor(value)));
-    Animated.timing(anim, { toValue: target, duration: 1800, delay: 300, useNativeDriver: false }).start();
-    return () => anim.removeListener(listener);
-  }, []);
+  const numberFontSize = winW < 480 ? 28 : winW < 768 ? 36 : 44;
+  const labelFontSize  = winW < 640 ? 12 : 14;
 
   return (
     <View style={{ alignItems: 'center', flex: 1 }}>
-      <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: isMobile ? 22 : 44 }}>
-        {display}{suffix}
-      </Text>
-      <Text style={{ color: 'rgba(255,255,255,0.7)', fontFamily: F.regular, fontSize: isMobile ? 11 : 13, marginTop: 4, textAlign: 'center' }}>
+      <CountUp
+        value={target}
+        suffix={suffix}
+        durationMs={1800}
+        active={inView}
+        style={{ color: C.yellow, fontFamily: F.bold, fontSize: numberFontSize }}
+      />
+      <Text style={{ color: 'rgba(255,255,255,0.7)', fontFamily: F.regular, fontSize: labelFontSize, marginTop: 4, textAlign: 'center' }}>
         {label}
       </Text>
     </View>
@@ -150,6 +149,7 @@ function FeatureItem({
 export default function WhyChooseUs() {
   const { t } = useTranslation();
   const { width: winW } = useWindowDimensions();
+  const { ref: statsRef, inView: statsInView } = useInView();
   // Responsive columns: 1 col <480, 2 col <768, 3 col <1024, 5 col 1024+
   const cardW: any = !IS_WEB ? undefined
     : winW < 480  ? '100%'
@@ -190,15 +190,16 @@ export default function WhyChooseUs() {
         <View style={{ height: 1, backgroundColor: 'rgba(255,255,255,0.20)', marginBottom: 44 }} />
 
         {/* Stats */}
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around', gap: 8 }}>
+        <View ref={statsRef} style={{ flexDirection: 'row', justifyContent: 'space-around', gap: 8 }}>
           {STATS.map(s => {
             const statKey = STAT_KEY_MAP[s.label] ?? s.label;
             return (
-              <AnimatedCounter
+              <StatCounter
                 key={s.label}
                 target={s.value}
                 suffix={s.suffix}
                 label={t(`whyChooseUs.stats.${statKey}`)}
+                inView={statsInView}
               />
             );
           })}
