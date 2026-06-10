@@ -225,8 +225,8 @@ export const REFRESHER_LESSONS = [
 ] as const;
 
 export const EXTRA_FEES = {
-  interimLicence: 780,
-  smartDL:        3_100,
+  interimLicence: 750,
+  smartDL:        3_150,
 } as const;
 
 export const PAYMENT = {
@@ -260,7 +260,7 @@ export const SERVICES: ServiceItem[] = [
     name:      'Smart DL',
     iconName:  'Award',
     shortDesc: 'Full NTSA Smart Digital Licence application and TIMS account setup, handled start to finish.',
-    fullDesc:  'SafeRide Africa manages the entire NTSA Smart Digital Licence process on your behalf. We handle TIMS account registration, biometric capture coordination, payment processing, and status tracking — so you receive your Smart DL without joining long queues. Our staff stays current with every NTSA system update to ensure fast, accurate processing at a fixed fee of Ksh 3,100.',
+    fullDesc:  `SafeRide Africa manages the entire NTSA Smart Digital Licence process on your behalf. We handle TIMS account registration, biometric capture coordination, payment processing, and status tracking — so you receive your Smart DL without joining long queues. Our staff stays current with every NTSA system update to ensure fast, accurate processing at a fixed fee of Ksh ${EXTRA_FEES.smartDL.toLocaleString('en-KE')}.`,
   },
   {
     code:      'EXECUTIVE',
@@ -555,7 +555,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
           'B — Light (Manual): Ksh 16,000 total — includes PDL, theory, 20 lessons, road test, and Smart DL guidance',
           'B — Auto: Ksh 16,000 total — same package, automatic vehicle',
           'Executive Class: Ksh 24,000 — private lessons, fully flexible, home pickup on request',
-          'Additional government fees: Interim Licence Ksh 780 + Smart DL Ksh 3,050 (payable to NTSA separately)',
+          `Additional government fees: Interim Licence Ksh ${EXTRA_FEES.interimLicence.toLocaleString('en-KE')} + Smart DL Ksh 3,050 (payable to NTSA separately)`,
         ],
       },
       {
