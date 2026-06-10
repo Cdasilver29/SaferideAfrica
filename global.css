@@ -57,3 +57,19 @@
     --nav-fg:                 var(--white);
   }
 }
+
+@layer utilities {
+  /* Glassmorphism stat card. Fallback bg for browsers without backdrop-filter,
+     upgraded to a frosted blur where supported (with -webkit prefix for Safari). */
+  .glass-stat-card {
+    background-color: rgba(255, 255, 255, 0.16);
+  }
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .glass-stat-card {
+      background-color: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+  }
+}
