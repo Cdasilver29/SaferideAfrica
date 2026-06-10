@@ -385,18 +385,8 @@ export default function Navbar({ scrollY }: NavbarProps) {
               </TouchableOpacity>
             </AnimatedRN.View>
 
-            {/* Call Now — mobile only (compact, icon + no text) */}
-            {showHamburger && (
-              <TouchableOpacity
-                onPress={() => Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`)}
-                activeOpacity={0.85}
-                style={[styles.callBtn, { paddingHorizontal: 9, paddingVertical: 7 }]}
-              >
-                <AnimatedRN.View style={phoneShakeStyle}>
-                  <Phone size={14} color={C.white} />
-                </AnimatedRN.View>
-              </TouchableOpacity>
-            )}
+            {/* Language switcher — mobile only (compact, flag + chevron) */}
+            {showHamburger && <LanguageSwitcher compact />}
 
             {/* Hamburger — native always, and narrow web viewports */}
             {showHamburger && (

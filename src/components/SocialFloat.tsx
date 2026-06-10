@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { View, Pressable, Linking, Platform, StyleSheet } from 'react-native'
+import { View, Pressable, Linking, Platform, StyleSheet, useWindowDimensions } from 'react-native'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -11,6 +11,8 @@ import Animated, {
   SharedValue,
 } from 'react-native-reanimated'
 import Svg, { Path, Rect, Circle } from 'react-native-svg'
+import { Phone } from 'lucide-react-native'
+import { COMPANY } from '@/data/saferide'
 
 const SOCIALS = {
   whatsapp:  'https://wa.me/254746097033?text=Hi%20SafeRide%2C%20I%20want%20to%20enquire%20about%20driving%20classes',
@@ -28,6 +30,7 @@ const COLORS = {
   tiktok:    '#000000',
   instagram: '#E4405F',
   youtube:   '#FF0000',
+  call:      '#e11d2e',
 }
 
 const WA_PATH =
@@ -40,6 +43,7 @@ const BUTTON_SIZE = 38
 const ICON_SIZE = 16
 const SPACING = 48
 const TOTAL_HEIGHT = BUTTON_SIZE + SPACING * 5
+const CALL_GAP = 12
 
 const isWeb = Platform.OS === 'web'
 
@@ -196,6 +200,25 @@ function WhatsAppButton({
   )
 }
 
+function CallButton() {
+  const onPress = () => Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`)
+
+  return (
+    <Pressable onPress={onPress}>
+      <View
+        style={[
+          styles.button,
+          { backgroundColor: COLORS.call },
+          !isWeb && { shadowColor: COLORS.call, shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0.4, shadowRadius: 10 },
+          isWeb && ({ boxShadow: `0 0 14px ${COLORS.call}` } as any),
+        ]}
+      >
+        <Phone size={ICON_SIZE} color="#fff" />
+      </View>
+    </Pressable>
+  )
+}
+
 const ARM_TIMEOUT_MS = 2500
 
 export default function SocialFloat() {
@@ -204,6 +227,8 @@ export default function SocialFloat() {
   const armTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const spreadProgress = useSharedValue(0)
   const pulse = useSharedValue(0)
+  const { width: winW } = useWindowDimensions()
+  const isMobile = !isWeb || winW < 768
 
   useEffect(() => {
     pulse.value = withRepeat(withTiming(1, { duration: 1400 }), -1, true)
@@ -254,19 +279,37 @@ export default function SocialFloat() {
     justifyContent: 'flex-end' as const,
   }
 
+  // Call button sits just below the WhatsApp button, mobile only (web Call Now lives in the navbar).
+  const callContainerStyle = {
+    position: (isWeb ? 'fixed' : 'absolute') as any,
+    right: 20,
+    top: (isWeb ? '62%' : '50%') as any,
+    transform: [{ translateY: (isWeb ? TOTAL_HEIGHT / 2 : BUTTON_SIZE / 2) + CALL_GAP }],
+    zIndex: 100,
+    width: BUTTON_SIZE,
+    height: BUTTON_SIZE,
+  }
+
   return (
-    <View style={containerStyle} {...(webHoverProps as any)}>
-      {SPREAD_ICONS.map(config => (
-        <SpreadItem
-          key={config.key}
-          config={config}
-          pulse={pulse}
-          spreadProgress={spreadProgress}
-          interactive={open}
-        />
-      ))}
-      <WhatsAppButton pulse={pulse} armed={armed} onPress={handleWaPress} />
-    </View>
+    <>
+      <View style={containerStyle} {...(webHoverProps as any)}>
+        {SPREAD_ICONS.map(config => (
+          <SpreadItem
+            key={config.key}
+            config={config}
+            pulse={pulse}
+            spreadProgress={spreadProgress}
+            interactive={open}
+          />
+        ))}
+        <WhatsAppButton pulse={pulse} armed={armed} onPress={handleWaPress} />
+      </View>
+      {isMobile && (
+        <View style={callContainerStyle}>
+          <CallButton />
+        </View>
+      )}
+    </>
   )
 }
 

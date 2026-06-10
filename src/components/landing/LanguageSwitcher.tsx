@@ -48,7 +48,7 @@ function Flag({ xml }: { xml: string }) {
   );
 }
 
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
 
@@ -70,9 +70,12 @@ export default function LanguageSwitcher() {
         style={({ pressed }) => ({
           flexDirection: 'row',
           alignItems: 'center',
+          justifyContent: 'center',
           gap: 6,
-          paddingHorizontal: 9,
+          paddingHorizontal: compact ? 8 : 9,
           paddingVertical: 5,
+          minWidth: compact ? 44 : undefined,
+          minHeight: compact ? 44 : undefined,
           borderRadius: 8,
           borderWidth: 1,
           borderColor: pressed || open ? C.blue : C.darkBorder,
@@ -80,9 +83,11 @@ export default function LanguageSwitcher() {
         })}
       >
         <Flag xml={currentLang.flag} />
-        <Text style={{ color: C.mutedDark, fontSize: 12, fontFamily: F.medium }}>
-          {t(`languageSwitcher.languages.${currentCode}`)}
-        </Text>
+        {!compact && (
+          <Text style={{ color: C.mutedDark, fontSize: 12, fontFamily: F.medium }}>
+            {t(`languageSwitcher.languages.${currentCode}`)}
+          </Text>
+        )}
         <ChevronDown
           size={12}
           color={C.mutedDark}
