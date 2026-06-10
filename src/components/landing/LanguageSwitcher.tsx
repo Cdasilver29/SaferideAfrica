@@ -36,12 +36,13 @@ function svgToUri(svg: string): string {
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
 
-function Flag({ xml }: { xml: string }) {
+function Flag({ xml, size = FLAG_W }: { xml: string; size?: number }) {
+  const height = Math.round(size * (2 / 3));
   return (
-    <View style={{ width: FLAG_W, height: FLAG_H, borderRadius: 3, overflow: 'hidden' }}>
+    <View style={{ width: size, height, borderRadius: 3, overflow: 'hidden' }}>
       <Image
         source={{ uri: svgToUri(xml) }}
-        style={{ width: FLAG_W, height: FLAG_H }}
+        style={{ width: size, height }}
         resizeMode="cover"
       />
     </View>
@@ -67,32 +68,33 @@ export default function LanguageSwitcher({ compact = false }: { compact?: boolea
       {/* Trigger */}
       <Pressable
         onPress={() => setOpen(true)}
+        hitSlop={compact ? { top: 10, bottom: 10, left: 10, right: 10 } : undefined}
         style={({ pressed }) => ({
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: 6,
-          paddingHorizontal: compact ? 8 : 9,
-          paddingVertical: 5,
-          minWidth: compact ? 44 : undefined,
-          minHeight: compact ? 44 : undefined,
+          gap: compact ? 0 : 6,
+          paddingHorizontal: compact ? 5 : 9,
+          paddingVertical: compact ? 3 : 5,
           borderRadius: 8,
           borderWidth: 1,
           borderColor: pressed || open ? C.blue : C.darkBorder,
           backgroundColor: pressed || open ? 'rgba(1,165,240,0.08)' : 'transparent',
         })}
       >
-        <Flag xml={currentLang.flag} />
+        <Flag xml={currentLang.flag} size={compact ? 18 : FLAG_W} />
         {!compact && (
           <Text style={{ color: C.mutedDark, fontSize: 12, fontFamily: F.medium }}>
             {t(`languageSwitcher.languages.${currentCode}`)}
           </Text>
         )}
-        <ChevronDown
-          size={12}
-          color={C.mutedDark}
-          style={{ transform: open ? [{ rotate: '180deg' }] : [] }}
-        />
+        {!compact && (
+          <ChevronDown
+            size={12}
+            color={C.mutedDark}
+            style={{ transform: open ? [{ rotate: '180deg' }] : [] }}
+          />
+        )}
       </Pressable>
 
       {/* Dropdown */}
