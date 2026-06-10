@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { View, Pressable, Linking, Platform, StyleSheet } from 'react-native'
 import Animated, {
   useSharedValue,
@@ -162,19 +162,22 @@ function SpreadItem({
 
 function WhatsAppButton({
   pulse,
+  armed,
   onPress,
 }: {
   pulse: SharedValue<number>
+  armed: boolean
   onPress: () => void
 }) {
   const glowStyle = useAnimatedStyle(() => {
-    const scale = interpolate(pulse.value, [0, 1], [1, 1.08])
+    const armedBoost = armed ? 1 : 0
+    const scale = interpolate(Math.max(pulse.value, armedBoost), [0, 1], [1, armed ? 1.18 : 1.08])
     const r = interpolate(pulse.value, [0, 1], [10, 24])
     const o = interpolate(pulse.value, [0, 1], [0.5, 1.0])
     if (isWeb) {
-      return { transform: [{ scale }], boxShadow: `0 0 ${r}px ${COLORS.whatsapp}` } as any
+      return { transform: [{ scale }], boxShadow: `0 0 ${armed ? 30 : r}px ${COLORS.whatsapp}` } as any
     }
-    return { transform: [{ scale }], shadowRadius: r, shadowOpacity: o }
+    return { transform: [{ scale }], shadowRadius: armed ? 30 : r, shadowOpacity: armed ? 1 : o }
   })
 
   return (
@@ -193,8 +196,12 @@ function WhatsAppButton({
   )
 }
 
+const ARM_TIMEOUT_MS = 2500
+
 export default function SocialFloat() {
   const [open, setOpen] = useState(false)
+  const [armed, setArmed] = useState(false)
+  const armTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const spreadProgress = useSharedValue(0)
   const pulse = useSharedValue(0)
 
@@ -206,15 +213,32 @@ export default function SocialFloat() {
     spreadProgress.value = withSpring(open ? 1 : 0, { damping: 14, stiffness: 180 })
   }, [open])
 
-  // Web: hover the entire widget area to spread; click WA to open link
-  // Native: tap WA to toggle spread; tap individual icons to open their links
+  useEffect(() => {
+    return () => {
+      if (armTimer.current) clearTimeout(armTimer.current)
+    }
+  }, [])
+
+  // Web: hover the entire widget area to spread; native: tap WA to toggle spread.
+  // On both, the WhatsApp button itself needs two taps/clicks to open the chat:
+  // the first arms it (glows brighter), the second opens wa.me.
   const webHoverProps = isWeb
     ? { onMouseEnter: () => setOpen(true), onMouseLeave: () => setOpen(false) }
     : {}
 
-  const handleWaPress = isWeb
-    ? () => Linking.openURL(SOCIALS.whatsapp)
-    : () => setOpen(o => !o)
+  const handleWaPress = () => {
+    if (armed) {
+      if (armTimer.current) clearTimeout(armTimer.current)
+      setArmed(false)
+      if (!isWeb) setOpen(false)
+      Linking.openURL(SOCIALS.whatsapp)
+      return
+    }
+
+    setArmed(true)
+    if (!isWeb) setOpen(true)
+    armTimer.current = setTimeout(() => setArmed(false), ARM_TIMEOUT_MS)
+  }
 
   const containerStyle = {
     position: (isWeb ? 'fixed' : 'absolute') as any,
@@ -241,7 +265,7 @@ export default function SocialFloat() {
           interactive={open}
         />
       ))}
-      <WhatsAppButton pulse={pulse} onPress={handleWaPress} />
+      <WhatsAppButton pulse={pulse} armed={armed} onPress={handleWaPress} />
     </View>
   )
 }

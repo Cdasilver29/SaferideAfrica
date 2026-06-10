@@ -38,14 +38,16 @@ export function StatCard({ value, label, index = 0, inView }: Props) {
 
   const cardAnimStyle = useAnimatedStyle(() => {
     const transY = lift.value === 1 ? -6 : 0;
+    const borderOp = withTiming(lift.value === 1 ? 0.85 : 0.40, { duration: 200 });
 
     return {
       transform: [{ translateY: withTiming(transY, { duration: 200 }) }],
-      shadowColor: C.dark,
-      shadowOpacity: withTiming(lift.value === 1 ? 0.14 : 0.08, { duration: 200 }),
-      shadowRadius: withTiming(lift.value === 1 ? 30 : 24, { duration: 200 }),
-      shadowOffset: { width: 0, height: 8 },
-      elevation: lift.value === 1 ? 12 : 8,
+      borderColor: `rgba(1,165,240,${borderOp})`,
+      shadowColor: C.skyDeep,
+      shadowOpacity: withTiming(lift.value === 1 ? 0.65 : 0.35, { duration: 200 }),
+      shadowRadius: withTiming(lift.value === 1 ? 28 : 16, { duration: 200 }),
+      shadowOffset: { width: 0, height: 0 },
+      elevation: lift.value === 1 ? 14 : 6,
     };
   });
 
@@ -67,7 +69,6 @@ export function StatCard({ value, label, index = 0, inView }: Props) {
             paddingHorizontal: isMobile ? 16 : 24,
             paddingVertical: 24,
             borderWidth: 1,
-            borderColor: 'rgba(255,255,255,0.18)',
             alignItems: 'center' as const,
           },
           cardAnimStyle,

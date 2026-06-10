@@ -639,23 +639,30 @@ function Achievements() {
 
 // ─── Management ───────────────────────────────────────────────────────────────
 
-function SilhouetteAvatar() {
+const ROLE_EMOJI: Record<string, string> = {
+  'Chief Executive Officer': '\u{1F454}', // necktie
+  'General Manager':         '\u{1F9D1}‍\u{1F4BC}', // office worker
+  'Operations Manager':      '⚙️', // gear
+  'Branch Managers':         '\u{1F3E2}', // office building
+};
+
+function RoleAvatar({ title, cols }: { title: string; cols: number }) {
+  const emoji = ROLE_EMOJI[title] ?? '\u{1F9D1}‍\u{1F4BC}';
+  const size = cols === 1 ? 36 : cols === 2 ? 32 : 28;
+
   return (
     <View
       style={{
         width: '26%',
         aspectRatio: 1,
         borderRadius: 999,
-        backgroundColor: 'rgba(34,31,32,0.08)',
+        backgroundColor: 'rgba(1,165,240,0.12)',
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
-        overflow: 'hidden',
       }}
     >
-      <Svg viewBox="0 0 24 24" width="58%" height="58%">
-        <Path fill={C.dark} d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z" />
-      </Svg>
+      <Text style={{ fontSize: size, lineHeight: size * 1.2 }}>{emoji}</Text>
     </View>
   );
 }
@@ -722,7 +729,7 @@ function Management() {
                 borderColor: T.border,
               }}
             >
-              <SilhouetteAvatar />
+              <RoleAvatar title={role.title} cols={cols} />
               <Text style={{ flex: 1, color: T.foreground, fontFamily: F.bold, fontSize: cols === 1 ? 14 : 15, lineHeight: cols === 1 ? 20 : 22 }}>
                 {role.title}
               </Text>
