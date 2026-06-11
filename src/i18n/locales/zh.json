@@ -21,6 +21,20 @@
     "signInRegister": "登录 / 注册"
   },
 
+  "common": {
+    "enrolNow": "立即报名",
+    "enrol": "报名",
+    "callNow": "立即致电",
+    "talkToUs": "联系我们",
+    "aboutUs": "关于我们",
+    "readMore": "了解更多",
+    "viewAllClasses": "查看所有课程",
+    "seeAllServices": "查看所有服务",
+    "findAllBranches": "查看全部12家分支机构",
+    "seeAllBranches": "查看全部12家分支机构",
+    "premium": "高级"
+  },
+
   "hero": {
     "badge": "NTSA认证驾驶学校",
     "headline": "以正确技能自信出发",
@@ -70,7 +84,21 @@
 
   "courses": {
     "overline": "驾驶课程",
-    "heading": "我们热门的驾驶课程",
+    "heading": "课程费用与价格",
+    "lessonsLabel": "课时",
+    "testOnly": "仅考试",
+    "totalLabel": "总计",
+    "whatsIncluded": "包含内容",
+    "schoolFees": "学费",
+    "pdlFee": "PDL",
+    "examsFee": "考试费",
+    "defensiveFee": "防御性驾驶",
+    "enrolNow": "立即报名",
+    "paymentMpesa": "M-Pesa Lipa Na M-Pesa",
+    "paymentKcb": "银行转账",
+    "refresherTitle": "复习课程",
+    "perLesson": "每课时",
+    "minLessons": "最少{{count}}课时",
     "monthly": "月付",
     "yearly": "年付",
     "savingMessage": "年付优惠约15%！",
@@ -268,7 +296,138 @@
     "newsletterPlaceholder": "您的电子邮件地址",
     "newsletterSubscribed": "订阅成功！谢谢您。",
     "copyright": "© 2025 SafeRide Africa. 版权所有。",
-    "certifiedLine": "NTSA认证驾驶学校 · 内罗毕，肯尼亚"
+    "certifiedLine": "NTSA认证驾驶学校 · 内罗毕，肯尼亚",
+    "navigateTitle": "导航",
+    "developer": "开发者"
+  },
+
+  "home": {
+    "statStrip": {
+      "branches": "内罗毕各分支机构",
+      "instructors": "认证教练",
+      "passRate": "首次通过率",
+      "yearsActive": "服务年限"
+    },
+    "aboutPreview": {
+      "badge": "关于我们",
+      "title": "为肯尼亚道路打造",
+      "description": "自2015年以来，SafeRide在内罗毕的12家分支机构培训驾驶员，秉持一个承诺：安全不止于驾照。",
+      "feature1Title": "符合NTSA标准的课程",
+      "feature1Desc": "认证教练教授完整的NTSA课程，包括理论、道路规则、Smart DL申请和真实道路练习。",
+      "feature2Title": "灵活的课程时段",
+      "feature2Desc": "早晨、下午或周末，选择适合您生活的时段。内罗毕12家分支机构，让您无需远行。"
+    },
+    "servicesPreview": {
+      "badge": "我们提供的服务",
+      "title": "根据您的驾驶方式量身定制的课程",
+      "items": {
+        "defensive": { "name": "防御性驾驶", "desc": "针对肯尼亚各种路况的危险感知、紧急制动和空间管理。" },
+        "executive": { "name": "高级课程", "desc": "高级一对一培训，提供个性化时间表，适合忙碌的专业人士。" },
+        "ladies": { "name": "女性专属课程", "desc": "为女性学员量身定制的课程，可选择女性教练。" },
+        "beginner": { "name": "新手驾驶教育", "desc": "从零开始的完整课程：车辆控制、交通标志、理论课和道路练习。" }
+      }
+    },
+    "branchesPreview": {
+      "hqBadge": "总部",
+      "badge": "找到我们",
+      "title": "内罗毕12家分支机构",
+      "description": "从Buru Buru总部到Kayole、Embakasi、Kagundo路及更远的地方，您身边总有一家SafeRide分支机构。"
+    },
+    "coursesPreview": {
+      "premiumBadge": "高级",
+      "pricingNote": "价格于报名时显示",
+      "lessonsIncluded": "包含{{count}}课时",
+      "badge": "我们的课程",
+      "title": "通过世界一流培训精通驾驶",
+      "description": "选择课程，五分钟内报名，价格于报名时显示。所有课程均符合NTSA标准。"
+    },
+    "finalCta": {
+      "badge": "开始吧",
+      "title": "准备好以超越期待的安全驾驶了吗？",
+      "description": "加入成千上万通过SafeRide Africa获得驾照的肯尼亚驾驶员。选择您的课程，今天就开始。"
+    },
+    "premiumCourses": {
+      "badge": "最受欢迎",
+      "title": "我们的三大热门课程",
+      "description": "大多数肯尼亚驾驶员的首选课程。包含理论、路考和Smart DL指导。",
+      "pricingNote": "价格于报名时显示",
+      "cards": {
+        "bLight": {
+          "badge": "最受欢迎",
+          "lessonLine": "完整课程 · 20课时",
+          "features": [
+            "20节实践驾驶课",
+            "NTSA理论及路考",
+            "防御性驾驶模块",
+            "Smart DL申请指南",
+            "双控手动挡车辆"
+          ]
+        },
+        "bAuto": {
+          "lessonLine": "完整课程 · 20课时",
+          "features": [
+            "20节实践驾驶课",
+            "NTSA理论及路考",
+            "防御性驾驶模块",
+            "Smart DL申请指南",
+            "自动挡变速箱"
+          ]
+        },
+        "executive": {
+          "badge": "高级",
+          "lessonLine": "私人 · 灵活",
+          "features": [
+            "专属认证教练",
+            "灵活的课程安排",
+            "覆盖所有车辆类别",
+            "全程Smart DL支持",
+            "可应要求上门接送"
+          ]
+        }
+      }
+    }
+  },
+
+  "aboutPage": {
+    "pageOverline": "我们的故事",
+    "pageTitle": "关于 Safe Ride Africa",
+    "whoWeAre": "关于我们",
+    "statYears": "年驾驶经验",
+    "statPassRate": "首次通过率",
+    "statBranches": "分校",
+    "statInstructors": "教练",
+    "headline": "自2015年起，引领安全驾驶，无限可能。",
+    "enrolWithUs": "立即报名",
+    "brandName": "SAFE RIDE AFRICA",
+    "ntsaRegisteredSince": "NTSA认证驾校 · 始于{{year}}年",
+    "readyToStart": "准备好开始你的驾驶之旅了吗？",
+    "historyOverline": "我们的历史",
+    "historyTitle": "十多年来守护肯尼亚道路安全",
+    "historyP1": "Safe Ride Africa驾校成立于{{foundedYear}}年，秉持一个信念：每位肯尼亚司机都应获得世界一流的培训，而不仅仅是一张证书。学校从内罗毕的一个分校起步，迅速因严格的教学、对学员的真诚关怀以及符合NTSA标准的课程而声名远扬，这些课程让学员为真实的道路做好准备，而不仅仅是为了通过考试。",
+    "historyP2": "{{incorporatedYear}}年，学校正式注册为{{legalName}}（PVT {{pvt}}），将五年的发展正式确立为一家注册机构。如今，我们在内罗毕运营着{{branches}}家分校，从Buruburu（总部）到Kayole PCEA，已培训超过2,100名持证司机。",
+    "historyP3": "我们的NTSA注册号（BN {{bn}}）可公开查证。每位教练均持有有效的NTSA认证，并持续参与专业发展培训。其成果是98%的NTSA首次通过率，这是我们引以为傲的数字。",
+    "whatDrivesUs": "我们的初心",
+    "visionTitle": "愿景",
+    "visionBody": "在非洲及其他地区，引领各类司机的卓越培训。",
+    "missionTitle": "使命",
+    "missionBody": "提供最佳的驾驶安全理论与实践解决方案，最终实现零事故的生态环境。",
+    "coreValuesTitle": "核心价值观",
+    "coreValuesItems": ["专业精神", "团队合作", "客户关怀", "沟通", "诚信"],
+    "guaranteeOverline": "我们的保证",
+    "guaranteeTitle": "我们对每位学员的承诺",
+    "guaranteeItems": [
+      "数字智能驾照",
+      "全新NTSA课程",
+      "保证你能在所有主要和次要道路上成为一名合格的司机"
+    ],
+    "leadershipOverline": "领导团队",
+    "managementTitle": "管理团队",
+    "roles": {
+      "ceo": "首席执行官",
+      "gm": "总经理",
+      "ops": "运营经理",
+      "branchManagers": "分校经理"
+    }
   },
 
   "languageSwitcher": {

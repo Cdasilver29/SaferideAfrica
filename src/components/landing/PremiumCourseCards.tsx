@@ -8,6 +8,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { LinearGradient } from 'expo-linear-gradient'
 import { router } from 'expo-router'
+import { useTranslation } from 'react-i18next'
 import { ArrowRight, Star } from 'lucide-react-native'
 import { CLASSES } from '@/data/saferide'
 import { C, F, IS_WEB, MAX_W } from './constants'
@@ -16,45 +17,27 @@ import { useTheme } from '@/lib/theme'
 
 const PREVIEW_CODES = ['B-LIGHT', 'B-AUTO', 'EXECUTIVE']
 
-// Curated feature bullets per card (DriveClass has no "included" array)
-const CARD_META: Record<string, { badge?: string; lessonLine: string; features: string[] }> = {
-  'B-LIGHT': {
-    badge:      'MOST POPULAR',
-    lessonLine: 'FULL COURSE · 20 LESSONS',
-    features: [
-      '20 practical driving lessons',
-      'NTSA theory + road test',
-      'Defensive driving module',
-      'Smart DL application guide',
-      'Dual-control manual vehicle',
-    ],
-  },
-  'B-AUTO': {
-    lessonLine: 'FULL COURSE · 20 LESSONS',
-    features: [
-      '20 practical driving lessons',
-      'NTSA theory + road test',
-      'Defensive driving module',
-      'Smart DL application guide',
-      'Automatic transmission',
-    ],
-  },
-  'EXECUTIVE': {
-    badge:      'PREMIUM',
-    lessonLine: 'PRIVATE · FLEXIBLE',
-    features: [
-      'Dedicated certified instructor',
-      'Flexible lesson scheduling',
-      'Any vehicle class covered',
-      'Full Smart DL support',
-      'Home pickup on request',
-    ],
-  },
+// Maps a class code to its i18n key segment under home.premiumCourses.cards
+const CARD_KEY_MAP: Record<string, string> = {
+  'B-LIGHT':  'bLight',
+  'B-AUTO':   'bAuto',
+  'EXECUTIVE': 'executive',
+}
+
+// Which cards show a badge pill (translated text comes from i18n)
+const CARD_HAS_BADGE: Record<string, boolean> = {
+  'B-LIGHT':  true,
+  'B-AUTO':   false,
+  'EXECUTIVE': true,
 }
 
 // ─── Single premium card ──────────────────────────────────────────────────────
 function PremiumCard({ cls, isNarrow }: { cls: (typeof CLASSES)[0]; isNarrow: boolean }) {
-  const meta = CARD_META[cls.code]
+  const { t } = useTranslation()
+  const cardKey = CARD_KEY_MAP[cls.code]
+  const hasBadge = CARD_HAS_BADGE[cls.code]
+  const lessonLine = t(`home.premiumCourses.cards.${cardKey}.lessonLine`)
+  const features = t(`home.premiumCourses.cards.${cardKey}.features`, { returnObjects: true }) as string[]
 
   // ── Gradient border rotation (loops 0→360° every 8 s) ──────────────────────
   const rotateAnim = useSharedValue(0)
@@ -167,16 +150,16 @@ function PremiumCard({ cls, isNarrow }: { cls: (typeof CLASSES)[0]; isNarrow: bo
         )}
 
         {/* Badge pill */}
-        {meta?.badge && (
+        {hasBadge && (
           <View style={styles.badge}>
             <Star size={10} color={C.dark} fill={C.dark} style={{ marginRight: 4 }} />
-            <Text style={[styles.badgeText, { color: C.dark }]}>{meta.badge}</Text>
+            <Text style={[styles.badgeText, { color: C.dark }]}>{t(`home.premiumCourses.cards.${cardKey}.badge`)}</Text>
           </View>
         )}
 
         {/* Price */}
         <Text style={[styles.price, { color: isExec ? 'rgba(255,255,255,0.70)' : T.mutedForeground }]}>
-          Pricing shown at enrollment
+          {t('home.premiumCourses.pricingNote')}
         </Text>
 
         {/* Name + lesson line */}
@@ -184,14 +167,14 @@ function PremiumCard({ cls, isNarrow }: { cls: (typeof CLASSES)[0]; isNarrow: bo
           {cls.name}
         </Text>
         <Text style={[styles.lessonLine, { color: isExec ? 'rgba(255,255,255,0.55)' : T.mutedForeground }]}>
-          {meta?.lessonLine}
+          {lessonLine}
         </Text>
 
         {/* Divider */}
         <View style={[styles.divider, { backgroundColor: isExec ? 'rgba(255,255,255,0.12)' : T.border }]} />
 
         {/* Feature list */}
-        {meta?.features.map((feat) => (
+        {features.map((feat) => (
           <View key={feat} style={styles.featureRow}>
             <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: isExec ? C.yellow : C.skyDeep, flexShrink: 0 }} />
             <Text style={[styles.featureText, { color: isExec ? 'rgba(255,255,255,0.80)' : T.mutedForeground }]}>
@@ -210,7 +193,7 @@ function PremiumCard({ cls, isNarrow }: { cls: (typeof CLASSES)[0]; isNarrow: bo
           ]}
         >
           <Text style={[styles.ctaText, { color: isExec ? C.dark : C.white }]}>
-            Enrol Now
+            {t('common.enrolNow')}
           </Text>
           <ArrowRight size={16} color={isExec ? C.dark : C.white} />
         </TouchableOpacity>
@@ -221,6 +204,7 @@ function PremiumCard({ cls, isNarrow }: { cls: (typeof CLASSES)[0]; isNarrow: bo
 
 // ─── Section ──────────────────────────────────────────────────────────────────
 export function PremiumCourseCards() {
+  const { t } = useTranslation()
   const premiumClasses = CLASSES.filter((c) => PREVIEW_CODES.includes(c.code))
   const T = useTheme()
   const { width: winW } = useWindowDimensions()
@@ -230,9 +214,9 @@ export function PremiumCourseCards() {
     <View style={[styles.section, { backgroundColor: T.background }]}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
         <SectionIntro
-          badge="Most Popular"
-          title="Our Top Three Classes"
-          description="The classes most Kenyan drivers choose. All include theory, road test, and Smart DL guidance."
+          badge={t('home.premiumCourses.badge')}
+          title={t('home.premiumCourses.title')}
+          description={t('home.premiumCourses.description')}
         />
 
         <View style={[styles.row, isNarrow ? { gap: 20 } : { flexDirection: 'row', gap: 20 }]}>

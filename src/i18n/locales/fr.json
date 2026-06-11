@@ -21,6 +21,20 @@
     "signInRegister": "Connexion / Inscription"
   },
 
+  "common": {
+    "enrolNow": "S'inscrire",
+    "enrol": "Inscription",
+    "callNow": "Appelez-nous",
+    "talkToUs": "Parlez-nous",
+    "aboutUs": "À Propos",
+    "readMore": "En Savoir Plus",
+    "viewAllClasses": "Voir tous les cours",
+    "seeAllServices": "Voir tous les services",
+    "findAllBranches": "Voir nos 12 agences",
+    "seeAllBranches": "Voir nos 12 agences",
+    "premium": "Premium"
+  },
+
   "hero": {
     "badge": "Auto-école Certifiée NTSA",
     "headline": "Conduisez avec les Bonnes Compétences",
@@ -70,7 +84,21 @@
 
   "courses": {
     "overline": "Cours de Conduite",
-    "heading": "Nos Cours de Conduite les Plus Populaires",
+    "heading": "Tarifs et Frais des Cours",
+    "lessonsLabel": "leçons",
+    "testOnly": "Examen Uniquement",
+    "totalLabel": "Total",
+    "whatsIncluded": "Ce qui est inclus",
+    "schoolFees": "Frais de l'École",
+    "pdlFee": "PDL",
+    "examsFee": "Examens",
+    "defensiveFee": "Conduite Défensive",
+    "enrolNow": "S'inscrire",
+    "paymentMpesa": "M-Pesa Lipa Na M-Pesa",
+    "paymentKcb": "Virement Bancaire",
+    "refresherTitle": "Cours de Remise à Niveau",
+    "perLesson": "par leçon",
+    "minLessons": "Minimum {{count}} leçons",
     "monthly": "Mensuel",
     "yearly": "Annuel",
     "savingMessage": "Économisez ~15% avec la facturation annuelle !",
@@ -268,7 +296,138 @@
     "newsletterPlaceholder": "Votre adresse e-mail",
     "newsletterSubscribed": "Abonné ! Merci.",
     "copyright": "© 2025 SafeRide Africa. Tous droits réservés.",
-    "certifiedLine": "Auto-école Certifiée NTSA · Nairobi, Kenya"
+    "certifiedLine": "Auto-école Certifiée NTSA · Nairobi, Kenya",
+    "navigateTitle": "Navigation",
+    "developer": "Développeur"
+  },
+
+  "home": {
+    "statStrip": {
+      "branches": "Agences à Nairobi",
+      "instructors": "Moniteurs Certifiés",
+      "passRate": "Taux de Réussite au Premier Essai",
+      "yearsActive": "Années sur la Route"
+    },
+    "aboutPreview": {
+      "badge": "À Propos",
+      "title": "Conçu pour les Routes Kenyanes",
+      "description": "Depuis 2015, SafeRide a formé des conducteurs dans 12 agences à Nairobi avec une seule promesse : la sécurité au-delà du permis.",
+      "feature1Title": "Programme Aligné sur la NTSA",
+      "feature1Desc": "Des moniteurs certifiés enseignent l'intégralité du programme NTSA, théorie, code de la route, demande de Smart DL et pratique réelle sur route.",
+      "feature2Title": "Créneaux de Cours Flexibles",
+      "feature2Desc": "Matin, après-midi ou week-end, choisissez le créneau qui convient à votre vie. 12 agences à Nairobi pour ne jamais voyager loin."
+    },
+    "servicesPreview": {
+      "badge": "Ce Que Nous Offrons",
+      "title": "Des Programmes Adaptés à Votre Façon de Conduire",
+      "items": {
+        "defensive": { "name": "Conduite Défensive", "desc": "Perception des dangers, freinage d'urgence et gestion de l'espace pour toutes les conditions routières kenyanes." },
+        "executive": { "name": "Cours Exécutifs", "desc": "Formation individuelle premium avec un programme personnalisé, idéale pour les professionnels occupés." },
+        "ladies": { "name": "Spécial Dames", "desc": "Un programme adapté aux conductrices avec la possibilité d'un moniteur féminin." },
+        "beginner": { "name": "Formation des Conducteurs Débutants", "desc": "Un programme complet depuis le début : commandes du véhicule, panneaux routiers, cours théorique et pratique sur route." }
+      }
+    },
+    "branchesPreview": {
+      "hqBadge": "Siège",
+      "badge": "Trouvez-Nous",
+      "title": "12 Agences à Travers Nairobi",
+      "description": "De Buru Buru (siège) à Kayole, Embakasi, Kagundo Road et au-delà, il y a toujours une agence SafeRide près de chez vous."
+    },
+    "coursesPreview": {
+      "premiumBadge": "Premium",
+      "pricingNote": "Tarifs indiqués lors de l'inscription",
+      "lessonsIncluded": "{{count}} leçons incluses",
+      "badge": "Nos Cours",
+      "title": "Maîtrisez la Route Avec une Formation de Classe Mondiale",
+      "description": "Choisissez un cours, inscrivez-vous en moins de cinq minutes, tarifs indiqués lors de l'inscription. Tous alignés sur la NTSA."
+    },
+    "finalCta": {
+      "badge": "Commencer",
+      "title": "Prêt à Conduire avec Sécurité au-Delà ?",
+      "description": "Rejoignez des milliers de conducteurs kenyans qui ont obtenu leur permis avec SafeRide Africa. Choisissez votre cours et commencez dès aujourd'hui."
+    },
+    "premiumCourses": {
+      "badge": "Le Plus Populaire",
+      "title": "Nos Trois Meilleurs Cours",
+      "description": "Les cours préférés de la plupart des conducteurs kenyans. Comprend la théorie, l'examen de conduite et l'accompagnement Smart DL.",
+      "pricingNote": "Tarifs indiqués lors de l'inscription",
+      "cards": {
+        "bLight": {
+          "badge": "Le Plus Populaire",
+          "lessonLine": "Cours Complet · 20 Leçons",
+          "features": [
+            "20 leçons de conduite pratique",
+            "Théorie NTSA et examen de conduite",
+            "Module de conduite défensive",
+            "Guide de demande Smart DL",
+            "Véhicule manuel à double commande"
+          ]
+        },
+        "bAuto": {
+          "lessonLine": "Cours Complet · 20 Leçons",
+          "features": [
+            "20 leçons de conduite pratique",
+            "Théorie NTSA et examen de conduite",
+            "Module de conduite défensive",
+            "Guide de demande Smart DL",
+            "Transmission automatique"
+          ]
+        },
+        "executive": {
+          "badge": "Premium",
+          "lessonLine": "Privé · Flexible",
+          "features": [
+            "Moniteur certifié dédié",
+            "Horaires de cours flexibles",
+            "Toutes catégories de véhicules couvertes",
+            "Accompagnement Smart DL complet",
+            "Prise en charge à domicile sur demande"
+          ]
+        }
+      }
+    }
+  },
+
+  "aboutPage": {
+    "pageOverline": "Notre Histoire",
+    "pageTitle": "À propos de Safe Ride Africa",
+    "whoWeAre": "QUI SOMMES-NOUS",
+    "statYears": "ans sur la route",
+    "statPassRate": "taux de réussite au premier essai",
+    "statBranches": "AGENCES",
+    "statInstructors": "instructeurs",
+    "headline": "Assurer la sécurité routière sans limites depuis 2015.",
+    "enrolWithUs": "INSCRIVEZ-VOUS AVEC NOUS",
+    "brandName": "SAFE RIDE AFRICA",
+    "ntsaRegisteredSince": "École de conduite agréée NTSA · Depuis {{year}}",
+    "readyToStart": "Prêt à commencer votre parcours de conduite ?",
+    "historyOverline": "Notre Histoire",
+    "historyTitle": "Plus d'une décennie au service de routes kenyanes plus sûres",
+    "historyP1": "Safe Ride Africa Driving School a été fondée en {{foundedYear}} avec une conviction unique : chaque conducteur kenyan mérite une formation de classe mondiale, pas seulement un morceau de papier. Partant d'un seul site à Nairobi, l'école a rapidement acquis une réputation d'enseignement rigoureux, d'attention sincère envers les élèves et d'un programme conforme aux normes NTSA qui prépare les apprenants à la route réelle, pas seulement à l'examen.",
+    "historyP2": "En {{incorporatedYear}}, l'école a été officiellement constituée sous le nom de {{legalName}} (PVT {{pvt}}), formalisant cinq années de croissance en une institution agréée. Aujourd'hui, nous exploitons {{branches}} agences à travers Nairobi, de Buruburu (siège) à Kayole PCEA, et avons formé plus de 2 100 conducteurs titulaires d'un permis.",
+    "historyP3": "Notre numéro d'enregistrement NTSA (BN {{bn}}) est vérifiable publiquement. Chaque instructeur détient une certification NTSA valide et participe à un développement professionnel continu. Le résultat est un taux de réussite de 98% au premier essai NTSA, un chiffre dont nous sommes fiers.",
+    "whatDrivesUs": "Ce qui nous motive",
+    "visionTitle": "Vision",
+    "visionBody": "Jouer un rôle de premier plan dans la formation d'excellence de tous types de conducteurs en Afrique et au-delà.",
+    "missionTitle": "Mission",
+    "missionBody": "Faciliter les meilleures solutions théoriques et pratiques en matière de conduite sécuritaire, aboutissant à un environnement sans accidents.",
+    "coreValuesTitle": "Valeurs Fondamentales",
+    "coreValuesItems": ["Professionnalisme", "Travail d'équipe", "Service client", "Communication", "Honnêteté"],
+    "guaranteeOverline": "Ce que nous garantissons",
+    "guaranteeTitle": "Nos engagements envers chaque élève",
+    "guaranteeItems": [
+      "Permis numérique intelligent",
+      "Nouveau programme NTSA",
+      "La garantie de devenir un conducteur compétent sur toutes les routes principales et secondaires"
+    ],
+    "leadershipOverline": "Direction",
+    "managementTitle": "Équipe de direction",
+    "roles": {
+      "ceo": "Président Directeur Général",
+      "gm": "Directeur Général",
+      "ops": "Directeur des Opérations",
+      "branchManagers": "Directeurs d'Agence"
+    }
   },
 
   "languageSwitcher": {

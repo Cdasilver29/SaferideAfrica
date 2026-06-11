@@ -21,6 +21,20 @@
     "signInRegister": "Sign In / Register"
   },
 
+  "common": {
+    "enrolNow": "Enrol Now",
+    "enrol": "Enrol",
+    "callNow": "Call Now",
+    "talkToUs": "Talk to Us",
+    "aboutUs": "About Us",
+    "readMore": "Read More",
+    "viewAllClasses": "View all classes",
+    "seeAllServices": "See all services",
+    "findAllBranches": "Find all 12 branches",
+    "seeAllBranches": "See all 12 branches",
+    "premium": "Premium"
+  },
+
   "hero": {
     "badge": "NTSA Certified Driving School",
     "headline": "Drive Away with The Right Skills",
@@ -274,7 +288,138 @@
     "newsletterPlaceholder": "Your email address",
     "newsletterSubscribed": "Subscribed! Thank you.",
     "copyright": "© 2025 SafeRide Africa. All rights reserved.",
-    "certifiedLine": "NTSA Certified Driving School · Nairobi, Kenya"
+    "certifiedLine": "NTSA Certified Driving School · Nairobi, Kenya",
+    "navigateTitle": "Navigate",
+    "developer": "Developer"
+  },
+
+  "home": {
+    "statStrip": {
+      "branches": "Branches across Nairobi",
+      "instructors": "Certified Instructors",
+      "passRate": "First-Try Pass Rate",
+      "yearsActive": "Years on the Road"
+    },
+    "aboutPreview": {
+      "badge": "About Us",
+      "title": "Built for Kenyan Roads",
+      "description": "Since 2015, SafeRide has trained drivers across 12 branches in Nairobi with one promise: safety beyond a licence.",
+      "feature1Title": "NTSA-Aligned Curriculum",
+      "feature1Desc": "Certified instructors teach the full NTSA curriculum, theory, road rules, Smart DL application, and real-road practice.",
+      "feature2Title": "Flexible Lesson Slots",
+      "feature2Desc": "Morning, afternoon, or weekend, pick the slot that fits your life. 12 branches across Nairobi so you never travel far."
+    },
+    "servicesPreview": {
+      "badge": "What We Offer",
+      "title": "Programmes Tailored to How You Drive",
+      "items": {
+        "defensive": { "name": "Defensive Driving", "desc": "Hazard perception, emergency braking, and space management for every Kenyan road condition." },
+        "executive": { "name": "Executive Classes", "desc": "Premium one-on-one training with a personalised schedule, ideal for busy professionals." },
+        "ladies": { "name": "Ladies Special", "desc": "A tailored programme for female learners with the option of a female instructor." },
+        "beginner": { "name": "Beginner Driver Education", "desc": "A complete from-scratch programme: vehicle controls, road signs, theory class, and road practice." }
+      }
+    },
+    "branchesPreview": {
+      "hqBadge": "HQ",
+      "badge": "Find Us",
+      "title": "12 Branches Across Nairobi",
+      "description": "From Buru Buru HQ to Kayole, Embakasi, Kagundo Road and beyond, there's always a SafeRide branch near you."
+    },
+    "coursesPreview": {
+      "premiumBadge": "Premium",
+      "pricingNote": "Pricing shown at enrollment",
+      "lessonsIncluded": "{{count}} lessons included",
+      "badge": "Our Courses",
+      "title": "Master the Road with World-Class Training",
+      "description": "Pick a class, enrol in under five minutes, pricing shown at enrollment. All NTSA-aligned."
+    },
+    "finalCta": {
+      "badge": "Get Started",
+      "title": "Ready to Drive with Safety Beyond?",
+      "description": "Join thousands of Kenyan drivers who earned their licence with SafeRide Africa. Pick your course and start today."
+    },
+    "premiumCourses": {
+      "badge": "Most Popular",
+      "title": "Our Top Three Classes",
+      "description": "The classes most Kenyan drivers choose. All include theory, road test, and Smart DL guidance.",
+      "pricingNote": "Pricing shown at enrollment",
+      "cards": {
+        "bLight": {
+          "badge": "Most Popular",
+          "lessonLine": "Full Course · 20 Lessons",
+          "features": [
+            "20 practical driving lessons",
+            "NTSA theory and road test",
+            "Defensive driving module",
+            "Smart DL application guide",
+            "Dual-control manual vehicle"
+          ]
+        },
+        "bAuto": {
+          "lessonLine": "Full Course · 20 Lessons",
+          "features": [
+            "20 practical driving lessons",
+            "NTSA theory and road test",
+            "Defensive driving module",
+            "Smart DL application guide",
+            "Automatic transmission"
+          ]
+        },
+        "executive": {
+          "badge": "Premium",
+          "lessonLine": "Private · Flexible",
+          "features": [
+            "Dedicated certified instructor",
+            "Flexible lesson scheduling",
+            "Any vehicle class covered",
+            "Full Smart DL support",
+            "Home pickup on request"
+          ]
+        }
+      }
+    }
+  },
+
+  "aboutPage": {
+    "pageOverline": "Our Story",
+    "pageTitle": "About Safe Ride Africa",
+    "whoWeAre": "WHO WE ARE",
+    "statYears": "years on the road",
+    "statPassRate": "first-try pass rate",
+    "statBranches": "BRANCHES",
+    "statInstructors": "instructors",
+    "headline": "Driving Safety Beyond Limits Since 2015.",
+    "enrolWithUs": "ENROL WITH US",
+    "brandName": "SAFE RIDE AFRICA",
+    "ntsaRegisteredSince": "NTSA-Registered Driving School · Since {{year}}",
+    "readyToStart": "Ready to start your driving journey?",
+    "historyOverline": "Our History",
+    "historyTitle": "More Than a Decade of Safer Kenyan Roads",
+    "historyP1": "Safe Ride Africa Driving School was founded in {{foundedYear}} with a single conviction: that every Kenyan driver deserves world-class training, not just a piece of paper. Starting from a single Nairobi location, the school quickly gained a reputation for rigorous instruction, genuine care for students, and an NTSA-aligned curriculum that prepared learners for real roads, not just the test track.",
+    "historyP2": "In {{incorporatedYear}}, the school was formally incorporated as {{legalName}} (PVT {{pvt}}), formalising five years of growth into a registered institution. Today we operate {{branches}} branches across Nairobi, from Buruburu (HQ) to Kayole PCEA, and have trained over 2,100 licensed drivers.",
+    "historyP3": "Our NTSA registration number (BN {{bn}}) is publicly verifiable. Every instructor holds valid NTSA certification and participates in ongoing professional development. The result is a 98% NTSA first-attempt pass rate, a figure we are proud to stand behind.",
+    "whatDrivesUs": "What Drives Us",
+    "visionTitle": "Vision",
+    "visionBody": "To play a leading role in excellent training of all kinds of drivers in Africa and beyond.",
+    "missionTitle": "Mission",
+    "missionBody": "To facilitate the very best theoretical and practical safe solutions in the field of driving that eventually results in accident free ecosystem.",
+    "coreValuesTitle": "Core Values",
+    "coreValuesItems": ["Professionalism", "Team Work", "Customer Care", "Communication", "Honesty"],
+    "guaranteeOverline": "What We Guarantee",
+    "guaranteeTitle": "Our Commitments to Every Student",
+    "guaranteeItems": [
+      "Digital smart licence",
+      "New NTSA curriculum",
+      "Guarantee you become a competent driver on all major and minor roads"
+    ],
+    "leadershipOverline": "Leadership",
+    "managementTitle": "Management Team",
+    "roles": {
+      "ceo": "Chief Executive Officer",
+      "gm": "General Manager",
+      "ops": "Operations Manager",
+      "branchManagers": "Branch Managers"
+    }
   },
 
   "languageSwitcher": {

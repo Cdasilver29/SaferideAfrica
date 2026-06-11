@@ -51,6 +51,7 @@ function NavPill({
   item: (typeof NAV_PILLS)[number]
   isActive: boolean
 }) {
+  const { t }         = useTranslation();
   const expanded      = useSharedValue(isActive ? 1 : 0);
   const isHoveredRef  = useRef(false);
 
@@ -122,7 +123,7 @@ function NavPill({
 
         {/* Label — fades in on expand */}
         <AnimatedRN.View style={[StyleSheet.absoluteFillObject, styles.pillCenter, labelStyle]}>
-          <Text style={styles.pillLabel}>{item.label}</Text>
+          <Text style={styles.pillLabel}>{t(`nav.${item.key}`)}</Text>
         </AnimatedRN.View>
       </AnimatedRN.View>
     </TouchableOpacity>
@@ -361,7 +362,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
                 <AnimatedRN.View style={phoneShakeStyle}>
                   <Phone size={13} color={C.white} />
                 </AnimatedRN.View>
-                <Text style={styles.callText}>Call Now</Text>
+                <Text style={styles.callText}>{t('common.callNow')}</Text>
               </TouchableOpacity>
             )}
 
@@ -381,7 +382,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
                 <AnimatedRN.View style={iconNudgeStyle}>
                   <GraduationCap size={13} color={C.dark} />
                 </AnimatedRN.View>
-                <Text style={styles.enrolText}>{showPills ? 'Enrol Now' : 'Enrol'}</Text>
+                <Text style={styles.enrolText}>{showPills ? t('common.enrolNow') : t('common.enrol')}</Text>
               </TouchableOpacity>
             </AnimatedRN.View>
 
@@ -479,7 +480,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
                       activeOpacity={0.85}
                     >
                       <GraduationCap size={15} color={C.dark} />
-                      <Text style={styles.enrolText}>Enrol Now</Text>
+                      <Text style={styles.enrolText}>{t('common.enrolNow')}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => { closeDrawer(); Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`); }}
@@ -487,7 +488,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
                       activeOpacity={0.85}
                     >
                       <Phone size={14} color={C.white} />
-                      <Text style={styles.callText}>Call Now</Text>
+                      <Text style={styles.callText}>{t('common.callNow')}</Text>
                     </TouchableOpacity>
                   </View>
                 </RNScrollView>

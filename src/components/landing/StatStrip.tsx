@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, useWindowDimensions } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from '@/lib/theme';
 import { C, IS_WEB, MAX_W } from './constants';
 import { StatCard } from './StatCard';
@@ -11,16 +12,17 @@ const OVERLAP_NATIVE = -40;  // 40 px on mobile (shorter hero)
 
 export default function StatStrip() {
   const T = useTheme();
+  const { t } = useTranslation();
   const { width: winW } = useWindowDimensions();
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   const { ref, inView } = useInView();
   const gap = winW < 640 ? 12 : winW < 1024 ? 20 : 24;
 
   const cards = [
-    { value: `${STATS.branches}+`,    label: 'Branches across Nairobi' },
-    { value: `${STATS.instructors}+`, label: 'Certified Instructors' },
-    { value: `${STATS.passRate}%`,    label: 'First-Try Pass Rate' },
-    { value: `${STATS.yearsActive}+`, label: 'Years on the Road' },
+    { key: 'branches',    value: `${STATS.branches}+`,    label: t('home.statStrip.branches') },
+    { key: 'instructors', value: `${STATS.instructors}+`, label: t('home.statStrip.instructors') },
+    { key: 'passRate',    value: `${STATS.passRate}%`,    label: t('home.statStrip.passRate') },
+    { key: 'yearsActive', value: `${STATS.yearsActive}+`, label: t('home.statStrip.yearsActive') },
   ];
 
   return (
@@ -55,7 +57,7 @@ export default function StatStrip() {
         }
       >
         {cards.map((c, i) => (
-          <View key={c.label} style={isMobile ? { width: '48%' } : { flex: 1 }}>
+          <View key={c.key} style={isMobile ? { width: '48%' } : { flex: 1 }}>
             <StatCard value={c.value} label={c.label} index={i} inView={inView} />
           </View>
         ))}

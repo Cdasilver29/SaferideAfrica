@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { ArrowRight } from 'lucide-react-native';
 import { useTheme } from '@/lib/theme';
 import { CLASSES } from '@/data/saferide';
@@ -12,6 +13,7 @@ const PREVIEW_CODES = ['B-LIGHT', 'B-AUTO', 'EXECUTIVE'];
 
 function CourseCard({ cls }: { cls: (typeof CLASSES)[0] }) {
   const T = useTheme();
+  const { t } = useTranslation();
   const { open } = useEnrollModal();
   const isExec = cls.code === 'EXECUTIVE';
 
@@ -41,7 +43,7 @@ function CourseCard({ cls }: { cls: (typeof CLASSES)[0] }) {
           }}
         >
           <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 9, letterSpacing: 1, textTransform: 'uppercase' }}>
-            Premium
+            {t('common.premium')}
           </Text>
         </View>
       )}
@@ -59,12 +61,12 @@ function CourseCard({ cls }: { cls: (typeof CLASSES)[0] }) {
       </Text>
 
       <Text style={{ color: isExec ? C.mutedDark : T.mutedForeground, fontFamily: F.semibold, fontSize: 14, marginBottom: 12 }}>
-        Pricing shown at enrollment
+        {t('home.coursesPreview.pricingNote')}
       </Text>
 
       {cls.lessons && (
         <Text style={{ color: isExec ? C.mutedDark : T.mutedForeground, fontFamily: F.regular, fontSize: 12, marginBottom: 16 }}>
-          {cls.lessons} lessons included
+          {t('home.coursesPreview.lessonsIncluded', { count: cls.lessons })}
         </Text>
       )}
 
@@ -80,7 +82,7 @@ function CourseCard({ cls }: { cls: (typeof CLASSES)[0] }) {
         }}
       >
         <Text style={{ color: isExec ? C.dark : C.white, fontFamily: F.bold, fontSize: 13 }}>
-          Enrol Now
+          {t('common.enrolNow')}
         </Text>
       </TouchableOpacity>
     </View>
@@ -89,6 +91,7 @@ function CourseCard({ cls }: { cls: (typeof CLASSES)[0] }) {
 
 export default function CoursesPreview() {
   const T       = useTheme();
+  const { t }   = useTranslation();
   const { width: winW } = useWindowDimensions();
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   const preview = CLASSES.filter(c => PREVIEW_CODES.includes(c.code));
@@ -119,9 +122,9 @@ export default function CoursesPreview() {
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
 
         <SectionIntro
-          badge="Our Courses"
-          title="Master the Road with World-Class Training"
-          description="Pick a class, enrol in under five minutes, pricing shown at enrollment. All NTSA-aligned."
+          badge={t('home.coursesPreview.badge')}
+          title={t('home.coursesPreview.title')}
+          description={t('home.coursesPreview.description')}
         />
 
         {!isMobile ? (
@@ -175,7 +178,7 @@ export default function CoursesPreview() {
             style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
           >
             <Text style={{ color: C.red, fontFamily: F.semibold, fontSize: 15 }}>
-              View all classes
+              {t('common.viewAllClasses')}
             </Text>
             <ArrowRight size={15} color={C.red} />
           </TouchableOpacity>

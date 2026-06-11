@@ -9,14 +9,14 @@ import { COMPANY } from '@/data/saferide';
 import LaneStrip from './LaneStrip';
 
 const FOOTER_NAV = [
-  { label: 'Home',     path: '/' },
-  { label: 'About',    path: '/about' },
-  { label: 'Courses',  path: '/courses' },
-  { label: 'Services', path: '/services' },
-  { label: 'Branches', path: '/branches' },
-  { label: 'Gallery',  path: '/gallery' },
-  { label: 'Blog',     path: '/blog' },
-  { label: 'Contact',  path: '/contact' },
+  { key: 'home',     path: '/' },
+  { key: 'about',    path: '/about' },
+  { key: 'courses',  path: '/courses' },
+  { key: 'services', path: '/services' },
+  { key: 'branches', path: '/branches' },
+  { key: 'gallery',  path: '/gallery' },
+  { key: 'blog',     path: '/blog' },
+  { key: 'contact',  path: '/contact' },
 ];
 
 const LOGO      = require('../../../assets/images/saferide-logo.jpg');
@@ -135,7 +135,7 @@ export default function Footer() {
             {/* Navigate — wide screens only */}
             {multiCol && (
               <View style={{ flex: 1 }}>
-                <Text style={{ color: headingC, fontFamily: F.bold, fontSize: 14, marginBottom: 16 }}>Navigate</Text>
+                <Text style={{ color: headingC, fontFamily: F.bold, fontSize: 14, marginBottom: 16 }}>{t('footer.navigateTitle')}</Text>
                 {FOOTER_NAV.map(item => (
                   <TouchableOpacity
                     key={item.path}
@@ -143,7 +143,7 @@ export default function Footer() {
                     style={{ marginBottom: 10 }}
                     activeOpacity={0.7}
                   >
-                    <Text style={{ color: bodyC, fontFamily: F.regular, fontSize: 13 }}>{item.label}</Text>
+                    <Text style={{ color: bodyC, fontFamily: F.regular, fontSize: 13 }}>{t(`nav.${item.key}`)}</Text>
                   </TouchableOpacity>
                 ))}
               </View>
@@ -224,7 +224,7 @@ export default function Footer() {
                   {t('footer.copyright')}
                 </Text>
                 <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 11, opacity: 0.70, marginTop: 3 }}>
-                  Developer: calvinedasilver96@gmail.com
+                  {t('footer.developer')}: calvinedasilver96@gmail.com
                 </Text>
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -247,7 +247,7 @@ export default function Footer() {
                 {t('footer.copyright')}
               </Text>
               <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 10, textAlign: 'center', opacity: 0.70 }}>
-                Developer: calvinedasilver96@gmail.com
+                {t('footer.developer')}: calvinedasilver96@gmail.com
               </Text>
             </View>
           )}

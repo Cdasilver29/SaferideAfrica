@@ -7,6 +7,7 @@ import Animated, {
 import { useRouter } from 'expo-router';
 import { CheckCircle, Asterisk, ArrowRight } from 'lucide-react-native';
 import Svg, { Path, Rect, Circle } from 'react-native-svg';
+import { useTranslation } from 'react-i18next';
 import { useInView } from '@/hooks/useInView';
 
 import { PageHero } from '@/components/landing/PageHero';
@@ -20,8 +21,7 @@ import Footer      from '@/components/landing/Footer';
 import { VerticalCutReveal } from '@/components/animations/VerticalCutReveal';
 
 import {
-  COMPANY, VISION, MISSION, CORE_VALUES, MANAGEMENT, WHY_CHOOSE_US,
-  COMPANY_STORY, SOCIALS, STATS as SAFERIDE_STATS,
+  COMPANY, MANAGEMENT, SOCIALS, STATS as SAFERIDE_STATS,
 } from '@/data/saferide';
 import { C, F, IS_WEB, MAX_W, ABOUT_IMG, ABOUT_OPENER_IMG } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
@@ -150,6 +150,7 @@ function SocialBadge({ url, icon }: { url: string; icon: React.ReactElement }) {
 
 // ─── About opener section ─────────────────────────────────────────────────────
 function AboutOpener() {
+  const { t } = useTranslation()
   const T = useTheme()
   const router = useRouter()
   const { width: winW } = useWindowDimensions()
@@ -178,7 +179,7 @@ function AboutOpener() {
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <RotatingAsterisk />
             <Text style={{ fontFamily: F.medium, fontSize: 13, color: mutedColor }}>
-              WHO WE ARE
+              {t('aboutPage.whoWeAre')}
             </Text>
           </View>
           <View style={{ flexDirection: 'row', gap: 8 }}>
@@ -201,13 +202,13 @@ function AboutOpener() {
           }}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-            <StatItem value={`${yearsActive}+`} label="years on the road" />
+            <StatItem value={`${yearsActive}+`} label={t('aboutPage.statYears')} />
             <VertDivider />
-            <StatItem value={`${SAFERIDE_STATS.passRate}%`} label="first-try pass rate" />
+            <StatItem value={`${SAFERIDE_STATS.passRate}%`} label={t('aboutPage.statPassRate')} />
           </View>
           <View style={{ flexDirection: IS_WEB ? 'column' : 'row', alignItems: IS_WEB ? 'flex-end' : 'center', gap: 8 }}>
-            <StatItem value={`${SAFERIDE_STATS.branches}+`} label="BRANCHES" large />
-            <StatItem value={`${SAFERIDE_STATS.instructors}+`} label="instructors" />
+            <StatItem value={`${SAFERIDE_STATS.branches}+`} label={t('aboutPage.statBranches')} large />
+            <StatItem value={`${SAFERIDE_STATS.instructors}+`} label={t('aboutPage.statInstructors')} />
           </View>
         </View>
 
@@ -216,7 +217,7 @@ function AboutOpener() {
           /* ── Mobile: linear stack — headline → paragraph → enrol button ── */
           <View style={{ gap: 18 }}>
             <VerticalCutReveal
-              text="Driving Safety Beyond Limits Since 2015."
+              text={t('aboutPage.headline')}
               splitBy="words"
               staggerDuration={0.1}
               startDelay={0.3}
@@ -233,7 +234,13 @@ function AboutOpener() {
                 color: mutedColor, textAlign: 'justify',
               }}
             >
-              {COMPANY_STORY[0]}{' '}{COMPANY_STORY[1]}
+              {t('aboutPage.historyP1', { foundedYear: COMPANY.registration.foundedYear })}{' '}
+              {t('aboutPage.historyP2', {
+                incorporatedYear: COMPANY.registration.incorporatedDate.split(' ').pop(),
+                legalName: COMPANY.legalName,
+                pvt: COMPANY.registration.pvt,
+                branches: SAFERIDE_STATS.branches,
+              })}
             </Text>
             <Pressable
               onPress={() => router.push('/courses' as any)}
@@ -245,7 +252,7 @@ function AboutOpener() {
               }}
             >
               <Text style={{ fontFamily: F.bold, fontSize: 14, color: C.white }}>
-                ENROL WITH US
+                {t('aboutPage.enrolWithUs')}
               </Text>
               <ArrowRight size={16} color={C.white} />
             </Pressable>
@@ -258,7 +265,7 @@ function AboutOpener() {
             <View style={{ flex: 2 }}>
               <View style={{ marginBottom: 24 }}>
                 <VerticalCutReveal
-                  text="Driving Safety Beyond Limits Since 2015."
+                  text={t('aboutPage.headline')}
                   splitBy="words"
                   staggerDuration={0.1}
                   startDelay={0.3}
@@ -277,7 +284,7 @@ function AboutOpener() {
                     color: mutedColor, textAlign: 'justify',
                   }}
                 >
-                  {COMPANY_STORY[0]}
+                  {t('aboutPage.historyP1', { foundedYear: COMPANY.registration.foundedYear })}
                 </Text>
                 <Text
                   style={{
@@ -285,7 +292,12 @@ function AboutOpener() {
                     color: mutedColor, textAlign: 'justify',
                   }}
                 >
-                  {COMPANY_STORY[1]}
+                  {t('aboutPage.historyP2', {
+                    incorporatedYear: COMPANY.registration.incorporatedDate.split(' ').pop(),
+                    legalName: COMPANY.legalName,
+                    pvt: COMPANY.registration.pvt,
+                    branches: SAFERIDE_STATS.branches,
+                  })}
                 </Text>
               </View>
             </View>
@@ -293,10 +305,10 @@ function AboutOpener() {
             {/* Right: brand wordmark + CTA */}
             <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
               <Text style={{ fontFamily: F.bold, fontSize: 22, color: C.skyDeep, marginBottom: 4 }}>
-                SAFE RIDE AFRICA
+                {t('aboutPage.brandName')}
               </Text>
               <Text style={{ fontFamily: F.regular, fontSize: 12, color: mutedColor, marginBottom: 24 }}>
-                NTSA-Registered Driving School · Since {COMPANY.registration.foundedYear}
+                {t('aboutPage.ntsaRegisteredSince', { year: COMPANY.registration.foundedYear })}
               </Text>
               <Text
                 style={{
@@ -304,7 +316,7 @@ function AboutOpener() {
                   marginBottom: 14, textAlign: 'right',
                 }}
               >
-                Ready to start your driving journey?
+                {t('aboutPage.readyToStart')}
               </Text>
               <Pressable
                 onPress={() => router.push('/courses' as any)}
@@ -315,7 +327,7 @@ function AboutOpener() {
                 }}
               >
                 <Text style={{ fontFamily: F.bold, fontSize: 14, color: C.white }}>
-                  ENROL WITH US
+                  {t('aboutPage.enrolWithUs')}
                 </Text>
                 <ArrowRight size={16} color={C.white} />
               </Pressable>
@@ -330,6 +342,7 @@ function AboutOpener() {
 
 // ─── Company story ────────────────────────────────────────────────────────────
 function CompanyStory() {
+  const { t } = useTranslation()
   const T = useTheme();
   return (
     <View style={{ backgroundColor: T.background, paddingVertical: 64, paddingHorizontal: 24 }}>
@@ -344,7 +357,7 @@ function CompanyStory() {
             marginBottom: 16,
           }}
         >
-          Our History
+          {t('aboutPage.historyOverline')}
         </Text>
         <Text
           style={{
@@ -355,7 +368,7 @@ function CompanyStory() {
             marginBottom: 24,
           }}
         >
-          More Than a Decade of Safer Kenyan Roads
+          {t('aboutPage.historyTitle')}
         </Text>
 
         <Text
@@ -367,10 +380,7 @@ function CompanyStory() {
             marginBottom: 16,
           }}
         >
-          Safe Ride Africa Driving School was founded in {COMPANY.registration.foundedYear} with a single conviction: that every Kenyan driver
-          deserves world-class training, not just a piece of paper. Starting from a single Nairobi location,
-          the school quickly gained a reputation for rigorous instruction, genuine care for students, and an
-          NTSA-aligned curriculum that prepared learners for real roads — not just the test track.
+          {t('aboutPage.historyP1', { foundedYear: COMPANY.registration.foundedYear })}
         </Text>
 
         <Text
@@ -382,10 +392,12 @@ function CompanyStory() {
             marginBottom: 16,
           }}
         >
-          In {COMPANY.registration.incorporatedDate.split(' ').pop()}, the school was formally incorporated
-          as {COMPANY.legalName} (PVT {COMPANY.registration.pvt}), formalising five years of growth into a
-          registered institution. Today we operate {10} branches across Nairobi — from Donholm (HQ) to Kayole
-          PCEA — and have trained over 2,100 licensed drivers.
+          {t('aboutPage.historyP2', {
+            incorporatedYear: COMPANY.registration.incorporatedDate.split(' ').pop(),
+            legalName: COMPANY.legalName,
+            pvt: COMPANY.registration.pvt,
+            branches: SAFERIDE_STATS.branches,
+          })}
         </Text>
 
         <Text
@@ -396,9 +408,7 @@ function CompanyStory() {
             lineHeight: 26,
           }}
         >
-          Our NTSA registration number (BN {COMPANY.registration.bn}) is publicly verifiable. Every instructor
-          holds valid NTSA certification and participates in ongoing professional development. The result is a
-          98% NTSA first-attempt pass rate — a figure we are proud to stand behind.
+          {t('aboutPage.historyP3', { bn: COMPANY.registration.bn })}
         </Text>
       </View>
     </View>
@@ -509,6 +519,7 @@ function WhatDrivesUsCard({
 
 // ─── Vision · Mission · Values ────────────────────────────────────────────────
 function VisionMissionValues() {
+  const { t } = useTranslation()
   const T = useTheme();
   const { width: winW } = useWindowDimensions();
   const { ref, inView } = useInView();
@@ -519,24 +530,29 @@ function VisionMissionValues() {
   const emojiSize = cols === 1 ? 40 : cols === 2 ? 48 : 56;
   const cardWidth = cols === 1 ? '100%' : cols === 2 ? (IS_WEB ? 'calc(50% - 8px)' : '48%') : undefined;
 
+  const coreValues = t('aboutPage.coreValuesItems', { returnObjects: true }) as string[];
+
   const items = [
     {
+      id:      'vision',
       emoji:   '👁️',
       accent:  'rgba(1, 165, 240, 0.12)',
-      heading: 'Vision',
-      body:    VISION,
+      heading: t('aboutPage.visionTitle'),
+      body:    t('aboutPage.visionBody'),
     },
     {
+      id:      'mission',
       emoji:   '🎯',
       accent:  'rgba(255, 216, 0, 0.12)',
-      heading: 'Mission',
-      body:    MISSION,
+      heading: t('aboutPage.missionTitle'),
+      body:    t('aboutPage.missionBody'),
     },
     {
+      id:      'values',
       emoji:   '❤️',
       accent:  'rgba(255, 216, 0, 0.12)',
-      heading: 'Core Values',
-      body:    CORE_VALUES.join(' · '),
+      heading: t('aboutPage.coreValuesTitle'),
+      body:    coreValues.join(' · '),
     },
   ];
 
@@ -559,7 +575,7 @@ function VisionMissionValues() {
               marginBottom: 12,
             }}
           >
-            What Drives Us
+            {t('aboutPage.whatDrivesUs')}
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <View style={{ height: 2, width: 40, backgroundColor: C.yellow, borderRadius: 2 }} />
@@ -571,7 +587,7 @@ function VisionMissionValues() {
         <View ref={ref} style={{ flexDirection: 'row', flexWrap: 'wrap', gap }}>
           {items.map((item, i) => (
             <WhatDrivesUsCard
-              key={item.heading}
+              key={item.id}
               emoji={item.emoji}
               accent={item.accent}
               heading={item.heading}
@@ -591,9 +607,9 @@ function VisionMissionValues() {
 
 // ─── Achievements ─────────────────────────────────────────────────────────────
 function Achievements() {
+  const { t } = useTranslation()
   const T = useTheme();
-  // Show the last 3 items from WHY_CHOOSE_US — the substantive achievement bullets
-  const bullets = WHY_CHOOSE_US.slice(2) as readonly string[];
+  const bullets = t('aboutPage.guaranteeItems', { returnObjects: true }) as string[];
 
   return (
     <View style={{ backgroundColor: T.background, paddingVertical: 56, paddingHorizontal: 24 }}>
@@ -608,7 +624,7 @@ function Achievements() {
             marginBottom: 14,
           }}
         >
-          What We Guarantee
+          {t('aboutPage.guaranteeOverline')}
         </Text>
         <Text
           style={{
@@ -619,7 +635,7 @@ function Achievements() {
             lineHeight: IS_WEB ? 36 : 30,
           }}
         >
-          Our Commitments to Every Student
+          {t('aboutPage.guaranteeTitle')}
         </Text>
 
         <View style={{ gap: 14 }}>
@@ -646,6 +662,14 @@ const ROLE_EMOJI: Record<string, string> = {
   'Branch Managers':         '\u{1F3E2}', // office building
 };
 
+// Maps a role title (data constant, English) to its i18n key segment under aboutPage.roles
+const ROLE_KEY_MAP: Record<string, string> = {
+  'Chief Executive Officer': 'ceo',
+  'General Manager':         'gm',
+  'Operations Manager':      'ops',
+  'Branch Managers':         'branchManagers',
+};
+
 function RoleAvatar({ title, cols }: { title: string; cols: number }) {
   const emoji = ROLE_EMOJI[title] ?? '\u{1F9D1}‍\u{1F4BC}';
   const size = cols === 1 ? 36 : cols === 2 ? 32 : 28;
@@ -668,6 +692,7 @@ function RoleAvatar({ title, cols }: { title: string; cols: number }) {
 }
 
 function Management() {
+  const { t } = useTranslation()
   const T = useTheme();
   const { width: winW } = useWindowDimensions();
   const cols = winW < 640 ? 1 : winW < 1024 ? 2 : 4;
@@ -693,7 +718,7 @@ function Management() {
               marginBottom: 10,
             }}
           >
-            Leadership
+            {t('aboutPage.leadershipOverline')}
           </Text>
           <Text
             style={{
@@ -704,7 +729,7 @@ function Management() {
               marginBottom: 12,
             }}
           >
-            Management Team
+            {t('aboutPage.managementTitle')}
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <View style={{ height: 2, width: 40, backgroundColor: C.yellow, borderRadius: 2 }} />
@@ -731,7 +756,7 @@ function Management() {
             >
               <RoleAvatar title={role.title} cols={cols} />
               <Text style={{ flex: 1, color: T.foreground, fontFamily: F.bold, fontSize: cols === 1 ? 14 : 15, lineHeight: cols === 1 ? 20 : 22 }}>
-                {role.title}
+                {t(`aboutPage.roles.${ROLE_KEY_MAP[role.title]}`)}
               </Text>
             </View>
           ))}
@@ -743,6 +768,7 @@ function Management() {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function AboutPage() {
+  const { t } = useTranslation()
   const T = useTheme();
 
   return (
@@ -753,7 +779,7 @@ export default function AboutPage() {
         contentContainerStyle={{ paddingBottom: 0 }}
         showsVerticalScrollIndicator={false}
       >
-        <PageHero overline="Our Story" title="About Safe Ride Africa" />
+        <PageHero overline={t('aboutPage.pageOverline')} title={t('aboutPage.pageTitle')} />
         <AboutOpener />
         <CompanyStory />
         <VisionMissionValues />

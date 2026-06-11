@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { MapPin, Phone, ArrowRight } from 'lucide-react-native';
 import { BranchMap } from './BranchMap';
 import { BRANCHES, Branch } from '@/data/saferide';
@@ -11,6 +12,7 @@ import { SectionIntro } from './SectionIntro';
 const TOP_3 = (BRANCHES as readonly Branch[]).slice(0, 3);
 
 function BranchCard({ branch, selectedId, onPress, T }: { branch: Branch; selectedId: string; onPress: () => void; T: any }) {
+  const { t } = useTranslation();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -31,7 +33,7 @@ function BranchCard({ branch, selectedId, onPress, T }: { branch: Branch; select
         </Text>
         {branch.isHQ && (
           <View style={{ backgroundColor: C.yellow, borderRadius: 5, paddingHorizontal: 7, paddingVertical: 2 }}>
-            <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 9, textTransform: 'uppercase', letterSpacing: 0.8 }}>HQ</Text>
+            <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 9, textTransform: 'uppercase', letterSpacing: 0.8 }}>{t('home.branchesPreview.hqBadge')}</Text>
           </View>
         )}
       </View>
@@ -49,6 +51,7 @@ function BranchCard({ branch, selectedId, onPress, T }: { branch: Branch; select
 
 export default function BranchesPreview() {
   const T = useTheme();
+  const { t } = useTranslation();
   const { width: winW } = useWindowDimensions();
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   const [selectedId, setSelectedId] = useState<string>(BRANCHES[0].id);
@@ -64,9 +67,9 @@ export default function BranchesPreview() {
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
 
         <SectionIntro
-          badge="Find Us"
-          title="12 Branches Across Nairobi"
-          description="From Buru Buru HQ to Kayole, Embakasi, Kagundo Road and beyond — there's always a SafeRide branch near you."
+          badge={t('home.branchesPreview.badge')}
+          title={t('home.branchesPreview.title')}
+          description={t('home.branchesPreview.description')}
         />
 
         {/* Map + branch list */}
@@ -131,7 +134,7 @@ export default function BranchesPreview() {
             }}
           >
             <Text style={{ color: C.white, fontFamily: F.semibold, fontSize: 14 }}>
-              Find all 12 branches
+              {t('common.findAllBranches')}
             </Text>
             <ArrowRight size={16} color={C.white} />
           </TouchableOpacity>

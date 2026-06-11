@@ -5,6 +5,7 @@ import Animated, {
   withSpring, withSequence, withTiming, interpolate,
 } from 'react-native-reanimated';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { ArrowRight } from 'lucide-react-native';
 import { useTheme } from '@/lib/theme';
 import { C, F, IS_WEB, MAX_W, SERVICES_IMG } from './constants';
@@ -13,27 +14,23 @@ import { SectionIntro } from './SectionIntro';
 const PREVIEW_SERVICES = [
   {
     iconName: 'Shield',
-    name:     'Defensive Driving',
-    desc:     'Hazard perception, emergency braking, and space management for every Kenyan road condition.',
     code:     'DEFENSIVE',
+    i18nKey:  'defensive',
   },
   {
     iconName: 'Star',
-    name:     'Executive Classes',
-    desc:     'Premium one-on-one training with a personalised schedule, ideal for busy professionals.',
     code:     'EXECUTIVE',
+    i18nKey:  'executive',
   },
   {
     iconName: 'Users',
-    name:     'Ladies Special',
-    desc:     'A tailored programme for female learners with the option of a female instructor.',
     code:     'LADIES',
+    i18nKey:  'ladies',
   },
   {
     iconName: 'BookOpen',
-    name:     'Beginner Driver Education',
-    desc:     'A complete from-scratch programme: vehicle controls, road signs, theory class, and road practice.',
     code:     'BEGINNER',
+    i18nKey:  'beginner',
   },
 ];
 
@@ -41,6 +38,7 @@ const PREVIEW_SERVICES = [
 
 function ServiceCard({ svc }: { svc: typeof PREVIEW_SERVICES[0] }) {
   const T = useTheme();
+  const { t } = useTranslation();
 
   const lift   = useSharedValue(0);   // 0 idle → 1 active
   const rotate = useSharedValue(0);   // degrees for the sway
@@ -108,10 +106,10 @@ function ServiceCard({ svc }: { svc: typeof PREVIEW_SERVICES[0] }) {
       >
         <View style={{ width: 24, height: 3, borderRadius: 2, backgroundColor: C.yellow, marginBottom: 10 }} />
         <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 14, textAlign: 'center', marginBottom: 8, lineHeight: 20 }}>
-          {svc.name}
+          {t(`home.servicesPreview.items.${svc.i18nKey}.name`)}
         </Text>
         <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 12, lineHeight: 18, textAlign: 'center', flex: 1 }}>
-          {svc.desc}
+          {t(`home.servicesPreview.items.${svc.i18nKey}.desc`)}
         </Text>
       </TouchableOpacity>
     </Animated.View>
@@ -121,6 +119,7 @@ function ServiceCard({ svc }: { svc: typeof PREVIEW_SERVICES[0] }) {
 // ── See all CTA ───────────────────────────────────────────────────────────────
 
 function SeeAllBtn({ align = 'center' }: { align?: 'flex-start' | 'center' }) {
+  const { t } = useTranslation();
   return (
     <View style={{ alignItems: align }}>
       <TouchableOpacity
@@ -134,7 +133,7 @@ function SeeAllBtn({ align = 'center' }: { align?: 'flex-start' | 'center' }) {
           shadowColor: C.red, shadowOpacity: 0.32, shadowRadius: 8, elevation: 4,
         }}
       >
-        <Text style={{ color: C.white, fontFamily: F.semibold, fontSize: 14 }}>See all services</Text>
+        <Text style={{ color: C.white, fontFamily: F.semibold, fontSize: 14 }}>{t('common.seeAllServices')}</Text>
         <ArrowRight size={16} color={C.white} />
       </TouchableOpacity>
     </View>
@@ -145,6 +144,7 @@ function SeeAllBtn({ align = 'center' }: { align?: 'flex-start' | 'center' }) {
 
 export default function ServicesPreview() {
   const T = useTheme();
+  const { t } = useTranslation();
   const { width: winW } = useWindowDimensions();
   // Stack vertically on narrow viewports (< 860 px) or native
   const sideLayout = IS_WEB && winW >= 860;
@@ -177,7 +177,7 @@ export default function ServicesPreview() {
 
             {/* Right — heading + animated cards */}
             <View style={{ flex: 1 }}>
-              <SectionIntro badge="What We Offer" title="Programmes Tailored to How You Drive" />
+              <SectionIntro badge={t('home.servicesPreview.badge')} title={t('home.servicesPreview.title')} />
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16 }}>
                 {PREVIEW_SERVICES.map(svc => (
                   <View key={svc.code} style={{ flex: 1, minWidth: 200 }}>

@@ -21,6 +21,20 @@
     "signInRegister": "Ingia / Jisajili"
   },
 
+  "common": {
+    "enrolNow": "Jiandikishe Sasa",
+    "enrol": "Jiandikishe",
+    "callNow": "Piga Simu Sasa",
+    "talkToUs": "Ongea Nasi",
+    "aboutUs": "Kuhusu Sisi",
+    "readMore": "Soma Zaidi",
+    "viewAllClasses": "Tazama madarasa yote",
+    "seeAllServices": "Tazama huduma zote",
+    "findAllBranches": "Tazama matawi yote 12",
+    "seeAllBranches": "Tazama matawi yote 12",
+    "premium": "Premium"
+  },
+
   "hero": {
     "badge": "Shule ya Kuendesha Iliyoidhinishwa na NTSA",
     "headline": "Endesha kwa Ujuzi na Ujasiri",
@@ -70,7 +84,21 @@
 
   "courses": {
     "overline": "Kozi za Uendeshaji",
-    "heading": "Kozi Zetu Maarufu za Uendeshaji",
+    "heading": "Ada na Bei za Kozi",
+    "lessonsLabel": "masomo",
+    "testOnly": "Mtihani Pekee",
+    "totalLabel": "Jumla",
+    "whatsIncluded": "Kinachojumuishwa",
+    "schoolFees": "Ada za Shule",
+    "pdlFee": "PDL",
+    "examsFee": "Mitihani",
+    "defensiveFee": "Uendeshaji wa Kujihami",
+    "enrolNow": "Jiandikishe Sasa",
+    "paymentMpesa": "M-Pesa Lipa Na M-Pesa",
+    "paymentKcb": "Uhamisho wa Benki",
+    "refresherTitle": "Masomo ya Kukumbusha",
+    "perLesson": "kwa somo",
+    "minLessons": "Kiwango cha chini cha masomo {{count}}",
     "monthly": "Kila Mwezi",
     "yearly": "Kila Mwaka",
     "savingMessage": "Okoa takriban 15% kwa malipo ya mwaka!",
@@ -268,7 +296,138 @@
     "newsletterPlaceholder": "Anwani yako ya barua pepe",
     "newsletterSubscribed": "Umejisajili! Asante sana.",
     "copyright": "© 2025 SafeRide Africa. Haki zote zimehifadhiwa.",
-    "certifiedLine": "Shule ya Uendeshaji Iliyoidhinishwa na NTSA · Nairobi, Kenya"
+    "certifiedLine": "Shule ya Uendeshaji Iliyoidhinishwa na NTSA · Nairobi, Kenya",
+    "navigateTitle": "Tembeza",
+    "developer": "Mtengenezaji"
+  },
+
+  "home": {
+    "statStrip": {
+      "branches": "Matawi Kote Nairobi",
+      "instructors": "Wakufunzi Walioidhinishwa",
+      "passRate": "Kiwango cha Kufaulu Mara ya Kwanza",
+      "yearsActive": "Miaka Barabarani"
+    },
+    "aboutPreview": {
+      "badge": "Kuhusu Sisi",
+      "title": "Imeundwa kwa Barabara za Kenya",
+      "description": "Tangu 2015, SafeRide imefundisha madereva katika matawi 12 Nairobi kwa ahadi moja: usalama zaidi ya leseni.",
+      "feature1Title": "Mtaala Unaolingana na NTSA",
+      "feature1Desc": "Wakufunzi walioidhinishwa hufundisha mtaala kamili wa NTSA, nadharia, sheria za barabara, maombi ya Smart DL, na mazoezi halisi barabarani.",
+      "feature2Title": "Nyakati za Masomo Zinazobadilika",
+      "feature2Desc": "Asubuhi, mchana, au wikendi, chagua wakati unaofaa maisha yako. Matawi 12 kote Nairobi ili usisafiri mbali."
+    },
+    "servicesPreview": {
+      "badge": "Tunachotoa",
+      "title": "Programu Zilizolengwa kwa Jinsi Unavyoendesha",
+      "items": {
+        "defensive": { "name": "Uendeshaji wa Kujihami", "desc": "Utambuzi wa hatari, kusimamisha gari kwa dharura, na usimamizi wa nafasi kwa hali yoyote ya barabara nchini Kenya." },
+        "executive": { "name": "Madarasa ya Kifahari", "desc": "Mafunzo ya kibinafsi ya hali ya juu yenye ratiba maalum, yanayofaa kwa wataalamu wenye shughuli nyingi." },
+        "ladies": { "name": "Maalum kwa Wanawake", "desc": "Programu maalum kwa wanafunzi wanawake yenye chaguo la mkufunzi mwanamke." },
+        "beginner": { "name": "Elimu ya Madereva Wapya", "desc": "Programu kamili tangu mwanzo: udhibiti wa gari, alama za barabarani, somo la nadharia, na mazoezi barabarani." }
+      }
+    },
+    "branchesPreview": {
+      "hqBadge": "Makao Makuu",
+      "badge": "Tutafute",
+      "title": "Matawi 12 Kote Nairobi",
+      "description": "Kutoka Buru Buru (Makao Makuu) hadi Kayole, Embakasi, Barabara ya Kagundo na kwingineko, daima kuna tawi la SafeRide karibu nawe."
+    },
+    "coursesPreview": {
+      "premiumBadge": "Premium",
+      "pricingNote": "Bei inaonyeshwa wakati wa kujiandikisha",
+      "lessonsIncluded": "Masomo {{count}} yamejumuishwa",
+      "badge": "Kozi Zetu",
+      "title": "Bobea Barabarani kwa Mafunzo ya Kiwango cha Dunia",
+      "description": "Chagua darasa, jiandikishe kwa chini ya dakika tano, bei inaonyeshwa wakati wa kujiandikisha. Zote zinalingana na NTSA."
+    },
+    "finalCta": {
+      "badge": "Anza",
+      "title": "Uko Tayari Kuendesha kwa Usalama Zaidi?",
+      "description": "Jiunge na maelfu ya madereva wa Kenya waliopata leseni yao na SafeRide Africa. Chagua kozi yako na uanze leo."
+    },
+    "premiumCourses": {
+      "badge": "Maarufu Zaidi",
+      "title": "Madarasa Yetu Matatu Bora",
+      "description": "Madarasa wanayopendelea madereva wengi wa Kenya. Yanajumuisha nadharia, mtihani wa barabarani, na mwongozo wa Smart DL.",
+      "pricingNote": "Bei inaonyeshwa wakati wa kujiandikisha",
+      "cards": {
+        "bLight": {
+          "badge": "Maarufu Zaidi",
+          "lessonLine": "Kozi Kamili · Masomo 20",
+          "features": [
+            "Masomo 20 ya vitendo ya kuendesha",
+            "Nadharia ya NTSA na mtihani wa barabarani",
+            "Moduli ya uendeshaji wa kujihami",
+            "Mwongozo wa maombi ya Smart DL",
+            "Gari la mwongozo lenye udhibiti maradufu"
+          ]
+        },
+        "bAuto": {
+          "lessonLine": "Kozi Kamili · Masomo 20",
+          "features": [
+            "Masomo 20 ya vitendo ya kuendesha",
+            "Nadharia ya NTSA na mtihani wa barabarani",
+            "Moduli ya uendeshaji wa kujihami",
+            "Mwongozo wa maombi ya Smart DL",
+            "Gari la otomatiki"
+          ]
+        },
+        "executive": {
+          "badge": "Premium",
+          "lessonLine": "Faragha · Inabadilika",
+          "features": [
+            "Mkufunzi maalum aliyeidhinishwa",
+            "Ratiba ya masomo inayobadilika",
+            "Aina yoyote ya gari inafunikwa",
+            "Msaada kamili wa Smart DL",
+            "Kuchukuliwa nyumbani ukiomba"
+          ]
+        }
+      }
+    }
+  },
+
+  "aboutPage": {
+    "pageOverline": "Hadithi Yetu",
+    "pageTitle": "Kuhusu Safe Ride Africa",
+    "whoWeAre": "SISI NI KINA NANI",
+    "statYears": "miaka barabarani",
+    "statPassRate": "kiwango cha kufaulu jaribio la kwanza",
+    "statBranches": "MATAWI",
+    "statInstructors": "wakufunzi",
+    "headline": "Kuendesha Usalama Bila Mipaka Tangu 2015.",
+    "enrolWithUs": "JIANDIKISHE NASI",
+    "brandName": "SAFE RIDE AFRICA",
+    "ntsaRegisteredSince": "Shule ya Udereva Iliyosajiliwa na NTSA · Tangu {{year}}",
+    "readyToStart": "Uko tayari kuanza safari yako ya udereva?",
+    "historyOverline": "Historia Yetu",
+    "historyTitle": "Zaidi ya Muongo Mmoja wa Barabara Salama za Kenya",
+    "historyP1": "Safe Ride Africa Driving School ilianzishwa mwaka {{foundedYear}} kwa imani moja: kila dereva wa Kenya anastahili mafunzo ya kiwango cha kimataifa, sio tu cheti. Kuanzia tawi moja Nairobi, shule ilipata sifa ya haraka kwa mafundisho makali, utunzaji wa kweli kwa wanafunzi, na mtaala unaolingana na NTSA unaowaandaa wanafunzi kwa barabara halisi, sio tu mtihani.",
+    "historyP2": "Mwaka {{incorporatedYear}}, shule ilisajiliwa rasmi kama {{legalName}} (PVT {{pvt}}), ikithibitisha miaka mitano ya ukuaji kuwa taasisi iliyosajiliwa. Leo tunaendesha matawi {{branches}} kote Nairobi, kutoka Buruburu (Makao Makuu) hadi Kayole PCEA, na tumefunza zaidi ya madereva 2,100 wenye leseni.",
+    "historyP3": "Nambari yetu ya usajili wa NTSA (BN {{bn}}) inaweza kuthibitishwa hadharani. Kila mkufunzi ana cheti halali cha NTSA na anashiriki katika maendeleo endelevu ya kitaaluma. Matokeo ni kiwango cha asilimia 98 cha kufaulu jaribio la kwanza la NTSA, takwimu tunayojivunia.",
+    "whatDrivesUs": "Kinachotusukuma",
+    "visionTitle": "Dira",
+    "visionBody": "Kuwa na nafasi ya uongozi katika mafunzo bora ya aina zote za madereva barani Afrika na kwingineko.",
+    "missionTitle": "Dhamira",
+    "missionBody": "Kuwezesha suluhisho bora za kinadharia na kivitendo katika uendeshaji salama, na hatimaye kuleta mazingira yasiyo na ajali.",
+    "coreValuesTitle": "Maadili Msingi",
+    "coreValuesItems": ["Utaalamu", "Kazi ya Pamoja", "Huduma kwa Wateja", "Mawasiliano", "Uaminifu"],
+    "guaranteeOverline": "Tunachohakikisha",
+    "guaranteeTitle": "Ahadi Zetu kwa Kila Mwanafunzi",
+    "guaranteeItems": [
+      "Leseni mahiri ya kidijitali",
+      "Mtaala mpya wa NTSA",
+      "Uhakika wa kuwa dereva mahiri kwenye barabara kuu na ndogo zote"
+    ],
+    "leadershipOverline": "Uongozi",
+    "managementTitle": "Timu ya Uongozi",
+    "roles": {
+      "ceo": "Afisa Mkuu Mtendaji",
+      "gm": "Meneja Mkuu",
+      "ops": "Meneja wa Uendeshaji",
+      "branchManagers": "Mameneja wa Matawi"
+    }
   },
 
   "languageSwitcher": {

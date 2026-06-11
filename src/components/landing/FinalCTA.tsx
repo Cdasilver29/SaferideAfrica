@@ -6,6 +6,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import Svg, { Path, Defs, LinearGradient as SvgGradient, Stop } from 'react-native-svg'
 import { router } from 'expo-router'
+import { useTranslation } from 'react-i18next'
 import { ArrowRight, Phone } from 'lucide-react-native'
 import { C, F, IS_WEB, MAX_W } from './constants'
 import { SectionIntro } from './SectionIntro'
@@ -131,6 +132,7 @@ function WaveBackground({ sectionH }: { sectionH: number }) {
 // ── Section ───────────────────────────────────────────────────────────────────
 
 export default function FinalCTA() {
+  const { t } = useTranslation()
   const { open } = useEnrollModal()
   const sectionH = IS_WEB ? 460 : 380
 
@@ -156,9 +158,9 @@ export default function FinalCTA() {
         ]}
       >
         <SectionIntro
-          badge="Get Started"
-          title="Ready to Drive with Safety Beyond?"
-          description="Join thousands of Kenyan drivers who earned their licence with SafeRide Africa. Pick your course and start today."
+          badge={t('home.finalCta.badge')}
+          title={t('home.finalCta.title')}
+          description={t('home.finalCta.description')}
           invert
         />
 
@@ -175,7 +177,7 @@ export default function FinalCTA() {
               shadowColor: C.yellow, shadowOpacity: 0.45, shadowRadius: 14, elevation: 6,
             }}
           >
-            <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 15 }}>Enrol Now</Text>
+            <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 15 }}>{t('common.enrolNow')}</Text>
             <ArrowRight size={17} color={C.dark} />
           </TouchableOpacity>
 
@@ -192,7 +194,7 @@ export default function FinalCTA() {
             }}
           >
             <Phone size={16} color={C.white} />
-            <Text style={{ color: C.white, fontFamily: F.semibold, fontSize: 15 }}>Talk to Us</Text>
+            <Text style={{ color: C.white, fontFamily: F.semibold, fontSize: 15 }}>{t('common.talkToUs')}</Text>
           </TouchableOpacity>
         </View>
       </View>

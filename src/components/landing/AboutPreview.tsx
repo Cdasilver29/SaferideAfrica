@@ -1,12 +1,14 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { ArrowRight } from 'lucide-react-native';
 import { C, F, IS_WEB, MAX_W, ABOUT_IMG } from './constants';
 import { SectionIntro } from './SectionIntro';
 import { FeatureCard } from './FeatureCard';
 
 export default function AboutPreview() {
+  const { t } = useTranslation();
   const { width: winW } = useWindowDimensions();
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
 
@@ -16,9 +18,9 @@ export default function AboutPreview() {
 
         <SectionIntro
           invert
-          badge="About Us"
-          title="Built for Kenyan Roads"
-          description="Since 2015, SafeRide has trained drivers across 12 branches in Nairobi with one promise: safety beyond a licence."
+          badge={t('home.aboutPreview.badge')}
+          title={t('home.aboutPreview.title')}
+          description={t('home.aboutPreview.description')}
         />
 
         {isMobile ? (
@@ -35,15 +37,15 @@ export default function AboutPreview() {
               <View style={{ flex: 1 }}>
                 <FeatureCard
                   variant="primary"
-                  title="NTSA-Aligned Curriculum"
-                  description="Certified instructors teach the full NTSA curriculum — theory, road rules, Smart DL application, and real-road practice."
+                  title={t('home.aboutPreview.feature1Title')}
+                  description={t('home.aboutPreview.feature1Desc')}
                 />
               </View>
               <View style={{ flex: 1 }}>
                 <FeatureCard
                   variant="accent"
-                  title="Flexible Lesson Slots"
-                  description="Morning, afternoon, or weekend — pick the slot that fits your life. 12 branches across Nairobi so you never travel far."
+                  title={t('home.aboutPreview.feature2Title')}
+                  description={t('home.aboutPreview.feature2Desc')}
                 />
               </View>
             </View>
@@ -54,13 +56,13 @@ export default function AboutPreview() {
             <View style={{ flex: 1, gap: 16 }}>
               <FeatureCard
                 variant="primary"
-                title="NTSA-Aligned Curriculum"
-                description="Certified instructors teach the full NTSA curriculum — theory, road rules, Smart DL application, and real-road practice."
+                title={t('home.aboutPreview.feature1Title')}
+                description={t('home.aboutPreview.feature1Desc')}
               />
               <FeatureCard
                 variant="accent"
-                title="Flexible Lesson Slots"
-                description="Morning, afternoon, or weekend — pick the slot that fits your life. 12 branches across Nairobi so you never travel far."
+                title={t('home.aboutPreview.feature2Title')}
+                description={t('home.aboutPreview.feature2Desc')}
               />
             </View>
             <View style={{ flex: 1 }}>
@@ -94,7 +96,7 @@ export default function AboutPreview() {
               elevation: 5,
             }}
           >
-            <Text style={{ color: C.white, fontFamily: F.bold, fontSize: 15 }}>About Us</Text>
+            <Text style={{ color: C.white, fontFamily: F.bold, fontSize: 15 }}>{t('common.aboutUs')}</Text>
             <ArrowRight size={16} color={C.white} />
           </TouchableOpacity>
         </View>
