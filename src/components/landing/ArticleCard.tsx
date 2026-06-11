@@ -10,12 +10,15 @@ import Animated, {
 import { useRouter } from 'expo-router'
 import { ArrowRight } from 'lucide-react-native'
 
+import { useTranslation } from 'react-i18next'
+
 import { useTheme } from '@/lib/theme'
 import { C, F } from './constants'
 import type { BlogArticle } from '@/data/saferide'
 
 function ReadMoreLink({ hovered }: { hovered: boolean }) {
   const T = useTheme()
+  const { t } = useTranslation()
   const out = useSharedValue(0)
   const inn = useSharedValue(-20)
 
@@ -61,7 +64,7 @@ function ReadMoreLink({ hovered }: { hovered: boolean }) {
         </Animated.View>
       </View>
       <Text style={{ fontFamily: F.medium, fontSize: 13, color: T.foreground }}>
-        Read more
+        {t('blogPage.readMore')}
       </Text>
     </View>
   )

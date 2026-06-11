@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { CheckCircle, ArrowRight } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 import { PageHero } from '@/components/landing/PageHero';
 import Navbar   from '@/components/landing/Navbar';
@@ -11,15 +12,11 @@ import Footer   from '@/components/landing/Footer';
 import { C, F, IS_WEB, MAX_W } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
 
-const STANDOUT = [
-  'Every instructor is NTSA-certified with hands-on road experience',
-  'All programmes align with the latest NTSA curriculum and test requirements',
-  'Flexible scheduling — morning, afternoon, and weekend slots available',
-];
-
 // ─── Why our services stand out ───────────────────────────────────────────────
 function StandOut() {
+  const { t } = useTranslation();
   const T = useTheme();
+  const standoutItems = t('servicesPage.standoutItems', { returnObjects: true }) as string[];
   return (
     <View
       style={{
@@ -37,10 +34,10 @@ function StandOut() {
             marginBottom: 20,
           }}
         >
-          Why our services stand out
+          {t('servicesPage.standoutTitle')}
         </Text>
         <View style={{ gap: 14 }}>
-          {STANDOUT.map((item, i) => (
+          {standoutItems.map((item, i) => (
             <View key={i} style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12 }}>
               <CheckCircle size={18} color={C.blue} style={{ marginTop: 1 }} />
               <Text
@@ -64,6 +61,7 @@ function StandOut() {
 
 // ─── Courses CTA ──────────────────────────────────────────────────────────────
 function CoursesCTA() {
+  const { t } = useTranslation();
   const T = useTheme();
   return (
     <View
@@ -89,7 +87,7 @@ function CoursesCTA() {
         }}
       >
         <Text style={{ color: C.blue, fontFamily: F.semibold, fontSize: 14 }}>
-          See pricing for these
+          {t('servicesPage.coursesCta')}
         </Text>
         <ArrowRight size={16} color={C.blue} />
       </TouchableOpacity>
@@ -99,12 +97,13 @@ function CoursesCTA() {
 
 // ─── Page ────────────────────────────────────────────────────────────────────
 export default function ServicesPage() {
+  const { t } = useTranslation();
   const T = useTheme();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: T.background }}>
       <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-        <PageHero overline="What We Offer" title="Our Services" />
+        <PageHero overline={t('servicesPage.pageOverline')} title={t('servicesPage.pageTitle')} />
         {/* Full 10-service grid with "Read More" links to /services/[code] */}
         <Services />
         <StandOut />

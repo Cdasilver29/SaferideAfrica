@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import { AlertTriangle, Mail, Phone, MapPin, ArrowRight, Send, Globe } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 import { PageHero } from '@/components/landing/PageHero';
 import Navbar          from '@/components/landing/Navbar';
@@ -16,9 +17,18 @@ import { useTheme } from '@/lib/theme';
 
 const KSH = (n: number) => 'Ksh ' + n.toLocaleString('en-KE');
 
+const CONTACT_LABEL_KEY_MAP: Record<string, string> = {
+  Address: 'address',
+  Primary: 'primary',
+  Secondary: 'secondary',
+  Email: 'email',
+  Website: 'website',
+};
+
 // ─── Contact info card ────────────────────────────────────────────────────────
 function ContactInfo() {
   const T = useTheme();
+  const { t } = useTranslation();
   return (
     <View
       style={{
@@ -87,7 +97,7 @@ function ContactInfo() {
           </View>
           <View style={{ flex: 1, paddingTop: 2 }}>
             <Text style={{ color: T.mutedForeground, fontFamily: F.medium, fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 2 }}>
-              {label}
+              {t(`contactPage.labels.${CONTACT_LABEL_KEY_MAP[label]}`)}
             </Text>
             <Text
               style={{
@@ -107,7 +117,7 @@ function ContactInfo() {
       {/* Socials */}
       <View>
         <Text style={{ color: T.mutedForeground, fontFamily: F.medium, fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 10 }}>
-          Social
+          {t('contactPage.labels.social')}
         </Text>
         <View style={{ flexDirection: 'row', gap: 10 }}>
           {[
@@ -139,6 +149,7 @@ const BRANCHES_FOR_DROPDOWN = (BRANCHES as readonly typeof BRANCHES[0][]).map(b 
 
 function ContactForm() {
   const T = useTheme();
+  const { t } = useTranslation();
   const [form, setForm] = useState({
     name: '', email: '', phone: '', branch: '', subject: '', message: '',
   });
@@ -192,15 +203,15 @@ function ContactForm() {
       }}
     >
       <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 18, marginBottom: 4 }}>
-        Send a Message
+        {t('contactPage.form.title')}
       </Text>
 
       <View style={{ gap: 4 }}>
-        <Text style={labelStyle}>Name *</Text>
+        <Text style={labelStyle}>{t('contactPage.form.name')}</Text>
         <TextInput
           value={form.name}
           onChangeText={set('name')}
-          placeholder="Your full name"
+          placeholder={t('contactPage.form.namePlaceholder')}
           placeholderTextColor={T.mutedForeground}
           style={inputStyle}
         />
@@ -208,11 +219,11 @@ function ContactForm() {
 
       <View style={IS_WEB ? { flexDirection: 'row', gap: 12 } : { gap: 4 }}>
         <View style={{ flex: 1, gap: 4 }}>
-          <Text style={labelStyle}>Email *</Text>
+          <Text style={labelStyle}>{t('contactPage.form.email')}</Text>
           <TextInput
             value={form.email}
             onChangeText={set('email')}
-            placeholder="your@email.com"
+            placeholder={t('contactPage.form.emailPlaceholder')}
             placeholderTextColor={T.mutedForeground}
             keyboardType="email-address"
             autoCapitalize="none"
@@ -220,11 +231,11 @@ function ContactForm() {
           />
         </View>
         <View style={IS_WEB ? { flex: 1, gap: 4 } : { gap: 4, marginTop: 14 }}>
-          <Text style={labelStyle}>Phone</Text>
+          <Text style={labelStyle}>{t('contactPage.form.phone')}</Text>
           <TextInput
             value={form.phone}
             onChangeText={set('phone')}
-            placeholder="07xx xxx xxx"
+            placeholder={t('contactPage.form.phonePlaceholder')}
             placeholderTextColor={T.mutedForeground}
             keyboardType="phone-pad"
             style={inputStyle}
@@ -233,33 +244,33 @@ function ContactForm() {
       </View>
 
       <View style={{ gap: 4 }}>
-        <Text style={labelStyle}>Nearest Branch</Text>
+        <Text style={labelStyle}>{t('contactPage.form.branch')}</Text>
         <TextInput
           value={form.branch}
           onChangeText={set('branch')}
-          placeholder="e.g. Donholm, Buruburu…"
+          placeholder={t('contactPage.form.branchPlaceholder')}
           placeholderTextColor={T.mutedForeground}
           style={inputStyle}
         />
       </View>
 
       <View style={{ gap: 4 }}>
-        <Text style={labelStyle}>Subject</Text>
+        <Text style={labelStyle}>{t('contactPage.form.subject')}</Text>
         <TextInput
           value={form.subject}
           onChangeText={set('subject')}
-          placeholder="How can we help?"
+          placeholder={t('contactPage.form.subjectPlaceholder')}
           placeholderTextColor={T.mutedForeground}
           style={inputStyle}
         />
       </View>
 
       <View style={{ gap: 4 }}>
-        <Text style={labelStyle}>Message</Text>
+        <Text style={labelStyle}>{t('contactPage.form.message')}</Text>
         <TextInput
           value={form.message}
           onChangeText={set('message')}
-          placeholder="Tell us more…"
+          placeholder={t('contactPage.form.messagePlaceholder')}
           placeholderTextColor={T.mutedForeground}
           multiline
           numberOfLines={4}
@@ -287,7 +298,7 @@ function ContactForm() {
         }}
       >
         <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: 14 }}>
-          {sent ? "We'll be in touch soon!" : 'Send Message'}
+          {sent ? t('contactPage.form.sent') : t('contactPage.form.send')}
         </Text>
         {!sent && <Send size={16} color="#ffffff" />}
       </TouchableOpacity>
@@ -298,6 +309,7 @@ function ContactForm() {
 // ─── Payment info card ────────────────────────────────────────────────────────
 function PaymentInfo() {
   const T = useTheme();
+  const { t } = useTranslation();
   const { width: winW } = useWindowDimensions();
   const isWide = IS_WEB && winW >= 768;
   return (
@@ -336,13 +348,13 @@ function PaymentInfo() {
       >
         <View style={{ flex: isWide ? 1 : undefined }}>
           <Text style={{ color: T.mutedForeground, fontFamily: F.semibold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }}>
-            M-Pesa Lipa Na M-Pesa
+            {t('courses.paymentMpesa')}
           </Text>
           <Text style={{ color: T.foreground, fontFamily: F.regular, fontSize: 13, marginBottom: 2 }}>
-            Paybill: <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaPaybill}</Text>
+            {t('courses.paybillLabel')} <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaPaybill}</Text>
           </Text>
           <Text style={{ color: T.foreground, fontFamily: F.regular, fontSize: 13 }}>
-            Account: <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaAccountName}</Text>
+            {t('courses.accountLabel')} <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaAccountName}</Text>
           </Text>
         </View>
         {isWide && (
@@ -350,10 +362,10 @@ function PaymentInfo() {
         )}
         <View style={{ flex: isWide ? 1 : undefined }}>
           <Text style={{ color: T.mutedForeground, fontFamily: F.semibold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }}>
-            Bank Transfer — {PAYMENT.bankName}
+            {t('contactPage.bankTransferLabel', { bankName: PAYMENT.bankName })}
           </Text>
           <Text style={{ color: T.foreground, fontFamily: F.regular, fontSize: 13 }}>
-            Account: <Text style={{ fontFamily: F.bold }}>{PAYMENT.kcbAccount}</Text>
+            {t('courses.accountLabel')} <Text style={{ fontFamily: F.bold }}>{PAYMENT.kcbAccount}</Text>
           </Text>
         </View>
       </View>
@@ -364,6 +376,7 @@ function PaymentInfo() {
 // ─── Map mini preview ─────────────────────────────────────────────────────────
 function MapPreview() {
   const T = useTheme();
+  const { t } = useTranslation();
   const hq = BRANCHES[0];
   return (
     <View style={{ gap: 14 }}>
@@ -384,7 +397,7 @@ function MapPreview() {
           borderRadius: 10,
         }}
       >
-        <Text style={{ color: C.blue, fontFamily: F.semibold, fontSize: 13 }}>See all 12 branches</Text>
+        <Text style={{ color: C.blue, fontFamily: F.semibold, fontSize: 13 }}>{t('contactPage.seeAllBranches', { count: BRANCHES.length })}</Text>
         <ArrowRight size={14} color={C.blue} />
       </TouchableOpacity>
     </View>
@@ -394,13 +407,14 @@ function MapPreview() {
 // ─── Page ────────────────────────────────────────────────────────────────────
 export default function ContactPage() {
   const T = useTheme();
+  const { t } = useTranslation();
   const { width: winW } = useWindowDimensions();
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: T.background }}>
       <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-        <PageHero overline="Get in Touch" title="Contact Us" />
+        <PageHero overline={t('contactPage.pageOverline')} title={t('contactPage.pageTitle')} />
 
         {/* Two-column layout */}
         <View style={{ paddingVertical: isMobile ? 32 : 56, paddingHorizontal: isMobile ? 16 : 24 }}>

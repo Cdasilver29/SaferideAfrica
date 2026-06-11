@@ -99,6 +99,8 @@
     "refresherTitle": "Masomo ya Kukumbusha",
     "perLesson": "kwa somo",
     "minLessons": "Kiwango cha chini cha masomo {{count}}",
+    "paybillLabel": "Paybill:",
+    "accountLabel": "Akaunti:",
     "monthly": "Kila Mwezi",
     "yearly": "Kila Mwaka",
     "savingMessage": "Okoa takriban 15% kwa malipo ya mwaka!",
@@ -428,6 +430,147 @@
       "ops": "Meneja wa Uendeshaji",
       "branchManagers": "Mameneja wa Matawi"
     }
+  },
+
+  "servicesPage": {
+    "pageOverline": "Tunachotoa",
+    "pageTitle": "Huduma Zetu",
+    "standoutTitle": "Kwa nini huduma zetu zinajitokeza",
+    "standoutItems": [
+      "Kila mkufunzi ana cheti cha NTSA na uzoefu wa moja kwa moja barabarani",
+      "Programu zote zinaambatana na mtaala na mahitaji ya mtihani wa hivi karibuni wa NTSA",
+      "Ratiba rahisi: nafasi za asubuhi, mchana, na wikendi zinapatikana"
+    ],
+    "coursesCta": "Angalia bei za kozi hizi",
+    "detail": {
+      "back": "Rudi",
+      "notFound": "Huduma haikupatikana.",
+      "goHome": "Nenda Nyumbani",
+      "aboutService": "Kuhusu Huduma Hii",
+      "browseClasses": "Angalia Madarasa"
+    },
+    "items": {
+      "defensive": {
+        "name": "Uendeshaji wa Kujikinga (Defensive Driving)",
+        "shortDesc": "Utambuzi wa hatari, breki za dharura, na usimamizi wa nafasi kwa hali yoyote ya barabara nchini Kenya.",
+        "fullDesc": "Kozi yetu ya Uendeshaji wa Kujikinga inakufundisha kutambua na kukabiliana na hatari za barabarani kabla hazijawa ajali. Utajifunza utambuzi wa hatari, umbali sahihi wa kufuatana, breki za dharura, mbinu za kuepuka, na usalama wa kuendesha usiku. Kozi hii hufanyika kwenye barabara halisi za Nairobi, ikiwemo Expressway na mitaa ya jiji, ikikupa ujuzi unaoweza kuokoa maisha yako na ya wengine."
+      },
+      "smartDl": {
+        "name": "Leseni Mahiri (Smart DL)",
+        "shortDesc": "Maombi kamili ya Leseni Mahiri ya Kidijitali ya NTSA na usanidi wa akaunti ya TIMS, kuanzia mwanzo hadi mwisho.",
+        "fullDesc": "SafeRide Africa inashughulikia mchakato mzima wa Leseni Mahiri ya Kidijitali ya NTSA kwa niaba yako. Tunashughulikia usajili wa akaunti ya TIMS, uratibu wa kunasa alama za kibiolojia, uchakataji wa malipo, na ufuatiliaji wa hali, ili upate Smart DL yako bila kusubiri foleni ndefu. Wafanyakazi wetu husasishwa na kila mabadiliko ya mfumo wa NTSA ili kuhakikisha uchakataji wa haraka na sahihi kwa ada maalum ya Ksh {{smartDLFee}}."
+      },
+      "executive": {
+        "name": "Madarasa ya Watendaji (Executive)",
+        "shortDesc": "Mafunzo ya kibinafsi ya hali ya juu yenye ratiba maalum, yanafaa kwa wataalamu wenye shughuli nyingi.",
+        "fullDesc": "Darasa la Watendaji linatoa uzoefu wa kweli wa kibinafsi wa kuendesha gari. Vipindi hupangwa kulingana na ratiba yako na kutolewa na wakufunzi wetu wenye uzoefu zaidi. Iwe unajifunza kutoka mwanzo au unaboresha ujuzi uliopo, programu ya Watendaji hutoa mafunzo ya faragha, yanayonyumbulika, na yanayolenga matokeo, na bei za sasa zinapatikana wakati wa usajili bila gharama za ziada zilizofichwa."
+      },
+      "ladies": {
+        "name": "Maalum kwa Wanawake",
+        "shortDesc": "Programu maalum kwa wanafunzi wanawake yenye chaguo la mkufunzi mwanamke.",
+        "fullDesc": "Programu yetu Maalum kwa Wanawake huunda mazingira mazuri na yenye kujenga ujasiri kwa wanafunzi wa kike. Masomo hufanyika kwa kasi yako, na chaguo la mkufunzi mwanamke. Mtaala unashughulikia mahitaji yote ya NTSA huku ukiweka msisitizo wa ziada kwenye mazoezi ya kujenga ujasiri, uongozaji jijini, kuegesha, na usalama wa kibinafsi barabarani."
+      },
+      "expressway": {
+        "name": "Maalum kwa Expressway / Barabara Kuu",
+        "shortDesc": "Mafunzo maalum kwa ajili ya Expressway ya Nairobi na barabara kuu kwa kasi salama.",
+        "fullDesc": "Barabara kuu za Kenya zinahitaji ujuzi tofauti na uendeshaji wa jijini, ikiwemo kasi za juu, nidhamu ya njia, usimamizi wa kuungana, na taratibu salama za kutoka. Maalum yetu ya Expressway inakupa mazoezi yanayosimamiwa kwenye Expressway ya Nairobi na Thika Super Highway, ikijenga ujasiri wa kuendesha kwa usalama kwenye barabara za haraka zaidi za Kenya."
+      },
+      "beginner": {
+        "name": "Elimu ya Madereva Wanaoanza",
+        "shortDesc": "Programu kamili kuanzia mwanzo: udhibiti wa gari, alama za barabarani, darasa la nadharia, na mazoezi ya barabarani.",
+        "fullDesc": "Programu ya Elimu ya Madereva Wanaoanza imeundwa kwa wanafunzi wanaoanza bila uzoefu wowote wa awali. Kuanzia katika mazingira yanayodhibitiwa, utaendelea kupitia ufahamu wa gari, udhibiti wa msingi, alama za barabarani, nadharia ya NTSA, na mazoezi ya barabarani yanayosimamiwa. Ukimaliza, utakuwa tayari kabisa kwa mtihani wa udereva wa NTSA na kuwa na ujasiri barabarani halisi."
+      },
+      "advanced": {
+        "name": "Mafunzo ya Juu kwa Madereva",
+        "shortDesc": "Mafunzo ya kuongeza ujuzi kwa madereva wenye leseni wanaotaka kumudu barabara ngumu na hali za usiku.",
+        "fullDesc": "Tayari una leseni lakini unataka kuongeza kiwango? Mafunzo yetu ya Juu kwa Madereva yanashughulikia uendeshaji wa kasi kwenye barabara kuu, uendeshaji wa usiku, kushughulikia hali mbaya za hewa, na mbinu za kitaalamu za uendeshaji. Inafaa kwa madereva wanaotaka ujasiri zaidi kwenye barabara za Kenya au wanaojiandaa kwa majukumu ya kitaalamu na ya kampuni."
+      },
+      "roadTest": {
+        "name": "Maandalizi ya Mtihani wa Barabarani",
+        "shortDesc": "Mazoezi makali ya mtihani wa NTSA ili ujue hasa wakaguzi wanachotafuta siku ya mtihani.",
+        "fullDesc": "Vipindi vyetu vya Maandalizi ya Mtihani wa Barabarani hufanana kabisa na mtihani halisi wa udereva wa NTSA, utafanya mazoezi ya mienendo, njia, na vigezo vya tathmini vinavyotumiwa na wakaguzi. Tunashughulikia kuegesha sambamba, mizunguko ya pointi tatu, kusimama kwa dharura, uangalizi wa barabara, na mawasiliano na mkaguzi. Wanafunzi wanaomaliza programu hii hufikia kiwango cha asilimia 98 cha kufaulu jaribio la kwanza."
+      },
+      "corporate": {
+        "name": "Mafunzo ya Madereva wa Makampuni",
+        "shortDesc": "Mafunzo ya madereva wa meli za magari na makampuni yanayoshughulikia uendeshaji wa kujikinga, uzingatiaji wa NTSA, na huduma ya kwanza.",
+        "fullDesc": "SafeRide Africa hutoa programu kamili za mafunzo ya madereva wa kampuni kwa makampuni ya ukubwa wowote. Tunatathmini madereva wa meli yako ya magari, tunatoa mafunzo ya kuongeza uendeshaji wa kujikinga, tunashughulikia uzingatiaji wa NTSA na uwekaji kumbukumbu, na tunatoa mafunzo ya msingi ya huduma ya kwanza. Programu zinaweza kufanyika katika eneo lako au katika mojawapo ya matawi yetu {{branches}}. Bei za kikundi zinatumika kwa meli za magari matano au zaidi."
+      },
+      "online": {
+        "name": "Jukwaa la Kujifunza Mtandaoni",
+        "shortDesc": "Madarasa ya nadharia ya moja kwa moja na yaliyorekodiwa yanayolingana na NTSA, yanayopatikana kwenye kifaa chochote, popote nchini Kenya.",
+        "fullDesc": "Jukwaa letu la Kujifunza Mtandaoni linakupa mtaala kamili wa nadharia ya NTSA kutoka kwenye simu, kompyuta kibao, au laptop yako. Madarasa ya moja kwa moja hufanyika mara kadhaa kwa wiki, na rekodi zinapatikana wakati wowote. Mada ni pamoja na alama za barabarani, sheria za trafiki, huduma ya kwanza kwa madereva, na nadharia ya uendeshaji wa kujikinga. Fuatilia maendeleo yako kupitia LMS yetu na zungumza moja kwa moja na wakufunzi wakati wowote."
+      }
+    }
+  },
+
+  "coursesPage": {
+    "pageTitle": "Madarasa Yetu ya Udereva",
+    "feesNoteTitle": "Ada za Ziada za Serikali",
+    "interimLicenceLabel": "Leseni ya Muda:",
+    "smartDlLabel": "Maombi ya Smart DL:",
+    "contactCta": "Unahitaji msaada kuchagua? Ongea nasi"
+  },
+
+  "contactPage": {
+    "pageOverline": "Wasiliana Nasi",
+    "pageTitle": "Wasiliana Nasi",
+    "labels": {
+      "address": "Anwani",
+      "primary": "Namba ya Kwanza",
+      "secondary": "Namba ya Pili",
+      "email": "Barua Pepe",
+      "website": "Tovuti",
+      "social": "Mitandao ya Kijamii"
+    },
+    "form": {
+      "title": "Tuma Ujumbe",
+      "name": "Jina *",
+      "namePlaceholder": "Jina lako kamili",
+      "email": "Barua Pepe *",
+      "emailPlaceholder": "wewe@barua.com",
+      "phone": "Simu",
+      "phonePlaceholder": "07xx xxx xxx",
+      "branch": "Tawi la Karibu",
+      "branchPlaceholder": "mfano. Donholm, Buruburu...",
+      "subject": "Mada",
+      "subjectPlaceholder": "Tunawezaje kukusaidia?",
+      "message": "Ujumbe",
+      "messagePlaceholder": "Tuambie zaidi...",
+      "send": "Tuma Ujumbe",
+      "sent": "Tutawasiliana nawe hivi karibuni!"
+    },
+    "bankTransferLabel": "Uhamisho wa Benki ({{bankName}})",
+    "seeAllBranches": "Angalia matawi {{count}}"
+  },
+
+  "galleryPage": {
+    "pageOverline": "Upigaji Picha",
+    "pageTitle": "Picha Zetu",
+    "emptyTitle": "Picha Zinakuja Hivi Karibuni",
+    "emptyBody": "Tunapakia picha za vipindi vyetu vya mafunzo, wanafunzi, na vituo.\nRudi tena hivi karibuni!",
+    "photoCount": "Picha {{count}}, gusa kupanua"
+  },
+
+  "blogPage": {
+    "pageOverline": "Blogu",
+    "title": "Habari na Makala",
+    "sectionOverline": "BLOGU YETU",
+    "readMore": "Soma zaidi",
+    "back": "Rudi Nyuma",
+    "notFound": "Makala haikupatikana.",
+    "goHome": "Nenda Nyumbani"
+  },
+
+  "branchesPage": {
+    "pageOverline": "Maeneo Yetu",
+    "pageTitle": "Matawi Yetu {{count}}",
+    "hqBadge": "MAKAO MAKUU",
+    "getDirections": "Pata Mwelekeo",
+    "call": "Piga Simu",
+    "headquarters": "Makao Makuu",
+    "hqAddressFormat": "{{name}}, {{address}}",
+    "directionsToHq": "Mwelekeo wa Makao Makuu",
+    "contactCta": "Una swali? Wasiliana nasi"
   },
 
   "languageSwitcher": {

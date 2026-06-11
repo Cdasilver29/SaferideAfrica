@@ -99,6 +99,8 @@
     "refresherTitle": "复习课程",
     "perLesson": "每课时",
     "minLessons": "最少{{count}}课时",
+    "paybillLabel": "Paybill代码:",
+    "accountLabel": "账户:",
     "monthly": "月付",
     "yearly": "年付",
     "savingMessage": "年付优惠约15%！",
@@ -428,6 +430,147 @@
       "ops": "运营经理",
       "branchManagers": "分校经理"
     }
+  },
+
+  "servicesPage": {
+    "pageOverline": "我们提供的服务",
+    "pageTitle": "我们的服务",
+    "standoutTitle": "我们服务的优势",
+    "standoutItems": [
+      "每位教练均持有NTSA认证并具备实际道路经验",
+      "所有课程均符合最新的NTSA教学大纲和考试要求",
+      "灵活的时间安排：早上、下午和周末时段均可预约"
+    ],
+    "coursesCta": "查看这些课程的价格",
+    "detail": {
+      "back": "返回",
+      "notFound": "未找到该服务。",
+      "goHome": "返回首页",
+      "aboutService": "关于此服务",
+      "browseClasses": "浏览课程"
+    },
+    "items": {
+      "defensive": {
+        "name": "防御性驾驶",
+        "shortDesc": "针对肯尼亚各种道路状况的危险感知、紧急制动和空间管理培训。",
+        "fullDesc": "我们的防御性驾驶课程训练您在危险演变成事故之前预测并应对道路危险。您将掌握危险感知、正确的跟车距离、紧急制动、规避动作以及夜间驾驶安全。课程在内罗毕的真实道路上进行，包括高速公路和市区街道，让您掌握能够挽救自己和他人生命的技能。"
+      },
+      "smartDl": {
+        "name": "智能驾照（Smart DL）",
+        "shortDesc": "完整的NTSA智能数字驾照申请及TIMS账户设置，全程代办。",
+        "fullDesc": "Safe Ride Africa代您处理整个NTSA智能数字驾照流程。我们负责TIMS账户注册、生物识别采集协调、付款处理和状态跟踪，让您无需排长队即可领取智能驾照。我们的工作人员随时关注NTSA系统的每一次更新，以固定费用{{smartDLFee}}先令确保快速、准确的处理。"
+      },
+      "executive": {
+        "name": "尊享课程（Executive）",
+        "shortDesc": "高级一对一培训，时间安排个性化，适合繁忙的专业人士。",
+        "fullDesc": "尊享课程提供真正个性化的驾驶体验。课程根据您的日程安排，由我们最资深的教练授课。无论您是从零开始学习还是提升现有技能，尊享课程都能提供低调、灵活、注重成果的培训，报名时即可获取最新价格，无任何隐藏费用。"
+      },
+      "ladies": {
+        "name": "女士专属课程",
+        "shortDesc": "专为女性学员设计的课程，可选择女教练。",
+        "fullDesc": "我们的女士专属课程为女性学员营造舒适、增强自信的学习环境。课程按您的节奏进行，并可选择女教练。课程涵盖所有NTSA要求，同时特别注重信心建立练习、城市导航、停车以及个人道路安全。"
+      },
+      "expressway": {
+        "name": "高速公路专项课程",
+        "shortDesc": "针对内罗毕高速公路及其他高速路段的安全高速驾驶专项培训。",
+        "fullDesc": "肯尼亚的高速公路对驾驶技能的要求与市区驾驶不同，包括高速行驶、车道纪律、并线管理和安全出口操作。我们的高速公路专项课程让您在内罗毕高速公路和锡卡高速公路上进行有监督的练习，帮助您建立在肯尼亚最快道路上安全驾驶的信心。"
+      },
+      "beginner": {
+        "name": "新手驾驶教育",
+        "shortDesc": "完整的零基础课程：车辆操控、交通标志、理论课和道路实践。",
+        "fullDesc": "新手驾驶教育课程专为没有任何驾驶经验的初学者设计。从受控环境开始，您将逐步学习车辆熟悉、基本操控、交通标志、NTSA理论以及有监督的道路实践。课程结束后，您将完全做好参加NTSA驾驶考试的准备，并能自信地在真实道路上驾驶。"
+      },
+      "advanced": {
+        "name": "高级驾驶培训",
+        "shortDesc": "面向已持证司机的技能提升培训，掌握复杂路况和夜间驾驶。",
+        "fullDesc": "已经持有驾照但想进一步提升？我们的高级驾驶培训涵盖高速公路高速驾驶、夜间驾驶、恶劣天气应对以及专业驾驶技巧。非常适合希望在肯尼亚道路上更有信心的司机，或正在为企业及专业驾驶岗位做准备的人士。"
+      },
+      "roadTest": {
+        "name": "路考备考",
+        "shortDesc": "高强度的NTSA考试模拟，让您准确了解考官在考试当天的关注点。",
+        "fullDesc": "我们的路考备考课程完全模拟真实的NTSA驾驶考试，您将练习考官使用的相同操作、路线和评估标准。课程涵盖平行泊车、三点掉头、紧急停车、道路观察以及与考官的沟通。完成本课程的学员首次通过率高达98%。"
+      },
+      "corporate": {
+        "name": "企业司机培训",
+        "shortDesc": "面向车队及企业司机的培训，涵盖防御性驾驶、NTSA合规和急救。",
+        "fullDesc": "Safe Ride Africa为各类规模的企业提供全面的企业司机培训项目。我们评估您车队司机的水平，提供防御性驾驶强化培训，涵盖NTSA合规与行车记录管理，并提供基础急救培训。培训可在贵公司场地或我们任意一家{{branches}}家分校进行。五辆及以上车队可享受团体优惠价格。"
+      },
+      "online": {
+        "name": "在线学习平台",
+        "shortDesc": "符合NTSA标准的直播及录播理论课程，可在肯尼亚任何地方、任何设备上学习。",
+        "fullDesc": "我们的在线学习平台让您可以通过手机、平板电脑或笔记本电脑学习完整的NTSA理论课程。每周多次直播课程，并提供点播录像。内容包括交通标志、交通法规、司机急救以及防御性驾驶理论。通过我们的学习管理系统跟踪您的学习进度，并随时与教练直接交流。"
+      }
+    }
+  },
+
+  "coursesPage": {
+    "pageTitle": "我们的驾驶课程",
+    "feesNoteTitle": "额外政府费用",
+    "interimLicenceLabel": "临时驾照:",
+    "smartDlLabel": "智能驾照申请:",
+    "contactCta": "需要帮助选择吗?联系我们"
+  },
+
+  "contactPage": {
+    "pageOverline": "联系我们",
+    "pageTitle": "联系我们",
+    "labels": {
+      "address": "地址",
+      "primary": "主要电话",
+      "secondary": "次要电话",
+      "email": "电子邮箱",
+      "website": "网站",
+      "social": "社交媒体"
+    },
+    "form": {
+      "title": "发送消息",
+      "name": "姓名 *",
+      "namePlaceholder": "您的全名",
+      "email": "电子邮箱 *",
+      "emailPlaceholder": "your@email.com",
+      "phone": "电话",
+      "phonePlaceholder": "07xx xxx xxx",
+      "branch": "最近的分校",
+      "branchPlaceholder": "例如:Donholm、Buruburu...",
+      "subject": "主题",
+      "subjectPlaceholder": "我们能为您做些什么?",
+      "message": "留言",
+      "messagePlaceholder": "告诉我们更多...",
+      "send": "发送消息",
+      "sent": "我们会尽快与您联系!"
+    },
+    "bankTransferLabel": "银行转账({{bankName}})",
+    "seeAllBranches": "查看全部{{count}}个分校"
+  },
+
+  "galleryPage": {
+    "pageOverline": "摄影作品",
+    "pageTitle": "我们的相册",
+    "emptyTitle": "相册即将上线",
+    "emptyBody": "我们正在上传培训课程、学员和设施的照片。\n请稍后再来查看!",
+    "photoCount": "{{count}}张照片,点击放大"
+  },
+
+  "blogPage": {
+    "pageOverline": "博客",
+    "title": "新闻与文章",
+    "sectionOverline": "我们的博客",
+    "readMore": "阅读更多",
+    "back": "返回",
+    "notFound": "未找到文章。",
+    "goHome": "返回首页"
+  },
+
+  "branchesPage": {
+    "pageOverline": "我们的分布",
+    "pageTitle": "我们的{{count}}个分校",
+    "hqBadge": "总部",
+    "getDirections": "获取路线",
+    "call": "致电",
+    "headquarters": "总部",
+    "hqAddressFormat": "{{name}}, {{address}}",
+    "directionsToHq": "前往总部路线",
+    "contactCta": "有疑问?联系我们"
   },
 
   "languageSwitcher": {

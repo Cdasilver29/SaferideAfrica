@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView, ScrollView, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
 import { Info, ArrowRight, MessageCircle } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 import { PageHero } from '@/components/landing/PageHero';
 import Navbar        from '@/components/landing/Navbar';
@@ -18,6 +19,7 @@ const KSH = (n: number) => 'Ksh ' + n.toLocaleString('en-KE');
 // ─── Extra fees note ─────────────────────────────────────────────────────────
 function ExtraFeesNote() {
   const T = useTheme();
+  const { t } = useTranslation();
   const { width: winW } = useWindowDimensions();
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   return (
@@ -38,16 +40,16 @@ function ExtraFeesNote() {
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
             <Info size={16} color={C.blue} />
             <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 13 }}>
-              Additional Government Fees
+              {t('coursesPage.feesNoteTitle')}
             </Text>
           </View>
           <View style={isMobile ? { gap: 8 } : { flexDirection: 'row', gap: 24 }}>
             <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13 }}>
-              Interim Licence:{' '}
+              {t('coursesPage.interimLicenceLabel')}{' '}
               <Text style={{ color: C.red, fontFamily: F.bold }}>{KSH(EXTRA_FEES.interimLicence)}</Text>
             </Text>
             <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13 }}>
-              Smart DL Application:{' '}
+              {t('coursesPage.smartDlLabel')}{' '}
               <Text style={{ color: C.red, fontFamily: F.bold }}>{KSH(EXTRA_FEES.smartDL)}</Text>
             </Text>
           </View>
@@ -60,6 +62,7 @@ function ExtraFeesNote() {
 // ─── Contact CTA ─────────────────────────────────────────────────────────────
 function ContactCTA() {
   const T = useTheme();
+  const { t } = useTranslation();
   return (
     <View
       style={{
@@ -88,7 +91,7 @@ function ContactCTA() {
       >
         <MessageCircle size={17} color="#ffffff" />
         <Text style={{ color: '#ffffff', fontFamily: F.semibold, fontSize: 14 }}>
-          Need help choosing? Talk to us
+          {t('coursesPage.contactCta')}
         </Text>
         <ArrowRight size={16} color="#ffffff" />
       </TouchableOpacity>
@@ -99,11 +102,12 @@ function ContactCTA() {
 // ─── Page ────────────────────────────────────────────────────────────────────
 export default function CoursesPage() {
   const T = useTheme();
+  const { t } = useTranslation();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: T.background }}>
       <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-        <PageHero overline="Driving Courses" title="Our Driving Classes" />
+        <PageHero overline={t('courses.overline')} title={t('coursesPage.pageTitle')} />
         <ExtraFeesNote />
         {/* Top 3 classes — same card layout as home page */}
         <CoursesPreview />

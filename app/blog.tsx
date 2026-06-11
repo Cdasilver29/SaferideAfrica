@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, SafeAreaView, ScrollView, useWindowDimensions } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { PageHero } from '@/components/landing/PageHero';
 import Navbar from '@/components/landing/Navbar';
@@ -13,6 +14,7 @@ import { useTheme } from '@/lib/theme';
 // ─── Article grid ────────────────────────────────────────────────────────────
 function ArticleGrid() {
   const T = useTheme();
+  const { t } = useTranslation();
   const { width: winW } = useWindowDimensions();
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
 
@@ -28,7 +30,7 @@ function ArticleGrid() {
               letterSpacing: 2, color: T.mutedForeground, marginBottom: 12,
             }}
           >
-            OUR BLOG
+            {t('blogPage.sectionOverline')}
           </Text>
           <Text
             style={{
@@ -40,7 +42,7 @@ function ArticleGrid() {
               textAlign: 'center',
             }}
           >
-            News &amp; Articles
+            {t('blogPage.title')}
           </Text>
         </View>
 
@@ -70,11 +72,12 @@ function ArticleGrid() {
 // ─── Page ────────────────────────────────────────────────────────────────────
 export default function BlogPage() {
   const T = useTheme();
+  const { t } = useTranslation();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: T.background }}>
       <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-        <PageHero overline="Blog" title="News & Articles" />
+        <PageHero overline={t('blogPage.pageOverline')} title={t('blogPage.title')} />
         <ArticleGrid />
         <Footer />
       </ScrollView>

@@ -311,10 +311,10 @@ function PaymentNotice({ isDark }: { isDark: boolean }) {
           </Text>
           <View style={{ gap: 4 }}>
             <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
-              Paybill: <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaPaybill}</Text>
+              {t('courses.paybillLabel')} <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaPaybill}</Text>
             </Text>
             <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
-              Account: <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaAccountName}</Text>
+              {t('courses.accountLabel')} <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaAccountName}</Text>
             </Text>
           </View>
         </View>
@@ -331,7 +331,7 @@ function PaymentNotice({ isDark }: { isDark: boolean }) {
               {PAYMENT.bankName}
             </Text>
             <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
-              Account: <Text style={{ fontFamily: F.bold }}>{PAYMENT.kcbAccount}</Text>
+              {t('courses.accountLabel')} <Text style={{ fontFamily: F.bold }}>{PAYMENT.kcbAccount}</Text>
             </Text>
           </View>
         </View>

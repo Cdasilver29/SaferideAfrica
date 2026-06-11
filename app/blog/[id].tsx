@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Platform } from 'react-native';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { BLOG_ARTICLES, BlogSection } from '../../src/data/saferide';
 import { C, F, IS_WEB } from '../../src/components/landing/constants';
 import { useTheme } from '../../src/lib/theme';
@@ -105,6 +106,7 @@ function BodyBlock({ block, T }: { block: BlogSection; T: any }) {
 export default function BlogPostPage() {
   const router = useRouter();
   const T = useTheme();
+  const { t } = useTranslation();
   const { id } = useLocalSearchParams<{ id: string }>();
 
   const post = BLOG_ARTICLES.find(a => a.id === id);
@@ -112,9 +114,9 @@ export default function BlogPostPage() {
   if (!post) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 32, backgroundColor: T.background }}>
-        <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 16 }}>Post not found.</Text>
+        <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 16 }}>{t('blogPage.notFound')}</Text>
         <TouchableOpacity onPress={() => router.replace('/')} style={{ marginTop: 20 }}>
-          <Text style={{ color: C.blue, fontFamily: F.semibold }}>Go Home</Text>
+          <Text style={{ color: C.blue, fontFamily: F.semibold }}>{t('blogPage.goHome')}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -135,7 +137,7 @@ export default function BlogPostPage() {
           activeOpacity={0.7}
         >
           <ArrowLeft size={22} color={C.blue} />
-          <Text style={{ color: C.blue, fontFamily: F.semibold, fontSize: 14 }}>Back</Text>
+          <Text style={{ color: C.blue, fontFamily: F.semibold, fontSize: 14 }}>{t('blogPage.back')}</Text>
         </TouchableOpacity>
 
         {/* Category + meta */}

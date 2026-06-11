@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView, ScrollView, Linking, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
 import { MapPin, Phone, Clock, Navigation, ArrowRight, MessageCircle } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 import { PageHero } from '@/components/landing/PageHero';
 import Navbar     from '@/components/landing/Navbar';
 import { BranchMap } from '@/components/landing/BranchMap';
 import Footer     from '@/components/landing/Footer';
 
-import { BRANCHES, Branch } from '@/data/saferide';
+import { BRANCHES, Branch, STATS } from '@/data/saferide';
 import { C, F, IS_WEB, MAX_W } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
 
@@ -23,6 +24,7 @@ function BranchCard({
   onSelect: () => void;
 }) {
   const T = useTheme();
+  const { t } = useTranslation();
   const isHQ = branch.isHQ;
 
   return (
@@ -74,7 +76,7 @@ function BranchCard({
                 letterSpacing: 0.8,
               }}
             >
-              HQ
+              {t('branchesPage.hqBadge')}
             </Text>
           </View>
         )}
@@ -119,7 +121,7 @@ function BranchCard({
           activeOpacity={0.8}
         >
           <Navigation size={12} color="#ffffff" />
-          <Text style={{ color: '#ffffff', fontFamily: F.semibold, fontSize: 12 }}>Get Directions</Text>
+          <Text style={{ color: '#ffffff', fontFamily: F.semibold, fontSize: 12 }}>{t('branchesPage.getDirections')}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => Linking.openURL(`tel:${branch.phone.replace(/\s/g, '')}`)}
@@ -137,7 +139,7 @@ function BranchCard({
           activeOpacity={0.8}
         >
           <Phone size={12} color={C.blue} />
-          <Text style={{ color: C.blue, fontFamily: F.semibold, fontSize: 12 }}>Call</Text>
+          <Text style={{ color: C.blue, fontFamily: F.semibold, fontSize: 12 }}>{t('branchesPage.call')}</Text>
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -220,6 +222,7 @@ function BranchDirectory() {
 // ─── HQ callout banner ────────────────────────────────────────────────────────
 function HQCallout() {
   const T = useTheme();
+  const { t } = useTranslation();
   const { width: winW } = useWindowDimensions();
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   const hq = BRANCHES.find(b => b.isHQ)!;
@@ -247,11 +250,11 @@ function HQCallout() {
             }}
           >
             <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 10, textTransform: 'uppercase', letterSpacing: 1 }}>
-              Headquarters
+              {t('branchesPage.headquarters')}
             </Text>
           </View>
           <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 15, flex: isMobile ? undefined : 1 }}>
-            {hq.name} — {hq.address}
+            {t('branchesPage.hqAddressFormat', { name: hq.name, address: hq.address })}
           </Text>
           <TouchableOpacity
             onPress={() =>
@@ -272,7 +275,7 @@ function HQCallout() {
             activeOpacity={0.85}
           >
             <Navigation size={13} color={C.dark} />
-            <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 12 }}>Directions to HQ</Text>
+            <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 12 }}>{t('branchesPage.directionsToHq')}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -283,6 +286,7 @@ function HQCallout() {
 // ─── Contact CTA ─────────────────────────────────────────────────────────────
 function ContactCTA() {
   const T = useTheme();
+  const { t } = useTranslation();
   return (
     <View
       style={{
@@ -308,7 +312,7 @@ function ContactCTA() {
       >
         <MessageCircle size={16} color={C.blue} />
         <Text style={{ color: C.blue, fontFamily: F.semibold, fontSize: 14 }}>
-          Have a question? Contact us
+          {t('branchesPage.contactCta')}
         </Text>
         <ArrowRight size={15} color={C.blue} />
       </TouchableOpacity>
@@ -319,11 +323,12 @@ function ContactCTA() {
 // ─── Page ────────────────────────────────────────────────────────────────────
 export default function BranchesPage() {
   const T = useTheme();
+  const { t } = useTranslation();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: T.background }}>
       <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-        <PageHero overline="Our Locations" title="Our 12 Branches" />
+        <PageHero overline={t('branchesPage.pageOverline')} title={t('branchesPage.pageTitle', { count: STATS.branches })} />
         <BranchDirectory />
         <HQCallout />
         <ContactCTA />

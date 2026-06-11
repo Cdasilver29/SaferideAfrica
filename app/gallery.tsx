@@ -8,6 +8,7 @@ import Animated, {
   withTiming, withSpring, withDelay,
 } from 'react-native-reanimated'
 import { X, ChevronLeft, ChevronRight, ZoomIn, Camera } from 'lucide-react-native'
+import { useTranslation } from 'react-i18next'
 import Navbar  from '@/components/landing/Navbar'
 import Footer  from '@/components/landing/Footer'
 import { C, F, IS_WEB, MAX_W, GALLERY_IMGS, SCREEN_W, SCREEN_H } from '@/components/landing/constants'
@@ -19,6 +20,7 @@ function getSource(item: GalleryItem) {
 }
 
 function PageHero() {
+  const { t } = useTranslation()
   return (
     <View style={{
       backgroundColor: C.skyDeep,
@@ -30,10 +32,10 @@ function PageHero() {
     }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
         <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: 11, letterSpacing: 2.5, textTransform: 'uppercase', marginBottom: 6 }}>
-          Photography
+          {t('galleryPage.pageOverline')}
         </Text>
         <Text style={{ color: C.white, fontFamily: F.bold, fontSize: IS_WEB ? 32 : 24, lineHeight: IS_WEB ? 42 : 32 }}>
-          Our Gallery
+          {t('galleryPage.pageTitle')}
         </Text>
       </View>
     </View>
@@ -88,6 +90,7 @@ function AnimatedPhotoCard({
 
 function EmptyGallery() {
   const T = useTheme()
+  const { t } = useTranslation()
   const opacity = useSharedValue(0)
   const translateY = useSharedValue(24)
 
@@ -113,10 +116,10 @@ function EmptyGallery() {
         <Camera size={36} color={C.skyDeep} />
       </View>
       <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: IS_WEB ? 20 : 17, textAlign: 'center', marginBottom: 10 }}>
-        Gallery Coming Soon
+        {t('galleryPage.emptyTitle')}
       </Text>
       <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 14, textAlign: 'center', lineHeight: 22, maxWidth: 340 }}>
-        We're uploading photos of our training sessions, students, and facilities.{'\n'}Check back soon!
+        {t('galleryPage.emptyBody')}
       </Text>
     </Animated.View>
   )
@@ -126,6 +129,7 @@ function EmptyGallery() {
 
 function GalleryGrid() {
   const T = useTheme()
+  const { t } = useTranslation()
   const items  = GALLERY_IMGS as GalleryItem[]
   const total  = items.length
 
@@ -165,7 +169,7 @@ function GalleryGrid() {
         ) : (
           <>
             <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 12, textAlign: 'center', marginBottom: 16 }}>
-              {total} {total === 1 ? 'photo' : 'photos'} — tap to enlarge
+              {t('galleryPage.photoCount', { count: total })}
             </Text>
             <View style={{ flexDirection: 'row', gap: GAP }}>
               <Col col={col1} colIdx={0} />

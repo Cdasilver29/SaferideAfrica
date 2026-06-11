@@ -99,6 +99,8 @@
     "refresherTitle": "Cours de Remise à Niveau",
     "perLesson": "par leçon",
     "minLessons": "Minimum {{count}} leçons",
+    "paybillLabel": "Paybill :",
+    "accountLabel": "Compte :",
     "monthly": "Mensuel",
     "yearly": "Annuel",
     "savingMessage": "Économisez ~15% avec la facturation annuelle !",
@@ -428,6 +430,147 @@
       "ops": "Directeur des Opérations",
       "branchManagers": "Directeurs d'Agence"
     }
+  },
+
+  "servicesPage": {
+    "pageOverline": "Ce que nous offrons",
+    "pageTitle": "Nos Services",
+    "standoutTitle": "Pourquoi nos services se distinguent",
+    "standoutItems": [
+      "Chaque instructeur est certifié NTSA avec une expérience pratique de la route",
+      "Tous les programmes sont alignés sur le programme et les exigences d'examen NTSA les plus récents",
+      "Horaires flexibles : créneaux disponibles le matin, l'après-midi et le week-end"
+    ],
+    "coursesCta": "Voir les tarifs de ces formations",
+    "detail": {
+      "back": "Retour",
+      "notFound": "Service introuvable.",
+      "goHome": "Retour à l'accueil",
+      "aboutService": "À propos de ce service",
+      "browseClasses": "Parcourir les classes"
+    },
+    "items": {
+      "defensive": {
+        "name": "Conduite Défensive",
+        "shortDesc": "Perception des dangers, freinage d'urgence et gestion de l'espace pour toutes les conditions routières kenyanes.",
+        "fullDesc": "Notre cours de conduite défensive vous apprend à anticiper et à réagir aux dangers de la route avant qu'ils ne deviennent des accidents. Vous maîtriserez la perception des dangers, les distances de sécurité appropriées, le freinage d'urgence, les manœuvres d'évitement et la conduite nocturne en toute sécurité. Le cours se déroule sur de vraies routes de Nairobi, y compris l'Expressway et les rues de la ville, vous donnant des compétences qui pourraient sauver votre vie et celle des autres."
+      },
+      "smartDl": {
+        "name": "Permis Intelligent (Smart DL)",
+        "shortDesc": "Demande complète du Permis Numérique Intelligent NTSA et configuration du compte TIMS, prise en charge de bout en bout.",
+        "fullDesc": "SafeRide Africa gère l'ensemble du processus de Permis Numérique Intelligent NTSA en votre nom. Nous nous occupons de l'enregistrement du compte TIMS, de la coordination de la capture biométrique, du traitement des paiements et du suivi du statut, afin que vous receviez votre Smart DL sans faire la queue. Notre personnel se tient au courant de chaque mise à jour du système NTSA pour garantir un traitement rapide et précis, à un tarif fixe de Ksh {{smartDLFee}}."
+      },
+      "executive": {
+        "name": "Cours Exécutifs",
+        "shortDesc": "Formation premium individuelle avec un horaire personnalisé, idéale pour les professionnels occupés.",
+        "fullDesc": "Le cours Exécutif offre une expérience de conduite véritablement personnalisée. Les séances sont planifiées selon votre emploi du temps et dispensées par nos instructeurs les plus expérimentés. Que vous appreniez à partir de zéro ou que vous perfectionniez vos compétences, le programme Exécutif offre une formation discrète, flexible et axée sur les résultats, avec des tarifs actuels disponibles à l'inscription et sans frais cachés."
+      },
+      "ladies": {
+        "name": "Spécial Dames",
+        "shortDesc": "Un programme adapté aux apprenantes avec la possibilité d'une instructrice.",
+        "fullDesc": "Notre programme Spécial Dames crée un environnement confortable et valorisant pour les élèves féminines. Les leçons se déroulent à votre rythme, avec la possibilité d'une instructrice. Le programme couvre toutes les exigences NTSA tout en mettant l'accent sur des exercices de renforcement de la confiance, la navigation en ville, le stationnement et la sécurité routière personnelle."
+      },
+      "expressway": {
+        "name": "Spécial Expressway / Autoroute",
+        "shortDesc": "Formation spécialisée pour l'Expressway de Nairobi et les autoroutes à grande vitesse en toute sécurité.",
+        "fullDesc": "Les autoroutes du Kenya exigent des compétences différentes de la conduite en ville, notamment des vitesses élevées, la discipline des voies, la gestion des insertions et des sorties en toute sécurité. Notre Spécial Expressway vous offre une pratique encadrée sur l'Expressway de Nairobi et la Thika Super Highway, vous donnant la confiance nécessaire pour conduire en toute sécurité sur les routes les plus rapides du Kenya."
+      },
+      "beginner": {
+        "name": "Formation pour Débutants",
+        "shortDesc": "Un programme complet à partir de zéro : commandes du véhicule, panneaux de signalisation, cours théorique et pratique routière.",
+        "fullDesc": "Le programme de Formation pour Débutants est conçu pour les apprenants sans aucune expérience préalable. En partant d'un environnement contrôlé, vous progressez à travers la familiarisation avec le véhicule, les commandes de base, les panneaux de signalisation, la théorie NTSA et la pratique routière encadrée. À la fin, vous serez pleinement préparé pour l'examen de conduite NTSA et confiant sur de vraies routes."
+      },
+      "advanced": {
+        "name": "Formation Avancée",
+        "shortDesc": "Formation de perfectionnement pour conducteurs titulaires d'un permis maîtrisant les routes difficiles et la conduite de nuit.",
+        "fullDesc": "Déjà titulaire d'un permis mais souhaitez progresser ? Notre Formation Avancée couvre la conduite sur autoroute à grande vitesse, la conduite de nuit, la gestion des conditions météorologiques extrêmes et les techniques de conduite professionnelle. Idéal pour les conducteurs souhaitant plus de confiance sur les routes kenyanes ou se préparant à des rôles de conduite professionnelle et d'entreprise."
+      },
+      "roadTest": {
+        "name": "Préparation à l'Examen de Conduite",
+        "shortDesc": "Simulation intensive de l'examen NTSA pour savoir exactement ce que recherchent les examinateurs le jour J.",
+        "fullDesc": "Nos sessions de Préparation à l'Examen de Conduite reproduisent exactement l'examen de conduite NTSA, vous pratiquez les mêmes manœuvres, itinéraires et critères d'évaluation utilisés par les examinateurs. Nous couvrons le créneau, les demi-tours en trois points, les arrêts d'urgence, l'observation de la route et la communication avec l'examinateur. Les élèves qui terminent ce programme atteignent un taux de réussite de 98% au premier essai."
+      },
+      "corporate": {
+        "name": "Formation des Conducteurs d'Entreprise",
+        "shortDesc": "Formation de chauffeurs de flotte et d'entreprise couvrant la conduite défensive, la conformité NTSA et les premiers secours.",
+        "fullDesc": "SafeRide Africa propose des programmes complets de formation de conducteurs d'entreprise pour des sociétés de toutes tailles. Nous évaluons les conducteurs de votre flotte, proposons des remises à niveau en conduite défensive, couvrons la conformité NTSA et la tenue de registres, et dispensons une formation de base aux premiers secours. Les programmes peuvent se dérouler dans vos locaux ou dans l'une de nos {{branches}} agences. Des tarifs de groupe s'appliquent pour les flottes de cinq véhicules ou plus."
+      },
+      "online": {
+        "name": "Plateforme d'Apprentissage en Ligne",
+        "shortDesc": "Cours théoriques en direct et enregistrés conformes aux normes NTSA, accessibles depuis n'importe quel appareil, partout au Kenya.",
+        "fullDesc": "Notre Plateforme d'Apprentissage en Ligne vous donne accès au programme théorique NTSA complet depuis votre téléphone, tablette ou ordinateur portable. Des cours en direct ont lieu plusieurs fois par semaine, avec des enregistrements disponibles à la demande. Les sujets incluent les panneaux de signalisation, le code de la route, les premiers secours pour conducteurs et la théorie de la conduite défensive. Suivez votre progression via notre LMS et discutez directement avec les instructeurs à tout moment."
+      }
+    }
+  },
+
+  "coursesPage": {
+    "pageTitle": "Nos Cours de Conduite",
+    "feesNoteTitle": "Frais Gouvernementaux Supplémentaires",
+    "interimLicenceLabel": "Permis Provisoire :",
+    "smartDlLabel": "Demande de Smart DL :",
+    "contactCta": "Besoin d'aide pour choisir ? Contactez-nous"
+  },
+
+  "contactPage": {
+    "pageOverline": "Contactez-nous",
+    "pageTitle": "Contactez-nous",
+    "labels": {
+      "address": "Adresse",
+      "primary": "Principal",
+      "secondary": "Secondaire",
+      "email": "E-mail",
+      "website": "Site Web",
+      "social": "Réseaux Sociaux"
+    },
+    "form": {
+      "title": "Envoyer un Message",
+      "name": "Nom *",
+      "namePlaceholder": "Votre nom complet",
+      "email": "E-mail *",
+      "emailPlaceholder": "votre@email.com",
+      "phone": "Téléphone",
+      "phonePlaceholder": "07xx xxx xxx",
+      "branch": "Agence la Plus Proche",
+      "branchPlaceholder": "ex. Donholm, Buruburu...",
+      "subject": "Sujet",
+      "subjectPlaceholder": "Comment pouvons-nous vous aider ?",
+      "message": "Message",
+      "messagePlaceholder": "Dites-nous en plus...",
+      "send": "Envoyer le Message",
+      "sent": "Nous vous contacterons bientôt !"
+    },
+    "bankTransferLabel": "Virement Bancaire ({{bankName}})",
+    "seeAllBranches": "Voir les {{count}} agences"
+  },
+
+  "galleryPage": {
+    "pageOverline": "Photographie",
+    "pageTitle": "Notre Galerie",
+    "emptyTitle": "La Galerie Arrive Bientôt",
+    "emptyBody": "Nous téléchargeons des photos de nos sessions de formation, de nos étudiants et de nos installations.\nRevenez bientôt !",
+    "photoCount": "{{count}} photos, appuyez pour agrandir"
+  },
+
+  "blogPage": {
+    "pageOverline": "Blog",
+    "title": "Actualités et Articles",
+    "sectionOverline": "NOTRE BLOG",
+    "readMore": "Lire la suite",
+    "back": "Retour",
+    "notFound": "Article introuvable.",
+    "goHome": "Retour à l'Accueil"
+  },
+
+  "branchesPage": {
+    "pageOverline": "Nos Emplacements",
+    "pageTitle": "Nos {{count}} Agences",
+    "hqBadge": "Siège",
+    "getDirections": "Itinéraire",
+    "call": "Appeler",
+    "headquarters": "Siège Social",
+    "hqAddressFormat": "{{name}}, {{address}}",
+    "directionsToHq": "Itinéraire vers le Siège",
+    "contactCta": "Une question ? Contactez-nous"
   },
 
   "languageSwitcher": {

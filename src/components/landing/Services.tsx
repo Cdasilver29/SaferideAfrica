@@ -12,6 +12,20 @@ import { useTranslation } from 'react-i18next';
 import { SERVICES, ServiceItem } from '@/data/saferide';
 import { C, F, IS_WEB, MAX_W } from './constants';
 
+// Maps a service code to its i18n key segment under servicesPage.items
+export const SERVICE_KEY_MAP: Record<string, string> = {
+  DEFENSIVE:  'defensive',
+  SMART_DL:   'smartDl',
+  EXECUTIVE:  'executive',
+  LADIES:     'ladies',
+  EXPRESSWAY: 'expressway',
+  BEGINNER:   'beginner',
+  ADVANCED:   'advanced',
+  ROAD_TEST:  'roadTest',
+  CORPORATE:  'corporate',
+  ONLINE:     'online',
+};
+
 function ServiceCard({
   svc,
   readMore,
@@ -21,7 +35,9 @@ function ServiceCard({
   readMore: string;
   entranceDelay: number;
 }) {
+  const { t } = useTranslation();
   const T = useTheme();
+  const key = SERVICE_KEY_MAP[svc.code];
 
   // Entrance
   const enterOp = useSharedValue(0);
@@ -111,14 +127,14 @@ function ServiceCard({
           color: T.foreground, fontFamily: F.bold, fontSize: 14,
           textAlign: 'center', marginBottom: 7, lineHeight: 20,
         }}>
-          {svc.name}
+          {t(`servicesPage.items.${key}.name`)}
         </Text>
 
         <Text style={{
           color: T.mutedForeground, fontFamily: F.regular, fontSize: 12,
           lineHeight: 18, textAlign: 'center', marginBottom: 12, flex: 1,
         }}>
-          {svc.shortDesc}
+          {t(`servicesPage.items.${key}.shortDesc`)}
         </Text>
 
         {/* Read More link */}
