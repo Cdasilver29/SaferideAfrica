@@ -11,18 +11,15 @@ const GBFlag: string = require('country-flag-icons/string/3x2/GB').default;
 // @ts-ignore
 const CNFlag: string = require('country-flag-icons/string/3x2/CN').default;
 // @ts-ignore
-const SAFlag: string = require('country-flag-icons/string/3x2/SA').default;
-// @ts-ignore
 const KEFlag: string = require('country-flag-icons/string/3x2/KE').default;
 // @ts-ignore
 const FRFlag: string = require('country-flag-icons/string/3x2/FR').default;
 
-type LangCode = 'en' | 'zh' | 'ar' | 'sw' | 'fr';
+type LangCode = 'en' | 'zh' | 'sw' | 'fr';
 
 const LANGUAGES: Array<{ code: LangCode; flag: string }> = [
   { code: 'en', flag: GBFlag },
   { code: 'zh', flag: CNFlag },
-  { code: 'ar', flag: SAFlag },
   { code: 'sw', flag: KEFlag },
   { code: 'fr', flag: FRFlag },
 ];

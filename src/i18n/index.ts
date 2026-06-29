@@ -5,12 +5,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import en from './locales/en.json';
 import zh from './locales/zh.json';
-import ar from './locales/ar.json';
 import sw from './locales/sw.json';
 import fr from './locales/fr.json';
 
 const LANG_KEY = 'saferide.lang';
-const SUPPORTED = ['en', 'zh', 'ar', 'sw', 'fr'];
+const SUPPORTED = ['en', 'zh', 'sw', 'fr'];
 
 // Best synchronous guess — overridden by persisted preference below
 const deviceCode = Localization.getLocales()[0]?.languageCode ?? 'en';
@@ -21,7 +20,6 @@ i18next.use(initReactI18next).init({
   resources: {
     en: { translation: en },
     zh: { translation: zh },
-    ar: { translation: ar },
     sw: { translation: sw },
     fr: { translation: fr },
   },

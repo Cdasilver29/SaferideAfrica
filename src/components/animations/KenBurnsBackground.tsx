@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { ImageBackground, View, Platform } from 'react-native'
 import Animated, {
   useSharedValue,
@@ -15,8 +15,6 @@ export function KenBurnsBackground({ source, children }: Props) {
   const scale = useSharedValue(1)
   const tx    = useSharedValue(0)
   const ty    = useSharedValue(0)
-  const [loaded, setLoaded] = useState(false)
-
   useEffect(() => {
     scale.value = withRepeat(
       withSequence(
@@ -66,7 +64,6 @@ export function KenBurnsBackground({ source, children }: Props) {
           resizeMode="cover"
           // Smooth fade-in on native; web uses CSS opacity transition
           fadeDuration={Platform.OS === 'web' ? 0 : 250}
-          onLoad={() => setLoaded(true)}
         >
           {children}
         </ImageBackground>
