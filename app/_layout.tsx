@@ -7,7 +7,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { useColorScheme } from 'nativewind';
 import '../global.css';
-import { AuthProvider } from '../src/context/AuthContext';
 import { EnrollModalProvider } from '../src/context/EnrollModalContext';
 import EnrollModal from '../src/components/EnrollModal';
 import SocialFloat from '../src/components/SocialFloat';
@@ -60,8 +59,7 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <AuthProvider>
-        <EnrollModalProvider>
+      <EnrollModalProvider>
           {/* Outer gutter — light skyDeep tint on web */}
           <View style={{ flex: 1, backgroundColor: isDark ? C.dark : 'rgba(1,165,240,0.04)' }}>
             {/* Inner card — max 1280 px on web, edge-to-edge on mobile */}
@@ -96,12 +94,8 @@ export default function RootLayout() {
                 <Stack.Screen name="blog" />
 <Stack.Screen name="services/[code]" />
                 <Stack.Screen name="blog/[id]" />
-                <Stack.Screen name="account/index" />
                 <Stack.Screen name="classes/index" />
                 <Stack.Screen name="classes/[code]/index" />
-                <Stack.Screen name="classes/[code]/enrol" />
-                <Stack.Screen name="enrollments/[id]/pay" />
-                <Stack.Screen name="admin/index" />
               </Stack>
               <SocialFloat />
             </View>
@@ -109,7 +103,6 @@ export default function RootLayout() {
           {/* Single enrollment modal — accessible from any screen */}
           <EnrollModal />
         </EnrollModalProvider>
-      </AuthProvider>
     </SafeAreaProvider>
   );
 }
