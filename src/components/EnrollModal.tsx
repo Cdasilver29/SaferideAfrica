@@ -2,51 +2,47 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   Modal, View, Text, TextInput, TouchableOpacity, ScrollView,
   StyleSheet, Platform, KeyboardAvoidingView, ActivityIndicator,
-  useWindowDimensions,
+  useWindowDimensions, Linking,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import AnimatedRN, {
   useSharedValue, useAnimatedStyle, withSequence, withTiming,
 } from 'react-native-reanimated';
-import { X, Check, CheckCircle, AlertTriangle } from 'lucide-react-native';
+import { X, CheckCircle, MessageCircle } from 'lucide-react-native';
 import { useEnrollModal } from '../context/EnrollModalContext';
-import { BRANCHES, CLASSES, CLASS_SERIES, PAYMENT } from '../data/saferide';
-import { splitIntoThree } from '../lib/installments';
-import { createEnrollment } from '../api/enrollments';
-import { initiateStkPush, waitForPayment } from '../api/mpesa';
+import { BRANCHES, CLASSES, CLASS_SERIES, SOCIALS } from '../data/saferide';
 import { C, F, IS_WEB } from './landing/constants';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type SubmitState = 'idle' | 'submitting' | 'awaiting_pin' | 'success';
+type SubmitState = 'idle' | 'sending' | 'sent' | 'error';
 
 interface FormFields {
-  fullName:      string;
-  idNumber:      string;
-  email:         string;
-  phone:         string;
-  branchId:      string;
-  courseCode:    string;
-  startDate:     string;
-  paymentPlan:   'full' | 'installments_3';
-  mpesaNumber:   string;
-  termsAccepted: boolean;
+  fullName:   string;
+  phone:      string;
+  email:      string;
+  branchId:   string;
+  courseCode: string;
+  startDate:  string;
+  idNumber:   string;
+  message:    string;
 }
 
 type FormErrors = Partial<Record<keyof FormFields, string>>;
 
 const DEFAULT_FORM: FormFields = {
-  fullName:      '',
-  idNumber:      '',
-  email:         '',
-  phone:         '',
-  branchId:      '',
-  courseCode:    '',
-  startDate:     '',
-  paymentPlan:   'full',
-  mpesaNumber:   '',
-  termsAccepted: false,
+  fullName:   '',
+  phone:      '',
+  email:      '',
+  branchId:   '',
+  courseCode: '',
+  startDate:  '',
+  idNumber:   '',
+  message:    '',
 };
+
+const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
+const WEB3FORMS_KEY = process.env.EXPO_PUBLIC_WEB3FORMS_KEY ?? '';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -61,21 +57,18 @@ function isValidPhone(p: string): boolean {
   return /^(\+254\d{9}|0\d{9})$/.test(p.replace(/[\s-]/g, ''));
 }
 
-function fmt(n: number): string {
-  return `Ksh ${n.toLocaleString()}`;
-}
-
 function validate(f: FormFields): FormErrors {
   const e: FormErrors = {};
-  if (!f.fullName.trim())  e.fullName  = 'Full name is required';
-  if (!f.idNumber.trim())  e.idNumber  = 'ID / Passport number is required';
+  if (!f.fullName.trim())
+    e.fullName  = 'Full name is required';
+  if (!f.phone || !isValidPhone(f.phone))
+    e.phone     = 'Valid Kenyan number required (07... or +254...)';
   if (!f.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email))
-                           e.email     = 'Valid email required';
-  if (!isValidPhone(f.phone))
-                           e.phone     = 'Valid Kenyan number required (07… or +254…)';
-  if (!f.branchId)         e.branchId  = 'Please select a branch';
-  if (!f.courseCode)       e.courseCode = 'Please select a course';
-
+    e.email     = 'Valid email required';
+  if (!f.branchId)
+    e.branchId  = 'Please select a branch';
+  if (!f.courseCode)
+    e.courseCode = 'Please select a course';
   const sd = parseDDMMYYYY(f.startDate);
   if (!sd) {
     e.startDate = 'Use DD/MM/YYYY format';
@@ -83,11 +76,23 @@ function validate(f: FormFields): FormErrors {
     const today = new Date(); today.setHours(0, 0, 0, 0);
     if (sd < today) e.startDate = 'Date must be today or later';
   }
-
-  if (!isValidPhone(f.mpesaNumber))
-                           e.mpesaNumber = 'Valid M-Pesa number required';
-  if (!f.termsAccepted)    e.termsAccepted = 'You must accept the terms to proceed';
   return e;
+}
+
+function buildWhatsAppLink(f: FormFields, courseName: string, branchName: string): string {
+  const base  = SOCIALS.whatsapp.split('?')[0];
+  const lines = [
+    'Enrollment Enquiry - SafeRide Africa',
+    `Name: ${f.fullName}`,
+    `Phone: ${f.phone}`,
+    `Email: ${f.email}`,
+    `Branch: ${branchName}`,
+    `Course: ${courseName}`,
+    `Start Date: ${f.startDate}`,
+    f.idNumber ? `ID/Passport: ${f.idNumber}` : '',
+    f.message  ? `Message: ${f.message}`       : '',
+  ].filter(Boolean);
+  return `${base}?text=${encodeURIComponent(lines.join('\n'))}`;
 }
 
 // ─── Atoms ───────────────────────────────────────────────────────────────────
@@ -98,10 +103,12 @@ function FieldError({ msg }: { msg?: string }) {
 }
 
 function StyledInput({
-  value, onChangeText, onBlur, placeholder, keyboardType, autoCapitalize, hasError, name,
+  value, onChangeText, onBlur, placeholder, keyboardType, autoCapitalize,
+  hasError, name, multiline, numberOfLines,
 }: {
   value: string; onChangeText: (v: string) => void; onBlur?: () => void;
-  placeholder?: string; keyboardType?: any; autoCapitalize?: any; hasError?: boolean; name?: string;
+  placeholder?: string; keyboardType?: any; autoCapitalize?: any;
+  hasError?: boolean; name?: string; multiline?: boolean; numberOfLines?: number;
 }) {
   return (
     <TextInput
@@ -112,7 +119,9 @@ function StyledInput({
       placeholderTextColor="rgba(1,165,240,0.35)"
       keyboardType={keyboardType}
       autoCapitalize={autoCapitalize ?? 'none'}
-      style={[s.input, hasError && s.inputError]}
+      multiline={multiline}
+      numberOfLines={numberOfLines}
+      style={[s.input, hasError && s.inputError, multiline && s.inputMultiline]}
       {...(name ? ({ id: name, name } as any) : {})}
     />
   );
@@ -122,7 +131,8 @@ function PickerField({
   value, onChange, items, placeholder, hasError,
 }: {
   value: string; onChange: (v: string) => void;
-  items: { label: string; value: string; enabled?: boolean }[]; placeholder: string; hasError?: boolean;
+  items: { label: string; value: string; enabled?: boolean }[];
+  placeholder: string; hasError?: boolean;
 }) {
   return (
     <View style={[s.pickerWrap, hasError && s.inputError]}>
@@ -139,29 +149,6 @@ function PickerField({
           />
         ))}
       </Picker>
-    </View>
-  );
-}
-
-function SegmentedControl({
-  options, value, onChange, disabledValues,
-}: {
-  options: { label: string; value: string }[]; value: string;
-  onChange: (v: string) => void; disabledValues?: string[];
-}) {
-  return (
-    <View style={s.segmented}>
-      {options.map(opt => {
-        const active   = opt.value === value;
-        const disabled = disabledValues?.includes(opt.value);
-        return (
-          <TouchableOpacity key={opt.value} onPress={() => !disabled && onChange(opt.value)}
-            activeOpacity={disabled ? 1 : 0.75}
-            style={[s.segment, active && s.segmentActive, disabled && s.segmentDisabled]}>
-            <Text style={[s.segmentText, active && s.segmentTextActive]}>{opt.label}</Text>
-          </TouchableOpacity>
-        );
-      })}
     </View>
   );
 }
@@ -199,15 +186,13 @@ export default function EnrollModal() {
   const [errors,      setErrors]      = useState<FormErrors>({});
   const [touched,     setTouched]     = useState<Set<keyof FormFields>>(new Set());
   const [submitState, setSubmitState] = useState<SubmitState>('idle');
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [errorMsg,    setErrorMsg]    = useState<string | null>(null);
 
   const btnX = useSharedValue(0);
   const btnShakeStyle = useAnimatedStyle(() => ({ transform: [{ translateX: btnX.value }] }));
 
-  const selectedClass   = CLASSES.find(c => c.code === form.courseCode);
-  const canInstallments = !!selectedClass;
-  const [i1, i2, i3]   = selectedClass ? splitIntoThree(selectedClass.total) : [0, 0, 0];
-  const payAmount       = form.paymentPlan === 'installments_3' ? i1 : (selectedClass?.total ?? 0);
+  const selectedClass  = CLASSES.find(c => c.code === form.courseCode);
+  const selectedBranch = BRANCHES.find(b => b.id === form.branchId);
 
   const setF = useCallback(<K extends keyof FormFields>(key: K, val: FormFields[K]) => {
     setForm(prev => ({ ...prev, [key]: val }));
@@ -225,15 +210,9 @@ export default function EnrollModal() {
       setErrors({});
       setTouched(new Set());
       setSubmitState('idle');
-      setSubmitError(null);
+      setErrorMsg(null);
     }
   }, [isOpen, presetCourseCode]);
-
-  useEffect(() => {
-    if (form.phone && !touched.has('mpesaNumber')) {
-      setF('mpesaNumber', form.phone);
-    }
-  }, [form.phone]);
 
   useEffect(() => {
     if (Platform.OS !== 'web') return;
@@ -270,107 +249,86 @@ export default function EnrollModal() {
       return;
     }
 
-    setSubmitError(null);
+    setErrorMsg(null);
+    setSubmitState('sending');
 
     try {
-      setSubmitState('submitting');
-
-      const enrollment = await createEnrollment({
-        userId:          `guest_${Date.now()}`,
-        branchId:        form.branchId,
-        classCode:       form.courseCode,
-        className:       selectedClass?.name ?? '',
-        totalAmount:     selectedClass?.total ?? 0,
-        studentName:     form.fullName,
-        studentEmail:    form.email,
-        studentPhone:    form.phone,
-        studentIdNumber: form.idNumber,
-        paymentPlan:     form.paymentPlan,
+      const res = await fetch(WEB3FORMS_URL, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key:          WEB3FORMS_KEY,
+          subject:             'Enrollment Enquiry - SafeRide Africa',
+          from_name:           form.fullName,
+          name:                form.fullName,
+          email:               form.email,
+          phone:               form.phone,
+          branch:              selectedBranch?.name ?? form.branchId,
+          course:              selectedClass?.name  ?? form.courseCode,
+          preferred_start_date: form.startDate,
+          id_number:           form.idNumber || '—',
+          message:             form.message  || '(no message)',
+        }),
       });
-
-      const checkoutRequestId = await initiateStkPush({
-        phone:             form.mpesaNumber || form.phone,
-        amount:            payAmount,
-        accountRef:        enrollment.id.slice(0, 12),
-        enrollmentId:      enrollment.id,
-        installmentNumber: form.paymentPlan === 'installments_3' ? 1 : undefined,
-      });
-
-      setSubmitState('awaiting_pin');
-
-      const result = await waitForPayment(checkoutRequestId);
-
-      if (result.status === 'success') {
-        setSubmitState('success');
-      } else {
-        setSubmitError(result.resultDesc ?? 'Payment was not completed. Please try again.');
-        setSubmitState('idle');
-      }
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
-      setSubmitError(msg);
-      setSubmitState('idle');
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message ?? 'Submission failed');
+      setSubmitState('sent');
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Something went wrong. Please try again.';
+      setErrorMsg(msg);
+      setSubmitState('error');
     }
   };
 
   const handleClose = () => {
-    if (submitState === 'submitting') return;
+    if (submitState === 'sending') return;
     close();
   };
 
   // ── State screens ─────────────────────────────────────────────────────────
 
-  const AwaitingPinContent = () => (
-    <View style={s.centredState}>
-      <View style={s.pingRing}>
-        <ActivityIndicator size="large" color={C.skyDeep} />
+  const SentContent = () => {
+    const waLink = buildWhatsAppLink(
+      form,
+      selectedClass?.name  ?? form.courseCode,
+      selectedBranch?.name ?? form.branchId,
+    );
+    return (
+      <View style={s.centredState}>
+        <View style={[s.stateRing, { backgroundColor: 'rgba(1,165,240,0.10)', borderColor: C.skyDeep }]}>
+          <CheckCircle size={52} color={C.skyDeep} />
+        </View>
+        <Text style={s.stateHeading}>Enquiry received!</Text>
+        <Text style={s.stateBody}>
+          We will be in touch soon. You can also reach us directly on WhatsApp right now.
+        </Text>
+        <TouchableOpacity
+          onPress={() => Linking.openURL(waLink)}
+          activeOpacity={0.85}
+          style={s.whatsappBtn}
+        >
+          <MessageCircle size={18} color={C.dark} />
+          <Text style={s.whatsappText}>Continue on WhatsApp</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={close} activeOpacity={0.7} style={{ marginTop: 16 }}>
+          <Text style={{ color: C.skyDeep, fontFamily: F.semibold, fontSize: 14 }}>Done</Text>
+        </TouchableOpacity>
       </View>
-      <Text style={s.stateHeading}>Check your phone</Text>
-      <Text style={s.stateBody}>
-        We've sent an M-Pesa prompt to{'\n'}{form.mpesaNumber || form.phone}.{'\n\n'}
-        Enter your PIN to complete the payment.
-      </Text>
-      <TouchableOpacity onPress={() => setSubmitState('idle')} activeOpacity={0.7} style={{ marginTop: 28 }}>
-        <Text style={{ color: C.skyDeep, fontFamily: F.semibold, fontSize: 14 }}>Cancel</Text>
-      </TouchableOpacity>
-    </View>
-  );
+    );
+  };
 
-  const SuccessContent = () => (
-    <View style={s.centredState}>
-      <View style={[s.pingRing, { backgroundColor: 'rgba(1,165,240,0.10)', borderColor: C.skyDeep }]}>
-        <CheckCircle size={52} color={C.skyDeep} />
-      </View>
-      <Text style={s.stateHeading}>Enrolment received!</Text>
-      <Text style={s.stateBody}>
-        Your branch admin will confirm shortly.{'\n'}
-        You'll receive a confirmation SMS and email.
-      </Text>
-      <TouchableOpacity onPress={close} activeOpacity={0.85}
-        style={[s.submitBtn, { marginTop: 32, paddingHorizontal: 48 }]}>
-        <Text style={s.submitText}>Done</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  const branchItems = BRANCHES.map(b => ({
+    label: b.name + (b.isHQ ? ' (HQ)' : ''),
+    value: b.id,
+  }));
 
-  const isNonIdle = submitState === 'awaiting_pin' || submitState === 'success';
-
-  const branchItems  = BRANCHES.map(b => ({ label: b.name + (b.isHQ ? ' (HQ)' : ''), value: b.id }));
-  const courseItems  = CLASS_SERIES.flatMap(series => {
+  const courseItems = CLASS_SERIES.flatMap(series => {
     const seriesCourses = CLASSES.filter(c => c.series === series.code);
     return [
-      { label: `── ${series.label}  (${series.subtitle}) ──`, value: `__hdr_${series.code}`, enabled: false },
-      ...seriesCourses.map(c => ({
-        label:   `${c.name} — Ksh ${c.total.toLocaleString()}`,
-        value:   c.code,
-        enabled: true,
-      })),
+      { label: `-- ${series.label}  (${series.subtitle}) --`, value: `__hdr_${series.code}`, enabled: false },
+      ...seriesCourses.map(c => ({ label: c.name, value: c.code, enabled: true })),
     ];
   });
-  const planOptions  = [
-    { label: 'Full Payment',   value: 'full' },
-    { label: '3 Installments', value: 'installments_3' },
-  ];
 
   return (
     <Modal
@@ -396,8 +354,7 @@ export default function EnrollModal() {
         accessibilityLabel="Enrol form"
         accessible
       >
-
-        {/* ── Sky-blue header ─────────────────────────────────────────── */}
+        {/* Header */}
         <View style={s.header}>
           <View style={{ flex: 1 }}>
             <Text style={s.headerTitle}>Enrol Now</Text>
@@ -411,11 +368,11 @@ export default function EnrollModal() {
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
           <ScrollView style={s.scroll} contentContainerStyle={s.scrollContent} showsVerticalScrollIndicator={false}>
 
-            {isNonIdle ? (
-              submitState === 'awaiting_pin' ? <AwaitingPinContent /> : <SuccessContent />
+            {submitState === 'sent' ? (
+              <SentContent />
             ) : (
               <>
-                {/* ── Section 1 — Your Details ──────────────────────── */}
+                {/* Section 1 - Your Details */}
                 <SectionHeader title="Your Details" />
 
                 <Field label="Full Name *" error={err('fullName')}>
@@ -424,10 +381,10 @@ export default function EnrollModal() {
                     autoCapitalize="words" hasError={!!err('fullName')} name="fullName" />
                 </Field>
 
-                <Field label="ID / Passport Number *" error={err('idNumber')}>
-                  <StyledInput value={form.idNumber} onChangeText={v => setF('idNumber', v)}
-                    onBlur={() => handleBlur('idNumber')} placeholder="National ID or Passport"
-                    autoCapitalize="characters" hasError={!!err('idNumber')} name="idNumber" />
+                <Field label="Phone *" error={err('phone')}>
+                  <StyledInput value={form.phone} onChangeText={v => setF('phone', v)}
+                    onBlur={() => handleBlur('phone')} placeholder="07XX XXX XXX"
+                    keyboardType="phone-pad" hasError={!!err('phone')} name="phone" />
                 </Field>
 
                 <Field label="Email *" error={err('email')}>
@@ -436,26 +393,26 @@ export default function EnrollModal() {
                     keyboardType="email-address" hasError={!!err('email')} name="email" />
                 </Field>
 
-                <Field label="Phone *" error={err('phone')}>
-                  <StyledInput value={form.phone} onChangeText={v => setF('phone', v)}
-                    onBlur={() => handleBlur('phone')} placeholder="07XX XXX XXX"
-                    keyboardType="phone-pad" hasError={!!err('phone')} name="phone" />
+                <Field label="ID / Passport Number (optional)">
+                  <StyledInput value={form.idNumber} onChangeText={v => setF('idNumber', v)}
+                    placeholder="National ID or Passport"
+                    autoCapitalize="characters" name="idNumber" />
                 </Field>
 
-                {/* ── Section 2 — Your Course ───────────────────────── */}
+                {/* Section 2 - Your Course */}
                 <SectionHeader title="Your Course" />
 
                 <Field label="Branch *" error={err('branchId')}>
                   <PickerField value={form.branchId}
                     onChange={v => { setF('branchId', v); touch('branchId'); }}
-                    items={branchItems} placeholder="Select a branch…"
+                    items={branchItems} placeholder="Select a branch..."
                     hasError={!!err('branchId')} />
                 </Field>
 
                 <Field label="Course *" error={err('courseCode')}>
                   <PickerField value={form.courseCode}
                     onChange={v => { setF('courseCode', v); touch('courseCode'); }}
-                    items={courseItems} placeholder="Select a course…"
+                    items={courseItems} placeholder="Select a course..."
                     hasError={!!err('courseCode')} />
                 </Field>
 
@@ -465,85 +422,15 @@ export default function EnrollModal() {
                     keyboardType="numeric" hasError={!!err('startDate')} name="startDate" />
                 </Field>
 
-                {/* ── Section 3 — Payment ───────────────────────────── */}
-                <SectionHeader title="Payment" />
+                {/* Section 3 - Message */}
+                <SectionHeader title="Anything Else?" />
 
-                <Field label="Payment Plan">
-                  <SegmentedControl options={planOptions} value={form.paymentPlan}
-                    onChange={v => setF('paymentPlan', v as FormFields['paymentPlan'])} />
+                <Field label="Message (optional)">
+                  <StyledInput value={form.message} onChangeText={v => setF('message', v)}
+                    placeholder="Questions, preferred schedule, special requests..."
+                    autoCapitalize="sentences" name="message"
+                    multiline numberOfLines={3} />
                 </Field>
-
-                {form.paymentPlan === 'installments_3' && selectedClass && (
-                  <View style={s.installmentCard}>
-                    <Text style={s.installmentTitle}>Installment Breakdown</Text>
-                    {[
-                      { label: 'Today (Installment 1)',       amount: i1 },
-                      { label: 'In 10 days (Installment 2)',  amount: i2 },
-                      { label: 'In 20 days (Installment 3)',  amount: i3 },
-                    ].map(row => (
-                      <View key={row.label} style={s.installmentRow}>
-                        <Text style={s.installmentLabel}>{row.label}</Text>
-                        <Text style={s.installmentAmount}>{fmt(row.amount)}</Text>
-                      </View>
-                    ))}
-                  </View>
-                )}
-
-                {selectedClass && (
-                  <View style={s.amountPill}>
-                    <Text style={s.amountLabel}>Amount due today</Text>
-                    <Text style={s.amountValue}>{fmt(payAmount)}</Text>
-                  </View>
-                )}
-
-                <Field label="M-Pesa Number *" error={err('mpesaNumber')}>
-                  <StyledInput value={form.mpesaNumber}
-                    onChangeText={v => { setF('mpesaNumber', v); touch('mpesaNumber'); }}
-                    onBlur={() => handleBlur('mpesaNumber')}
-                    placeholder="Auto-filled from your phone"
-                    keyboardType="phone-pad" hasError={!!err('mpesaNumber')} name="mpesaNumber" />
-                  <Text style={s.mpesaHint}>
-                    The M-Pesa prompt will be sent to this number. Change it if paying from a different line.
-                  </Text>
-                </Field>
-
-                {/* Payment instructions */}
-                <View style={s.paymentBox}>
-                  <View style={s.paymentWarnBar}>
-                    <AlertTriangle size={14} color={C.red} />
-                    <Text style={s.paymentWarnText}>{PAYMENT.notice}</Text>
-                  </View>
-                  <View style={s.paymentBody}>
-                    <View style={s.paymentMethod}>
-                      <Text style={s.paymentMethodTitle}>M-Pesa Lipa Na M-Pesa</Text>
-                      <Text style={s.paymentDetail}>Paybill: <Text style={s.paymentBold}>{PAYMENT.mpesaPaybill}</Text></Text>
-                      <Text style={s.paymentDetail}>Account: <Text style={s.paymentBold}>{PAYMENT.mpesaAccountName}</Text></Text>
-                    </View>
-                    <View style={s.paymentDivider} />
-                    <View style={s.paymentMethod}>
-                      <Text style={s.paymentMethodTitle}>Bank Transfer</Text>
-                      <Text style={s.paymentDetail}>{PAYMENT.bankName}</Text>
-                      <Text style={s.paymentDetail}>Account: <Text style={s.paymentBold}>{PAYMENT.kcbAccount}</Text></Text>
-                    </View>
-                  </View>
-                </View>
-
-                {/* Terms */}
-                <TouchableOpacity
-                  onPress={() => setF('termsAccepted', !form.termsAccepted)}
-                  activeOpacity={0.7} style={s.termsRow}>
-                  <View style={[s.checkbox, form.termsAccepted && s.checkboxChecked, !!err('termsAccepted') && s.checkboxError]}>
-                    {form.termsAccepted && <Check size={12} color={C.white} />}
-                  </View>
-                  <Text style={s.termsText}>
-                    I agree to SafeRide's terms of service and the strict no-cash payment policy.
-                  </Text>
-                </TouchableOpacity>
-                {err('termsAccepted') && (
-                  <Text style={[s.fieldError, { marginTop: -8, marginBottom: 12 }]}>
-                    {err('termsAccepted')}
-                  </Text>
-                )}
               </>
             )}
 
@@ -551,30 +438,30 @@ export default function EnrollModal() {
         </KeyboardAvoidingView>
 
         {/* Footer */}
-        {!isNonIdle && (
+        {submitState !== 'sent' && (
           <View style={s.footer}>
-            {submitError && (
+            {(submitState === 'error' && errorMsg) && (
               <View style={s.errorBanner}>
-                <AlertTriangle size={14} color={C.red} />
-                <Text style={s.errorBannerText}>{submitError}</Text>
+                <Text style={s.errorBannerText}>{errorMsg}</Text>
               </View>
             )}
-            <Text style={s.footerCaption}>Tap below to receive an M-Pesa PIN prompt on your phone.</Text>
             <AnimatedRN.View style={btnShakeStyle}>
-              <TouchableOpacity onPress={handleSubmit} activeOpacity={0.85}
-                disabled={submitState === 'submitting'}
-                style={[s.submitBtn, submitState === 'submitting' && { opacity: 0.72 }]}>
-                {submitState === 'submitting' && (
+              <TouchableOpacity
+                onPress={handleSubmit}
+                activeOpacity={0.85}
+                disabled={submitState === 'sending'}
+                style={[s.submitBtn, submitState === 'sending' && { opacity: 0.72 }]}
+              >
+                {submitState === 'sending' && (
                   <ActivityIndicator size="small" color={C.white} style={{ marginRight: 8 }} />
                 )}
                 <Text style={s.submitText}>
-                  {submitState === 'submitting' ? 'Sending prompt…' : 'Send M-Pesa Prompt'}
+                  {submitState === 'sending' ? 'Sending...' : 'Send Enquiry'}
                 </Text>
               </TouchableOpacity>
             </AnimatedRN.View>
           </View>
         )}
-
       </View>
     </Modal>
   );
@@ -593,42 +480,27 @@ const s = StyleSheet.create({
     overflow: 'hidden',
   },
 
-  // ── Sky-blue header ──────────────────────────────────────────────────────
   header: {
     backgroundColor: C.skyDeep,
-    paddingHorizontal: 20,
-    paddingTop: 22,
-    paddingBottom: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    // Subtle bottom shimmer
-    shadowColor: C.skyDeep,
-    shadowOpacity: 0.22,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 6,
+    paddingHorizontal: 20, paddingTop: 22, paddingBottom: 20,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    shadowColor: C.skyDeep, shadowOpacity: 0.22, shadowRadius: 12,
+    shadowOffset: { width: 0, height: 4 }, elevation: 6,
   },
   headerTitle: { fontFamily: F.bold, fontSize: 20, color: C.white },
   headerSub:   { fontFamily: F.regular, fontSize: 12, color: 'rgba(255,255,255,0.68)', marginTop: 3 },
-  closeBtn: {
-    padding: 9, borderRadius: 10,
-    backgroundColor: 'rgba(255,255,255,0.18)',
-  },
+  closeBtn: { padding: 9, borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.18)' },
 
   scroll:        { flex: 1 },
   scrollContent: { paddingHorizontal: 20, paddingTop: 6, paddingBottom: 24 },
 
-  // ── Section pills ────────────────────────────────────────────────────────
   sectionHeader: {
     flexDirection: 'row', alignItems: 'center', gap: 10,
     marginTop: 22, marginBottom: 16,
   },
   sectionPill: {
-    backgroundColor: C.skyDeep,
-    borderRadius: 20,
-    paddingHorizontal: 14,
-    paddingVertical: 5,
+    backgroundColor: C.skyDeep, borderRadius: 20,
+    paddingHorizontal: 14, paddingVertical: 5,
   },
   sectionTitle: {
     fontFamily: F.bold, fontSize: 11, color: C.white,
@@ -636,7 +508,6 @@ const s = StyleSheet.create({
   },
   sectionLine: { flex: 1, height: 1.5, backgroundColor: 'rgba(1,165,240,0.18)', borderRadius: 1 },
 
-  // ── Fields ───────────────────────────────────────────────────────────────
   fieldWrap: { marginBottom: 14 },
   label: {
     fontFamily: F.semibold, fontSize: 12, color: C.skyDeep,
@@ -648,8 +519,9 @@ const s = StyleSheet.create({
     fontFamily: F.regular, fontSize: 14, color: C.dark,
     backgroundColor: C.white,
   },
-  inputError: { borderColor: C.red },
-  fieldError: { fontFamily: F.regular, fontSize: 12, color: C.red, marginTop: 4 },
+  inputMultiline: { minHeight: 80, textAlignVertical: 'top' },
+  inputError:     { borderColor: C.red },
+  fieldError:     { fontFamily: F.regular, fontSize: 12, color: C.red, marginTop: 4 },
 
   pickerWrap: {
     borderWidth: 1.5, borderColor: 'rgba(1,165,240,0.28)',
@@ -657,109 +529,18 @@ const s = StyleSheet.create({
   },
   picker: { height: 48, color: C.dark },
 
-  // ── Segmented ────────────────────────────────────────────────────────────
-  segmented: {
-    flexDirection: 'row', borderRadius: 12,
-    borderWidth: 1.5, borderColor: 'rgba(1,165,240,0.28)',
-    overflow: 'hidden', backgroundColor: C.white,
-  },
-  segment:           { flex: 1, paddingVertical: 13, alignItems: 'center' },
-  segmentActive:     { backgroundColor: C.skyDeep },
-  segmentDisabled:   { opacity: 0.35 },
-  segmentText:       { fontFamily: F.medium,  fontSize: 13, color: C.dark },
-  segmentTextActive: { fontFamily: F.bold,    fontSize: 13, color: C.white },
-  planCaption:       { fontFamily: F.regular, fontSize: 11, color: 'rgba(34,31,32,0.45)', marginTop: 6 },
-
-  // ── Installment card ─────────────────────────────────────────────────────
-  installmentCard: {
-    backgroundColor: 'rgba(1,165,240,0.07)',
-    borderRadius: 14, padding: 16, marginBottom: 14,
-    borderWidth: 1.5, borderColor: 'rgba(1,165,240,0.22)',
-  },
-  installmentTitle: {
-    fontFamily: F.bold, fontSize: 11, color: C.skyDeep,
-    textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 12,
-  },
-  installmentRow: {
-    flexDirection: 'row', justifyContent: 'space-between',
-    paddingVertical: 8,
-    borderBottomWidth: 1, borderBottomColor: 'rgba(1,165,240,0.12)',
-  },
-  installmentLabel:  { fontFamily: F.regular,  fontSize: 13, color: 'rgba(34,31,32,0.65)' },
-  installmentAmount: { fontFamily: F.bold,     fontSize: 13, color: C.skyDeep },
-
-  // ── Amount pill ──────────────────────────────────────────────────────────
-  amountPill: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    backgroundColor: C.yellow, borderRadius: 14,
-    paddingHorizontal: 18, paddingVertical: 14, marginBottom: 16,
-    shadowColor: C.yellow, shadowOpacity: 0.25, shadowRadius: 8, elevation: 3,
-  },
-  amountLabel: { fontFamily: F.semibold, fontSize: 13, color: C.dark },
-  amountValue: { fontFamily: F.bold,    fontSize: 20, color: C.dark },
-
-  mpesaHint: {
-    fontFamily: F.regular, fontSize: 11,
-    color: 'rgba(34,31,32,0.45)', marginTop: 5, lineHeight: 15,
-  },
-
-  // ── Payment instruction box ───────────────────────────────────────────────
-  paymentBox: {
-    marginBottom: 18, borderRadius: 14, overflow: 'hidden',
-    borderWidth: 1.5, borderColor: 'rgba(225,29,46,0.38)',
-  },
-  paymentWarnBar: {
-    flexDirection: 'row', alignItems: 'center', gap: 8,
-    backgroundColor: 'rgba(225,29,46,0.10)',
-    paddingHorizontal: 14, paddingVertical: 10,
-  },
-  paymentWarnText: { color: C.red, fontFamily: F.bold, fontSize: 12, letterSpacing: 0.6, flex: 1 },
-  paymentBody:     { backgroundColor: C.yellow, paddingHorizontal: 14, paddingVertical: 14, gap: 10 },
-  paymentMethod:   {},
-  paymentMethodTitle: {
-    color: C.red, fontFamily: F.bold, fontSize: 11,
-    textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4,
-  },
-  paymentDetail:  { color: C.red, fontFamily: F.regular, fontSize: 13 },
-  paymentBold:    { fontFamily: F.bold },
-  paymentDivider: { height: 1, backgroundColor: 'rgba(225,29,46,0.20)', marginVertical: 10 },
-
-  // ── Terms ────────────────────────────────────────────────────────────────
-  termsRow: {
-    flexDirection: 'row', alignItems: 'flex-start', gap: 10, marginBottom: 14,
-    backgroundColor: 'rgba(1,165,240,0.06)',
-    borderRadius: 12, padding: 14,
-    borderWidth: 1.5, borderColor: 'rgba(1,165,240,0.18)',
-  },
-  checkbox: {
-    width: 22, height: 22, borderRadius: 6,
-    borderWidth: 2, borderColor: 'rgba(1,165,240,0.38)',
-    alignItems: 'center', justifyContent: 'center',
-    flexShrink: 0, marginTop: 1,
-  },
-  checkboxChecked: { backgroundColor: C.skyDeep, borderColor: C.skyDeep },
-  checkboxError:   { borderColor: C.red },
-  termsText: { flex: 1, fontFamily: F.regular, fontSize: 13, color: C.dark, lineHeight: 19 },
-
-  // ── Footer ───────────────────────────────────────────────────────────────
   footer: {
     paddingHorizontal: 20, paddingVertical: 16,
     borderTopWidth: 1, borderTopColor: 'rgba(1,165,240,0.14)',
     backgroundColor: C.white,
   },
   errorBanner: {
-    flexDirection: 'row', alignItems: 'flex-start', gap: 8,
     backgroundColor: 'rgba(225,29,46,0.07)',
     borderRadius: 12, padding: 12, marginBottom: 12,
     borderWidth: 1, borderColor: 'rgba(225,29,46,0.22)',
   },
-  errorBannerText: { flex: 1, fontFamily: F.regular, fontSize: 13, color: C.red, lineHeight: 18 },
-  footerCaption: {
-    fontFamily: F.regular, fontSize: 12,
-    color: 'rgba(34,31,32,0.45)', textAlign: 'center', marginBottom: 10,
-  },
+  errorBannerText: { fontFamily: F.regular, fontSize: 13, color: C.red, lineHeight: 18 },
 
-  // ── Submit — sky blue ────────────────────────────────────────────────────
   submitBtn: {
     backgroundColor: C.skyDeep,
     paddingVertical: 16, borderRadius: 14,
@@ -769,14 +550,23 @@ const s = StyleSheet.create({
   },
   submitText: { fontFamily: F.bold, fontSize: 15, color: C.white },
 
-  // ── State screens ────────────────────────────────────────────────────────
   centredState: { alignItems: 'center', paddingVertical: 52, paddingHorizontal: 24 },
-  pingRing: {
+  stateRing: {
     width: 92, height: 92, borderRadius: 46,
-    backgroundColor: 'rgba(1,165,240,0.10)',
-    borderWidth: 2.5, borderColor: 'rgba(1,165,240,0.28)',
+    borderWidth: 2.5,
     alignItems: 'center', justifyContent: 'center', marginBottom: 28,
   },
   stateHeading: { fontFamily: F.bold, fontSize: 22, color: C.dark, marginBottom: 12, textAlign: 'center' },
-  stateBody:    { fontFamily: F.regular, fontSize: 15, color: 'rgba(34,31,32,0.60)', textAlign: 'center', lineHeight: 24 },
+  stateBody:    {
+    fontFamily: F.regular, fontSize: 15, color: 'rgba(34,31,32,0.60)',
+    textAlign: 'center', lineHeight: 24, marginBottom: 28,
+  },
+  whatsappBtn: {
+    flexDirection: 'row', alignItems: 'center', gap: 10,
+    backgroundColor: C.yellow,
+    paddingVertical: 14, paddingHorizontal: 28,
+    borderRadius: 14,
+    shadowColor: C.yellow, shadowOpacity: 0.30, shadowRadius: 10, elevation: 4,
+  },
+  whatsappText: { fontFamily: F.bold, fontSize: 15, color: C.dark },
 });
