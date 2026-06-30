@@ -6,9 +6,9 @@ import Animated, {
   useSharedValue, useAnimatedStyle, withSpring, withSequence, withTiming, interpolateColor,
 } from 'react-native-reanimated';
 import { router } from 'expo-router';
-import { ChevronDown, ChevronUp, CheckCircle, AlertTriangle } from 'lucide-react-native';
+import { ChevronDown, ChevronUp } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { CLASS_SERIES, REFRESHER_LESSONS, PAYMENT, SeriesCode, DriveClass, CLASSES } from '@/data/saferide';
+import { CLASS_SERIES, REFRESHER_LESSONS, SeriesCode, DriveClass, CLASSES } from '@/data/saferide';
 import { useEnrollModal } from '@/context/EnrollModalContext';
 import { C, F, IS_WEB, MAX_W } from './constants';
 
@@ -150,21 +150,11 @@ function ClassRow({ cls, isDark }: { cls: DriveClass; isDark: boolean }) {
         {/* Colour bar */}
         <View style={{ width: 4, alignSelf: 'stretch', borderRadius: 2, backgroundColor: accentColor }} />
 
-        {/* Name + lessons */}
+        {/* Name */}
         <View style={{ flex: 1 }}>
           <Text style={{ color: isDark ? C.white : C.heading, fontFamily: F.semibold, fontSize: 14, lineHeight: 20 }}>
             {cls.name}
           </Text>
-          {cls.lessons !== null && (
-            <Text style={{ color: isDark ? C.mutedDark : C.muted, fontFamily: F.regular, fontSize: 11, marginTop: 2 }}>
-              {cls.lessons} {t('courses.lessonsLabel')}
-            </Text>
-          )}
-          {cls.lessons === null && cls.code !== 'EXECUTIVE' && (
-            <Text style={{ color: isDark ? C.mutedDark : C.muted, fontFamily: F.regular, fontSize: 11, marginTop: 2 }}>
-              {t('courses.testOnly')}
-            </Text>
-          )}
         </View>
 
         {/* Expand icon */}
@@ -280,65 +270,6 @@ function RefresherSection({ isDark }: { isDark: boolean }) {
   );
 }
 
-// ─── Payment notice ───────────────────────────────────────────────────────────
-
-function PaymentNotice({ isDark }: { isDark: boolean }) {
-  const { t } = useTranslation();
-  return (
-    <View
-      style={{
-        marginTop: 32,
-        borderRadius: 14,
-        overflow: 'hidden',
-        borderWidth: 1.5,
-        borderColor: 'rgba(225,29,46,0.40)',
-      }}
-    >
-      {/* Warning bar — red */}
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: 'rgba(225,29,46,0.12)', paddingHorizontal: 16, paddingVertical: 10 }}>
-        <AlertTriangle size={15} color={C.red} />
-        <Text style={{ color: C.red, fontFamily: F.bold, fontSize: 12, letterSpacing: 0.8 }}>
-          {PAYMENT.notice}
-        </Text>
-      </View>
-
-      {/* Payment methods — yellow background so red text is fully visible */}
-      <View style={[{ paddingHorizontal: 16, paddingVertical: 14, backgroundColor: C.yellow }, IS_WEB ? { flexDirection: 'row', gap: 24 } : { gap: 12 }]}>
-        {/* M-Pesa */}
-        <View style={{ flex: IS_WEB ? 1 : undefined }}>
-          <Text style={{ color: C.red, fontFamily: F.bold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }}>
-            {t('courses.paymentMpesa')}
-          </Text>
-          <View style={{ gap: 4 }}>
-            <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
-              {t('courses.paybillLabel')} <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaPaybill}</Text>
-            </Text>
-            <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
-              {t('courses.accountLabel')} <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaAccountName}</Text>
-            </Text>
-          </View>
-        </View>
-
-        {IS_WEB && <View style={{ width: 1, backgroundColor: 'rgba(225,29,46,0.20)' }} />}
-
-        {/* KCB */}
-        <View style={{ flex: IS_WEB ? 1 : undefined }}>
-          <Text style={{ color: C.red, fontFamily: F.bold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }}>
-            {t('courses.paymentKcb')}
-          </Text>
-          <View style={{ gap: 4 }}>
-            <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
-              {PAYMENT.bankName}
-            </Text>
-            <Text style={{ color: C.red, fontFamily: F.regular, fontSize: 13 }}>
-              {t('courses.accountLabel')} <Text style={{ fontFamily: F.bold }}>{PAYMENT.kcbAccount}</Text>
-            </Text>
-          </View>
-        </View>
-      </View>
-    </View>
-  );
-}
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
@@ -382,9 +313,6 @@ export default function Courses() {
         {seriesClasses.map(cls => (
           <ClassRow key={cls.code} cls={cls} isDark />
         ))}
-
-        {/* Payment notice */}
-        <PaymentNotice isDark />
 
         {/* Refresher lessons */}
         <RefresherSection isDark />

@@ -64,12 +64,6 @@ function CourseCard({ cls }: { cls: (typeof CLASSES)[0] }) {
         {t('home.coursesPreview.pricingNote')}
       </Text>
 
-      {cls.lessons && (
-        <Text style={{ color: isExec ? C.mutedDark : T.mutedForeground, fontFamily: F.regular, fontSize: 12, marginBottom: 16 }}>
-          {t('home.coursesPreview.lessonsIncluded', { count: cls.lessons })}
-        </Text>
-      )}
-
       <TouchableOpacity
         onPress={() => open(cls.code)}
         activeOpacity={0.85}

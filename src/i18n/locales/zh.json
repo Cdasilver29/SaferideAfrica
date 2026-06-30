@@ -356,9 +356,9 @@
       "cards": {
         "bLight": {
           "badge": "最受欢迎",
-          "lessonLine": "完整课程 · 20课时",
+          "lessonLine": "完整课程",
           "features": [
-            "20节实践驾驶课",
+            "实践驾驶课",
             "NTSA理论及路考",
             "防御性驾驶模块",
             "Smart DL申请指南",
@@ -366,9 +366,9 @@
           ]
         },
         "bAuto": {
-          "lessonLine": "完整课程 · 20课时",
+          "lessonLine": "完整课程",
           "features": [
-            "20节实践驾驶课",
+            "实践驾驶课",
             "NTSA理论及路考",
             "防御性驾驶模块",
             "Smart DL申请指南",
@@ -458,7 +458,7 @@
       "smartDl": {
         "name": "智能驾照（Smart DL）",
         "shortDesc": "完整的NTSA智能数字驾照申请及TIMS账户设置，全程代办。",
-        "fullDesc": "Safe Ride Africa代您处理整个NTSA智能数字驾照流程。我们负责TIMS账户注册、生物识别采集协调、付款处理和状态跟踪，让您无需排长队即可领取智能驾照。我们的工作人员随时关注NTSA系统的每一次更新，以固定费用{{smartDLFee}}先令确保快速、准确的处理。"
+        "fullDesc": "Safe Ride Africa代您处理整个NTSA智能数字驾照流程。我们负责TIMS账户注册、生物识别采集协调、付款处理和状态跟踪，让您无需排长队即可领取智能驾照。我们的工作人员随时关注NTSA系统的每一次更新，以确保快速、准确的处理。"
       },
       "executive": {
         "name": "尊享课程（Executive）",

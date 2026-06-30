@@ -58,14 +58,9 @@ export default function ClassDetailPage() {
           <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: 11, letterSpacing: 2, textTransform: 'uppercase', marginBottom: 8 }}>
             Class Details
           </Text>
-          <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: IS_WEB ? 26 : 22, marginBottom: 6 }}>
+          <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: IS_WEB ? 26 : 22 }}>
             {cls.name}
           </Text>
-          {cls.lessons !== null && (
-            <Text style={{ color: 'rgba(255,255,255,0.6)', fontFamily: F.regular, fontSize: 14 }}>
-              {cls.lessons} practical lessons included
-            </Text>
-          )}
         </View>
 
         {/* What's included */}

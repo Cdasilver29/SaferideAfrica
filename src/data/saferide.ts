@@ -175,41 +175,35 @@ export const BRANCH_COORDS: Record<string, [number, number]> = {
 export type SeriesCode = 'A' | 'B' | 'C' | 'D' | 'EXEC';
 
 export interface DriveClass {
-  code:      string;
-  name:      string;
-  fees:      number;
-  pdl:       number;
-  exams:     number;
-  defensive: number;
-  total:     number;
-  lessons:   number | null;
-  series:    SeriesCode;
+  code:   string;
+  name:   string;
+  series: SeriesCode;
 }
 
 export const CLASSES: DriveClass[] = [
   // A series — motorcycles & tricycles
-  { code: 'A2-TEST',   name: 'A2 — Test Only',        fees: 5_240,  pdl: 680, exams: 2_080, defensive: 0,     total: 8_000,  lessons: null, series: 'A' },
-  { code: 'A2-FULL',   name: 'A2 — Full Course',      fees: 9_240,  pdl: 680, exams: 2_080, defensive: 1_000, total: 13_000, lessons: 10,   series: 'A' },
-  { code: 'A3-TUKTUK', name: 'A3 — Tuk-tuk / Parcel', fees: 4_240,  pdl: 680, exams: 2_080, defensive: 1_000, total: 8_000,  lessons: 10,   series: 'A' },
+  { code: 'A2-TEST',   name: 'A2 — Test Only',        series: 'A' },
+  { code: 'A2-FULL',   name: 'A2 — Full Course',      series: 'A' },
+  { code: 'A3-TUKTUK', name: 'A3 — Tuk-tuk / Parcel', series: 'A' },
 
   // B series — light vehicles
-  { code: 'B-LIGHT',   name: 'B — Light (Manual)',    fees: 12_240, pdl: 680, exams: 2_080, defensive: 1_000, total: 16_000, lessons: 20,   series: 'B' },
-  { code: 'B-AUTO',    name: 'B — Auto',              fees: 12_240, pdl: 680, exams: 2_080, defensive: 1_000, total: 16_000, lessons: 20,   series: 'B' },
-  { code: 'B-HALF',    name: 'B — Half Course',       fees: 9_740,  pdl: 680, exams: 2_080, defensive: 1_000, total: 13_500, lessons: 10,   series: 'B' },
-  { code: 'B-TEST',    name: 'B — Test Only',         fees: 6_240,  pdl: 680, exams: 2_080, defensive: 1_000, total: 10_000, lessons: null, series: 'B' },
+  { code: 'B-LIGHT',   name: 'B — Light (Manual)',    series: 'B' },
+  { code: 'B-AUTO',    name: 'B — Auto',              series: 'B' },
+  { code: 'B-HALF',    name: 'B — Half Course',       series: 'B' },
+  { code: 'B-TEST',    name: 'B — Test Only',         series: 'B' },
 
   // C series — heavy commercial
-  { code: 'C-LIGHT',   name: 'C — Light',             fees: 12_740, pdl: 680, exams: 2_080, defensive: 1_000, total: 16_500, lessons: 20,   series: 'C' },
-  { code: 'BC',        name: 'BC',                    fees: 12_940, pdl: 680, exams: 2_080, defensive: 1_000, total: 16_700, lessons: 20,   series: 'C' },
-  { code: 'C-HALF',    name: 'C — Half Course',       fees: 9_740,  pdl: 680, exams: 2_080, defensive: 1_000, total: 13_500, lessons: null, series: 'C' },
-  { code: 'C-TEST',    name: 'C — Test Only',         fees: 7_740,  pdl: 680, exams: 2_080, defensive: 1_000, total: 11_500, lessons: null, series: 'C' },
+  { code: 'C-LIGHT',   name: 'C — Light',             series: 'C' },
+  { code: 'BC',        name: 'BC',                    series: 'C' },
+  { code: 'C-HALF',    name: 'C — Half Course',       series: 'C' },
+  { code: 'C-TEST',    name: 'C — Test Only',         series: 'C' },
 
   // D / PSV — passenger service vehicles
-  { code: 'D-PSV',     name: 'D1, D2, D3, PSV',       fees: 8_240,  pdl: 680, exams: 2_080, defensive: 1_000, total: 12_000, lessons: null, series: 'D' },
-  { code: 'BPSV',      name: 'BPSV',                  fees: 7_740,  pdl: 680, exams: 2_080, defensive: 1_000, total: 11_500, lessons: null, series: 'D' },
+  { code: 'D-PSV',     name: 'D1, D2, D3, PSV',       series: 'D' },
+  { code: 'BPSV',      name: 'BPSV',                  series: 'D' },
 
   // Executive — premium private training
-  { code: 'EXECUTIVE', name: 'Executive Class',       fees: 24_000, pdl: 0,   exams: 0,     defensive: 0,     total: 24_000, lessons: null, series: 'EXEC' },
+  { code: 'EXECUTIVE', name: 'Executive Class',       series: 'EXEC' },
 ];
 
 export const CLASS_SERIES: { code: SeriesCode; label: string; subtitle: string }[] = [
@@ -226,18 +220,6 @@ export const REFRESHER_LESSONS = [
   { code: 'REF-CLIGHT', name: 'C-Light Refresher', perLesson: 1_000, minLessons: 3 },
 ] as const;
 
-export const EXTRA_FEES = {
-  interimLicence: 750,
-  smartDL:        3_150,
-} as const;
-
-export const PAYMENT = {
-  mpesaPaybill:    '522533',
-  mpesaAccountName:'SAFE RIDE AFRICA',
-  kcbAccount:      '8045710',
-  bankName:        'KCB Bank',
-  notice:          'STRICTLY NO CASH PAYMENT',
-} as const;
 
 // ─── Services (10) ───────────────────────────────────────────────────────────
 
@@ -262,7 +244,7 @@ export const SERVICES: ServiceItem[] = [
     name:      'Smart DL',
     iconName:  'Award',
     shortDesc: 'Full NTSA Smart Digital Licence application and TIMS account setup, handled start to finish.',
-    fullDesc:  `SafeRide Africa manages the entire NTSA Smart Digital Licence process on your behalf. We handle TIMS account registration, biometric capture coordination, payment processing, and status tracking — so you receive your Smart DL without joining long queues. Our staff stays current with every NTSA system update to ensure fast, accurate processing at a fixed fee of Ksh ${EXTRA_FEES.smartDL.toLocaleString('en-KE')}.`,
+    fullDesc:  'SafeRide Africa manages the entire NTSA Smart Digital Licence process on your behalf. We handle TIMS account registration, biometric capture coordination, payment processing, and status tracking. Our staff stays current with every NTSA system update to ensure fast, accurate processing.',
   },
   {
     code:      'EXECUTIVE',
@@ -395,7 +377,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'The Smart DL is Kenya\'s second-generation driving licence. It features an embedded microchip containing your biometric data, digital photograph, vehicle class authorisation, and a record of any traffic offences. It is linked to NTSA\'s automated enforcement cameras and police handheld devices for real-time compliance monitoring. A three-year Smart DL costs Ksh 3,050.',
+        text: 'The Smart DL is Kenya\'s second-generation driving licence. It features an embedded microchip containing your biometric data, digital photograph, vehicle class authorisation, and a record of any traffic offences. It is linked to NTSA\'s automated enforcement cameras and police handheld devices for real-time compliance monitoring.',
       },
       {
         type: 'heading',
@@ -407,7 +389,6 @@ export const BLOG_ARTICLES: BlogArticle[] = [
           'Original National ID or valid Kenyan passport',
           'Valid Provisional Driving Licence (PDL) — obtained after passing the NTSA theory test',
           'Completed NTSA TIMS online application (tims.ntsa.go.ke)',
-          'Payment receipt of Ksh 3,050 via M-Pesa, bank, or Huduma Centre counter',
           'Passport-sized photograph (if not captured biometrically at the Huduma Centre)',
         ],
       },
@@ -421,10 +402,9 @@ export const BLOG_ARTICLES: BlogArticle[] = [
           'Step 1 — Register on the NTSA TIMS portal at tims.ntsa.go.ke using your National ID number and create an account.',
           'Step 2 — Log in and navigate to "Driving Licence Application." Select your vehicle class (Class B for light vehicles is the most common for new drivers).',
           'Step 3 — Fill in your personal details and upload the required documents. Double-check that your name matches your National ID exactly.',
-          'Step 4 — Make payment of Ksh 3,050. M-Pesa Paybill number 641700, account number: your ID number.',
-          'Step 5 — Book a biometric appointment at one of the 15 Huduma Centres nationwide. Nairobi options include Huduma Centre GPO, Westlands, and Embakasi.',
-          'Step 6 — Attend your appointment for fingerprinting and photograph capture. Arrive with your original ID and payment receipt.',
-          'Step 7 — Collect your Smart DL — typically ready within 5 to 10 working days from your biometric appointment.',
+          'Step 4: Book a biometric appointment at one of the 15 Huduma Centres nationwide. Nairobi options include Huduma Centre GPO, Westlands, and Embakasi.',
+          'Step 5: Attend your appointment for fingerprinting and photograph capture. Arrive with your original National ID.',
+          'Step 6: Collect your Smart DL, typically ready within 5 to 10 working days from your biometric appointment.',
         ],
       },
       {
@@ -545,7 +525,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'Class B — Light (Manual) trains you on a dual-control manual transmission car — the type used in most Kenyan taxis, personal cars, PSV minibuses, and commercial fleets. Class B — Auto trains you on an automatic transmission vehicle, increasingly common in newer private cars and imported second-hand vehicles from Japan. Both classes include 20 practical driving lessons, NTSA theory preparation, a defensive driving module, the NTSA road test, and Smart DL application guidance.',
+        text: 'Class B — Light (Manual) trains you on a dual-control manual transmission car, the type used in most Kenyan taxis, personal cars, PSV minibuses, and commercial fleets. Class B — Auto trains you on an automatic transmission vehicle, increasingly common in newer private cars and imported second-hand vehicles from Japan. Both classes include NTSA theory preparation, a defensive driving module, the NTSA road test, and Smart DL application guidance.',
       },
       {
         type: 'heading',
@@ -554,10 +534,9 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       {
         type: 'list',
         items: [
-          'B — Light (Manual): current pricing available at enrollment, includes PDL, theory, 20 lessons, road test, and Smart DL guidance',
+          'B — Light (Manual): current pricing available at enrollment, includes PDL, theory, road test, and Smart DL guidance',
           'B — Auto: current pricing available at enrollment, same package, automatic vehicle',
           'Executive Class: current pricing available at enrollment, private lessons, fully flexible, home pickup on request',
-          `Additional government fees: Interim Licence Ksh ${EXTRA_FEES.interimLicence.toLocaleString('en-KE')} + Smart DL Ksh 3,050 (payable to NTSA separately)`,
         ],
       },
       {

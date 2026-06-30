@@ -356,9 +356,9 @@
       "cards": {
         "bLight": {
           "badge": "Maarufu Zaidi",
-          "lessonLine": "Kozi Kamili · Masomo 20",
+          "lessonLine": "Kozi Kamili",
           "features": [
-            "Masomo 20 ya vitendo ya kuendesha",
+            "Masomo ya vitendo ya kuendesha",
             "Nadharia ya NTSA na mtihani wa barabarani",
             "Moduli ya uendeshaji wa kujihami",
             "Mwongozo wa maombi ya Smart DL",
@@ -366,9 +366,9 @@
           ]
         },
         "bAuto": {
-          "lessonLine": "Kozi Kamili · Masomo 20",
+          "lessonLine": "Kozi Kamili",
           "features": [
-            "Masomo 20 ya vitendo ya kuendesha",
+            "Masomo ya vitendo ya kuendesha",
             "Nadharia ya NTSA na mtihani wa barabarani",
             "Moduli ya uendeshaji wa kujihami",
             "Mwongozo wa maombi ya Smart DL",
@@ -458,7 +458,7 @@
       "smartDl": {
         "name": "Leseni Mahiri (Smart DL)",
         "shortDesc": "Maombi kamili ya Leseni Mahiri ya Kidijitali ya NTSA na usanidi wa akaunti ya TIMS, kuanzia mwanzo hadi mwisho.",
-        "fullDesc": "SafeRide Africa inashughulikia mchakato mzima wa Leseni Mahiri ya Kidijitali ya NTSA kwa niaba yako. Tunashughulikia usajili wa akaunti ya TIMS, uratibu wa kunasa alama za kibiolojia, uchakataji wa malipo, na ufuatiliaji wa hali, ili upate Smart DL yako bila kusubiri foleni ndefu. Wafanyakazi wetu husasishwa na kila mabadiliko ya mfumo wa NTSA ili kuhakikisha uchakataji wa haraka na sahihi kwa ada maalum ya Ksh {{smartDLFee}}."
+        "fullDesc": "SafeRide Africa inashughulikia mchakato mzima wa Leseni Mahiri ya Kidijitali ya NTSA kwa niaba yako. Tunashughulikia usajili wa akaunti ya TIMS, uratibu wa kunasa alama za kibiolojia, uchakataji wa malipo, na ufuatiliaji wa hali, ili upate Smart DL yako bila kusubiri foleni ndefu. Wafanyakazi wetu husasishwa na kila mabadiliko ya mfumo wa NTSA ili kuhakikisha uchakataji wa haraka na sahihi."
       },
       "executive": {
         "name": "Madarasa ya Watendaji (Executive)",

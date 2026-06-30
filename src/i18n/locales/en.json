@@ -348,9 +348,9 @@
       "cards": {
         "bLight": {
           "badge": "Most Popular",
-          "lessonLine": "Full Course · 20 Lessons",
+          "lessonLine": "Full Course",
           "features": [
-            "20 practical driving lessons",
+            "Practical driving lessons",
             "NTSA theory and road test",
             "Defensive driving module",
             "Smart DL application guide",
@@ -358,9 +358,9 @@
           ]
         },
         "bAuto": {
-          "lessonLine": "Full Course · 20 Lessons",
+          "lessonLine": "Full Course",
           "features": [
-            "20 practical driving lessons",
+            "Practical driving lessons",
             "NTSA theory and road test",
             "Defensive driving module",
             "Smart DL application guide",
@@ -450,7 +450,7 @@
       "smartDl": {
         "name": "Smart DL",
         "shortDesc": "Full NTSA Smart Digital Licence application and TIMS account setup, handled start to finish.",
-        "fullDesc": "SafeRide Africa manages the entire NTSA Smart Digital Licence process on your behalf. We handle TIMS account registration, biometric capture coordination, payment processing, and status tracking, so you receive your Smart DL without joining long queues. Our staff stays current with every NTSA system update to ensure fast, accurate processing at a fixed fee of Ksh {{smartDLFee}}."
+        "fullDesc": "SafeRide Africa manages the entire NTSA Smart Digital Licence process on your behalf. We handle TIMS account registration, biometric capture coordination, payment processing, and status tracking, so you receive your Smart DL without joining long queues. Our staff stays current with every NTSA system update to ensure fast, accurate processing."
       },
       "executive": {
         "name": "Executive Classes",

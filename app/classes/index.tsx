@@ -38,15 +38,7 @@ function ClassCard({ cls }: { cls: DriveClass }) {
     >
       <View style={{ width: 4, alignSelf: 'stretch', borderRadius: 2, backgroundColor: color }} />
       <View style={{ flex: 1 }}>
-        <Text style={{ color: T.foreground, fontFamily: F.semibold, fontSize: 14, marginBottom: 4 }}>{cls.name}</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-          {cls.lessons !== null && (
-            <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 12 }}>{cls.lessons} lessons</Text>
-          )}
-          {cls.lessons === null && cls.series !== 'EXEC' && (
-            <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 12 }}>Test Only</Text>
-          )}
-        </View>
+        <Text style={{ color: T.foreground, fontFamily: F.semibold, fontSize: 14 }}>{cls.name}</Text>
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: color + '18', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 20 }}>
         <Text style={{ color, fontFamily: F.bold, fontSize: 12 }}>View</Text>

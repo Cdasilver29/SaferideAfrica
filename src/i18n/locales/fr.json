@@ -356,9 +356,9 @@
       "cards": {
         "bLight": {
           "badge": "Le Plus Populaire",
-          "lessonLine": "Cours Complet · 20 Leçons",
+          "lessonLine": "Cours Complet",
           "features": [
-            "20 leçons de conduite pratique",
+            "Leçons de conduite pratique",
             "Théorie NTSA et examen de conduite",
             "Module de conduite défensive",
             "Guide de demande Smart DL",
@@ -366,9 +366,9 @@
           ]
         },
         "bAuto": {
-          "lessonLine": "Cours Complet · 20 Leçons",
+          "lessonLine": "Cours Complet",
           "features": [
-            "20 leçons de conduite pratique",
+            "Leçons de conduite pratique",
             "Théorie NTSA et examen de conduite",
             "Module de conduite défensive",
             "Guide de demande Smart DL",
@@ -458,7 +458,7 @@
       "smartDl": {
         "name": "Permis Intelligent (Smart DL)",
         "shortDesc": "Demande complète du Permis Numérique Intelligent NTSA et configuration du compte TIMS, prise en charge de bout en bout.",
-        "fullDesc": "SafeRide Africa gère l'ensemble du processus de Permis Numérique Intelligent NTSA en votre nom. Nous nous occupons de l'enregistrement du compte TIMS, de la coordination de la capture biométrique, du traitement des paiements et du suivi du statut, afin que vous receviez votre Smart DL sans faire la queue. Notre personnel se tient au courant de chaque mise à jour du système NTSA pour garantir un traitement rapide et précis, à un tarif fixe de Ksh {{smartDLFee}}."
+        "fullDesc": "SafeRide Africa gère l'ensemble du processus de Permis Numérique Intelligent NTSA en votre nom. Nous nous occupons de l'enregistrement du compte TIMS, de la coordination de la capture biométrique, du traitement des paiements et du suivi du statut, afin que vous receviez votre Smart DL sans faire la queue. Notre personnel se tient au courant de chaque mise à jour du système NTSA pour garantir un traitement rapide et précis."
       },
       "executive": {
         "name": "Cours Exécutifs",

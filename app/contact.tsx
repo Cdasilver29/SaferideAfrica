@@ -3,7 +3,7 @@ import {
   View, Text, TextInput, TouchableOpacity, SafeAreaView, ScrollView, Linking, Platform, useWindowDimensions,
 } from 'react-native';
 import { router } from 'expo-router';
-import { AlertTriangle, Mail, Phone, MapPin, ArrowRight, Send, Globe } from 'lucide-react-native';
+import { Mail, Phone, MapPin, ArrowRight, Send, Globe } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 
 import { PageHero } from '@/components/landing/PageHero';
@@ -11,11 +11,9 @@ import Navbar          from '@/components/landing/Navbar';
 import { BranchMap }   from '@/components/landing/BranchMap';
 import Footer          from '@/components/landing/Footer';
 
-import { COMPANY, BRANCHES, PAYMENT } from '@/data/saferide';
+import { COMPANY, BRANCHES } from '@/data/saferide';
 import { C, F, IS_WEB, MAX_W } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
-
-const KSH = (n: number) => 'Ksh ' + n.toLocaleString('en-KE');
 
 const CONTACT_LABEL_KEY_MAP: Record<string, string> = {
   Address: 'address',
@@ -306,72 +304,6 @@ function ContactForm() {
   );
 }
 
-// ─── Payment info card ────────────────────────────────────────────────────────
-function PaymentInfo() {
-  const T = useTheme();
-  const { t } = useTranslation();
-  const { width: winW } = useWindowDimensions();
-  const isWide = IS_WEB && winW >= 768;
-  return (
-    <View
-      style={{
-        borderRadius: 16,
-        overflow: 'hidden',
-        borderWidth: 1,
-        borderColor: 'rgba(255,216,0,0.35)',
-      }}
-    >
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: 8,
-          backgroundColor: 'rgba(255,216,0,0.12)',
-          paddingHorizontal: 16,
-          paddingVertical: 10,
-        }}
-      >
-        <AlertTriangle size={14} color={C.yellow} />
-        <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: 12, letterSpacing: 0.5 }}>
-          {PAYMENT.notice}
-        </Text>
-      </View>
-      <View
-        style={[
-          {
-            paddingHorizontal: 16,
-            paddingVertical: 14,
-            backgroundColor: T.card,
-          },
-          isWide ? { flexDirection: 'row', gap: 24 } : { gap: 12 },
-        ]}
-      >
-        <View style={{ flex: isWide ? 1 : undefined }}>
-          <Text style={{ color: T.mutedForeground, fontFamily: F.semibold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }}>
-            {t('courses.paymentMpesa')}
-          </Text>
-          <Text style={{ color: T.foreground, fontFamily: F.regular, fontSize: 13, marginBottom: 2 }}>
-            {t('courses.paybillLabel')} <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaPaybill}</Text>
-          </Text>
-          <Text style={{ color: T.foreground, fontFamily: F.regular, fontSize: 13 }}>
-            {t('courses.accountLabel')} <Text style={{ fontFamily: F.bold }}>{PAYMENT.mpesaAccountName}</Text>
-          </Text>
-        </View>
-        {isWide && (
-          <View style={{ width: 1, backgroundColor: T.border }} />
-        )}
-        <View style={{ flex: isWide ? 1 : undefined }}>
-          <Text style={{ color: T.mutedForeground, fontFamily: F.semibold, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 6 }}>
-            {t('contactPage.bankTransferLabel', { bankName: PAYMENT.bankName })}
-          </Text>
-          <Text style={{ color: T.foreground, fontFamily: F.regular, fontSize: 13 }}>
-            {t('courses.accountLabel')} <Text style={{ fontFamily: F.bold }}>{PAYMENT.kcbAccount}</Text>
-          </Text>
-        </View>
-      </View>
-    </View>
-  );
-}
 
 // ─── Map mini preview ─────────────────────────────────────────────────────────
 function MapPreview() {
@@ -433,9 +365,8 @@ export default function ContactPage() {
 
             </View>
 
-            {/* Payment + map below the two-column block */}
-            <View style={{ marginTop: 40, gap: 24 }}>
-              <PaymentInfo />
+            {/* Map below the two-column block */}
+            <View style={{ marginTop: 40 }}>
               <MapPreview />
             </View>
           </View>
