@@ -7,6 +7,8 @@ import { CLASSES } from '@/data/saferide';
 import { Badge, Button, Icon, cn } from '@/components/ui';
 import { C, F, IS_WEB, MAX_W } from './constants';
 import { SectionIntro } from './SectionIntro';
+import { useInView } from '@/hooks/useInView';
+import { RevealItem } from '@/components/animations/Reveal';
 
 const PREVIEW_CODES = ['B-LIGHT', 'B-AUTO', 'EXECUTIVE'];
 
@@ -85,6 +87,7 @@ export function PremiumCourseCards() {
   const premiumClasses = CLASSES.filter((c) => PREVIEW_CODES.includes(c.code));
   const { width: winW } = useWindowDimensions();
   const isNarrow = !IS_WEB || (IS_WEB && winW < 768);
+  const { ref, inView } = useInView(0.15);
 
   return (
     <View className="bg-background px-5 py-14">
@@ -95,9 +98,16 @@ export function PremiumCourseCards() {
           description={t('home.premiumCourses.description')}
         />
 
-        <View className={cn('gap-5', !isNarrow && 'flex-row')}>
-          {premiumClasses.map((cls) => (
-            <PremiumCard key={cls.code} cls={cls} isNarrow={isNarrow} />
+        <View ref={ref} className={cn('gap-5', !isNarrow && 'flex-row')}>
+          {premiumClasses.map((cls, i) => (
+            <RevealItem
+              key={cls.code}
+              index={i}
+              inView={inView}
+              className={isNarrow ? 'w-full' : 'flex-1'}
+            >
+              <PremiumCard cls={cls} isNarrow={isNarrow} />
+            </RevealItem>
           ))}
         </View>
       </View>

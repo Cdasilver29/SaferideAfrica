@@ -21,6 +21,7 @@ import FinalCTA        from '@/components/landing/FinalCTA';
 
 import { C } from '@/components/landing/constants';
 import { useEnrollModal } from '@/context/EnrollModalContext';
+import { Reveal } from '@/components/animations/Reveal';
 
 export default function LandingScreen() {
   const { colorScheme } = useColorScheme();
@@ -48,12 +49,12 @@ export default function LandingScreen() {
       >
         <Hero onScrollToCourses={() => router.push('/courses')} onEnrol={openEnrollModal} />
         <StatStrip />
-        <ServicesPreview />
+        <Reveal><ServicesPreview /></Reveal>
         <PremiumCourseCards />
-        <AboutPreview />
-        <Testimonials />
-        <BranchesPreview />
-        <FinalCTA />
+        <Reveal><AboutPreview /></Reveal>
+        <Reveal><Testimonials /></Reveal>
+        <Reveal><BranchesPreview /></Reveal>
+        <Reveal><FinalCTA /></Reveal>
         <Footer />
       </Animated.ScrollView>
 

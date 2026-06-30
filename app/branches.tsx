@@ -29,7 +29,7 @@ function BranchCard({
   const isHQ = branch.isHQ;
 
   return (
-    <Pressable onPress={onSelect} accessibilityRole="button">
+    <Pressable onPress={onSelect} accessibilityRole="button" className="active:scale-[0.99]">
       <Card
         className={cn(
           'p-[18px]',

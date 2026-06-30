@@ -21,23 +21,28 @@ export function useInView(threshold = 0.2) {
     }
 
     const node = ref.current as unknown as Element | null;
-    if (!node) {
+    // Fall back to visible if there is no observable DOM node, so content is
+    // never left stuck hidden behind a reveal that cannot attach.
+    if (!node || typeof (node as { getBoundingClientRect?: unknown }).getBoundingClientRect !== 'function') {
       setInView(true);
       return;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting) {
-          setInView(true);
-          observer.disconnect();
-        }
-      },
-      { threshold },
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
+    try {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0]?.isIntersecting) {
+            setInView(true);
+            observer.disconnect();
+          }
+        },
+        { threshold },
+      );
+      observer.observe(node);
+      return () => observer.disconnect();
+    } catch {
+      setInView(true);
+    }
   }, [inView, threshold]);
 
   return { ref, inView };

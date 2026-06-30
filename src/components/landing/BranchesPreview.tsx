@@ -15,7 +15,7 @@ function BranchCard({ branch, isSelected, onPress }: { branch: Branch; isSelecte
   const Th = useTheme();
   const { t } = useTranslation();
   return (
-    <Pressable onPress={onPress} accessibilityRole="button">
+    <Pressable onPress={onPress} accessibilityRole="button" className="active:scale-[0.99]">
       <Card className={cn(isSelected ? 'border-[1.5px] border-primary bg-primary/5' : 'border-border')}>
         <View className="mb-2 flex-row items-center gap-2">
           <Text style={{ fontFamily: F.bold }} className={cn('flex-1 text-sm', isSelected ? 'text-primary' : 'text-foreground')}>

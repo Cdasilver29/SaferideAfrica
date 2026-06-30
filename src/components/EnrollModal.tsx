@@ -15,6 +15,7 @@ import {
 } from './ui';
 import { F } from './landing/constants';
 import { useTheme } from '@/lib/theme';
+import { useReduceMotion } from '@/hooks/useReduceMotion';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -141,6 +142,7 @@ function SectionLabel({ title }: { title: string }) {
 export default function EnrollModal() {
   const { isOpen, close, presetCourseCode } = useEnrollModal();
   const Th = useTheme();
+  const reduceMotion = useReduceMotion();
   const { height: winH } = useWindowDimensions();
   const scrollMax = Math.max(240, winH - 280);
 
@@ -198,11 +200,13 @@ export default function EnrollModal() {
     setErrors(errs);
 
     if (Object.keys(errs).length > 0) {
-      btnX.value = withSequence(
-        withTiming(-9, { duration: 55 }), withTiming(9,  { duration: 55 }),
-        withTiming(-7, { duration: 55 }), withTiming(7,  { duration: 55 }),
-        withTiming(0,  { duration: 55 }),
-      );
+      if (!reduceMotion) {
+        btnX.value = withSequence(
+          withTiming(-9, { duration: 55 }), withTiming(9,  { duration: 55 }),
+          withTiming(-7, { duration: 55 }), withTiming(7,  { duration: 55 }),
+          withTiming(0,  { duration: 55 }),
+        );
+      }
       return;
     }
 

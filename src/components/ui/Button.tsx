@@ -64,7 +64,7 @@ export function Button({
       android_ripple={{ color: 'rgba(0,0,0,0.08)' }}
       className={cn(
         buttonVariants({ variant, size }),
-        'active:opacity-90',
+        'active:scale-[0.98] active:opacity-90',
         disabled && 'opacity-50',
         className,
       )}
