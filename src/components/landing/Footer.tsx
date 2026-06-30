@@ -93,6 +93,14 @@ export default function Footer() {
                   <Text style={{ fontFamily: F.regular }} className="text-sm text-white/70">{COMPANY.primaryPhone}</Text>
                 </Pressable>
                 <Pressable
+                  onPress={() => Linking.openURL(`tel:${COMPANY.secondaryPhone.replace(/\s/g, '')}`)}
+                  accessibilityRole="link"
+                  className="flex-row items-center gap-2"
+                >
+                  <Icon icon={Phone} size="xs" color={C.skyLight} />
+                  <Text style={{ fontFamily: F.regular }} className="text-sm text-white/70">{COMPANY.secondaryPhone}</Text>
+                </Pressable>
+                <Pressable
                   onPress={() => Linking.openURL(`mailto:${COMPANY.email}`)}
                   accessibilityRole="link"
                   className="flex-row items-center gap-2"

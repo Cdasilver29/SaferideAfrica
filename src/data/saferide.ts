@@ -11,8 +11,8 @@ export const COMPANY = {
   hq:                'Buruburu, Nairobi',
   primaryPhone:      '0746 097 033',
   primaryEmail:      'saferideafrica777@gmail.com',
-  secondaryPhone:    '0746 097 033',
-  phones:            ['0746 097 033'],
+  secondaryPhone:    '0706 614 662',
+  phones:            ['0746 097 033', '0706 614 662'],
   email:             'saferideafrica777@gmail.com',
   website:           'www.safride-africa-driving-school.com',
   socials: {
@@ -34,6 +34,7 @@ export const CORE_VALUES = ['Professionalism', 'Team Work', 'Customer Care', 'Co
 export const MANAGEMENT = [
   { title: 'Chief Executive Officer' },
   { title: 'General Manager' },
+  { title: 'Business Development Manager' },
   { title: 'Operations Manager' },
   { title: 'Branch Managers' },
 ] as const;
