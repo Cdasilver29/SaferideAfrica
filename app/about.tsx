@@ -1,297 +1,166 @@
-import React, { useEffect } from 'react';
-import { View, Text, ScrollView, SafeAreaView, Image, Pressable, Linking, Platform, useWindowDimensions } from 'react-native';
-import Animated, {
-  useSharedValue, useAnimatedStyle,
-  withRepeat, withTiming, withDelay, interpolate, Easing,
-} from 'react-native-reanimated';
+import React from 'react';
+import { View, Text, ScrollView, SafeAreaView, Image, Pressable, Linking, useWindowDimensions } from 'react-native';
 import { useRouter } from 'expo-router';
-import { CheckCircle, Asterisk, ArrowRight } from 'lucide-react-native';
+import {
+  CheckCircle, Asterisk, ArrowRight, Eye, Target, Heart,
+  Crown, Briefcase, TrendingUp, Settings, Building2,
+} from 'lucide-react-native';
+import type { LucideIcon } from 'lucide-react-native';
 import Svg, { Path, Rect, Circle } from 'react-native-svg';
 import { useTranslation } from 'react-i18next';
-import { useInView } from '@/hooks/useInView';
 
 import { PageHero } from '@/components/landing/PageHero';
-import Navbar      from '@/components/landing/Navbar';
+import Navbar from '@/components/landing/Navbar';
 import WhyChooseUs from '@/components/landing/WhyChooseUs';
 import WorkProcess from '@/components/landing/WorkProcess';
-import FAQ         from '@/components/landing/FAQ';
-import FinalCTA    from '@/components/landing/FinalCTA';
-import Footer      from '@/components/landing/Footer';
+import FAQ from '@/components/landing/FAQ';
+import FinalCTA from '@/components/landing/FinalCTA';
+import Footer from '@/components/landing/Footer';
 
-import { VerticalCutReveal } from '@/components/animations/VerticalCutReveal';
-
-import {
-  COMPANY, MANAGEMENT, SOCIALS, STATS as SAFERIDE_STATS,
-} from '@/data/saferide';
-import { C, F, IS_WEB, MAX_W, ABOUT_IMG, ABOUT_OPENER_IMG } from '@/components/landing/constants';
+import { COMPANY, MANAGEMENT, SOCIALS, STATS as SAFERIDE_STATS } from '@/data/saferide';
+import { C, F, IS_WEB, MAX_W, ABOUT_OPENER_IMG } from '@/components/landing/constants';
+import { Button, Card, Icon, cn } from '@/components/ui';
 import { useTheme } from '@/lib/theme';
 
-// ─── About opener sub-components ─────────────────────────────────────────────
-
-function RotatingAsterisk() {
-  const rotation = useSharedValue(0)
-  useEffect(() => {
-    rotation.value = withRepeat(
-      withTiming(360, { duration: 4000, easing: Easing.linear }),
-      -1,
-    )
-  }, [])
-  const style = useAnimatedStyle(() => ({
-    transform: [{ rotate: rotation.value + 'deg' }],
-  }))
-  return (
-    <Animated.View style={style}>
-      <Asterisk size={18} color={C.skyDeep} />
-    </Animated.View>
-  )
-}
-
-function ClippedHeroImage({ source }: { source: any }) {
-  return (
-    <View
-      style={[
-        {
-          width: '100%',
-          height: IS_WEB ? 420 : 260,
-          overflow: 'hidden',
-          borderRadius: IS_WEB ? 0 : 12,
-          marginBottom: 16,
-        },
-        IS_WEB ? ({ clipPath: 'polygon(0 0, 100% 0, 100% 88%, 92% 100%, 0 100%)' } as any) : {},
-      ]}
-    >
-      <Image source={source} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
-    </View>
-  )
-}
-
-function StatItem({ value, label, large }: { value: string; label: string; large?: boolean }) {
-  const T = useTheme()
-  const { width: winW } = useWindowDimensions()
-  const isMobile = !IS_WEB || (IS_WEB && winW < 768)
-  return (
-    <View style={{ alignItems: 'flex-start' }}>
-      <Text style={{ color: C.skyDeep, fontFamily: F.bold, fontSize: large ? (isMobile ? 26 : 36) : 14 }}>
-        {value}
-      </Text>
-      <Text
-        style={{
-          color: T.mutedForeground,
-          fontFamily: F.regular,
-          fontSize: 12,
-          textTransform: large ? 'uppercase' : 'none',
-          letterSpacing: large ? 1 : 0,
-        }}
-      >
-        {label}
-      </Text>
-    </View>
-  )
-}
-
-function VertDivider() {
-  const T = useTheme()
-  return (
-    <View style={{ width: 1, height: 14, backgroundColor: T.border, alignSelf: 'center' }} />
-  )
-}
-
-function FacebookIcon({ size = 16, color = '#221f20' }: { size?: number; color?: string }) {
+// ─── Social brand icons (Lucide has no brand glyphs, so hand-drawn SVG) ──────────
+function FacebookIcon({ size = 15, color }: { size?: number; color: string }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24">
       <Path fill={color} d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
     </Svg>
-  )
+  );
 }
-
-function InstagramIcon({ size = 16, color = '#221f20' }: { size?: number; color?: string }) {
+function InstagramIcon({ size = 15, color }: { size?: number; color: string }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24">
       <Rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke={color} strokeWidth="2" />
       <Circle cx="12" cy="12" r="4" fill="none" stroke={color} strokeWidth="2" />
       <Circle cx="17.5" cy="6.5" r="1.5" fill={color} />
     </Svg>
-  )
+  );
 }
-
-function TwitterIcon({ size = 16, color = '#221f20' }: { size?: number; color?: string }) {
+function TwitterIcon({ size = 15, color }: { size?: number; color: string }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24">
       <Path fill={color} d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
     </Svg>
-  )
+  );
 }
-
-function TikTokIcon({ size = 16, color = '#221f20' }: { size?: number; color?: string }) {
+function TikTokIcon({ size = 15, color }: { size?: number; color: string }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24">
       <Path fill={color} d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.16a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-1.59z" />
     </Svg>
-  )
+  );
 }
 
 function SocialBadge({ url, icon }: { url: string; icon: React.ReactElement }) {
-  const T = useTheme()
   return (
     <Pressable
       onPress={() => Linking.openURL(url)}
-      style={{
-        width: 28, height: 28, borderRadius: 6,
-        borderWidth: 1,
-        borderColor: T.border,
-        backgroundColor: T.isDark ? 'rgba(255,255,255,0.06)' : 'rgba(34,31,32,0.05)',
-        alignItems: 'center', justifyContent: 'center',
-      }}
+      accessibilityRole="link"
+      className="h-11 w-11 items-center justify-center rounded-button border border-border bg-muted active:opacity-70"
     >
       {icon}
     </Pressable>
-  )
+  );
 }
 
-// ─── About opener section ─────────────────────────────────────────────────────
+function StatItem({ value, label, large }: { value: string; label: string; large?: boolean }) {
+  const { width: winW } = useWindowDimensions();
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
+  return (
+    <View className="items-start">
+      <Text style={{ color: C.skyDeep, fontFamily: F.bold, fontSize: large ? (isMobile ? 26 : 36) : 14 }}>{value}</Text>
+      <Text
+        style={{ fontFamily: F.regular, letterSpacing: large ? 1 : 0 }}
+        className={cn('text-xs text-muted-foreground', large && 'uppercase')}
+      >
+        {label}
+      </Text>
+    </View>
+  );
+}
+
+// ─── About opener ────────────────────────────────────────────────────────────────
 function AboutOpener() {
-  const { t } = useTranslation()
-  const T = useTheme()
-  const router = useRouter()
-  const { width: winW } = useWindowDimensions()
-  const isMobile = !IS_WEB || (IS_WEB && winW < 768)
-  const iconColor = T.isDark ? C.white : C.dark
-  const mutedColor = T.isDark ? 'rgba(255,255,255,0.6)' : 'rgba(34,31,32,0.6)'
-  const yearsActive = new Date().getFullYear() - COMPANY.registration.foundedYear
+  const { t } = useTranslation();
+  const Th = useTheme();
+  const router = useRouter();
+  const { width: winW } = useWindowDimensions();
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
+  const yearsActive = new Date().getFullYear() - COMPANY.registration.foundedYear;
+
+  const paragraphs = (
+    <>
+      {t('aboutPage.historyP1', { foundedYear: COMPANY.registration.foundedYear })}{' '}
+      {t('aboutPage.historyP2', {
+        incorporatedYear: COMPANY.registration.incorporatedDate.split(' ').pop(),
+        legalName: COMPANY.legalName,
+        pvt: COMPANY.registration.pvt,
+        branches: SAFERIDE_STATS.branches,
+      })}
+    </>
+  );
 
   return (
-    <View
-      style={{
-        backgroundColor: T.background,
-        paddingVertical: IS_WEB ? 64 : 48,
-        paddingHorizontal: 24,
-      }}
-    >
-      <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
-
-        {/* Top row: label + social badges */}
-        <View
-          style={{
-            flexDirection: 'row', alignItems: 'center',
-            justifyContent: 'space-between', marginBottom: 24,
-          }}
-        >
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-            <RotatingAsterisk />
-            <Text style={{ fontFamily: F.medium, fontSize: 13, color: mutedColor }}>
-              {t('aboutPage.whoWeAre')}
-            </Text>
+    <View className="bg-background px-6 py-12 web:py-16">
+      <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
+        {/* Label + social badges */}
+        <View className="mb-6 flex-row items-center justify-between">
+          <View className="flex-row items-center gap-2">
+            <Icon icon={Asterisk} size="sm" color={C.skyDeep} />
+            <Text style={{ fontFamily: F.medium }} className="text-sm text-muted-foreground">{t('aboutPage.whoWeAre')}</Text>
           </View>
-          <View style={{ flexDirection: 'row', gap: 8 }}>
-            <SocialBadge url={SOCIALS.facebook}  icon={<FacebookIcon  size={15} color={iconColor} />} />
-            <SocialBadge url={SOCIALS.instagram} icon={<InstagramIcon size={15} color={iconColor} />} />
-            <SocialBadge url={SOCIALS.twitter}   icon={<TwitterIcon   size={15} color={iconColor} />} />
-            <SocialBadge url={SOCIALS.tiktok}    icon={<TikTokIcon    size={15} color={iconColor} />} />
+          <View className="flex-row gap-2">
+            <SocialBadge url={SOCIALS.facebook} icon={<FacebookIcon color={Th.foreground} />} />
+            <SocialBadge url={SOCIALS.instagram} icon={<InstagramIcon color={Th.foreground} />} />
+            <SocialBadge url={SOCIALS.twitter} icon={<TwitterIcon color={Th.foreground} />} />
+            <SocialBadge url={SOCIALS.tiktok} icon={<TikTokIcon color={Th.foreground} />} />
           </View>
         </View>
 
         {/* Clipped hero image */}
-        <ClippedHeroImage source={ABOUT_OPENER_IMG} />
+        <View
+          style={[{ width: '100%', height: IS_WEB ? 420 : 260, overflow: 'hidden', marginBottom: 16 }, IS_WEB ? ({ clipPath: 'polygon(0 0, 100% 0, 100% 88%, 92% 100%, 0 100%)' } as any) : { borderRadius: 12 }]}
+        >
+          <Image source={ABOUT_OPENER_IMG} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
+        </View>
 
         {/* Stats line */}
-        <View
-          style={{
-            flexDirection: 'row', alignItems: 'center',
-            justifyContent: 'space-between', flexWrap: 'wrap',
-            paddingVertical: 12, gap: 16, marginBottom: 24,
-          }}
-        >
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+        <View className="mb-6 flex-row flex-wrap items-center justify-between gap-4 py-3">
+          <View className="flex-row items-center gap-3">
             <StatItem value={`${yearsActive}+`} label={t('aboutPage.statYears')} />
-            <VertDivider />
+            <View className="h-3.5 w-px self-center bg-border" />
             <StatItem value={`${SAFERIDE_STATS.passRate}%`} label={t('aboutPage.statPassRate')} />
           </View>
-          <View style={{ flexDirection: IS_WEB ? 'column' : 'row', alignItems: IS_WEB ? 'flex-end' : 'center', gap: 8 }}>
+          <View className={cn('gap-2', IS_WEB ? 'items-end' : 'flex-row items-center')}>
             <StatItem value={`${SAFERIDE_STATS.branches}+`} label={t('aboutPage.statBranches')} large />
             <StatItem value={`${SAFERIDE_STATS.instructors}+`} label={t('aboutPage.statInstructors')} />
           </View>
         </View>
 
-        {/* Main content: headline + paragraphs + CTA */}
+        {/* Headline + paragraphs + CTA */}
         {isMobile ? (
-          /* ── Mobile: linear stack — headline → paragraph → enrol button ── */
-          <View style={{ gap: 18 }}>
-            <VerticalCutReveal
-              text={t('aboutPage.headline')}
-              splitBy="words"
-              staggerDuration={0.1}
-              startDelay={0.3}
-              style={{
-                fontSize: 22,
-                fontFamily: F.semibold,
-                color: T.foreground,
-                lineHeight: 30,
-              }}
-            />
-            <Text
-              style={{
-                fontFamily: F.regular, fontSize: 14, lineHeight: 24,
-                color: mutedColor, textAlign: 'justify',
-              }}
-            >
-              {t('aboutPage.historyP1', { foundedYear: COMPANY.registration.foundedYear })}{' '}
-              {t('aboutPage.historyP2', {
-                incorporatedYear: COMPANY.registration.incorporatedDate.split(' ').pop(),
-                legalName: COMPANY.legalName,
-                pvt: COMPANY.registration.pvt,
-                branches: SAFERIDE_STATS.branches,
-              })}
+          <View className="gap-4">
+            <Text style={{ fontFamily: F.semibold }} className="text-2xl leading-8 text-foreground">{t('aboutPage.headline')}</Text>
+            <Text style={{ fontFamily: F.regular, textAlign: 'justify' }} className="text-sm leading-6 text-muted-foreground">
+              {paragraphs}
             </Text>
-            <Pressable
-              onPress={() => router.push('/courses' as any)}
-              style={{
-                flexDirection: 'row', alignItems: 'center', gap: 8,
-                backgroundColor: C.skyDeep, borderRadius: 10,
-                paddingHorizontal: 20, paddingVertical: 12,
-                alignSelf: 'flex-start',
-              }}
-            >
-              <Text style={{ fontFamily: F.bold, fontSize: 14, color: C.white }}>
-                {t('aboutPage.enrolWithUs')}
-              </Text>
-              <ArrowRight size={16} color={C.white} />
-            </Pressable>
+            <Button variant="primary" className="self-start" onPress={() => router.push('/courses' as any)}>
+              <Text style={{ fontFamily: F.bold }} className="text-base text-primary-foreground">{t('aboutPage.enrolWithUs')}</Text>
+              <Icon icon={ArrowRight} size="md" color={C.white} />
+            </Button>
           </View>
         ) : (
-          /* ── Desktop: two-column layout ── */
-          <View style={{ flexDirection: 'row', gap: 48 }}>
-
-            {/* Left: headline + two-column paragraphs */}
-            <View style={{ flex: 2 }}>
-              <View style={{ marginBottom: 24 }}>
-                <VerticalCutReveal
-                  text={t('aboutPage.headline')}
-                  splitBy="words"
-                  staggerDuration={0.1}
-                  startDelay={0.3}
-                  style={{
-                    fontSize: 40,
-                    fontFamily: F.semibold,
-                    color: T.foreground,
-                    lineHeight: 48,
-                  }}
-                />
-              </View>
-              <View style={{ flexDirection: 'row', gap: 24 }}>
-                <Text
-                  style={{
-                    flex: 1, fontFamily: F.regular, fontSize: 14, lineHeight: 24,
-                    color: mutedColor, textAlign: 'justify',
-                  }}
-                >
+          <View className="flex-row gap-12">
+            <View className="flex-[2]">
+              <Text style={{ fontFamily: F.semibold }} className="mb-6 text-[40px] leading-[48px] text-foreground">{t('aboutPage.headline')}</Text>
+              <View className="flex-row gap-6">
+                <Text style={{ fontFamily: F.regular, textAlign: 'justify' }} className="flex-1 text-sm leading-6 text-muted-foreground">
                   {t('aboutPage.historyP1', { foundedYear: COMPANY.registration.foundedYear })}
                 </Text>
-                <Text
-                  style={{
-                    flex: 1, fontFamily: F.regular, fontSize: 14, lineHeight: 24,
-                    color: mutedColor, textAlign: 'justify',
-                  }}
-                >
+                <Text style={{ fontFamily: F.regular, textAlign: 'justify' }} className="flex-1 text-sm leading-6 text-muted-foreground">
                   {t('aboutPage.historyP2', {
                     incorporatedYear: COMPANY.registration.incorporatedDate.split(' ').pop(),
                     legalName: COMPANY.legalName,
@@ -301,97 +170,59 @@ function AboutOpener() {
                 </Text>
               </View>
             </View>
-
-            {/* Right: brand wordmark + CTA */}
-            <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
-              <Text style={{ fontFamily: F.bold, fontSize: 22, color: C.skyDeep, marginBottom: 4 }}>
-                {t('aboutPage.brandName')}
-              </Text>
-              <Text style={{ fontFamily: F.regular, fontSize: 12, color: mutedColor, marginBottom: 24 }}>
+            <View className="flex-1 items-end justify-center">
+              <Text style={{ fontFamily: F.bold }} className="mb-1 text-2xl text-primary">{t('aboutPage.brandName')}</Text>
+              <Text style={{ fontFamily: F.regular }} className="mb-6 text-xs text-muted-foreground">
                 {t('aboutPage.ntsaRegisteredSince', { year: COMPANY.registration.foundedYear })}
               </Text>
-              <Text
-                style={{
-                  fontFamily: F.medium, fontSize: 14, color: T.foreground,
-                  marginBottom: 14, textAlign: 'right',
-                }}
-              >
-                {t('aboutPage.readyToStart')}
-              </Text>
-              <Pressable
-                onPress={() => router.push('/courses' as any)}
-                style={{
-                  flexDirection: 'row', alignItems: 'center', gap: 8,
-                  backgroundColor: C.skyDeep, borderRadius: 10,
-                  paddingHorizontal: 20, paddingVertical: 12,
-                }}
-              >
-                <Text style={{ fontFamily: F.bold, fontSize: 14, color: C.white }}>
-                  {t('aboutPage.enrolWithUs')}
-                </Text>
-                <ArrowRight size={16} color={C.white} />
-              </Pressable>
+              <Text style={{ fontFamily: F.medium, textAlign: 'right' }} className="mb-3.5 text-sm text-foreground">{t('aboutPage.readyToStart')}</Text>
+              <Button variant="primary" onPress={() => router.push('/courses' as any)}>
+                <Text style={{ fontFamily: F.bold }} className="text-base text-primary-foreground">{t('aboutPage.enrolWithUs')}</Text>
+                <Icon icon={ArrowRight} size="md" color={C.white} />
+              </Button>
             </View>
-
           </View>
         )}
       </View>
     </View>
-  )
+  );
 }
 
-// ─── Company story ────────────────────────────────────────────────────────────
-function CompanyStory() {
-  const { t } = useTranslation()
-  const T = useTheme();
+// ─── Section heading with divider ────────────────────────────────────────────────
+function SectionHeading({ overline, title, centered }: { overline?: string; title: string; centered?: boolean }) {
   return (
-    <View style={{ backgroundColor: T.background, paddingVertical: 64, paddingHorizontal: 24 }}>
-      <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
-        <Text
-          style={{
-            color: C.blue,
-            fontFamily: F.bold,
-            fontSize: 11,
-            letterSpacing: 2.5,
-            textTransform: 'uppercase',
-            marginBottom: 16,
-          }}
-        >
-          {t('aboutPage.historyOverline')}
-        </Text>
-        <Text
-          style={{
-            color: T.foreground,
-            fontFamily: F.bold,
-            fontSize: IS_WEB ? 30 : 22,
-            lineHeight: IS_WEB ? 40 : 32,
-            marginBottom: 24,
-          }}
-        >
-          {t('aboutPage.historyTitle')}
-        </Text>
+    <View className={cn('mb-6', centered && 'items-center')}>
+      {overline ? (
+        <Text style={{ fontFamily: F.bold, letterSpacing: 2.5 }} className="mb-3 text-xs uppercase text-primary">{overline}</Text>
+      ) : null}
+      <Text
+        style={{ fontFamily: F.bold }}
+        className={cn('text-2xl leading-8 text-foreground web:text-[30px] web:leading-[40px]', centered && 'text-center')}
+      >
+        {title}
+      </Text>
+      {centered ? (
+        <View className="mt-3 flex-row items-center gap-2">
+          <View className="h-0.5 w-10 rounded-pill bg-accent" />
+          <View className="h-2 w-2 rounded-pill bg-primary" />
+          <View className="h-0.5 w-10 rounded-pill bg-accent" />
+        </View>
+      ) : null}
+    </View>
+  );
+}
 
-        <Text
-          style={{
-            color: T.mutedForeground,
-            fontFamily: F.regular,
-            fontSize: 14,
-            lineHeight: 26,
-            marginBottom: 16,
-          }}
-        >
+// ─── Company story ────────────────────────────────────────────────────────────────
+function CompanyStory() {
+  const { t } = useTranslation();
+  return (
+    <View className="bg-background px-6 py-16">
+      <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
+        <SectionHeading overline={t('aboutPage.historyOverline')} title={t('aboutPage.historyTitle')} />
+        <Text style={{ fontFamily: F.regular }} className="mb-4 text-sm leading-[26px] text-muted-foreground">
           {t('aboutPage.historyP1', { foundedYear: COMPANY.registration.foundedYear })}
         </Text>
-
-        <Text
-          style={{
-            color: T.mutedForeground,
-            fontFamily: F.regular,
-            fontSize: 14,
-            lineHeight: 26,
-            marginBottom: 16,
-          }}
-        >
+        <Text style={{ fontFamily: F.regular }} className="mb-4 text-sm leading-[26px] text-muted-foreground">
           {t('aboutPage.historyP2', {
             incorporatedYear: COMPANY.registration.incorporatedDate.split(' ').pop(),
             legalName: COMPANY.legalName,
@@ -399,15 +230,7 @@ function CompanyStory() {
             branches: SAFERIDE_STATS.branches,
           })}
         </Text>
-
-        <Text
-          style={{
-            color: T.mutedForeground,
-            fontFamily: F.regular,
-            fontSize: 14,
-            lineHeight: 26,
-          }}
-        >
+        <Text style={{ fontFamily: F.regular }} className="text-sm leading-[26px] text-muted-foreground">
           {t('aboutPage.historyP3', { bn: COMPANY.registration.bn })}
         </Text>
       </View>
@@ -415,189 +238,34 @@ function CompanyStory() {
   );
 }
 
-// ─── What Drives Us card ────────────────────────────────────────────────────
-function WhatDrivesUsCard({
-  emoji, accent, heading, body, index, inView, width, padding, emojiSize,
-}: {
-  emoji: string;
-  accent: string;
-  heading: string;
-  body: string;
-  index: number;
-  inView: boolean;
-  width?: string;
-  padding: number;
-  emojiSize: number;
-}) {
-  const T = useTheme();
-  const badgeSize = emojiSize + 28;
-
-  // Idle float, runs on every viewport, staggered per card
-  const float = useSharedValue(0);
-  useEffect(() => {
-    float.value = withDelay(
-      index * 300,
-      withRepeat(withTiming(1, { duration: 2400, easing: Easing.inOut(Easing.ease) }), -1, true),
-    );
-  }, []);
-
-  // Hover (web) / press (native) lift + emoji scale, same shared value drives both
-  const lift = useSharedValue(0);
-  const liftIn  = () => { lift.value = withTiming(1, { duration: 200 }); };
-  const liftOut = () => { lift.value = withTiming(0, { duration: 200 }); };
-
-  // Scroll-in reveal, fires once when the section enters view
-  const reveal = useSharedValue(0);
-  useEffect(() => {
-    if (inView) {
-      reveal.value = withDelay(index * 150, withTiming(1, { duration: 500 }));
-    }
-  }, [inView]);
-
-  const cardStyle = useAnimatedStyle(() => ({
-    opacity: reveal.value,
-    transform: [
-      { translateY: interpolate(reveal.value, [0, 1], [20, 0]) },
-      { translateY: withTiming(lift.value === 1 ? -6 : 0, { duration: 200 }) },
-    ],
-  }));
-
-  const emojiStyle = useAnimatedStyle(() => ({
-    transform: [
-      { translateY: interpolate(float.value, [0, 1], [0, -4]) },
-      { scale: withTiming(lift.value === 1 ? 1.15 : 1, { duration: 200 }) },
-    ],
-  }));
-
-  return (
-    <Animated.View
-      style={[
-        {
-          flex: width ? undefined : 1,
-          width: width as any,
-          backgroundColor: T.card,
-          borderRadius: 20,
-          padding,
-          borderWidth: 1,
-          borderColor: T.border,
-        },
-        cardStyle,
-      ]}
-    >
-      <Pressable
-        onHoverIn={liftIn}
-        onHoverOut={liftOut}
-        onPressIn={liftIn}
-        onPressOut={liftOut}
-        style={{ minHeight: 44 }}
-      >
-        <View
-          style={{
-            width: badgeSize,
-            height: badgeSize,
-            borderRadius: badgeSize / 2,
-            backgroundColor: accent,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 14,
-          }}
-        >
-          <Animated.Text style={[{ fontSize: emojiSize, lineHeight: emojiSize * 1.2 }, emojiStyle]}>
-            {emoji}
-          </Animated.Text>
-        </View>
-        <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 16, marginBottom: 10 }}>
-          {heading}
-        </Text>
-        <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13, lineHeight: 22 }}>
-          {body}
-        </Text>
-      </Pressable>
-    </Animated.View>
-  );
-}
-
-// ─── Vision · Mission · Values ────────────────────────────────────────────────
+// ─── Vision · Mission · Values ─────────────────────────────────────────────────────
 function VisionMissionValues() {
-  const { t } = useTranslation()
-  const T = useTheme();
+  const { t } = useTranslation();
+  const Th = useTheme();
   const { width: winW } = useWindowDimensions();
-  const { ref, inView } = useInView();
-
   const cols = winW < 640 ? 1 : winW < 1024 ? 2 : 4;
-  const gap = cols === 1 ? 12 : cols === 2 ? 16 : 20;
-  const padding = cols === 1 ? 16 : 24;
-  const emojiSize = cols === 1 ? 40 : cols === 2 ? 48 : 56;
-  const cardWidth = cols === 1 ? '100%' : cols === 2 ? (IS_WEB ? 'calc(50% - 8px)' : '48%') : undefined;
-
+  const cardWidth: any = cols === 1 ? '100%' : cols === 2 ? (IS_WEB ? 'calc(50% - 8px)' : '48%') : undefined;
   const coreValues = t('aboutPage.coreValuesItems', { returnObjects: true }) as string[];
 
-  const items = [
-    {
-      id:      'vision',
-      emoji:   '👁️',
-      accent:  'rgba(1, 165, 240, 0.12)',
-      heading: t('aboutPage.visionTitle'),
-      body:    t('aboutPage.visionBody'),
-    },
-    {
-      id:      'mission',
-      emoji:   '🎯',
-      accent:  'rgba(255, 216, 0, 0.12)',
-      heading: t('aboutPage.missionTitle'),
-      body:    t('aboutPage.missionBody'),
-    },
-    {
-      id:      'values',
-      emoji:   '❤️',
-      accent:  'rgba(255, 216, 0, 0.12)',
-      heading: t('aboutPage.coreValuesTitle'),
-      body:    coreValues.join(' · '),
-    },
+  const items: { id: string; icon: LucideIcon; tint: string; color: string; heading: string; body: string }[] = [
+    { id: 'vision', icon: Eye, tint: 'bg-primary/10', color: C.skyDeep, heading: t('aboutPage.visionTitle'), body: t('aboutPage.visionBody') },
+    { id: 'mission', icon: Target, tint: 'bg-accent/15', color: Th.foreground, heading: t('aboutPage.missionTitle'), body: t('aboutPage.missionBody') },
+    { id: 'values', icon: Heart, tint: 'bg-accent/15', color: Th.foreground, heading: t('aboutPage.coreValuesTitle'), body: coreValues.join(' · ') },
   ];
 
   return (
-    <View
-      style={{
-        backgroundColor: T.isDark ? C.darkCard : C.white,
-        paddingVertical: 64,
-        paddingHorizontal: 24,
-      }}
-    >
-      <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
-        <View style={{ alignItems: 'center', marginBottom: 40 }}>
-          <Text
-            style={{
-              color: T.foreground,
-              fontFamily: F.bold,
-              fontSize: IS_WEB ? 30 : 22,
-              textAlign: 'center',
-              marginBottom: 12,
-            }}
-          >
-            {t('aboutPage.whatDrivesUs')}
-          </Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-            <View style={{ height: 2, width: 40, backgroundColor: C.yellow, borderRadius: 2 }} />
-            <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: C.blue }} />
-            <View style={{ height: 2, width: 40, backgroundColor: C.yellow, borderRadius: 2 }} />
-          </View>
-        </View>
-
-        <View ref={ref} style={{ flexDirection: 'row', flexWrap: 'wrap', gap }}>
-          {items.map((item, i) => (
-            <WhatDrivesUsCard
-              key={item.id}
-              emoji={item.emoji}
-              accent={item.accent}
-              heading={item.heading}
-              body={item.body}
-              index={i}
-              inView={inView}
-              width={cardWidth}
-              padding={padding}
-              emojiSize={emojiSize}
-            />
+    <View className="bg-background px-6 py-16">
+      <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
+        <SectionHeading title={t('aboutPage.whatDrivesUs')} centered />
+        <View className="flex-row flex-wrap gap-4">
+          {items.map((item) => (
+            <Card key={item.id} style={cardWidth ? { width: cardWidth } : undefined} className={cn(!cardWidth && 'flex-1', 'p-6')}>
+              <View className={cn('mb-3.5 h-12 w-12 items-center justify-center rounded-pill', item.tint)}>
+                <Icon icon={item.icon} size="md" color={item.color} />
+              </View>
+              <Text style={{ fontFamily: F.bold }} className="mb-2.5 text-base text-foreground">{item.heading}</Text>
+              <Text style={{ fontFamily: F.regular }} className="text-sm leading-[22px] text-muted-foreground">{item.body}</Text>
+            </Card>
           ))}
         </View>
       </View>
@@ -605,46 +273,19 @@ function VisionMissionValues() {
   );
 }
 
-// ─── Achievements ─────────────────────────────────────────────────────────────
+// ─── Achievements ──────────────────────────────────────────────────────────────────
 function Achievements() {
-  const { t } = useTranslation()
-  const T = useTheme();
+  const { t } = useTranslation();
   const bullets = t('aboutPage.guaranteeItems', { returnObjects: true }) as string[];
-
   return (
-    <View style={{ backgroundColor: T.background, paddingVertical: 56, paddingHorizontal: 24 }}>
-      <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
-        <Text
-          style={{
-            color: C.blue,
-            fontFamily: F.bold,
-            fontSize: 11,
-            letterSpacing: 2.5,
-            textTransform: 'uppercase',
-            marginBottom: 14,
-          }}
-        >
-          {t('aboutPage.guaranteeOverline')}
-        </Text>
-        <Text
-          style={{
-            color: T.foreground,
-            fontFamily: F.bold,
-            fontSize: IS_WEB ? 26 : 20,
-            marginBottom: 24,
-            lineHeight: IS_WEB ? 36 : 30,
-          }}
-        >
-          {t('aboutPage.guaranteeTitle')}
-        </Text>
-
-        <View style={{ gap: 14 }}>
+    <View className="bg-background px-6 py-14">
+      <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
+        <SectionHeading overline={t('aboutPage.guaranteeOverline')} title={t('aboutPage.guaranteeTitle')} />
+        <View className="gap-3.5">
           {bullets.map((item, i) => (
-            <View key={i} style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12 }}>
-              <CheckCircle size={20} color={C.blue} style={{ marginTop: 1 }} />
-              <Text style={{ flex: 1, color: T.mutedForeground, fontFamily: F.regular, fontSize: 14, lineHeight: 23 }}>
-                {item}
-              </Text>
+            <View key={i} className="flex-row items-start gap-3">
+              <View className="mt-0.5"><Icon icon={CheckCircle} size="md" color={C.skyDeep} /></View>
+              <Text style={{ fontFamily: F.regular }} className="flex-1 text-sm leading-[23px] text-muted-foreground">{item}</Text>
             </View>
           ))}
         </View>
@@ -653,112 +294,42 @@ function Achievements() {
   );
 }
 
-// ─── Management ───────────────────────────────────────────────────────────────
-
-const ROLE_EMOJI: Record<string, string> = {
-  'Chief Executive Officer': '\u{1F9D1}‍\u{1F4BC}', // office worker
-  'General Manager':         '\u{1F454}', // necktie
-  'Operations Manager':      '⚙️', // gear
-  'Branch Managers':         '\u{1F3E2}', // office building
+// ─── Management organogram ──────────────────────────────────────────────────────────
+const ROLE_ICON: Record<string, LucideIcon> = {
+  'Chief Executive Officer': Crown,
+  'General Manager': Briefcase,
+  'Business Development Manager': TrendingUp,
+  'Operations Manager': Settings,
+  'Branch Managers': Building2,
 };
 
-// Maps a role title (data constant, English) to its i18n key segment under aboutPage.roles
 const ROLE_KEY_MAP: Record<string, string> = {
   'Chief Executive Officer': 'ceo',
-  'General Manager':         'gm',
-  'Operations Manager':      'ops',
-  'Branch Managers':         'branchManagers',
+  'General Manager': 'gm',
+  'Operations Manager': 'ops',
+  'Branch Managers': 'branchManagers',
 };
 
-function RoleAvatar({ title, cols }: { title: string; cols: number }) {
-  const emoji = ROLE_EMOJI[title] ?? '\u{1F9D1}‍\u{1F4BC}';
-  const size = cols === 1 ? 36 : cols === 2 ? 32 : 28;
-
-  return (
-    <View
-      style={{
-        width: '26%',
-        aspectRatio: 1,
-        borderRadius: 999,
-        backgroundColor: 'rgba(1,165,240,0.12)',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexShrink: 0,
-      }}
-    >
-      <Text style={{ fontSize: size, lineHeight: size * 1.2 }}>{emoji}</Text>
-    </View>
-  );
-}
-
 function Management() {
-  const { t } = useTranslation()
-  const T = useTheme();
+  const { t } = useTranslation();
   const { width: winW } = useWindowDimensions();
   const cols = winW < 640 ? 1 : winW < 1024 ? 2 : 4;
-  const cardWidth = cols === 1 ? '100%' : cols === 2 ? (IS_WEB ? 'calc(50% - 8px)' : '48%') : (IS_WEB ? 'calc(25% - 12px)' : '48%');
+  const cardWidth: any = cols === 1 ? '100%' : cols === 2 ? (IS_WEB ? 'calc(50% - 8px)' : '48%') : (IS_WEB ? 'calc(25% - 12px)' : '48%');
 
   return (
-    <View
-      style={{
-        backgroundColor: T.isDark ? C.darkCard : C.white,
-        paddingVertical: 64,
-        paddingHorizontal: 24,
-      }}
-    >
-      <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
-        <View style={{ alignItems: 'center', marginBottom: 40 }}>
-          <Text
-            style={{
-              color: C.blue,
-              fontFamily: F.bold,
-              fontSize: 11,
-              letterSpacing: 2.5,
-              textTransform: 'uppercase',
-              marginBottom: 10,
-            }}
-          >
-            {t('aboutPage.leadershipOverline')}
-          </Text>
-          <Text
-            style={{
-              color: T.foreground,
-              fontFamily: F.bold,
-              fontSize: IS_WEB ? 30 : 22,
-              textAlign: 'center',
-              marginBottom: 12,
-            }}
-          >
-            {t('aboutPage.managementTitle')}
-          </Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-            <View style={{ height: 2, width: 40, backgroundColor: C.yellow, borderRadius: 2 }} />
-            <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: C.blue }} />
-            <View style={{ height: 2, width: 40, backgroundColor: C.yellow, borderRadius: 2 }} />
-          </View>
-        </View>
-
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: cols === 1 ? 12 : 16 }}>
+    <View className="bg-background px-6 py-16">
+      <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
+        <SectionHeading overline={t('aboutPage.leadershipOverline')} title={t('aboutPage.managementTitle')} centered />
+        <View className="flex-row flex-wrap gap-4">
           {MANAGEMENT.map((role) => (
-            <View
-              key={role.title}
-              style={{
-                width: cardWidth as any,
-                backgroundColor: T.card,
-                borderRadius: 16,
-                padding: cols === 1 ? 16 : 20,
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 14,
-                borderWidth: 1,
-                borderColor: T.border,
-              }}
-            >
-              <RoleAvatar title={role.title} cols={cols} />
-              <Text style={{ flex: 1, color: T.foreground, fontFamily: F.bold, fontSize: cols === 1 ? 14 : 15, lineHeight: cols === 1 ? 20 : 22 }}>
-                {t(`aboutPage.roles.${ROLE_KEY_MAP[role.title]}`)}
+            <Card key={role.title} style={{ width: cardWidth }} className="flex-row items-center gap-3.5 p-4">
+              <View className="h-12 w-12 items-center justify-center rounded-pill bg-primary/10">
+                <Icon icon={ROLE_ICON[role.title] ?? Briefcase} size="md" color={C.skyDeep} />
+              </View>
+              <Text style={{ fontFamily: F.bold }} className="flex-1 text-sm leading-5 text-foreground">
+                {t(`aboutPage.roles.${ROLE_KEY_MAP[role.title] ?? ''}`, { defaultValue: role.title })}
               </Text>
-            </View>
+            </Card>
           ))}
         </View>
       </View>
@@ -766,19 +337,12 @@ function Management() {
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
 export default function AboutPage() {
-  const { t } = useTranslation()
-  const T = useTheme();
-
+  const { t } = useTranslation();
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: T.background }}>
+    <SafeAreaView className="flex-1 bg-background">
       <Navbar />
-      <ScrollView
-        style={{ flex: 1 }}
-        contentContainerStyle={{ paddingBottom: 0 }}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('aboutPage.pageOverline')} title={t('aboutPage.pageTitle')} />
         <AboutOpener />
         <CompanyStory />
