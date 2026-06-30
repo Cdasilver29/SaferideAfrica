@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Image, Pressable, useWindowDimensions } from 'react-native';
+import { View, Text, Pressable, useWindowDimensions } from 'react-native';
 import { ChevronLeft, ChevronRight, Star, Quote } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W } from './constants';
@@ -8,14 +8,8 @@ import { useTheme } from '@/lib/theme';
 import { SectionIntro } from './SectionIntro';
 import { useReduceMotion } from '@/hooks/useReduceMotion';
 
-const PHOTO_SOURCES = IS_WEB
-  ? [{ uri: '/erickmusyoka.webp' }, { uri: '/mainamburu.webp' }, { uri: '/mitchelakinyi.webp' }]
-  : [
-      require('../../../public/erickmusyoka.webp'),
-      require('../../../public/mainamburu.webp'),
-      require('../../../public/mitchelakinyi.webp'),
-    ];
-
+// Phase 13: the individual testimonial portraits were removed for consent;
+// the carousel now shows an initials avatar with the name and quote.
 const INITIALS = ['EM', 'MM', 'MA'];
 const FALLBACK_BG = [C.skyDeep, C.skyLight, C.yellow];
 const N = 3;
@@ -31,7 +25,6 @@ export default function Testimonials() {
 
   const reduceMotion = useReduceMotion();
   const [active, setActive] = useState(0);
-  const [imgErrors, setImgErrors] = useState([false, false, false]);
   const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const idleRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -65,23 +58,14 @@ export default function Testimonials() {
         <SectionIntro badge={t('testimonials.overline')} title={t('testimonials.heading')} />
 
         <View className={cn('items-stretch', IS_WEB ? 'flex-row items-center gap-[72px]' : 'gap-6')}>
-          {/* Photo */}
+          {/* Initials avatar (portraits removed for consent, Phase 13) */}
           <View
             className="self-center overflow-hidden rounded-card border-4 border-white bg-white"
             style={{ width: photoW, height: photoH, shadowColor: C.dark, shadowOpacity: 0.2, shadowRadius: 16, shadowOffset: { width: 0, height: 8 }, elevation: 8 }}
           >
-            {!imgErrors[active] ? (
-              <Image
-                source={PHOTO_SOURCES[active]}
-                style={{ width: '100%', height: '100%' }}
-                resizeMode="cover"
-                onError={() => setImgErrors((prev) => { const next = [...prev]; next[active] = true; return next; })}
-              />
-            ) : (
-              <View className="flex-1 items-center justify-center" style={{ backgroundColor: FALLBACK_BG[active] }}>
-                <Text style={{ fontFamily: F.bold }} className="text-4xl text-white">{INITIALS[active]}</Text>
-              </View>
-            )}
+            <View className="flex-1 items-center justify-center" style={{ backgroundColor: FALLBACK_BG[active] }}>
+              <Text style={{ fontFamily: F.bold }} className="text-6xl text-white">{INITIALS[active]}</Text>
+            </View>
           </View>
 
           {/* Text panel */}
