@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  View, Text, Image, TouchableOpacity, Animated, Platform, useWindowDimensions,
+  View, Text, Image, Pressable, Animated, Platform, useWindowDimensions,
 } from 'react-native';
 import AnimatedRN, {
   useSharedValue, useAnimatedStyle, withRepeat, withTiming,
@@ -12,14 +12,25 @@ import { ChevronDown, ArrowRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, SCREEN_H, HERO_SRC } from './constants';
 import { KenBurnsBackground } from '../animations/KenBurnsBackground';
+import { Button, Icon } from '@/components/ui';
 
 const NTSA_LOGO = require('../../../assets/images/ntsa-logo.png');
 
-// Typewriter that types the full sentence, holds briefly, erases, then loops forever.
+// Palette-only colour helpers, so the photographic scrims and the glow carry no
+// raw hex: every value is derived from the C source-of-truth constants.
+const rgbTriplet = (hex: string) => {
+  const n = parseInt(hex.slice(1), 16);
+  return `${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}`;
+};
+const rgba = (hex: string, a: number) => `rgba(${rgbTriplet(hex)}, ${a})`;
+const YELLOW_RGB = rgbTriplet(C.yellow);
+
+// Typewriter that types the full sentence, holds, erases, then loops forever.
+// Phase 12 fixes this to type once and respect reduce-motion.
 function TypewriterText({ subheadline }: { subheadline: string }) {
   const [displayed, setDisplayed] = useState('');
   const cursorAnim = useRef(new Animated.Value(1)).current;
-  const activeRef  = useRef(true);
+  const activeRef = useRef(true);
 
   useEffect(() => {
     activeRef.current = true;
@@ -29,11 +40,11 @@ function TypewriterText({ subheadline }: { subheadline: string }) {
       Animated.sequence([
         Animated.timing(cursorAnim, { toValue: 0, duration: 480, useNativeDriver: Platform.OS !== 'web' }),
         Animated.timing(cursorAnim, { toValue: 1, duration: 480, useNativeDriver: Platform.OS !== 'web' }),
-      ])
+      ]),
     );
     blink.start();
 
-    const sleep = (ms: number) => new Promise<void>(res => setTimeout(res, ms));
+    const sleep = (ms: number) => new Promise<void>((res) => setTimeout(res, ms));
 
     async function runLoop() {
       await sleep(750);
@@ -59,15 +70,8 @@ function TypewriterText({ subheadline }: { subheadline: string }) {
 
   return (
     <Text
-      style={{
-        color: 'rgba(255,255,255,0.82)',
-        fontFamily: F.regular,
-        fontSize: IS_WEB ? 16 : 12,
-        lineHeight: IS_WEB ? 28 : 20,
-        marginBottom: IS_WEB ? 28 : 16,
-        maxWidth: IS_WEB ? 540 : undefined,
-        minHeight: IS_WEB ? 60 : 48,
-      }}
+      style={{ fontFamily: F.regular }}
+      className="mb-4 max-w-[540px] text-sm leading-6 text-white/80 web:text-base web:leading-7"
     >
       {displayed}
       <Animated.Text style={{ opacity: cursorAnim, color: C.yellow, fontFamily: F.bold }}>{'|'}</Animated.Text>
@@ -75,34 +79,35 @@ function TypewriterText({ subheadline }: { subheadline: string }) {
   );
 }
 
-// Word-by-word stagger headline — white for body words, yellow for accent words.
+// Word-by-word stagger headline; body words white, accent words yellow.
+// Phase 12 removes the infinite accent pulse.
 function AnimatedHeadline({ words, accentFrom }: { words: string[]; accentFrom: number }) {
-  const anims    = useRef(words.map(() => new Animated.Value(0))).current;
+  const anims = useRef(words.map(() => new Animated.Value(0))).current;
   const pulseAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     const stagger = Animated.stagger(
       90,
-      anims.map(a => Animated.timing(a, { toValue: 1, duration: 500, useNativeDriver: Platform.OS !== 'web' }))
+      anims.map((a) => Animated.timing(a, { toValue: 1, duration: 500, useNativeDriver: Platform.OS !== 'web' })),
     );
     const pulse = Animated.loop(
       Animated.sequence([
         Animated.timing(pulseAnim, { toValue: 1.04, duration: 1800, useNativeDriver: Platform.OS !== 'web' }),
-        Animated.timing(pulseAnim, { toValue: 1,    duration: 1800, useNativeDriver: Platform.OS !== 'web' }),
-      ])
+        Animated.timing(pulseAnim, { toValue: 1, duration: 1800, useNativeDriver: Platform.OS !== 'web' }),
+      ]),
     );
     stagger.start(() => pulse.start());
     return () => { stagger.stop(); pulse.stop(); };
   }, []);
 
-  const fontSize = IS_WEB ? 56 : 20;
-  const lineH    = IS_WEB ? 68 : 26;
+  const fontSize = IS_WEB ? 56 : 28;
+  const lineH = IS_WEB ? 64 : 34;
 
   return (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: IS_WEB ? 18 : 12 }}>
-      {words.filter(w => w.length > 0).map((word, i) => {
+    <View className="mb-3 flex-row flex-wrap gap-x-2 web:mb-4">
+      {words.filter((w) => w.length > 0).map((word, i) => {
         const isAccent = i >= accentFrom;
-        const anim     = anims[i] ?? new Animated.Value(1);
+        const anim = anims[i] ?? new Animated.Value(1);
         return (
           <Animated.View
             key={word + i}
@@ -114,12 +119,7 @@ function AnimatedHeadline({ words, accentFrom }: { words: string[]; accentFrom: 
               ],
             }}
           >
-            <Text style={{
-              color:      isAccent ? C.yellow : C.white,
-              fontFamily: F.bold,
-              fontSize,
-              lineHeight: lineH,
-            }}>
+            <Text style={{ color: isAccent ? C.yellow : C.white, fontFamily: F.bold, fontSize, lineHeight: lineH }}>
               {word}
             </Text>
           </Animated.View>
@@ -129,20 +129,20 @@ function AnimatedHeadline({ words, accentFrom }: { words: string[]; accentFrom: 
   );
 }
 
-// Yellow pulsing glow wrapper for the Enrol CTA
+// Enrol CTA: the single reserved accent action, with a yellow glow breath.
 function GlowingEnrolButton({ onPress }: { onPress: () => void }) {
+  const { t } = useTranslation();
   const glow = useSharedValue(0);
 
   useEffect(() => {
     glow.value = withRepeat(
       withTiming(1, { duration: 1800, easing: Easing.inOut(Easing.sin) }),
-      -1,
-      true,
+      -1, true,
     );
   }, []);
 
   const glowStyle = useAnimatedStyle(() => {
-    const radius  = interpolate(glow.value, [0, 1], [8, 22]);
+    const radius = interpolate(glow.value, [0, 1], [8, 22]);
     const opacity = interpolate(glow.value, [0, 1], [0.45, 0.85]);
     return {
       shadowColor: C.yellow,
@@ -150,34 +150,19 @@ function GlowingEnrolButton({ onPress }: { onPress: () => void }) {
       shadowRadius: radius,
       shadowOffset: { width: 0, height: 0 },
       elevation: interpolate(glow.value, [0, 1], [6, 14]),
-      borderRadius: 12,
-      ...(IS_WEB && {
-        // @ts-ignore web only
-        boxShadow: `0 0 ${radius}px rgba(255,216,0,${opacity})`,
-      }),
+      borderRadius: 8,
+      ...(IS_WEB && { boxShadow: `0 0 ${radius}px rgba(${YELLOW_RGB}, ${opacity})` }),
     };
   });
 
   return (
     <AnimatedRN.View style={glowStyle}>
-      <TouchableOpacity
-        onPress={onPress}
-        style={{
-          paddingVertical: IS_WEB ? 15 : 11,
-          paddingHorizontal: IS_WEB ? 28 : 16,
-          borderRadius: 12,
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: 8,
-          backgroundColor: 'rgba(255,255,255,0.12)',
-          borderWidth: 2,
-          borderColor: C.yellow,
-        }}
-        activeOpacity={0.8}
-      >
-        <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: 15 }}>Enrol Now</Text>
-        <ArrowRight size={16} color={C.yellow} />
-      </TouchableOpacity>
+      <Button variant="accent" size="lg" onPress={onPress} accessibilityLabel={t('common.enrolNow')}>
+        <Text style={{ fontFamily: F.bold }} className="text-base text-accent-foreground">
+          {t('common.enrolNow')}
+        </Text>
+        <Icon icon={ArrowRight} size="md" color={C.dark} />
+      </Button>
     </AnimatedRN.View>
   );
 }
@@ -192,102 +177,97 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
   const { width: winW } = useWindowDimensions();
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
 
-  const words        = t('hero.headlineWords', { returnObjects: true }) as string[];
-  const visibleWords = words.filter(w => w.length > 0);
-  const accentFrom   = Math.max(0, visibleWords.length - 2);
-  const subheadline  = t('hero.subheadline');
+  const words = t('hero.headlineWords', { returnObjects: true }) as string[];
+  const visibleWords = words.filter((w) => w.length > 0);
+  const accentFrom = Math.max(0, visibleWords.length - 2);
+  const subheadline = t('hero.subheadline');
 
-  const heroH = IS_WEB ? 580 : SCREEN_H * 0.80;
+  const heroH = IS_WEB ? 580 : SCREEN_H * 0.8;
 
   return (
-    <View style={{ height: heroH, overflow: 'hidden' }}>
+    <View style={{ height: heroH }} className="overflow-hidden">
       <KenBurnsBackground source={HERO_SRC} />
 
-      {/* Base overlay — navy-blue tinted dark, not flat black */}
+      {/* Photographic depth: dark gradient base, a sky-light haze, a bottom vignette */}
       <LinearGradient
-        colors={['rgba(1,28,72,0.38)', 'rgba(34,31,32,0.60)']}
+        colors={[rgba(C.dark, 0.3), rgba(C.dark, 0.62)]}
         start={{ x: 0.5, y: 0 }}
         end={{ x: 0.5, y: 1 }}
         style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none' } as any}
       />
-
-      {/* Atmospheric blue-light haze — light from far in the distance */}
       <LinearGradient
-        colors={['transparent', 'rgba(88,204,247,0.18)', 'transparent']}
+        colors={['transparent', rgba(C.skyLight, 0.18), 'transparent']}
         start={{ x: 0.5, y: 0.05 }}
-        end={{ x: 0.5, y: 0.60 }}
+        end={{ x: 0.5, y: 0.6 }}
         style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none' } as any}
       />
-
-      {/* Bottom vignette — keeps text readable */}
       <LinearGradient
-        colors={['transparent', 'rgba(34,31,32,0.62)']}
+        colors={['transparent', rgba(C.dark, 0.62)]}
         start={{ x: 0.5, y: 0 }}
         end={{ x: 0.5, y: 1 }}
         style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 200, pointerEvents: 'none' } as any}
       />
 
-      <View style={[
-        { flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start', paddingHorizontal: 24, paddingTop: isMobile ? 14 : 20, paddingBottom: 32 },
-        IS_WEB && !isMobile ? { maxWidth: 720, paddingHorizontal: 48, paddingTop: 24 } : {},
-      ]}>
-
+      <View
+        className="flex-1 items-start justify-start px-6 pb-8 pt-4"
+        style={IS_WEB && !isMobile ? { maxWidth: 720, paddingHorizontal: 48, paddingTop: 24 } : undefined}
+      >
         {/* NTSA badge */}
-        <View style={{ marginBottom: isMobile ? 14 : 24, alignSelf: isMobile ? 'center' : 'flex-start' }}>
-          <View style={{
-            flexDirection: 'row', alignItems: 'center',
-            gap: isMobile ? 5 : 8,
-            paddingHorizontal: isMobile ? 10 : 14,
-            paddingVertical: isMobile ? 5 : 7,
-            borderRadius: 20,
-            backgroundColor: 'rgba(255,216,0,0.15)',
-            borderWidth: 1,
-            borderColor: 'rgba(255,216,0,0.4)',
-          }}>
-            <Image source={NTSA_LOGO} style={{ width: isMobile ? 14 : 20, height: isMobile ? 14 : 20 }} resizeMode="contain" />
-            <Text style={{ color: C.yellow, fontFamily: F.bold, fontSize: isMobile ? 9 : 11, letterSpacing: 1.2, textTransform: 'uppercase' }}>
-              {t('hero.badge')}
-            </Text>
-          </View>
+        <View
+          className="mb-4 flex-row items-center gap-2 rounded-pill border border-accent/40 bg-accent/15 px-3.5 py-1.5 web:mb-6"
+          style={isMobile ? { alignSelf: 'center' } : undefined}
+        >
+          <Image
+            source={NTSA_LOGO}
+            style={{ width: isMobile ? 14 : 20, height: isMobile ? 14 : 20 }}
+            resizeMode="contain"
+          />
+          <Text
+            style={{ fontFamily: F.bold, letterSpacing: 1.2 }}
+            className="text-[9px] uppercase text-accent web:text-[11px]"
+          >
+            {t('hero.badge')}
+          </Text>
         </View>
 
-        {/* Animated headline — re-mounts on language change */}
-        <AnimatedHeadline
-          key={i18n.language}
-          words={visibleWords}
-          accentFrom={accentFrom}
-        />
+        {/* Headline, the value-proposition focal point */}
+        <AnimatedHeadline key={i18n.language} words={visibleWords} accentFrom={accentFrom} />
 
         {/* Typewriter sub-headline */}
         <TypewriterText key={i18n.language + '-sub'} subheadline={subheadline} />
 
-        {/* CTA buttons — hidden on mobile (Navbar Enrol button covers this) */}
+        {/* CTAs, desktop only (mobile uses the Navbar Enroll button) */}
         {!isMobile && (
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
-            <TouchableOpacity
+          <View className="flex-row flex-wrap items-center gap-3">
+            {/* Explore Courses, demoted to a secondary outline on the photo */}
+            <Pressable
               onPress={onScrollToCourses}
-              style={{ backgroundColor: C.yellow, paddingVertical: 15, paddingHorizontal: 32, borderRadius: 12, flexDirection: 'row', alignItems: 'center', gap: 8, shadowColor: C.yellow, shadowOpacity: 0.45, shadowRadius: 14, elevation: 6 }}
-              activeOpacity={0.85}
+              accessibilityRole="button"
+              className="h-14 flex-row items-center gap-2 rounded-button border border-white/60 bg-white/10 px-7 hover:bg-white/20 active:bg-white/20"
             >
-              <Text style={{ color: C.dark, fontFamily: F.bold, fontSize: 15 }}>{t('hero.exploreCourses')}</Text>
-              <ChevronDown size={17} color={C.dark} />
-            </TouchableOpacity>
+              <Text style={{ fontFamily: F.bold }} className="text-base text-white">
+                {t('hero.exploreCourses')}
+              </Text>
+              <Icon icon={ChevronDown} size="md" color={C.white} />
+            </Pressable>
 
             <GlowingEnrolButton onPress={onEnrol ?? (() => router.push('/courses' as any))} />
           </View>
         )}
       </View>
 
+      {/* Scroll-down affordance, web */}
       {IS_WEB && (
-        <TouchableOpacity
+        <Pressable
           onPress={onScrollToCourses}
-          style={{ position: 'absolute', bottom: 80, left: 0, right: 0, alignItems: 'center' }}
-          activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel={t('hero.exploreCourses')}
+          className="absolute inset-x-0 bottom-20 items-center"
         >
-          <Animated.View style={{ padding: 10, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,255,255,0.3)', backgroundColor: 'rgba(255,255,255,0.08)' }}>
-            <ChevronDown size={20} color="rgba(255,255,255,0.6)" />
-          </Animated.View>
-        </TouchableOpacity>
+          <View className="h-11 w-11 items-center justify-center rounded-pill border border-white/30 bg-white/10">
+            <Icon icon={ChevronDown} size="md" color={C.white} />
+          </View>
+        </Pressable>
       )}
     </View>
   );
