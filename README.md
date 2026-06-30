@@ -1,6 +1,6 @@
-# SafeRide Africa — Driving School App
+# Safe Ride Africa — Driving School App
 
-Cross-platform application for **SafeRide Africa Driving School** (Nairobi, Kenya). Built with Expo + React Native, serving iOS, Android, and Web from a single codebase.
+Cross-platform application for **Safe Ride Africa Driving School** (Nairobi, Kenya). Built with Expo + React Native, serving iOS, Android, and Web from a single codebase.
 
 ## Tech Stack
 
@@ -71,7 +71,7 @@ Open [http://localhost:8081](http://localhost:8081) in your browser.
 app/                    # Expo Router pages
   _layout.tsx           # Root layout, fonts, auth + modal providers
   index.tsx             # Landing page
-  about.tsx             # About SafeRide
+  about.tsx             # About Safe Ride
   courses.tsx           # Course catalogue
   services.tsx          # Services overview
   branches.tsx          # Branch map & directory
@@ -148,4 +148,4 @@ MPESA_SHORTCODE, MPESA_CALLBACK_URL, MPESA_CALLBACK_SECRET
 
 ## License
 
-Private — SafeRide Africa Driving School Ltd. All rights reserved.
+Private — Safe Ride Africa Driving School Ltd. All rights reserved.

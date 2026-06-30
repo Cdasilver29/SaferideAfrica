@@ -1,5 +1,5 @@
 // src/data/saferide.ts
-// Single source of truth for all SafeRide Africa business content.
+// Single source of truth for all Safe Ride Africa business content.
 // Components import from here. Strings are in English; other locales marked TODO in en.json.
 
 // ─── Company ─────────────────────────────────────────────────────────────────
@@ -244,7 +244,7 @@ export const SERVICES: ServiceItem[] = [
     name:      'Smart DL',
     iconName:  'Award',
     shortDesc: 'Full NTSA Smart Digital Licence application and TIMS account setup, handled start to finish.',
-    fullDesc:  'SafeRide Africa manages the entire NTSA Smart Digital Licence process on your behalf. We handle TIMS account registration, biometric capture coordination, payment processing, and status tracking. Our staff stays current with every NTSA system update to ensure fast, accurate processing.',
+    fullDesc:  'Safe Ride Africa manages the entire NTSA Smart Digital Licence process on your behalf. We handle TIMS account registration, biometric capture coordination, payment processing, and status tracking. Our staff stays current with every NTSA system update to ensure fast, accurate processing.',
   },
   {
     code:      'EXECUTIVE',
@@ -293,7 +293,7 @@ export const SERVICES: ServiceItem[] = [
     name:      'Corporate Driver Training',
     iconName:  'Briefcase',
     shortDesc: 'Fleet and company driver training covering defensive driving, NTSA compliance, and first aid.',
-    fullDesc:  'SafeRide Africa delivers comprehensive corporate driver training programmes for companies of all sizes. We assess your fleet drivers, provide defensive driving refreshers, cover NTSA compliance and log-keeping, and deliver basic first-aid training. Programmes can be conducted at your premises or any of our ten branches. Group rates apply for fleets of five or more.',
+    fullDesc:  'Safe Ride Africa delivers comprehensive corporate driver training programmes for companies of all sizes. We assess your fleet drivers, provide defensive driving refreshers, cover NTSA compliance and log-keeping, and deliver basic first-aid training. Programmes can be conducted at your premises or any of our ten branches. Group rates apply for fleets of five or more.',
   },
   {
     code:      'ONLINE',
@@ -326,7 +326,7 @@ export const WHY_CHOOSE_US = [
 // ─── Social links ─────────────────────────────────────────────────────────────
 
 export const SOCIALS = {
-  whatsapp:  'https://wa.me/254746097033?text=Hi%20SafeRide%2C%20I%20want%20to%20enquire%20about%20driving%20classes',
+  whatsapp:  'https://wa.me/254746097033?text=Hi%20Safe%20Ride%2C%20I%20want%20to%20enquire%20about%20driving%20classes',
   facebook:  'https://www.facebook.com/safrideafrica',
   twitter:   'https://twitter.com/safrideafrica',
   tiktok:    'https://www.tiktok.com/@saferide254',
@@ -369,7 +369,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     body: [
       {
         type: 'paragraph',
-        text: "Kenya's National Transport and Safety Authority (NTSA) has fully transitioned to the Smart Driving Licence (Smart DL) system. Whether you are applying for your first licence after completing your training at SafeRide Africa, or upgrading from an older laminated licence, here is the complete 2026 guide.",
+        text: "Kenya's National Transport and Safety Authority (NTSA) has fully transitioned to the Smart Driving Licence (Smart DL) system. Whether you are applying for your first licence after completing your training at Safe Ride Africa, or upgrading from an older laminated licence, here is the complete 2026 guide.",
       },
       {
         type: 'heading',
@@ -423,15 +423,15 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'heading',
-        text: 'How SafeRide Africa Helps',
+        text: 'How Safe Ride Africa Helps',
       },
       {
         type: 'paragraph',
-        text: 'At SafeRide Africa, Smart DL application guidance is included in every full course at no extra charge. Our instructors walk you through TIMS registration, PDL application, theory test booking, payment, and biometric scheduling. We have assisted over 2,100 drivers through this process across our 10 Nairobi branches.',
+        text: 'At Safe Ride Africa, Smart DL application guidance is included in every full course at no extra charge. Our instructors walk you through TIMS registration, PDL application, theory test booking, payment, and biometric scheduling. We have assisted over 2,100 drivers through this process across our 10 Nairobi branches.',
       },
       {
         type: 'callout',
-        text: 'Need help with your Smart DL? Contact SafeRide Africa on 0746 097 033 or WhatsApp us. We will guide you through the full application from start to finish.',
+        text: 'Need help with your Smart DL? Contact Safe Ride Africa on 0746 097 033 or WhatsApp us. We will guide you through the full application from start to finish.',
       },
     ],
   },
@@ -461,7 +461,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'New drivers fixate on the car directly ahead. Experienced defensive drivers scan 12 to 15 seconds down the road — roughly 200 to 300 metres at 60 km/h. This gives you reaction time for sudden stops, pedestrians crossing mid-block, debris, animals, or potholes. At SafeRide Africa, our instructors train this habit from the very first practical lesson — it is the single most effective way to avoid emergency braking.',
+        text: 'New drivers fixate on the car directly ahead. Experienced defensive drivers scan 12 to 15 seconds down the road — roughly 200 to 300 metres at 60 km/h. This gives you reaction time for sudden stops, pedestrians crossing mid-block, debris, animals, or potholes. At Safe Ride Africa, our instructors train this habit from the very first practical lesson — it is the single most effective way to avoid emergency braking.',
       },
       {
         type: 'heading',
@@ -477,7 +477,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'paragraph',
-        text: "The posted speed limit is a legal maximum, not a recommended target. On Nairobi's unpaved estate roads, during the long rains, or on the Nakuru and Mombasa highways in early morning fog, reducing speed by 20 to 30 km/h below the limit is the correct decision. NTSA data consistently identifies speed as a contributing factor in the majority of fatal crashes. Our defensive driving module at SafeRide teaches you to read the road — not just the speedometer.",
+        text: "The posted speed limit is a legal maximum, not a recommended target. On Nairobi's unpaved estate roads, during the long rains, or on the Nakuru and Mombasa highways in early morning fog, reducing speed by 20 to 30 km/h below the limit is the correct decision. NTSA data consistently identifies speed as a contributing factor in the majority of fatal crashes. Our defensive driving module at Safe Ride teaches you to read the road — not just the speedometer.",
       },
       {
         type: 'heading',
@@ -489,7 +489,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'heading',
-        text: 'The SafeRide Defensive Driving Module',
+        text: 'The Safe Ride Defensive Driving Module',
       },
       {
         type: 'list',
@@ -503,7 +503,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'callout',
-        text: "SafeRide Africa's defensive driving module is included in every B-Light, B-Auto, C-Light, and BC full course. It is the training behind our 98% NTSA first-attempt pass rate — and more importantly, it keeps our graduates safe long after the test.",
+        text: "Safe Ride Africa's defensive driving module is included in every B-Light, B-Auto, C-Light, and BC full course. It is the training behind our 98% NTSA first-attempt pass rate — and more importantly, it keeps our graduates safe long after the test.",
       },
     ],
   },
@@ -511,13 +511,13 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     id: 'choosing-the-right-class',
     category: 'CLASSES',
     title: 'B-Light vs B-Auto: Which Licence Class is Right for You?',
-    description: 'A quick comparison of the two most popular SafeRide classes, with cost, lesson count, and career implications.',
+    description: 'A quick comparison of the two most popular Safe Ride classes, with cost, lesson count, and career implications.',
     publishDate: 'Oct 9, 2025',
     readTime: '4 min read',
     body: [
       {
         type: 'paragraph',
-        text: "When most Kenyans decide to get their driving licence, the first question is simple: which class? The two most popular options at SafeRide Africa are Class B — Light (Manual) and Class B — Auto. Both cover the same NTSA syllabus and road test, but the vehicle type and long-term implications differ significantly.",
+        text: "When most Kenyans decide to get their driving licence, the first question is simple: which class? The two most popular options at Safe Ride Africa are Class B — Light (Manual) and Class B — Auto. Both cover the same NTSA syllabus and road test, but the vehicle type and long-term implications differ significantly.",
       },
       {
         type: 'heading',
@@ -557,7 +557,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'paragraph',
-        text: "SafeRide's Executive Class is our premium private training option. It is designed for students who want a dedicated instructor, fully flexible lesson scheduling, personalised pacing, and optional home pickup. It covers any vehicle class and is particularly popular with professionals, returning drivers, and those with tight schedules.",
+        text: "Safe Ride's Executive Class is our premium private training option. It is designed for students who want a dedicated instructor, fully flexible lesson scheduling, personalised pacing, and optional home pickup. It covers any vehicle class and is particularly popular with professionals, returning drivers, and those with tight schedules.",
       },
       {
         type: 'heading',

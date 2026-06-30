@@ -7,7 +7,7 @@
   },
 
   "nav": {
-    "brand": "SafeRide Africa",
+    "brand": "Safe Ride Africa",
     "tagline": "NTSA认证",
     "home": "首页",
     "services": "服务",
@@ -65,10 +65,10 @@
   },
 
   "about": {
-    "overline": "关于SafeRide Africa",
+    "overline": "关于Safe Ride Africa",
     "heading": "学会驾驶，安全掌控行程",
     "headingAccent": "安全",
-    "body": "凭借二十多年卓越的驾驶培训经验，SafeRide Africa经过验证的课程和经验丰富的教练确保您在考试前具备上路的准备。我们将防御性驾驶、急救和道路安全作为每节课的核心。",
+    "body": "凭借二十多年卓越的驾驶培训经验，Safe Ride Africa经过验证的课程和经验丰富的教练确保您在考试前具备上路的准备。我们将防御性驾驶、急救和道路安全作为每节课的核心。",
     "yearsBadge": "年",
     "ntsaCertified": "NTSA认证",
     "cta": "了解更多",
@@ -146,7 +146,7 @@
       },
       {
         "q": "您的教练持有NTSA认证吗？",
-        "a": "是的。所有SafeRide Africa教练均持有有效的NTSA认证，并接受持续的专业发展培训。"
+        "a": "是的。所有Safe Ride Africa教练均持有有效的NTSA认证，并接受持续的专业发展培训。"
       },
       {
         "q": "您帮助办理NTSA Smart DL申请吗？",
@@ -195,7 +195,7 @@
 
   "workProcess": {
     "overline": "如何运作",
-    "heading": "开始SafeRide学习之旅",
+    "heading": "开始Safe Ride学习之旅",
     "steps": {
       "selectPlan":    { "title": "选择计划",   "desc": "选择符合您目标和预算的课程。" },
       "consultation":  { "title": "咨询",       "desc": "与您的教练会面，讨论您的学习路径。" },
@@ -264,7 +264,7 @@
       {
         "date": "2025年3月15日",
         "title": "防御性驾驶：为什么它可能在肯尼亚道路上救您的命",
-        "excerpt": "道路死亡事故正在上升。防御性驾驶是SafeRide每节课核心的技能。"
+        "excerpt": "道路死亡事故正在上升。防御性驾驶是Safe Ride每节课核心的技能。"
       }
     ]
   },
@@ -286,7 +286,7 @@
   },
 
   "footer": {
-    "brand": "SafeRide Africa",
+    "brand": "Safe Ride Africa",
     "tagline": "NTSA认证",
     "description": "肯尼亚领先的NTSA认证驾驶学校。自2001年起培养自信、安全的驾驶员。",
     "coursesColumnTitle": "我们的课程",
@@ -294,10 +294,10 @@
     "courseLinks": ["自动挡车辆", "手动挡车辆", "高级课程", "复习课程", "在线理论"],
     "companyLinks": ["关于我们", "我们的教练", "NTSA信息", "博客与新闻", "联系我们"],
     "newsletterTitle": "订阅通讯",
-    "newsletterSubtitle": "获取驾驶技巧、NTSA更新和SafeRide新闻直接发送到您的收件箱。",
+    "newsletterSubtitle": "获取驾驶技巧、NTSA更新和Safe Ride新闻直接发送到您的收件箱。",
     "newsletterPlaceholder": "您的电子邮件地址",
     "newsletterSubscribed": "订阅成功！谢谢您。",
-    "copyright": "© 2025 SafeRide Africa. 版权所有。",
+    "copyright": "© 2025 Safe Ride Africa. 版权所有。",
     "certifiedLine": "NTSA认证驾驶学校 · 内罗毕，肯尼亚",
     "navigateTitle": "导航",
     "developer": "开发者"
@@ -313,7 +313,7 @@
     "aboutPreview": {
       "badge": "关于我们",
       "title": "为肯尼亚道路打造",
-      "description": "自2015年以来，SafeRide在内罗毕的12家分支机构培训驾驶员，秉持一个承诺：安全不止于驾照。",
+      "description": "自2015年以来，Safe Ride在内罗毕的12家分支机构培训驾驶员，秉持一个承诺：安全不止于驾照。",
       "feature1Title": "符合NTSA标准的课程",
       "feature1Desc": "认证教练教授完整的NTSA课程，包括理论、道路规则、Smart DL申请和真实道路练习。",
       "feature2Title": "灵活的课程时段",
@@ -333,7 +333,7 @@
       "hqBadge": "总部",
       "badge": "找到我们",
       "title": "内罗毕12家分支机构",
-      "description": "从Buru Buru总部到Kayole、Embakasi、Kagundo路及更远的地方，您身边总有一家SafeRide分支机构。"
+      "description": "从Buru Buru总部到Kayole、Embakasi、Kagundo路及更远的地方，您身边总有一家Safe Ride分支机构。"
     },
     "coursesPreview": {
       "premiumBadge": "高级",
@@ -346,7 +346,7 @@
     "finalCta": {
       "badge": "开始吧",
       "title": "准备好以超越期待的安全驾驶了吗？",
-      "description": "加入成千上万通过SafeRide Africa获得驾照的肯尼亚驾驶员。选择您的课程，今天就开始。"
+      "description": "加入成千上万通过Safe Ride Africa获得驾照的肯尼亚驾驶员。选择您的课程，今天就开始。"
     },
     "premiumCourses": {
       "badge": "最受欢迎",

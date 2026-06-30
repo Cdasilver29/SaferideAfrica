@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "SafeRide Africa",
+    "name": "Safe Ride Africa",
     "slug": "saferide-africa",
     "version": "1.0.0",
     "scheme": "saferide",
@@ -32,8 +32,8 @@
       "bundler": "metro",
       "output": "single",
       "favicon": "./assets/images/favicon.png",
-      "name": "SafeRide Africa",
-      "shortName": "SafeRide",
+      "name": "Safe Ride Africa",
+      "shortName": "Safe Ride",
       "description": "NTSA-certified driving school in Nairobi. 12 branches, 98% pass rate.",
       "themeColor": "#01a5f0",
       "backgroundColor": "#ffffff",

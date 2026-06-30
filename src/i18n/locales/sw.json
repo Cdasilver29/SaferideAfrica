@@ -7,7 +7,7 @@
   },
 
   "nav": {
-    "brand": "SafeRide Africa",
+    "brand": "Safe Ride Africa",
     "tagline": "Imeidhinishwa na NTSA",
     "home": "Nyumbani",
     "services": "Huduma",
@@ -65,10 +65,10 @@
   },
 
   "about": {
-    "overline": "Kuhusu SafeRide Africa",
+    "overline": "Kuhusu Safe Ride Africa",
     "heading": "Jifunze Kuendesha kwa Usalama na Ujuzi",
     "headingAccent": "Usalama",
-    "body": "Kwa miongo miwili ya utukufu katika mafunzo ya uendeshaji, mtaala uliothibitishwa na waalimu wenye uzoefu wa SafeRide Africa wanahakikisha uko tayari barabarani kabla ya siku ya mtihani. Tunaweka uendeshaji salama, huduma ya kwanza, na usalama barabarani katikati ya kila somo.",
+    "body": "Kwa miongo miwili ya utukufu katika mafunzo ya uendeshaji, mtaala uliothibitishwa na waalimu wenye uzoefu wa Safe Ride Africa wanahakikisha uko tayari barabarani kabla ya siku ya mtihani. Tunaweka uendeshaji salama, huduma ya kwanza, na usalama barabarani katikati ya kila somo.",
     "yearsBadge": "Miaka",
     "ntsaCertified": "Imeidhinishwa na NTSA",
     "cta": "Soma Zaidi",
@@ -146,7 +146,7 @@
       },
       {
         "q": "Je, waalimu wenu wameidhinishwa na NTSA?",
-        "a": "Ndiyo. Waalimu wote wa SafeRide Africa wana cheti halisi cha NTSA na wanashiriki katika maendeleo ya kitaalamu yanayoendelea."
+        "a": "Ndiyo. Waalimu wote wa Safe Ride Africa wana cheti halisi cha NTSA na wanashiriki katika maendeleo ya kitaalamu yanayoendelea."
       },
       {
         "q": "Je, mnasaidia na ombi la NTSA Smart DL?",
@@ -195,7 +195,7 @@
 
   "workProcess": {
     "overline": "Jinsi Inavyofanya Kazi",
-    "heading": "Anza Mchakato wa Kujifunza wa SafeRide",
+    "heading": "Anza Mchakato wa Kujifunza wa Safe Ride",
     "steps": {
       "selectPlan":    { "title": "Chagua Mpango Wako",    "desc": "Chagua kozi inayolingana na malengo yako na bajeti yako." },
       "consultation":  { "title": "Ushauri",               "desc": "Kutana na mwalimu wako na jadili njia yako ya kujifunza." },
@@ -264,7 +264,7 @@
       {
         "date": "Mac 15, 2025",
         "title": "Uendeshaji Salama: Kwa Nini Unaweza Kuokoa Maisha Yako Barabarani Kenya",
-        "excerpt": "Vifo vya barabarani vinaongezeka. Uendeshaji salama ndio ujuzi ambao SafeRide unaweka moyoni mwa kila somo."
+        "excerpt": "Vifo vya barabarani vinaongezeka. Uendeshaji salama ndio ujuzi ambao Safe Ride unaweka moyoni mwa kila somo."
       }
     ]
   },
@@ -280,13 +280,13 @@
       "Mazoezi ya mwanafunzi",
       "Uendeshaji salama",
       "Eneo la mafunzo",
-      "Kampasi ya SafeRide",
+      "Kampasi ya Safe Ride",
       "Darasa la nadharia"
     ]
   },
 
   "footer": {
-    "brand": "SafeRide Africa",
+    "brand": "Safe Ride Africa",
     "tagline": "Imeidhinishwa na NTSA",
     "description": "Shule ya uendeshaji inayoongoza Kenya iliyoidhinishwa na NTSA. Tunakuza madereva wenye ujasiri na usalama tangu 2001.",
     "coursesColumnTitle": "Kozi Zetu",
@@ -294,10 +294,10 @@
     "courseLinks": ["Gari la Otomatiki", "Gari la Mwenyewe", "Kozi ya Juu", "Kozi ya Kurudia", "Nadharia Mtandaoni"],
     "companyLinks": ["Kuhusu Sisi", "Waalimu Wetu", "Taarifa za NTSA", "Blogu na Habari", "Wasiliana Nasi"],
     "newsletterTitle": "Jarida la Habari",
-    "newsletterSubtitle": "Pata vidokezo vya uendeshaji, masasisho ya NTSA, na habari za SafeRide moja kwa moja kwenye sanduku lako la barua.",
+    "newsletterSubtitle": "Pata vidokezo vya uendeshaji, masasisho ya NTSA, na habari za Safe Ride moja kwa moja kwenye sanduku lako la barua.",
     "newsletterPlaceholder": "Anwani yako ya barua pepe",
     "newsletterSubscribed": "Umejisajili! Asante sana.",
-    "copyright": "© 2025 SafeRide Africa. Haki zote zimehifadhiwa.",
+    "copyright": "© 2025 Safe Ride Africa. Haki zote zimehifadhiwa.",
     "certifiedLine": "Shule ya Uendeshaji Iliyoidhinishwa na NTSA · Nairobi, Kenya",
     "navigateTitle": "Tembeza",
     "developer": "Mtengenezaji"
@@ -313,7 +313,7 @@
     "aboutPreview": {
       "badge": "Kuhusu Sisi",
       "title": "Imeundwa kwa Barabara za Kenya",
-      "description": "Tangu 2015, SafeRide imefundisha madereva katika matawi 12 Nairobi kwa ahadi moja: usalama zaidi ya leseni.",
+      "description": "Tangu 2015, Safe Ride imefundisha madereva katika matawi 12 Nairobi kwa ahadi moja: usalama zaidi ya leseni.",
       "feature1Title": "Mtaala Unaolingana na NTSA",
       "feature1Desc": "Wakufunzi walioidhinishwa hufundisha mtaala kamili wa NTSA, nadharia, sheria za barabara, maombi ya Smart DL, na mazoezi halisi barabarani.",
       "feature2Title": "Nyakati za Masomo Zinazobadilika",
@@ -333,7 +333,7 @@
       "hqBadge": "Makao Makuu",
       "badge": "Tutafute",
       "title": "Matawi 12 Kote Nairobi",
-      "description": "Kutoka Buru Buru (Makao Makuu) hadi Kayole, Embakasi, Barabara ya Kagundo na kwingineko, daima kuna tawi la SafeRide karibu nawe."
+      "description": "Kutoka Buru Buru (Makao Makuu) hadi Kayole, Embakasi, Barabara ya Kagundo na kwingineko, daima kuna tawi la Safe Ride karibu nawe."
     },
     "coursesPreview": {
       "premiumBadge": "Premium",
@@ -346,7 +346,7 @@
     "finalCta": {
       "badge": "Anza",
       "title": "Uko Tayari Kuendesha kwa Usalama Zaidi?",
-      "description": "Jiunge na maelfu ya madereva wa Kenya waliopata leseni yao na SafeRide Africa. Chagua kozi yako na uanze leo."
+      "description": "Jiunge na maelfu ya madereva wa Kenya waliopata leseni yao na Safe Ride Africa. Chagua kozi yako na uanze leo."
     },
     "premiumCourses": {
       "badge": "Maarufu Zaidi",
@@ -458,7 +458,7 @@
       "smartDl": {
         "name": "Leseni Mahiri (Smart DL)",
         "shortDesc": "Maombi kamili ya Leseni Mahiri ya Kidijitali ya NTSA na usanidi wa akaunti ya TIMS, kuanzia mwanzo hadi mwisho.",
-        "fullDesc": "SafeRide Africa inashughulikia mchakato mzima wa Leseni Mahiri ya Kidijitali ya NTSA kwa niaba yako. Tunashughulikia usajili wa akaunti ya TIMS, uratibu wa kunasa alama za kibiolojia, uchakataji wa malipo, na ufuatiliaji wa hali, ili upate Smart DL yako bila kusubiri foleni ndefu. Wafanyakazi wetu husasishwa na kila mabadiliko ya mfumo wa NTSA ili kuhakikisha uchakataji wa haraka na sahihi."
+        "fullDesc": "Safe Ride Africa inashughulikia mchakato mzima wa Leseni Mahiri ya Kidijitali ya NTSA kwa niaba yako. Tunashughulikia usajili wa akaunti ya TIMS, uratibu wa kunasa alama za kibiolojia, uchakataji wa malipo, na ufuatiliaji wa hali, ili upate Smart DL yako bila kusubiri foleni ndefu. Wafanyakazi wetu husasishwa na kila mabadiliko ya mfumo wa NTSA ili kuhakikisha uchakataji wa haraka na sahihi."
       },
       "executive": {
         "name": "Madarasa ya Watendaji (Executive)",
@@ -493,7 +493,7 @@
       "corporate": {
         "name": "Mafunzo ya Madereva wa Makampuni",
         "shortDesc": "Mafunzo ya madereva wa meli za magari na makampuni yanayoshughulikia uendeshaji wa kujikinga, uzingatiaji wa NTSA, na huduma ya kwanza.",
-        "fullDesc": "SafeRide Africa hutoa programu kamili za mafunzo ya madereva wa kampuni kwa makampuni ya ukubwa wowote. Tunatathmini madereva wa meli yako ya magari, tunatoa mafunzo ya kuongeza uendeshaji wa kujikinga, tunashughulikia uzingatiaji wa NTSA na uwekaji kumbukumbu, na tunatoa mafunzo ya msingi ya huduma ya kwanza. Programu zinaweza kufanyika katika eneo lako au katika mojawapo ya matawi yetu {{branches}}. Bei za kikundi zinatumika kwa meli za magari matano au zaidi."
+        "fullDesc": "Safe Ride Africa hutoa programu kamili za mafunzo ya madereva wa kampuni kwa makampuni ya ukubwa wowote. Tunatathmini madereva wa meli yako ya magari, tunatoa mafunzo ya kuongeza uendeshaji wa kujikinga, tunashughulikia uzingatiaji wa NTSA na uwekaji kumbukumbu, na tunatoa mafunzo ya msingi ya huduma ya kwanza. Programu zinaweza kufanyika katika eneo lako au katika mojawapo ya matawi yetu {{branches}}. Bei za kikundi zinatumika kwa meli za magari matano au zaidi."
       },
       "online": {
         "name": "Jukwaa la Kujifunza Mtandaoni",

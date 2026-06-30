@@ -5,7 +5,7 @@ export const SCREEN_H = Dimensions.get('window').height;
 export const IS_WEB = Platform.OS === 'web';
 export const MAX_W = 1100;
 
-// ─── SafeRide colour tokens — locked 6-colour palette ─────────────────────────
+// ─── Safe Ride colour tokens — locked 6-colour palette ─────────────────────────
 export const C = {
   // ── Canonical palette colours ──────────────────────────────────────────────
   skyLight:   '#58ccf7',               // header strip, info banners
@@ -136,7 +136,7 @@ export const INSTRUCTOR_IMGS = IS_WEB
 
 export const FAQS = [
   { q: 'How long does it take to complete a driving course?', a: 'Most students complete our standard course in 3–4 weeks. The duration depends on the package chosen and your availability for lessons.' },
-  { q: 'Are your instructors NTSA certified?', a: 'Yes. All SafeRide Africa instructors hold valid NTSA certification and undergo continuous professional development.' },
+  { q: 'Are your instructors NTSA certified?', a: 'Yes. All Safe Ride Africa instructors hold valid NTSA certification and undergo continuous professional development.' },
   { q: 'Do you help with the NTSA Smart DL application?', a: 'Absolutely. We guide every student through the full NTSA Smart DL application and TIMS account setup at no extra charge.' },
   { q: 'What is the pass rate for your students?', a: 'We are proud of a 98% NTSA first-attempt pass rate — well above the national average — thanks to our intensive test preparation.' },
   { q: 'Do you offer refresher courses?', a: 'Yes. We offer flexible refresher programmes tailored to drivers who want to rebuild confidence or prepare for retesting.' },
@@ -205,7 +205,7 @@ export const BLOG_POSTS = [
   {
     date: 'Mar 15, 2025',
     title: 'Defensive Driving: Why It Could Save Your Life on Kenyan Roads',
-    excerpt: 'Road fatalities are rising. Defensive driving is the skill that SafeRide puts at the heart of every lesson.',
+    excerpt: 'Road fatalities are rising. Defensive driving is the skill that Safe Ride puts at the heart of every lesson.',
   },
 ];
 

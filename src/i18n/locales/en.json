@@ -7,7 +7,7 @@
   },
 
   "nav": {
-    "brand": "SafeRide Africa",
+    "brand": "Safe Ride Africa",
     "tagline": "Safety Beyond.....",
     "home": "Home",
     "services": "Services",
@@ -65,7 +65,7 @@
   },
 
   "about": {
-    "overline": "About SafeRide Africa",
+    "overline": "About Safe Ride Africa",
     "heading": "Learn To Drive, Drive With Safety And Control",
     "headingAccent": "Safety",
     "body": "Founded in 2015 and incorporated in 2020, Safe Ride Africa Driving School Ltd operates 12 branches across Nairobi. Our NTSA-registered curriculum and experienced instructors ensure you are road-ready and exam-confident. Defensive driving, road safety, and first aid are at the heart of every lesson.",
@@ -126,7 +126,7 @@
       },
       {
         "q": "Are your instructors NTSA certified?",
-        "a": "Yes. All SafeRide Africa instructors hold valid NTSA certification and undergo continuous professional development."
+        "a": "Yes. All Safe Ride Africa instructors hold valid NTSA certification and undergo continuous professional development."
       },
       {
         "q": "Do you help with the NTSA Smart DL application?",
@@ -175,7 +175,7 @@
 
   "workProcess": {
     "overline": "How It Works",
-    "heading": "Start The SafeRide Learning Process",
+    "heading": "Start The Safe Ride Learning Process",
     "steps": {
       "selectPlan":     { "title": "Select Your Plan",    "desc": "Choose the course that matches your goals and budget." },
       "consultation":   { "title": "Consultation",        "desc": "Meet your instructor and discuss your learning path." },
@@ -244,7 +244,7 @@
       {
         "date": "Mar 15, 2025",
         "title": "Defensive Driving: Why It Could Save Your Life on Kenyan Roads",
-        "excerpt": "Road fatalities are rising. Defensive driving is the skill that SafeRide puts at the heart of every lesson."
+        "excerpt": "Road fatalities are rising. Defensive driving is the skill that Safe Ride puts at the heart of every lesson."
       }
     ]
   },
@@ -260,13 +260,13 @@
       "Student practice",
       "Defensive driving",
       "Training grounds",
-      "SafeRide campus",
+      "Safe Ride campus",
       "Theory class"
     ]
   },
 
   "footer": {
-    "brand": "SafeRide Africa",
+    "brand": "Safe Ride Africa",
     "tagline": "Safety Beyond.....",
     "description": "NTSA-certified driving school operating across 12 branches in Nairobi. We train you to be a driver, not a licence holder.",
     "coursesColumnTitle": "Our Courses",
@@ -286,10 +286,10 @@
       "Contact Us"
     ],
     "newsletterTitle": "Newsletter",
-    "newsletterSubtitle": "Get driving tips, NTSA updates, and SafeRide news direct to your inbox.",
+    "newsletterSubtitle": "Get driving tips, NTSA updates, and Safe Ride news direct to your inbox.",
     "newsletterPlaceholder": "Your email address",
     "newsletterSubscribed": "Subscribed! Thank you.",
-    "copyright": "© 2025 SafeRide Africa. All rights reserved.",
+    "copyright": "© 2025 Safe Ride Africa. All rights reserved.",
     "certifiedLine": "NTSA Certified Driving School · Nairobi, Kenya",
     "navigateTitle": "Navigate",
     "developer": "Developer"
@@ -305,7 +305,7 @@
     "aboutPreview": {
       "badge": "About Us",
       "title": "Built for Kenyan Roads",
-      "description": "Since 2015, SafeRide has trained drivers across 12 branches in Nairobi with one promise: safety beyond a licence.",
+      "description": "Since 2015, Safe Ride has trained drivers across 12 branches in Nairobi with one promise: safety beyond a licence.",
       "feature1Title": "NTSA-Aligned Curriculum",
       "feature1Desc": "Certified instructors teach the full NTSA curriculum, theory, road rules, Smart DL application, and real-road practice.",
       "feature2Title": "Flexible Lesson Slots",
@@ -325,7 +325,7 @@
       "hqBadge": "HQ",
       "badge": "Find Us",
       "title": "12 Branches Across Nairobi",
-      "description": "From Buru Buru HQ to Kayole, Embakasi, Kagundo Road and beyond, there's always a SafeRide branch near you."
+      "description": "From Buru Buru HQ to Kayole, Embakasi, Kagundo Road and beyond, there's always a Safe Ride branch near you."
     },
     "coursesPreview": {
       "premiumBadge": "Premium",
@@ -338,7 +338,7 @@
     "finalCta": {
       "badge": "Get Started",
       "title": "Ready to Drive with Safety Beyond?",
-      "description": "Join thousands of Kenyan drivers who earned their licence with SafeRide Africa. Pick your course and start today."
+      "description": "Join thousands of Kenyan drivers who earned their licence with Safe Ride Africa. Pick your course and start today."
     },
     "premiumCourses": {
       "badge": "Most Popular",
@@ -450,7 +450,7 @@
       "smartDl": {
         "name": "Smart DL",
         "shortDesc": "Full NTSA Smart Digital Licence application and TIMS account setup, handled start to finish.",
-        "fullDesc": "SafeRide Africa manages the entire NTSA Smart Digital Licence process on your behalf. We handle TIMS account registration, biometric capture coordination, payment processing, and status tracking, so you receive your Smart DL without joining long queues. Our staff stays current with every NTSA system update to ensure fast, accurate processing."
+        "fullDesc": "Safe Ride Africa manages the entire NTSA Smart Digital Licence process on your behalf. We handle TIMS account registration, biometric capture coordination, payment processing, and status tracking, so you receive your Smart DL without joining long queues. Our staff stays current with every NTSA system update to ensure fast, accurate processing."
       },
       "executive": {
         "name": "Executive Classes",
@@ -485,7 +485,7 @@
       "corporate": {
         "name": "Corporate Driver Training",
         "shortDesc": "Fleet and company driver training covering defensive driving, NTSA compliance, and first aid.",
-        "fullDesc": "SafeRide Africa delivers comprehensive corporate driver training programmes for companies of all sizes. We assess your fleet drivers, provide defensive driving refreshers, cover NTSA compliance and log-keeping, and deliver basic first-aid training. Programmes can be conducted at your premises or any of our {{branches}} branches. Group rates apply for fleets of five or more."
+        "fullDesc": "Safe Ride Africa delivers comprehensive corporate driver training programmes for companies of all sizes. We assess your fleet drivers, provide defensive driving refreshers, cover NTSA compliance and log-keeping, and deliver basic first-aid training. Programmes can be conducted at your premises or any of our {{branches}} branches. Group rates apply for fleets of five or more."
       },
       "online": {
         "name": "Online Learning Platform",

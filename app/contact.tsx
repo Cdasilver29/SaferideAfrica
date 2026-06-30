@@ -39,7 +39,7 @@ function ContactInfo() {
       }}
     >
       <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: 18, marginBottom: 4 }}>
-        SafeRide Africa
+        Safe Ride Africa
       </Text>
 
       {[

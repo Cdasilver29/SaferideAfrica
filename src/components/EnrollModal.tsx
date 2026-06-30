@@ -82,7 +82,7 @@ function validate(f: FormFields): FormErrors {
 function buildWhatsAppLink(f: FormFields, courseName: string, branchName: string): string {
   const base  = SOCIALS.whatsapp.split('?')[0];
   const lines = [
-    'Enrollment Enquiry - SafeRide Africa',
+    'Enrollment Enquiry - Safe Ride Africa',
     `Name: ${f.fullName}`,
     `Phone: ${f.phone}`,
     `Email: ${f.email}`,
@@ -258,7 +258,7 @@ export default function EnrollModal() {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key:          WEB3FORMS_KEY,
-          subject:             'Enrollment Enquiry - SafeRide Africa',
+          subject:             'Enrollment Enquiry - Safe Ride Africa',
           from_name:           form.fullName,
           name:                form.fullName,
           email:               form.email,
@@ -358,7 +358,7 @@ export default function EnrollModal() {
         <View style={s.header}>
           <View style={{ flex: 1 }}>
             <Text style={s.headerTitle}>Enrol Now</Text>
-            <Text style={s.headerSub}>SafeRide Africa Driving School</Text>
+            <Text style={s.headerSub}>Safe Ride Africa Driving School</Text>
           </View>
           <TouchableOpacity onPress={handleClose} style={s.closeBtn} activeOpacity={0.7}>
             <X size={20} color={C.white} />
