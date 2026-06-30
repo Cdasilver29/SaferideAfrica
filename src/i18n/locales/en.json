@@ -30,8 +30,8 @@
     "readMore": "Read More",
     "viewAllClasses": "View all classes",
     "seeAllServices": "See all services",
-    "findAllBranches": "Find all 12 branches",
-    "seeAllBranches": "See all 12 branches",
+    "findAllBranches": "Find all branches",
+    "seeAllBranches": "See all branches",
     "premium": "Premium"
   },
 
@@ -68,7 +68,7 @@
     "overline": "About Safe Ride Africa",
     "heading": "Learn To Drive, Drive With Safety And Control",
     "headingAccent": "Safety",
-    "body": "Founded in 2015 and incorporated in 2020, Safe Ride Africa Driving School Ltd operates 12 branches across Nairobi. Our NTSA-registered curriculum and experienced instructors ensure you are road-ready and exam-confident. Defensive driving, road safety, and first aid are at the heart of every lesson.",
+    "body": "Founded in 2015 and incorporated in 2020, Safe Ride Africa Driving School Ltd operates a network of branches across Nairobi. Our NTSA-registered curriculum and experienced instructors ensure you are road-ready and exam-confident. Defensive driving, road safety, and first aid are at the heart of every lesson.",
     "yearsBadge": "Years",
     "ntsaCertified": "NTSA Certified",
     "cta": "About More",
@@ -84,7 +84,7 @@
 
   "courses": {
     "overline": "Driving Courses",
-    "heading": "Course Fees & Pricing",
+    "heading": "Our Courses & Classes",
     "lessonsLabel": "lessons",
     "testOnly": "Test Only",
     "totalLabel": "Total",
@@ -268,7 +268,7 @@
   "footer": {
     "brand": "Safe Ride Africa",
     "tagline": "Safety Beyond.....",
-    "description": "NTSA-certified driving school operating across 12 branches in Nairobi. We train you to be a driver, not a licence holder.",
+    "description": "NTSA-certified driving school operating branches across Nairobi. We train you to be a driver, not a licence holder.",
     "coursesColumnTitle": "Our Courses",
     "companyColumnTitle": "Company",
     "courseLinks": [
@@ -305,11 +305,11 @@
     "aboutPreview": {
       "badge": "About Us",
       "title": "Built for Kenyan Roads",
-      "description": "Since 2015, Safe Ride has trained drivers across 12 branches in Nairobi with one promise: safety beyond a licence.",
+      "description": "Since 2015, Safe Ride has trained drivers across Nairobi with one promise: safety beyond a licence.",
       "feature1Title": "NTSA-Aligned Curriculum",
       "feature1Desc": "Certified instructors teach the full NTSA curriculum, theory, road rules, Smart DL application, and real-road practice.",
       "feature2Title": "Flexible Lesson Slots",
-      "feature2Desc": "Morning, afternoon, or weekend, pick the slot that fits your life. 12 branches across Nairobi so you never travel far."
+      "feature2Desc": "Morning, afternoon, or weekend, pick the slot that fits your life. With branches across Nairobi, you never travel far."
     },
     "servicesPreview": {
       "badge": "What We Offer",
@@ -324,8 +324,11 @@
     "branchesPreview": {
       "hqBadge": "HQ",
       "badge": "Find Us",
-      "title": "12 Branches Across Nairobi",
-      "description": "From Buru Buru HQ to Kayole, Embakasi, Kagundo Road and beyond, there's always a Safe Ride branch near you."
+      "title": "Branches Across Nairobi",
+      "description": "From Buru Buru HQ to Kayole, Embakasi, Kagundo Road and beyond, there's always a Safe Ride branch near you.",
+      "searchPlaceholder": "Search by area, e.g. Donholm",
+      "searchPrompt": "Search to find a branch near you",
+      "noResults": "No branches match that search"
     },
     "coursesPreview": {
       "premiumBadge": "Premium",
@@ -532,7 +535,7 @@
       "sent": "We'll be in touch soon!"
     },
     "bankTransferLabel": "Bank Transfer ({{bankName}})",
-    "seeAllBranches": "See all {{count}} branches"
+    "seeAllBranches": "See all branches"
   },
 
   "galleryPage": {
@@ -555,14 +558,19 @@
 
   "branchesPage": {
     "pageOverline": "Our Locations",
-    "pageTitle": "Our {{count}} Branches",
+    "pageTitle": "Our Branches",
     "hqBadge": "HQ",
     "getDirections": "Get Directions",
     "call": "Call",
     "headquarters": "Headquarters",
     "hqAddressFormat": "{{name}}, {{address}}",
     "directionsToHq": "Directions to HQ",
-    "contactCta": "Have a question? Contact us"
+    "contactCta": "Have a question? Contact us",
+    "searchPlaceholder": "Search by area, e.g. Donholm",
+    "searchPrompt": "Search to find a branch near you",
+    "searchPromptHint": "Type an area or estate to see the nearest Safe Ride branch.",
+    "noResults": "No branches match that search",
+    "noResultsHint": "Try another area or estate name."
   },
 
   "languageSwitcher": {

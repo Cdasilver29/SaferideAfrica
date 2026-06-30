@@ -30,8 +30,8 @@
     "readMore": "了解更多",
     "viewAllClasses": "查看所有课程",
     "seeAllServices": "查看所有服务",
-    "findAllBranches": "查看全部12家分支机构",
-    "seeAllBranches": "查看全部12家分支机构",
+    "findAllBranches": "查看全部分支机构",
+    "seeAllBranches": "查看全部分支机构",
     "premium": "高级"
   },
 
@@ -84,7 +84,7 @@
 
   "courses": {
     "overline": "驾驶课程",
-    "heading": "课程费用与价格",
+    "heading": "我们的课程与班级",
     "lessonsLabel": "课时",
     "testOnly": "仅考试",
     "totalLabel": "总计",
@@ -313,11 +313,11 @@
     "aboutPreview": {
       "badge": "关于我们",
       "title": "为肯尼亚道路打造",
-      "description": "自2015年以来，Safe Ride在内罗毕的12家分支机构培训驾驶员，秉持一个承诺：安全不止于驾照。",
+      "description": "自2015年以来，Safe Ride在内罗毕的分支机构培训驾驶员，秉持一个承诺：安全不止于驾照。",
       "feature1Title": "符合NTSA标准的课程",
       "feature1Desc": "认证教练教授完整的NTSA课程，包括理论、道路规则、Smart DL申请和真实道路练习。",
       "feature2Title": "灵活的课程时段",
-      "feature2Desc": "早晨、下午或周末，选择适合您生活的时段。内罗毕12家分支机构，让您无需远行。"
+      "feature2Desc": "早晨、下午或周末，选择适合您生活的时段。内罗毕分支机构遍布，让您无需远行。"
     },
     "servicesPreview": {
       "badge": "我们提供的服务",
@@ -332,8 +332,11 @@
     "branchesPreview": {
       "hqBadge": "总部",
       "badge": "找到我们",
-      "title": "内罗毕12家分支机构",
-      "description": "从Buru Buru总部到Kayole、Embakasi、Kagundo路及更远的地方，您身边总有一家Safe Ride分支机构。"
+      "title": "内罗毕分支机构",
+      "description": "从Buru Buru总部到Kayole、Embakasi、Kagundo路及更远的地方，您身边总有一家Safe Ride分支机构。",
+      "searchPlaceholder": "按区域搜索，例如 Donholm",
+      "searchPrompt": "搜索查找您附近的分支机构",
+      "noResults": "没有匹配该搜索的分支机构"
     },
     "coursesPreview": {
       "premiumBadge": "高级",
@@ -540,7 +543,7 @@
       "sent": "我们会尽快与您联系!"
     },
     "bankTransferLabel": "银行转账({{bankName}})",
-    "seeAllBranches": "查看全部{{count}}个分校"
+    "seeAllBranches": "查看全部分校"
   },
 
   "galleryPage": {
@@ -563,7 +566,12 @@
 
   "branchesPage": {
     "pageOverline": "我们的分布",
-    "pageTitle": "我们的{{count}}个分校",
+    "pageTitle": "我们的分校",
+    "searchPlaceholder": "按区域搜索，例如 Donholm",
+    "searchPrompt": "搜索查找您附近的分校",
+    "searchPromptHint": "输入区域或社区名称，查看最近的 Safe Ride 分校。",
+    "noResults": "没有匹配该搜索的分校",
+    "noResultsHint": "请尝试其他区域或社区名称。",
     "hqBadge": "总部",
     "getDirections": "获取路线",
     "call": "致电",

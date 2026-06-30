@@ -3,11 +3,12 @@
 // and provides a WebView fallback for any other platform.
 import { Dimensions, View } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { BRANCHES, BRANCH_COORDS } from '@/data/saferide';
+import { BRANCHES, BRANCH_COORDS, type Branch } from '@/data/saferide';
 
 interface BranchMapProps {
   activeBranchId: string;
   onMarkerPress:  (id: string) => void;
+  branches?:      readonly Branch[];
 }
 
 const mapHeight = Dimensions.get('window').width < 768 ? 280 : 420;

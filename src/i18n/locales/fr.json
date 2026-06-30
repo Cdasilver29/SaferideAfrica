@@ -30,8 +30,8 @@
     "readMore": "En Savoir Plus",
     "viewAllClasses": "Voir tous les cours",
     "seeAllServices": "Voir tous les services",
-    "findAllBranches": "Voir nos 12 agences",
-    "seeAllBranches": "Voir nos 12 agences",
+    "findAllBranches": "Voir nos agences",
+    "seeAllBranches": "Voir nos agences",
     "premium": "Premium"
   },
 
@@ -84,7 +84,7 @@
 
   "courses": {
     "overline": "Cours de Conduite",
-    "heading": "Tarifs et Frais des Cours",
+    "heading": "Nos Cours et Classes",
     "lessonsLabel": "leçons",
     "testOnly": "Examen Uniquement",
     "totalLabel": "Total",
@@ -313,11 +313,11 @@
     "aboutPreview": {
       "badge": "À Propos",
       "title": "Conçu pour les Routes Kenyanes",
-      "description": "Depuis 2015, Safe Ride a formé des conducteurs dans 12 agences à Nairobi avec une seule promesse : la sécurité au-delà du permis.",
+      "description": "Depuis 2015, Safe Ride a formé des conducteurs à Nairobi avec une seule promesse : la sécurité au-delà du permis.",
       "feature1Title": "Programme Aligné sur la NTSA",
       "feature1Desc": "Des moniteurs certifiés enseignent l'intégralité du programme NTSA, théorie, code de la route, demande de Smart DL et pratique réelle sur route.",
       "feature2Title": "Créneaux de Cours Flexibles",
-      "feature2Desc": "Matin, après-midi ou week-end, choisissez le créneau qui convient à votre vie. 12 agences à Nairobi pour ne jamais voyager loin."
+      "feature2Desc": "Matin, après-midi ou week-end, choisissez le créneau qui convient à votre vie. Avec des agences à travers Nairobi, vous ne voyagez jamais loin."
     },
     "servicesPreview": {
       "badge": "Ce Que Nous Offrons",
@@ -332,8 +332,11 @@
     "branchesPreview": {
       "hqBadge": "Siège",
       "badge": "Trouvez-Nous",
-      "title": "12 Agences à Travers Nairobi",
-      "description": "De Buru Buru (siège) à Kayole, Embakasi, Kagundo Road et au-delà, il y a toujours une agence Safe Ride près de chez vous."
+      "title": "Nos Agences à Travers Nairobi",
+      "description": "De Buru Buru (siège) à Kayole, Embakasi, Kagundo Road et au-delà, il y a toujours une agence Safe Ride près de chez vous.",
+      "searchPlaceholder": "Recherchez par zone, ex. Donholm",
+      "searchPrompt": "Recherchez pour trouver une agence près de chez vous",
+      "noResults": "Aucune agence ne correspond à cette recherche"
     },
     "coursesPreview": {
       "premiumBadge": "Premium",
@@ -540,7 +543,7 @@
       "sent": "Nous vous contacterons bientôt !"
     },
     "bankTransferLabel": "Virement Bancaire ({{bankName}})",
-    "seeAllBranches": "Voir les {{count}} agences"
+    "seeAllBranches": "Voir toutes les agences"
   },
 
   "galleryPage": {
@@ -563,7 +566,12 @@
 
   "branchesPage": {
     "pageOverline": "Nos Emplacements",
-    "pageTitle": "Nos {{count}} Agences",
+    "pageTitle": "Nos Agences",
+    "searchPlaceholder": "Recherchez par zone, ex. Donholm",
+    "searchPrompt": "Recherchez pour trouver une agence près de chez vous",
+    "searchPromptHint": "Saisissez une zone ou un quartier pour voir l'agence Safe Ride la plus proche.",
+    "noResults": "Aucune agence ne correspond à cette recherche",
+    "noResultsHint": "Essayez un autre nom de zone ou de quartier.",
     "hqBadge": "Siège",
     "getDirections": "Itinéraire",
     "call": "Appeler",

@@ -30,8 +30,8 @@
     "readMore": "Soma Zaidi",
     "viewAllClasses": "Tazama madarasa yote",
     "seeAllServices": "Tazama huduma zote",
-    "findAllBranches": "Tazama matawi yote 12",
-    "seeAllBranches": "Tazama matawi yote 12",
+    "findAllBranches": "Tazama matawi yote",
+    "seeAllBranches": "Tazama matawi yote",
     "premium": "Premium"
   },
 
@@ -84,7 +84,7 @@
 
   "courses": {
     "overline": "Kozi za Uendeshaji",
-    "heading": "Ada na Bei za Kozi",
+    "heading": "Kozi na Madarasa Yetu",
     "lessonsLabel": "masomo",
     "testOnly": "Mtihani Pekee",
     "totalLabel": "Jumla",
@@ -313,11 +313,11 @@
     "aboutPreview": {
       "badge": "Kuhusu Sisi",
       "title": "Imeundwa kwa Barabara za Kenya",
-      "description": "Tangu 2015, Safe Ride imefundisha madereva katika matawi 12 Nairobi kwa ahadi moja: usalama zaidi ya leseni.",
+      "description": "Tangu 2015, Safe Ride imefundisha madereva Nairobi kwa ahadi moja: usalama zaidi ya leseni.",
       "feature1Title": "Mtaala Unaolingana na NTSA",
       "feature1Desc": "Wakufunzi walioidhinishwa hufundisha mtaala kamili wa NTSA, nadharia, sheria za barabara, maombi ya Smart DL, na mazoezi halisi barabarani.",
       "feature2Title": "Nyakati za Masomo Zinazobadilika",
-      "feature2Desc": "Asubuhi, mchana, au wikendi, chagua wakati unaofaa maisha yako. Matawi 12 kote Nairobi ili usisafiri mbali."
+      "feature2Desc": "Asubuhi, mchana, au wikendi, chagua wakati unaofaa maisha yako. Matawi kote Nairobi ili usisafiri mbali."
     },
     "servicesPreview": {
       "badge": "Tunachotoa",
@@ -332,8 +332,11 @@
     "branchesPreview": {
       "hqBadge": "Makao Makuu",
       "badge": "Tutafute",
-      "title": "Matawi 12 Kote Nairobi",
-      "description": "Kutoka Buru Buru (Makao Makuu) hadi Kayole, Embakasi, Barabara ya Kagundo na kwingineko, daima kuna tawi la Safe Ride karibu nawe."
+      "title": "Matawi Kote Nairobi",
+      "description": "Kutoka Buru Buru (Makao Makuu) hadi Kayole, Embakasi, Barabara ya Kagundo na kwingineko, daima kuna tawi la Safe Ride karibu nawe.",
+      "searchPlaceholder": "Tafuta kwa eneo, mf. Donholm",
+      "searchPrompt": "Tafuta tawi lililo karibu nawe",
+      "noResults": "Hakuna tawi linalolingana na utafutaji huo"
     },
     "coursesPreview": {
       "premiumBadge": "Premium",
@@ -540,7 +543,7 @@
       "sent": "Tutawasiliana nawe hivi karibuni!"
     },
     "bankTransferLabel": "Uhamisho wa Benki ({{bankName}})",
-    "seeAllBranches": "Angalia matawi {{count}}"
+    "seeAllBranches": "Angalia matawi yote"
   },
 
   "galleryPage": {
@@ -563,7 +566,12 @@
 
   "branchesPage": {
     "pageOverline": "Maeneo Yetu",
-    "pageTitle": "Matawi Yetu {{count}}",
+    "pageTitle": "Matawi Yetu",
+    "searchPlaceholder": "Tafuta kwa eneo, mf. Donholm",
+    "searchPrompt": "Tafuta tawi lililo karibu nawe",
+    "searchPromptHint": "Andika eneo au mtaa ili kuona tawi la Safe Ride lililo karibu zaidi.",
+    "noResults": "Hakuna tawi linalolingana na utafutaji huo",
+    "noResultsHint": "Jaribu jina lingine la eneo au mtaa.",
     "hqBadge": "MAKAO MAKUU",
     "getDirections": "Pata Mwelekeo",
     "call": "Piga Simu",
