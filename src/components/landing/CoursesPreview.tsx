@@ -8,6 +8,7 @@ import { Badge, Button, Icon, cn } from '@/components/ui';
 import { C, F, IS_WEB, MAX_W } from './constants';
 import { SectionIntro } from './SectionIntro';
 import { useEnrollModal } from '@/context/EnrollModalContext';
+import { useReduceMotion } from '@/hooks/useReduceMotion';
 
 const PREVIEW_CODES = ['B-LIGHT', 'B-AUTO', 'EXECUTIVE'];
 
@@ -45,20 +46,21 @@ export default function CoursesPreview() {
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   const preview = CLASSES.filter((c) => PREVIEW_CODES.includes(c.code));
 
+  const reduceMotion = useReduceMotion();
   const scrollRef = useRef<ScrollView>(null);
   const idxRef = useRef(0);
   const [activeDot, setActiveDot] = useState(0);
   const cardW = winW - 48;
 
   useEffect(() => {
-    if (!isMobile) return;
+    if (!isMobile || reduceMotion) return; // calm and static under reduce-motion (Phase 12)
     const timer = setInterval(() => {
       idxRef.current = (idxRef.current + 1) % preview.length;
       scrollRef.current?.scrollTo({ x: idxRef.current * cardW, animated: true });
       setActiveDot(idxRef.current);
     }, 3000);
     return () => clearInterval(timer);
-  }, [isMobile, cardW, preview.length]);
+  }, [isMobile, cardW, preview.length, reduceMotion]);
 
   return (
     <View className="bg-background px-6 py-16">

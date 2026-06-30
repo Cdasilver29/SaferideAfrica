@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, {
-  useSharedValue, useAnimatedStyle, withRepeat, withTiming, Easing,
+  useSharedValue, useAnimatedStyle,
 } from 'react-native-reanimated';
 import Svg, { Line } from 'react-native-svg';
 import { C } from './constants';
@@ -14,27 +14,8 @@ const PERIOD = DASH + GAP; // 72 px — one full dash+gap cycle
 
 export default function LaneStrip({ reverse = false }: { reverse?: boolean }) {
   const [stripW, setStripW] = useState(0);
-  // Left-to-right starts one period to the left so it can slide right
+  // Phase 12: the lane dashes are held static; Ken Burns is the only ambient motion.
   const offset = useSharedValue(reverse ? -PERIOD : 0);
-
-  useEffect(() => {
-    if (stripW === 0) return;
-    if (reverse) {
-      // Left-to-right: -PERIOD → 0, snap, repeat
-      offset.value = withRepeat(
-        withTiming(0, { duration: 1200, easing: Easing.linear }),
-        -1,
-        false,
-      );
-    } else {
-      // Right-to-left: 0 → -PERIOD, snap, repeat
-      offset.value = withRepeat(
-        withTiming(-PERIOD, { duration: 1200, easing: Easing.linear }),
-        -1,
-        false,
-      );
-    }
-  }, [stripW]);
 
   const animStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: offset.value }],

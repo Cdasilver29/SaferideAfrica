@@ -3,8 +3,6 @@ import { View, Pressable, Linking, Platform, StyleSheet, useWindowDimensions } f
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  withRepeat,
-  withTiming,
   withSpring,
   interpolate,
   Extrapolation,
@@ -226,13 +224,11 @@ export default function SocialFloat() {
   const [armed, setArmed] = useState(false)
   const armTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const spreadProgress = useSharedValue(0)
+  // Phase 12: the float button rests static (pulse stays 0); Ken Burns is the
+  // only ambient motion. The spread on hover/tap is interaction-driven, not ambient.
   const pulse = useSharedValue(0)
   const { width: winW } = useWindowDimensions()
   const isMobile = !isWeb || winW < 768
-
-  useEffect(() => {
-    pulse.value = withRepeat(withTiming(1, { duration: 1400 }), -1, true)
-  }, [])
 
   useEffect(() => {
     spreadProgress.value = withSpring(open ? 1 : 0, { damping: 14, stiffness: 180 })

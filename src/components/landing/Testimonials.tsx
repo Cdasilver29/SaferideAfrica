@@ -6,6 +6,7 @@ import { C, F, IS_WEB, MAX_W } from './constants';
 import { Icon, cn } from '@/components/ui';
 import { useTheme } from '@/lib/theme';
 import { SectionIntro } from './SectionIntro';
+import { useReduceMotion } from '@/hooks/useReduceMotion';
 
 const PHOTO_SOURCES = IS_WEB
   ? [{ uri: '/erickmusyoka.webp' }, { uri: '/mainamburu.webp' }, { uri: '/mitchelakinyi.webp' }]
@@ -28,6 +29,7 @@ export default function Testimonials() {
   const Th = useTheme();
   const items = t('testimonials.items', { returnObjects: true }) as Array<{ text: string; name: string; role: string }>;
 
+  const reduceMotion = useReduceMotion();
   const [active, setActive] = useState(0);
   const [imgErrors, setImgErrors] = useState([false, false, false]);
   const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -39,6 +41,7 @@ export default function Testimonials() {
   };
   const startAuto = () => {
     if (autoRef.current) clearInterval(autoRef.current);
+    if (reduceMotion) return; // calm and static under reduce-motion (Phase 12)
     autoRef.current = setInterval(() => setActive((a) => (a + 1) % N), 5000);
   };
   const goTo = (idx: number) => {
@@ -50,7 +53,7 @@ export default function Testimonials() {
   useEffect(() => {
     startAuto();
     return stop;
-  }, []);
+  }, [reduceMotion]);
 
   const item = items[active] ?? items[0];
   const photoW = IS_WEB ? 220 : 150;

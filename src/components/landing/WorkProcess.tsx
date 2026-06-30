@@ -2,11 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Animated, Platform, Pressable, useWindowDimensions } from 'react-native';
 import AnimatedRN, {
   useSharedValue, useAnimatedStyle,
-  withTiming, withRepeat, interpolate, interpolateColor, Easing,
+  withTiming, interpolate, interpolateColor,
 } from 'react-native-reanimated';
 import { useColorScheme } from 'nativewind';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W, WORK_STEPS } from './constants';
+import { useReduceMotion } from '@/hooks/useReduceMotion';
 
 const STEP_KEY_MAP: Record<string, string> = {
   '01': 'selectPlan',
@@ -119,31 +120,21 @@ export default function WorkProcess() {
   const { width: winW } = useWindowDimensions();
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   const anims = useRef(WORK_STEPS.map(() => new Animated.Value(0))).current;
+  const reduceMotion = useReduceMotion();
 
   useEffect(() => {
+    if (reduceMotion) {
+      anims.forEach(a => a.setValue(1));
+      return;
+    }
     Animated.stagger(130, anims.map(a => Animated.timing(a, { toValue: 1, duration: 500, useNativeDriver: Platform.OS !== 'web' }))).start();
-  }, []);
+  }, [reduceMotion]);
 
-  // Loop the spotlight across the 4 steps, every 3 seconds.
-  const [activeIndex, setActiveIndex] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => {
-      setActiveIndex(i => (i + 1) % WORK_STEPS.length);
-    }, 3000);
-    return () => clearInterval(id);
-  }, []);
+  // Phase 12: the spotlight and the mobile marquee are held static; Ken Burns is
+  // the only ambient motion. The first step rests highlighted.
+  const [activeIndex] = useState(0);
 
-  // Continuous right-to-left marquee on mobile (loops by duplicating the row).
   const marqueeX = useSharedValue(0);
-  useEffect(() => {
-    if (!isMobile) return;
-    marqueeX.value = withRepeat(
-      withTiming(-SET_W, { duration: 18000, easing: Easing.linear }),
-      -1,
-      false,
-    );
-  }, [isMobile]);
-
   const marqueeStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: marqueeX.value }],
   }));

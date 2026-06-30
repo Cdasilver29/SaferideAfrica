@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { View, Text, TouchableOpacity, useWindowDimensions } from 'react-native'
 import Animated, {
   useSharedValue, useAnimatedStyle,
-  withRepeat, withTiming, Easing,
 } from 'react-native-reanimated'
 import Svg, { Path, Defs, LinearGradient as SvgGradient, Stop } from 'react-native-svg'
 import { router } from 'expo-router'
@@ -47,17 +46,9 @@ type WaveProps = {
   initOffset: number   // phase offset so waves don't start at the same position
 }
 
-function WaveLayer({ svgW, H, yBase, amp, fill, duration, initOffset }: WaveProps) {
+function WaveLayer({ svgW, H, yBase, amp, fill, initOffset }: WaveProps) {
+  // Phase 12: waves are held static; Ken Burns is the only ambient motion.
   const offset = useSharedValue(initOffset)
-
-  useEffect(() => {
-    // Animate exactly one period to the left, snap back — seamlessly tiles
-    offset.value = withRepeat(
-      withTiming(initOffset - PERIOD, { duration, easing: Easing.linear }),
-      -1,
-      false,
-    )
-  }, [svgW])
 
   const style = useAnimatedStyle(() => ({
     transform: [{ translateX: offset.value }],

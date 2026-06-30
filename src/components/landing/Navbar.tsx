@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import {
   View, Text, Image, Pressable, Animated, Modal,
   ScrollView as RNScrollView, StyleSheet, Platform, Linking,
-  AccessibilityInfo, useWindowDimensions,
+  useWindowDimensions,
 } from 'react-native';
 import AnimatedRN, {
   useSharedValue, useAnimatedStyle, useAnimatedReaction,
@@ -21,6 +21,7 @@ import { useEnrollModal } from '@/context/EnrollModalContext';
 import { Button, Icon } from '@/components/ui';
 import LanguageSwitcher from './LanguageSwitcher';
 import LaneStrip from './LaneStrip';
+import { useReduceMotion } from '@/hooks/useReduceMotion';
 
 const LOGO = require('../../../assets/images/saferide-logo.jpg');
 
@@ -95,15 +96,10 @@ export default function Navbar({ scrollY }: NavbarProps) {
     },
   );
 
-  // ── Reduced motion ────────────────────────────────────────────────────────────
-  const [reduceMotion, setReduceMotion] = useState(false);
-  useEffect(() => {
-    AccessibilityInfo.isReduceMotionEnabled().then(setReduceMotion);
-    const sub = AccessibilityInfo.addEventListener('reduceMotionChanged', setReduceMotion);
-    return () => sub.remove();
-  }, []);
+  // ── Reduced motion (shared hook, Phase 12) ─────────────────────────────────────
+  const reduceMotion = useReduceMotion();
 
-  // ── Phone ring-shake every 5 s, silenced under reduce-motion ───────────────────
+  // ── Phone ring-shake every ~10 s, silenced under reduce-motion ─────────────────
   const shake = useSharedValue(0);
   useEffect(() => {
     if (reduceMotion) { cancelAnimation(shake); shake.value = 0; return; }
@@ -113,19 +109,19 @@ export default function Navbar({ scrollY }: NavbarProps) {
         withTiming(-6, { duration: 80 }), withTiming(6, { duration: 80 }),
         withTiming(-3, { duration: 80 }), withTiming(3, { duration: 80 }),
         withTiming(0, { duration: 80 }),
-        withDelay(4440, withTiming(0, { duration: 1 })),
+        withDelay(9440, withTiming(0, { duration: 1 })),
       ),
       -1, false,
     );
   }, [reduceMotion]);
   const phoneShakeStyle = useAnimatedStyle(() => ({ transform: [{ rotate: `${shake.value}deg` }] }));
 
-  // ── Enrol glow breath every 2 s, silenced under reduce-motion ──────────────────
+  // ── Enrol glow breath every ~3.4 s, silenced under reduce-motion ───────────────
   const glow = useSharedValue(0);
   useEffect(() => {
     if (reduceMotion) { cancelAnimation(glow); glow.value = 0; return; }
     glow.value = withRepeat(
-      withTiming(1, { duration: 2000, easing: Easing.inOut(Easing.sin) }),
+      withTiming(1, { duration: 3400, easing: Easing.inOut(Easing.sin) }),
       -1, true,
     );
   }, [reduceMotion]);

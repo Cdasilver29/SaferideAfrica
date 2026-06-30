@@ -2,10 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   View, Text, Image, Pressable, Animated, Platform, useWindowDimensions,
 } from 'react-native';
-import AnimatedRN, {
-  useSharedValue, useAnimatedStyle, withRepeat, withTiming,
-  interpolate, Easing,
-} from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { ChevronDown, ArrowRight } from 'lucide-react-native';
@@ -13,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, SCREEN_H, HERO_SRC } from './constants';
 import { KenBurnsBackground } from '../animations/KenBurnsBackground';
 import { Button, Icon } from '@/components/ui';
+import { useReduceMotion } from '@/hooks/useReduceMotion';
 
 const NTSA_LOGO = require('../../../assets/images/ntsa-logo.png');
 
@@ -25,48 +22,39 @@ const rgbTriplet = (hex: string) => {
 const rgba = (hex: string, a: number) => `rgba(${rgbTriplet(hex)}, ${a})`;
 const YELLOW_RGB = rgbTriplet(C.yellow);
 
-// Typewriter that types the full sentence, holds, erases, then loops forever.
-// Phase 12 fixes this to type once and respect reduce-motion.
+// Typewriter that types the subheadline once, then holds static.
+// Phase 12: types once (no erase loop, no blinking-cursor loop) and shows the
+// full text immediately under reduce-motion.
 function TypewriterText({ subheadline }: { subheadline: string }) {
+  const reduceMotion = useReduceMotion();
   const [displayed, setDisplayed] = useState('');
-  const cursorAnim = useRef(new Animated.Value(1)).current;
+  const [typing, setTyping] = useState(true);
   const activeRef = useRef(true);
 
   useEffect(() => {
+    if (reduceMotion) {
+      setDisplayed(subheadline);
+      setTyping(false);
+      return;
+    }
     activeRef.current = true;
     setDisplayed('');
-
-    const blink = Animated.loop(
-      Animated.sequence([
-        Animated.timing(cursorAnim, { toValue: 0, duration: 480, useNativeDriver: Platform.OS !== 'web' }),
-        Animated.timing(cursorAnim, { toValue: 1, duration: 480, useNativeDriver: Platform.OS !== 'web' }),
-      ]),
-    );
-    blink.start();
+    setTyping(true);
 
     const sleep = (ms: number) => new Promise<void>((res) => setTimeout(res, ms));
 
-    async function runLoop() {
-      await sleep(750);
-      while (activeRef.current) {
-        for (let i = 1; i <= subheadline.length; i++) {
-          if (!activeRef.current) return;
-          setDisplayed(subheadline.slice(0, i));
-          await sleep(28);
-        }
-        await sleep(1800);
-        for (let i = subheadline.length - 1; i >= 0; i--) {
-          if (!activeRef.current) return;
-          setDisplayed(subheadline.slice(0, i));
-          await sleep(14);
-        }
-        await sleep(500);
+    (async () => {
+      await sleep(600);
+      for (let i = 1; i <= subheadline.length; i++) {
+        if (!activeRef.current) return;
+        setDisplayed(subheadline.slice(0, i));
+        await sleep(28);
       }
-    }
+      if (activeRef.current) setTyping(false);
+    })();
 
-    runLoop();
-    return () => { activeRef.current = false; blink.stop(); };
-  }, [subheadline]);
+    return () => { activeRef.current = false; };
+  }, [subheadline, reduceMotion]);
 
   return (
     <Text
@@ -74,31 +62,30 @@ function TypewriterText({ subheadline }: { subheadline: string }) {
       className="mb-4 max-w-[540px] text-sm leading-6 text-white/80 web:text-base web:leading-7"
     >
       {displayed}
-      <Animated.Text style={{ opacity: cursorAnim, color: C.yellow, fontFamily: F.bold }}>{'|'}</Animated.Text>
+      {typing && <Text style={{ color: C.yellow, fontFamily: F.bold }}>{'|'}</Text>}
     </Text>
   );
 }
 
 // Word-by-word stagger headline; body words white, accent words yellow.
-// Phase 12 removes the infinite accent pulse.
+// Phase 12: removes the infinite accent pulse; the entrance plays once and
+// settles, and is shown immediately under reduce-motion.
 function AnimatedHeadline({ words, accentFrom }: { words: string[]; accentFrom: number }) {
+  const reduceMotion = useReduceMotion();
   const anims = useRef(words.map(() => new Animated.Value(0))).current;
-  const pulseAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
+    if (reduceMotion) {
+      anims.forEach((a) => a.setValue(1));
+      return;
+    }
     const stagger = Animated.stagger(
       90,
       anims.map((a) => Animated.timing(a, { toValue: 1, duration: 500, useNativeDriver: Platform.OS !== 'web' })),
     );
-    const pulse = Animated.loop(
-      Animated.sequence([
-        Animated.timing(pulseAnim, { toValue: 1.04, duration: 1800, useNativeDriver: Platform.OS !== 'web' }),
-        Animated.timing(pulseAnim, { toValue: 1, duration: 1800, useNativeDriver: Platform.OS !== 'web' }),
-      ]),
-    );
-    stagger.start(() => pulse.start());
-    return () => { stagger.stop(); pulse.stop(); };
-  }, []);
+    stagger.start();
+    return () => stagger.stop();
+  }, [reduceMotion]);
 
   const fontSize = IS_WEB ? 56 : 28;
   const lineH = IS_WEB ? 64 : 34;
@@ -115,7 +102,6 @@ function AnimatedHeadline({ words, accentFrom }: { words: string[]; accentFrom: 
               opacity: anim,
               transform: [
                 { translateY: anim.interpolate({ inputRange: [0, 1], outputRange: [24, 0] }) },
-                ...(isAccent ? [{ scale: pulseAnim }] : []),
               ],
             }}
           >
@@ -129,41 +115,29 @@ function AnimatedHeadline({ words, accentFrom }: { words: string[]; accentFrom: 
   );
 }
 
-// Enrol CTA: the single reserved accent action, with a yellow glow breath.
+// Enrol CTA: the single reserved accent action. Phase 12 settles its glow to a
+// static accent halo (no breathing loop).
 function GlowingEnrolButton({ onPress }: { onPress: () => void }) {
   const { t } = useTranslation();
-  const glow = useSharedValue(0);
-
-  useEffect(() => {
-    glow.value = withRepeat(
-      withTiming(1, { duration: 1800, easing: Easing.inOut(Easing.sin) }),
-      -1, true,
-    );
-  }, []);
-
-  const glowStyle = useAnimatedStyle(() => {
-    const radius = interpolate(glow.value, [0, 1], [8, 22]);
-    const opacity = interpolate(glow.value, [0, 1], [0.45, 0.85]);
-    return {
-      shadowColor: C.yellow,
-      shadowOpacity: opacity,
-      shadowRadius: radius,
-      shadowOffset: { width: 0, height: 0 },
-      elevation: interpolate(glow.value, [0, 1], [6, 14]),
-      borderRadius: 8,
-      ...(IS_WEB && { boxShadow: `0 0 ${radius}px rgba(${YELLOW_RGB}, ${opacity})` }),
-    };
-  });
+  const glowStyle = {
+    shadowColor: C.yellow,
+    shadowOpacity: 0.5,
+    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 0 },
+    elevation: 10,
+    borderRadius: 8,
+    ...(IS_WEB ? { boxShadow: `0 0 18px rgba(${YELLOW_RGB}, 0.5)` } : null),
+  };
 
   return (
-    <AnimatedRN.View style={glowStyle}>
+    <View style={glowStyle as any}>
       <Button variant="accent" size="lg" onPress={onPress} accessibilityLabel={t('common.enrolNow')}>
         <Text style={{ fontFamily: F.bold }} className="text-base text-accent-foreground">
           {t('common.enrolNow')}
         </Text>
         <Icon icon={ArrowRight} size="md" color={C.dark} />
       </Button>
-    </AnimatedRN.View>
+    </View>
   );
 }
 

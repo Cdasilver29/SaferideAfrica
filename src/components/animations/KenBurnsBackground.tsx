@@ -8,14 +8,24 @@ import Animated, {
   withSequence,
   Easing,
 } from 'react-native-reanimated'
+import { useReduceMotion } from '@/hooks/useReduceMotion'
 
 type Props = { source: any; children?: React.ReactNode }
 
+// The one ambient motion the site keeps (Phase 12). Held static under
+// reduce-motion; otherwise the slow Ken Burns drift continues.
 export function KenBurnsBackground({ source, children }: Props) {
+  const reduceMotion = useReduceMotion()
   const scale = useSharedValue(1)
   const tx    = useSharedValue(0)
   const ty    = useSharedValue(0)
   useEffect(() => {
+    if (reduceMotion) {
+      scale.value = 1
+      tx.value = 0
+      ty.value = 0
+      return
+    }
     scale.value = withRepeat(
       withSequence(
         withTiming(1.12, { duration: 14000, easing: Easing.inOut(Easing.quad) }),
@@ -37,7 +47,7 @@ export function KenBurnsBackground({ source, children }: Props) {
       ),
       -1, false,
     )
-  }, [])
+  }, [reduceMotion])
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
