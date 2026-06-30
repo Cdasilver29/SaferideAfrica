@@ -8,7 +8,7 @@ import { C, F, IS_WEB } from '../landing/constants';
 // a native <select> on web). The wrapper carries the border and button radius;
 // the picker fills it. Used by the branch and course pickers in the lead form.
 
-export type SelectItem = { label: string; value: string };
+export type SelectItem = { label: string; value: string; enabled?: boolean };
 
 type SelectProps = {
   selectedValue: string;
@@ -44,7 +44,13 @@ export function Select({
       >
         {placeholder ? <Picker.Item label={placeholder} value="" color={C.muted} /> : null}
         {items.map((it) => (
-          <Picker.Item key={it.value} label={it.label} value={it.value} color={C.dark} />
+          <Picker.Item
+            key={it.value}
+            label={it.label}
+            value={it.value}
+            enabled={it.enabled !== false}
+            color={it.enabled === false ? C.muted : C.dark}
+          />
         ))}
       </Picker>
     </View>
