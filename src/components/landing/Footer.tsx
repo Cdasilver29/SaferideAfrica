@@ -1,40 +1,36 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, Linking, useWindowDimensions } from 'react-native';
+import { View, Text, Image, TextInput, Pressable, Linking, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
 import { Phone, Mail, MapPin, Send } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { useColorScheme } from 'nativewind';
 import { C, F, IS_WEB, MAX_W } from './constants';
 import { COMPANY } from '@/data/saferide';
+import { Button, Icon } from '@/components/ui';
 import LaneStrip from './LaneStrip';
 
 const FOOTER_NAV = [
-  { key: 'home',     path: '/' },
-  { key: 'about',    path: '/about' },
-  { key: 'courses',  path: '/courses' },
+  { key: 'home', path: '/' },
+  { key: 'about', path: '/about' },
+  { key: 'courses', path: '/courses' },
   { key: 'services', path: '/services' },
   { key: 'branches', path: '/branches' },
-  { key: 'gallery',  path: '/gallery' },
-  { key: 'blog',     path: '/blog' },
-  { key: 'contact',  path: '/contact' },
+  { key: 'gallery', path: '/gallery' },
+  { key: 'blog', path: '/blog' },
+  { key: 'contact', path: '/contact' },
 ];
 
-const LOGO      = require('../../../assets/images/saferide-logo.jpg');
+const LOGO = require('../../../assets/images/saferide-logo.jpg');
 const NTSA_LOGO = require('../../../assets/images/ntsa-logo.png');
 
 export default function Footer() {
   const { t } = useTranslation();
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme === 'dark';
   const { width: winW } = useWindowDimensions();
-  // Use row layout on wide web, stack on small screens & native
   const multiCol = IS_WEB && winW >= 768;
 
-  const [email, setEmail]           = useState('');
+  const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
-  const courseLinks  = t('footer.courseLinks',  { returnObjects: true }) as string[];
-  const companyLinks = t('footer.companyLinks', { returnObjects: true }) as string[];
+  const courseLinks = t('footer.courseLinks', { returnObjects: true }) as string[];
 
   const handleSubscribe = () => {
     if (!email) return;
@@ -43,216 +39,185 @@ export default function Footer() {
     setTimeout(() => setSubscribed(false), 3000);
   };
 
-  // ── Theme-aware colour tokens ────────────────────────────────────────────────
-  // Light: yellow main body, skyDeep copyright bar
-  // Dark:  near-black throughout
-  const mainBg      = isDark ? C.dark      : C.yellow;
-  const bottomBg    = isDark ? '#1a0a0b'   : C.red;      // red bottom bar
-  const headingC    = isDark ? C.white     : C.dark;
-  const bodyC       = isDark ? 'rgba(255,255,255,0.65)' : 'rgba(34,31,32,0.70)';
-  const accentC     = isDark ? C.yellow    : C.skyDeep;  // icons & links
-  const dividerC    = isDark ? 'rgba(255,255,255,0.10)' : 'rgba(34,31,32,0.12)';
-  const inputBg     = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(34,31,32,0.06)';
-  const inputBorderC = isDark ? 'rgba(255,255,255,0.20)' : 'rgba(34,31,32,0.20)';
-  const inputTextC  = isDark ? C.white     : C.dark;
-  const socialBg    = C.red;                             // red social icons on both modes
-  const bottomTextC = C.white;
-  const sendBtnBg   = C.red;                            // red send button on both modes
-  const sendBtnIcon = C.white;
-
+  // The footer is a restrained dark chrome in both light and dark mode
+  // (bg-foreground is #221f20 in light, dark:bg-background keeps #221f20 in
+  // dark). Text is white, icons and links use the sky brand colour, and yellow
+  // stays reserved for the Enroll action elsewhere.
   return (
     <>
       <LaneStrip reverse />
 
-      {/* ── Main footer body ─────────────────────────────────────────────────── */}
-      <View style={{ backgroundColor: mainBg }}>
-        <View style={{ paddingHorizontal: 24, paddingTop: 48, paddingBottom: 36 }}>
-          <View style={[
-            IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {},
-            multiCol ? { flexDirection: 'row', gap: 48 } : { gap: 32 },
-          ]}>
-
+      <View className="border-t border-white/10 bg-foreground dark:bg-background">
+        {/* ── Body ─────────────────────────────────────────────────────────────── */}
+        <View className="px-6 pb-10 pt-12">
+          <View
+            className={multiCol ? 'flex-row gap-12' : 'gap-8'}
+            style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}
+          >
             {/* Brand column */}
-            <View style={multiCol ? { flex: 2 } : {}}>
-              <TouchableOpacity
+            <View style={multiCol ? { flex: 2 } : undefined}>
+              <Pressable
                 onPress={() => router.push('/')}
-                style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 14 }}
-                activeOpacity={0.85}
+                accessibilityRole="link"
+                className="mb-3.5 flex-row items-center gap-2.5"
               >
                 <Image source={LOGO} style={{ width: 44, height: 44, borderRadius: 8 }} resizeMode="contain" />
                 <View>
-                  <Text style={{ color: headingC, fontFamily: F.bold, fontSize: 16 }}>{t('footer.brand')}</Text>
-                  <Text style={{ color: accentC, fontFamily: F.regular, fontSize: 9, letterSpacing: 1.5, textTransform: 'uppercase' }}>
+                  <Text style={{ fontFamily: F.bold }} className="text-base text-accent">{t('footer.brand')}</Text>
+                  <Text style={{ fontFamily: F.regular, letterSpacing: 1.5 }} className="text-[9px] uppercase text-white/60">
                     {t('footer.tagline')}
                   </Text>
                 </View>
-              </TouchableOpacity>
+              </Pressable>
 
-              <Text style={{ color: bodyC, fontFamily: F.regular, fontSize: 13, lineHeight: 22, marginBottom: 20, maxWidth: IS_WEB ? 300 : undefined }}>
+              <Text
+                style={{ fontFamily: F.regular }}
+                className="mb-5 max-w-[300px] text-sm leading-[22px] text-white/70"
+              >
                 {t('footer.description')}
               </Text>
 
-              <View style={{ gap: 10 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 8 }}>
-                  <MapPin size={13} color={accentC} style={{ marginTop: 2 }} />
-                  <Text style={{ color: bodyC, fontFamily: F.regular, fontSize: 13, flex: 1, lineHeight: 19 }}>
+              <View className="gap-2.5">
+                <View className="flex-row items-start gap-2">
+                  <View className="mt-0.5"><Icon icon={MapPin} size="xs" color={C.skyLight} /></View>
+                  <Text style={{ fontFamily: F.regular }} className="flex-1 text-sm leading-5 text-white/70">
                     {COMPANY.address}
                   </Text>
                 </View>
-                <TouchableOpacity
+                <Pressable
                   onPress={() => Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`)}
-                  style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
-                  activeOpacity={0.7}
+                  accessibilityRole="link"
+                  className="flex-row items-center gap-2"
                 >
-                  <Phone size={13} color={accentC} />
-                  <Text style={{ color: bodyC, fontFamily: F.regular, fontSize: 13 }}>{COMPANY.primaryPhone}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
+                  <Icon icon={Phone} size="xs" color={C.skyLight} />
+                  <Text style={{ fontFamily: F.regular }} className="text-sm text-white/70">{COMPANY.primaryPhone}</Text>
+                </Pressable>
+                <Pressable
                   onPress={() => Linking.openURL(`mailto:${COMPANY.email}`)}
-                  style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
-                  activeOpacity={0.7}
+                  accessibilityRole="link"
+                  className="flex-row items-center gap-2"
                 >
-                  <Mail size={13} color={accentC} />
-                  <Text style={{ color: bodyC, fontFamily: F.regular, fontSize: 13 }}>{COMPANY.email}</Text>
-                </TouchableOpacity>
+                  <Icon icon={Mail} size="xs" color={C.skyLight} />
+                  <Text style={{ fontFamily: F.regular }} className="text-sm text-white/70">{COMPANY.email}</Text>
+                </Pressable>
               </View>
             </View>
 
-            {/* Our Courses — wide screens only */}
+            {/* Our Courses, wide only */}
             {multiCol && (
-              <View style={{ flex: 1 }}>
-                <Text style={{ color: headingC, fontFamily: F.bold, fontSize: 14, marginBottom: 16 }}>
+              <View className="flex-1">
+                <Text style={{ fontFamily: F.bold }} className="mb-4 text-sm text-white">
                   {t('footer.coursesColumnTitle')}
                 </Text>
-                {courseLinks.map(item => (
-                  <TouchableOpacity key={item} style={{ marginBottom: 10 }} activeOpacity={0.7}>
-                    <Text style={{ color: bodyC, fontFamily: F.regular, fontSize: 13 }}>{item}</Text>
-                  </TouchableOpacity>
+                {courseLinks.map((item) => (
+                  <Pressable key={item} className="mb-2.5">
+                    <Text style={{ fontFamily: F.regular }} className="text-sm text-white/70">{item}</Text>
+                  </Pressable>
                 ))}
               </View>
             )}
 
-            {/* Navigate — wide screens only */}
+            {/* Navigate, wide only */}
             {multiCol && (
-              <View style={{ flex: 1 }}>
-                <Text style={{ color: headingC, fontFamily: F.bold, fontSize: 14, marginBottom: 16 }}>{t('footer.navigateTitle')}</Text>
-                {FOOTER_NAV.map(item => (
-                  <TouchableOpacity
+              <View className="flex-1">
+                <Text style={{ fontFamily: F.bold }} className="mb-4 text-sm text-white">{t('footer.navigateTitle')}</Text>
+                {FOOTER_NAV.map((item) => (
+                  <Pressable
                     key={item.path}
                     onPress={() => router.push(item.path as any)}
-                    style={{ marginBottom: 10 }}
-                    activeOpacity={0.7}
+                    accessibilityRole="link"
+                    className="mb-2.5"
                   >
-                    <Text style={{ color: bodyC, fontFamily: F.regular, fontSize: 13 }}>{t(`nav.${item.key}`)}</Text>
-                  </TouchableOpacity>
+                    <Text style={{ fontFamily: F.regular }} className="text-sm text-white/70">{t(`nav.${item.key}`)}</Text>
+                  </Pressable>
                 ))}
               </View>
             )}
 
             {/* Newsletter */}
-            <View style={multiCol ? { flex: 1.5 } : {}}>
-              <Text style={{ color: headingC, fontFamily: F.bold, fontSize: 14, marginBottom: 8 }}>
+            <View style={multiCol ? { flex: 1.5 } : undefined}>
+              <Text style={{ fontFamily: F.bold }} className="mb-2 text-sm text-white">
                 {t('footer.newsletterTitle')}
               </Text>
-              <Text style={{ color: bodyC, fontFamily: F.regular, fontSize: 13, lineHeight: 20, marginBottom: 16 }}>
+              <Text style={{ fontFamily: F.regular }} className="mb-4 text-sm leading-5 text-white/70">
                 {t('footer.newsletterSubtitle')}
               </Text>
 
-              <View style={{ flexDirection: 'row' }}>
+              <View className="flex-row gap-2">
                 <TextInput
                   value={email}
                   onChangeText={setEmail}
                   placeholder={t('footer.newsletterPlaceholder')}
-                  placeholderTextColor={bodyC}
+                  placeholderTextColor={C.mutedDark}
                   keyboardType="email-address"
                   autoCapitalize="none"
-                  style={{
-                    flex: 1,
-                    backgroundColor: inputBg,
-                    borderWidth: 1,
-                    borderColor: inputBorderC,
-                    borderTopLeftRadius: 10,
-                    borderBottomLeftRadius: 10,
-                    paddingHorizontal: 14,
-                    paddingVertical: 12,
-                    color: inputTextC,
-                    fontFamily: F.regular,
-                    fontSize: 13,
-                  }}
+                  style={{ fontFamily: F.regular }}
+                  className="h-12 flex-1 rounded-button border border-white/20 bg-white/10 px-4 text-base text-white"
                 />
-                <TouchableOpacity
+                <Button
+                  variant="primary"
                   onPress={handleSubscribe}
-                  style={{ backgroundColor: sendBtnBg, paddingHorizontal: 16, borderTopRightRadius: 10, borderBottomRightRadius: 10, alignItems: 'center', justifyContent: 'center' }}
-                  activeOpacity={0.85}
+                  accessibilityLabel={t('footer.newsletterTitle')}
+                  className="w-12 px-0"
                 >
-                  <Send size={16} color={sendBtnIcon} />
-                </TouchableOpacity>
+                  <Icon icon={Send} size="sm" color={C.white} />
+                </Button>
               </View>
 
               {subscribed && (
-                <Text style={{ color: accentC, fontFamily: F.medium, fontSize: 12, marginTop: 8 }}>
+                <Text style={{ fontFamily: F.medium }} className="mt-2 text-xs text-secondary">
                   {t('footer.newsletterSubscribed')}
                 </Text>
               )}
 
-              {/* Social icons */}
-              <View style={{ flexDirection: 'row', gap: 10, marginTop: 20 }}>
-                {[{ label: 'f' }, { label: 't' }, { label: 'in' }].map(s => (
-                  <TouchableOpacity
-                    key={s.label}
-                    style={{ width: 36, height: 36, borderRadius: 18, backgroundColor: socialBg, alignItems: 'center', justifyContent: 'center' }}
-                    activeOpacity={0.8}
+              {/* Social monograms (Lucide has no brand glyphs); restrained dark chips */}
+              <View className="mt-5 flex-row gap-2.5">
+                {['f', 't', 'in'].map((label) => (
+                  <Pressable
+                    key={label}
+                    accessibilityRole="link"
+                    accessibilityLabel={`Social ${label}`}
+                    className="h-11 w-11 items-center justify-center rounded-pill border border-white/20 bg-white/10 active:bg-white/20"
                   >
-                    <Text style={{ color: C.white, fontFamily: F.bold, fontSize: 12 }}>{s.label}</Text>
-                  </TouchableOpacity>
+                    <Text style={{ fontFamily: F.bold }} className="text-xs text-white">{label}</Text>
+                  </Pressable>
                 ))}
               </View>
             </View>
-
           </View>
         </View>
 
-
-
-        {/* ── Copyright bar ────────────────────────────────────────────────────── */}
-        <View style={{ backgroundColor: bottomBg, paddingVertical: 16, paddingHorizontal: 24 }}>
+        {/* ── Copyright strip ──────────────────────────────────────────────────── */}
+        <View className="border-t border-white/10 px-6 py-4">
           {multiCol ? (
-            /* Desktop: NTSA right, text left */
-            <View style={{ maxWidth: MAX_W, width: '100%', alignSelf: 'center', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <View
+              className="w-full flex-row items-center justify-between"
+              style={{ maxWidth: MAX_W, alignSelf: 'center' }}
+            >
               <View>
-                <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 12, opacity: 0.85 }}>
-                  {t('footer.copyright')}
-                </Text>
-                <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 11, opacity: 0.70, marginTop: 3 }}>
+                <Text style={{ fontFamily: F.regular }} className="text-xs text-white/80">{t('footer.copyright')}</Text>
+                <Text style={{ fontFamily: F.regular }} className="mt-0.5 text-[11px] text-white/60">
                   {t('footer.developer')}: calvinedasilver96@gmail.com
                 </Text>
               </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image source={NTSA_LOGO} style={{ width: 36, height: 36, marginRight: 10 }} resizeMode="contain" />
-                <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 12, opacity: 0.85 }}>
-                  {t('footer.certifiedLine')}
-                </Text>
+              <View className="flex-row items-center gap-2.5">
+                <Image source={NTSA_LOGO} style={{ width: 36, height: 36 }} resizeMode="contain" />
+                <Text style={{ fontFamily: F.regular }} className="text-xs text-white/80">{t('footer.certifiedLine')}</Text>
               </View>
             </View>
           ) : (
-            /* Mobile: NTSA first, then copyright, then developer */
-            <View style={{ alignItems: 'center', gap: 8 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image source={NTSA_LOGO} style={{ width: 32, height: 32, marginRight: 8 }} resizeMode="contain" />
-                <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 11, opacity: 0.85 }}>
-                  {t('footer.certifiedLine')}
-                </Text>
+            <View className="items-center gap-2">
+              <View className="flex-row items-center gap-2">
+                <Image source={NTSA_LOGO} style={{ width: 32, height: 32 }} resizeMode="contain" />
+                <Text style={{ fontFamily: F.regular }} className="text-[11px] text-white/80">{t('footer.certifiedLine')}</Text>
               </View>
-              <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 11, textAlign: 'center', opacity: 0.85 }}>
-                {t('footer.copyright')}
-              </Text>
-              <Text style={{ color: bottomTextC, fontFamily: F.regular, fontSize: 10, textAlign: 'center', opacity: 0.70 }}>
+              <Text style={{ fontFamily: F.regular }} className="text-center text-[11px] text-white/80">{t('footer.copyright')}</Text>
+              <Text style={{ fontFamily: F.regular }} className="text-center text-[10px] text-white/60">
                 {t('footer.developer')}: calvinedasilver96@gmail.com
               </Text>
             </View>
           )}
         </View>
-
       </View>
     </>
   );
