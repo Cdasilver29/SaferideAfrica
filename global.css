@@ -78,4 +78,18 @@
       -webkit-backdrop-filter: blur(12px);
     }
   }
+
+  /* Scrolled navbar glass (web only). Solid fallback, frosted where supported.
+     Theme-aware: skyDeep tint in light, near-black in dark. */
+  .nav-glass        { background-color: rgba(1, 165, 240, 0.92); }
+  .dark .nav-glass  { background-color: rgba(34, 31, 32, 0.88); }
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .nav-glass {
+      background-color: rgba(1, 165, 240, 0.72);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+    }
+    .dark .nav-glass { background-color: rgba(34, 31, 32, 0.72); }
+  }
 }

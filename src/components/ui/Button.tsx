@@ -14,6 +14,7 @@ const buttonVariants = cva('flex-row items-center justify-center rounded-button'
     variant: {
       primary:   'bg-primary',
       secondary: 'bg-secondary',
+      accent:    'bg-accent',
       outline:   'border border-border bg-transparent',
       ghost:     'bg-transparent',
     },
@@ -31,6 +32,7 @@ const buttonTextVariants = cva('', {
     variant: {
       primary:   'text-primary-foreground',
       secondary: 'text-secondary-foreground',
+      accent:    'text-accent-foreground',
       outline:   'text-foreground',
       ghost:     'text-foreground',
     },

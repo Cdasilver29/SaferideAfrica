@@ -1,152 +1,84 @@
 import React, { useRef, useState, useEffect } from 'react';
 import {
-  View, Text, Image, TouchableOpacity, Animated, Modal,
+  View, Text, Image, Pressable, Animated, Modal,
   ScrollView as RNScrollView, StyleSheet, Platform, Linking,
   AccessibilityInfo, useWindowDimensions,
 } from 'react-native';
 import AnimatedRN, {
   useSharedValue, useAnimatedStyle, useAnimatedReaction,
-  withSpring, withTiming, withSequence, withDelay, withRepeat,
+  withTiming, withSequence, withDelay, withRepeat,
   interpolate, runOnJS, cancelAnimation, Easing,
 } from 'react-native-reanimated';
 import type { SharedValue } from 'react-native-reanimated';
-import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
 import { router, usePathname } from 'expo-router';
 import { useColorScheme } from 'nativewind';
-import {
-  Menu, X, ChevronRight, Sun, Moon, Phone, GraduationCap,
-  Home, Info, BookOpen, Wrench, MapPin, Mail, Image as ImageIcon, FileText,
-} from 'lucide-react-native';
+import { Menu, X, ChevronRight, Sun, Moon, Phone, GraduationCap } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W, NAV_ITEMS } from './constants';
 import { COMPANY } from '@/data/saferide';
 import { useEnrollModal } from '@/context/EnrollModalContext';
+import { Button, Icon } from '@/components/ui';
 import LanguageSwitcher from './LanguageSwitcher';
 import LaneStrip from './LaneStrip';
 
 const LOGO = require('../../../assets/images/saferide-logo.jpg');
 
-// ─── Per-pill gradient config (palette-only colours) ─────────────────────────
-const NAV_PILLS = [
-  { key: 'home',     label: 'Home',     path: '/',         Icon: Home,      gradFrom: C.skyDeep,  gradTo: C.skyLight },
-  { key: 'about',    label: 'About',    path: '/about',    Icon: Info,      gradFrom: C.skyLight, gradTo: C.skyDeep  },
-  { key: 'courses',  label: 'Courses',  path: '/courses',  Icon: BookOpen,  gradFrom: C.yellow,   gradTo: C.skyDeep  },
-  { key: 'services', label: 'Services', path: '/services', Icon: Wrench,    gradFrom: C.skyDeep,  gradTo: C.yellow   },
-  { key: 'gallery',  label: 'Gallery',  path: '/gallery',  Icon: ImageIcon, gradFrom: C.skyLight, gradTo: C.skyDeep  },
-  { key: 'blog',     label: 'Blog',     path: '/blog',     Icon: FileText,  gradFrom: C.yellow,   gradTo: C.skyLight },
-  { key: 'branches', label: 'Branches', path: '/branches', Icon: MapPin,    gradFrom: C.skyDeep,  gradTo: C.skyLight },
-  { key: 'contact',  label: 'Contact',  path: '/contact',  Icon: Mail,      gradFrom: C.yellow,   gradTo: C.red      },
-] as const;
+const telHref = () => `tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`;
 
-const PILL_SPRING  = { damping: 14, stiffness: 200 };
-const PILL_H       = 40;   // collapsed height
-const PILL_W_OPEN  = 140;  // expanded width
-const PILL_W_CLOSE = 40;   // collapsed width (circle)
-
-// ─── Single gradient pill ─────────────────────────────────────────────────────
-function NavPill({
-  item, isActive,
-}: {
-  item: (typeof NAV_PILLS)[number]
-  isActive: boolean
-}) {
-  const { t }         = useTranslation();
-  const expanded      = useSharedValue(isActive ? 1 : 0);
-  const isHoveredRef  = useRef(false);
-
-  // Keep active pill expanded even without hover
-  useEffect(() => {
-    if (!isHoveredRef.current) {
-      expanded.value = withSpring(isActive ? 1 : 0, PILL_SPRING);
-    }
-  }, [isActive]);
-
-  const pillStyle = useAnimatedStyle(() => ({
-    width: interpolate(expanded.value, [0, 1], [PILL_W_CLOSE, PILL_W_OPEN]),
-  }));
-
-  const gradStyle = useAnimatedStyle(() => ({
-    opacity: expanded.value,
-  }));
-
-  const iconStyle = useAnimatedStyle(() => ({
-    opacity: 1 - expanded.value,
-    transform: [{ scale: interpolate(expanded.value, [0, 1], [1, 0.5]) }],
-  }));
-
-  const labelStyle = useAnimatedStyle(() => ({
-    opacity: expanded.value,
-    transform: [{ scale: interpolate(expanded.value, [0, 1], [0.8, 1]) }],
-  }));
-
-  // Web hover props — RNW passes these through to the DOM
-  const webHover = Platform.OS === 'web'
-    ? {
-        onMouseEnter: () => {
-          isHoveredRef.current = true;
-          expanded.value = withSpring(1, PILL_SPRING);
-        },
-        onMouseLeave: () => {
-          isHoveredRef.current = false;
-          expanded.value = withSpring(isActive ? 1 : 0, PILL_SPRING);
-        },
-      }
-    : {};
-
+// ─── Desktop nav link: quiet rounded-pill button, active filled with white tint ──
+function NavLink({ label, active, onPress }: { label: string; active: boolean; onPress: () => void }) {
   return (
-    <TouchableOpacity
-      onPress={() => router.push(item.path as any)}
-      // Native: press briefly expands the pill before navigating
-      onPressIn={() => { if (Platform.OS !== 'web') expanded.value = withSpring(1, PILL_SPRING); }}
-      onPressOut={() => { if (Platform.OS !== 'web') expanded.value = withSpring(isActive ? 1 : 0, PILL_SPRING); }}
-      activeOpacity={0.9}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      {...(webHover as any)}
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="link"
+      className={[
+        'h-11 items-center justify-center rounded-pill px-3',
+        active ? 'bg-white/20' : 'hover:bg-white/10 active:bg-white/15',
+      ].join(' ')}
     >
-      {/* Outer animated width wrapper */}
-      <AnimatedRN.View style={[pillStyle, styles.pillOuter]}>
-        {/* Gradient fill — fades in on expand */}
-        <AnimatedRN.View style={[StyleSheet.absoluteFillObject, gradStyle]}>
-          <LinearGradient
-            colors={[item.gradFrom, item.gradTo]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={StyleSheet.absoluteFillObject}
-          />
-        </AnimatedRN.View>
-
-        {/* Icon — fades out on expand */}
-        <AnimatedRN.View style={[StyleSheet.absoluteFillObject, styles.pillCenter, iconStyle]}>
-          <item.Icon size={16} color="rgba(34,31,32,0.50)" />
-        </AnimatedRN.View>
-
-        {/* Label — fades in on expand */}
-        <AnimatedRN.View style={[StyleSheet.absoluteFillObject, styles.pillCenter, labelStyle]}>
-          <Text style={styles.pillLabel}>{t(`nav.${item.key}`)}</Text>
-        </AnimatedRN.View>
-      </AnimatedRN.View>
-    </TouchableOpacity>
+      <Text
+        style={{ fontFamily: active ? F.semibold : F.medium }}
+        className="text-sm text-white"
+      >
+        {label}
+      </Text>
+    </Pressable>
   );
 }
 
-// ─── Main Navbar ──────────────────────────────────────────────────────────────
+// ─── On-colour icon button (dark toggle, hamburger) ─────────────────────────────
+function IconButton({
+  onPress, label, children,
+}: { onPress: () => void; label: string; children: React.ReactNode }) {
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      className="h-11 w-11 items-center justify-center rounded-pill bg-white/15 hover:bg-white/25 active:bg-white/25"
+    >
+      {children}
+    </Pressable>
+  );
+}
+
 interface NavbarProps {
   scrollY?: SharedValue<number>;
 }
 
 export default function Navbar({ scrollY }: NavbarProps) {
-  const { t }    = useTranslation();
+  const { t } = useTranslation();
   const { colorScheme, toggleColorScheme } = useColorScheme();
-  const isDark   = colorScheme === 'dark';
+  const isDark = colorScheme === 'dark';
   const pathname = usePathname();
   const { width: winW } = useWindowDimensions();
-
   const { open: openEnrollModal } = useEnrollModal();
 
-  // On web: show gradient pills when viewport ≥ 768 px, hamburger drawer below that
-  const showPills    = IS_WEB && winW >= 768;
-  const showHamburger = !IS_WEB || (IS_WEB && winW < 768);
+  // Desktop web shows the inline links; tablet, narrow web, and native use the
+  // drawer (8 text links need desktop width to sit on one row).
+  const showLinks = IS_WEB && winW >= 1024;
+  const showHamburger = !IS_WEB || (IS_WEB && winW < 1024);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -155,7 +87,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
   const isItemActive = (path: string) =>
     path === '/' ? pathname === '/' : pathname.startsWith(path);
 
-  // Glass effect when scrolled — driven by Reanimated shared value
+  // Glass effect when scrolled, driven by the shared scroll value.
   useAnimatedReaction(
     () => scrollY?.value ?? 0,
     (value, prev) => {
@@ -163,7 +95,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
     },
   );
 
-  // ── Reduced motion ───────────────────────────────────────────────────────────
+  // ── Reduced motion ────────────────────────────────────────────────────────────
   const [reduceMotion, setReduceMotion] = useState(false);
   useEffect(() => {
     AccessibilityInfo.isReduceMotionEnabled().then(setReduceMotion);
@@ -171,330 +103,259 @@ export default function Navbar({ scrollY }: NavbarProps) {
     return () => sub.remove();
   }, []);
 
-  // ── Phone ring-shake every 5 s — silenced if reduceMotion ───────────────────
+  // ── Phone ring-shake every 5 s, silenced under reduce-motion ───────────────────
   const shake = useSharedValue(0);
-
   useEffect(() => {
-    if (reduceMotion) {
-      cancelAnimation(shake);
-      shake.value = 0;
-      return;
-    }
+    if (reduceMotion) { cancelAnimation(shake); shake.value = 0; return; }
     shake.value = withRepeat(
       withSequence(
-        withTiming(-8, { duration: 80 }),
-        withTiming( 8, { duration: 80 }),
-        withTiming(-6, { duration: 80 }),
-        withTiming( 6, { duration: 80 }),
-        withTiming(-3, { duration: 80 }),
-        withTiming( 3, { duration: 80 }),
-        withTiming( 0, { duration: 80 }),
+        withTiming(-8, { duration: 80 }), withTiming(8, { duration: 80 }),
+        withTiming(-6, { duration: 80 }), withTiming(6, { duration: 80 }),
+        withTiming(-3, { duration: 80 }), withTiming(3, { duration: 80 }),
+        withTiming(0, { duration: 80 }),
         withDelay(4440, withTiming(0, { duration: 1 })),
       ),
-      -1,
-      false,
+      -1, false,
     );
   }, [reduceMotion]);
+  const phoneShakeStyle = useAnimatedStyle(() => ({ transform: [{ rotate: `${shake.value}deg` }] }));
 
-  const phoneShakeStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${shake.value}deg` }],
-  }));
-
-  // ── Enrol glow breath every 2 s — silenced if reduceMotion ──────────────────
+  // ── Enrol glow breath every 2 s, silenced under reduce-motion ──────────────────
   const glow = useSharedValue(0);
-
   useEffect(() => {
-    if (reduceMotion) {
-      cancelAnimation(glow);
-      glow.value = 0;
-      return;
-    }
+    if (reduceMotion) { cancelAnimation(glow); glow.value = 0; return; }
     glow.value = withRepeat(
       withTiming(1, { duration: 2000, easing: Easing.inOut(Easing.sin) }),
-      -1,
-      true,
+      -1, true,
     );
   }, [reduceMotion]);
-
   const enrolGlowStyle = useAnimatedStyle(() => {
     const opacity = interpolate(glow.value, [0, 1], [0.3, 0.7]);
-    const radius  = interpolate(glow.value, [0, 1], [6, 16]);
-    const size    = interpolate(glow.value, [0, 1], [8, 20]);
-    const elev    = interpolate(glow.value, [0, 1], [4, 10]);
+    const size = interpolate(glow.value, [0, 1], [8, 20]);
     return {
-      shadowColor: C.skyDeep,
+      shadowColor: C.yellow,
       shadowOpacity: opacity,
-      shadowRadius: radius,
+      shadowRadius: interpolate(glow.value, [0, 1], [6, 16]),
       shadowOffset: { width: 0, height: 0 },
-      elevation: elev,
-      ...(IS_WEB && {
-        boxShadow: `0 0 ${size}px rgba(1,165,240,${opacity})`,
-      }),
+      elevation: interpolate(glow.value, [0, 1], [4, 10]),
+      ...(IS_WEB && { boxShadow: `0 0 ${size}px rgba(255,216,0,${opacity})` }),
     };
   });
 
-  // ── Enrol icon nudge on hover / press ────────────────────────────────────────
-  const iconNudge = useSharedValue(0);
-
-  const iconNudgeStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: iconNudge.value }],
-  }));
-
-  // ── Colour tokens — header is always skyDeep in light mode ─────────────────
-  const bg       = isDark ? C.dark    : C.skyDeep;
-  const bgGlass  = isDark ? 'rgba(34,31,32,0.88)' : 'rgba(1,165,240,0.92)';
-  const navBg    = isScrolled ? bgGlass : bg;
-  const borderC  = 'rgba(255,255,255,0.12)';  // white divider works on both dark and skyDeep
-  const iconC    = C.white;                    // always white — readable on both skyDeep and dark
-  const btnBg    = 'rgba(255,255,255,0.15)';   // subtle white tint on coloured bg
-
-  // ── Mobile drawer ───────────────────────────────────────────────────────────
+  // ── Mobile drawer ──────────────────────────────────────────────────────────────
   const openDrawer = () => {
     setDrawerOpen(true);
     Animated.timing(drawerAnim, { toValue: 1, duration: 260, useNativeDriver: Platform.OS !== 'web' }).start();
   };
   const closeDrawer = () => {
-    Animated.timing(drawerAnim, { toValue: 0, duration: 200, useNativeDriver: Platform.OS !== 'web' }).start(
-      () => setDrawerOpen(false),
-    );
+    Animated.timing(drawerAnim, { toValue: 0, duration: 200, useNativeDriver: Platform.OS !== 'web' })
+      .start(() => setDrawerOpen(false));
   };
   const drawerTranslate = drawerAnim.interpolate({ inputRange: [0, 1], outputRange: [-300, 0] });
-
   const handleNav = (path: string) => { router.push(path as any); closeDrawer(); };
 
   return (
     <>
-      {/* ══════════════════════════════════════════════════════════════════════
-          MAIN ROW — logo  |  gradient pills (web)  |  controls
-      ══════════════════════════════════════════════════════════════════════ */}
+      {/* ── Main row ──────────────────────────────────────────────────────────── */}
       <View
-        style={[
-          styles.row,
-          {
-            backgroundColor: navBg,
-            borderBottomColor: borderC,
-          },
-          IS_WEB && isScrolled && ({
-            backdropFilter:       'blur(18px) saturate(160%)',
-            WebkitBackdropFilter: 'blur(18px) saturate(160%)',
-          } as any),
-        ]}
+        className={[
+          'z-50 border-b border-white/10',
+          IS_WEB && isScrolled ? 'nav-glass' : 'bg-primary dark:bg-background',
+        ].join(' ')}
       >
-        {/* Native frosted glass */}
+        {/* Native frosted glass when scrolled */}
         {Platform.OS !== 'web' && isScrolled && (
-          <BlurView
-            intensity={70}
-            tint="dark"
-            style={StyleSheet.absoluteFillObject}
-          />
+          <BlurView intensity={70} tint="dark" style={StyleSheet.absoluteFillObject} />
         )}
 
-        <View style={[styles.rowInner, IS_WEB ? { maxWidth: MAX_W } : { gap: 4 }]}>
-
-          {/* Logo */}
-          <TouchableOpacity
+        <View
+          className="w-full flex-row items-center gap-2 px-4 py-2"
+          style={IS_WEB ? { maxWidth: MAX_W, alignSelf: 'center' } : undefined}
+        >
+          {/* Logo + wordmark */}
+          <Pressable
             onPress={() => handleNav('/')}
-            style={[styles.logoRow, !showPills && { flexShrink: 1 }]}
-            activeOpacity={0.85}
+            accessibilityRole="link"
+            className="flex-row items-center gap-2"
+            style={!showLinks ? { flexShrink: 1 } : undefined}
           >
             <Image
               source={LOGO}
-              style={[styles.logoImg, !showPills && { width: 36, height: 36, borderRadius: 8 }]}
+              style={{ width: showLinks ? 56 : 38, height: showLinks ? 56 : 38, borderRadius: 10 }}
               resizeMode="contain"
             />
-            {showPills ? (
-              <View>
-                <Text style={styles.brandName}>{t('nav.brand')}</Text>
-                <Text style={styles.brandTag}>{t('nav.tagline')}</Text>
-              </View>
-            ) : (
-              <View style={{ flexShrink: 1 }}>
-                <Text
-                  style={[styles.brandName, { fontSize: 14 }]}
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                >
-                  {t('nav.brand')}
-                </Text>
-                <Text style={[styles.brandTag, { fontSize: 8, letterSpacing: 1.5 }]} numberOfLines={1}>
-                  {t('nav.tagline')}
-                </Text>
-              </View>
-            )}
-          </TouchableOpacity>
+            <View style={!showLinks ? { flexShrink: 1 } : undefined}>
+              <Text
+                numberOfLines={1}
+                style={{ fontFamily: F.bold }}
+                className={showLinks ? 'text-xl text-accent' : 'text-base text-accent'}
+              >
+                {t('nav.brand')}
+              </Text>
+              <Text
+                numberOfLines={1}
+                style={{ fontFamily: F.semibold, letterSpacing: 1.5 }}
+                className="text-[9px] uppercase text-white/70"
+              >
+                {t('nav.tagline')}
+              </Text>
+            </View>
+          </Pressable>
 
-          {/* Gradient pills — wide screens only */}
-          {showPills && (
-            <View style={styles.pillRow}>
-              {NAV_PILLS.map(pill => (
-                <NavPill key={pill.key} item={pill} isActive={isItemActive(pill.path)} />
+          {/* Inline links, wide web only */}
+          {showLinks && (
+            <View className="flex-1 flex-row flex-wrap items-center justify-center gap-1">
+              {NAV_ITEMS.map((item) => (
+                <NavLink
+                  key={item.key}
+                  label={t(`nav.${item.key}`)}
+                  active={isItemActive(item.path)}
+                  onPress={() => router.push(item.path as any)}
+                />
               ))}
             </View>
           )}
 
-          {/* Spacer — pushes controls to the right on mobile (pills fill this on web) */}
-          {!showPills && <View style={{ flex: 1 }} />}
+          {/* Spacer pushes controls right on narrow screens */}
+          {!showLinks && <View className="flex-1" />}
 
           {/* Controls */}
-          <View style={styles.controls}>
-            {showPills && <LanguageSwitcher />}
+          <View className="flex-row items-center gap-2" style={{ flexShrink: 0 }}>
+            {showLinks && <LanguageSwitcher />}
 
-            {/* Dark-mode toggle — web only; tap the drawer header button on mobile */}
-            {showPills && (
-              <TouchableOpacity
-                onPress={toggleColorScheme}
-                style={[styles.iconBtn, { backgroundColor: btnBg }]}
-                activeOpacity={0.8}
-              >
+            {showLinks && (
+              <IconButton onPress={toggleColorScheme} label="Toggle theme">
                 {isDark
-                  ? <Sun  size={15} color={C.yellow} />
-                  : <Moon size={15} color={iconC}    />}
-              </TouchableOpacity>
+                  ? <Icon icon={Sun} size="sm" color={C.yellow} />
+                  : <Icon icon={Moon} size="sm" color={C.white} />}
+              </IconButton>
             )}
 
-            {/* Call Now — web only; accessible via drawer CTA on mobile */}
-            {showPills && (
-              <TouchableOpacity
-                onPress={() => Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`)}
-                activeOpacity={0.85}
-                style={styles.callBtn}
+            {/* Call Now, demoted to an on-colour outline control */}
+            {showLinks && (
+              <Pressable
+                onPress={() => Linking.openURL(telHref())}
+                accessibilityRole="button"
+                accessibilityLabel={t('common.callNow')}
+                className="h-11 flex-row items-center gap-1.5 rounded-pill border border-white/40 bg-white/10 px-4 hover:bg-white/20 active:bg-white/20"
               >
                 <AnimatedRN.View style={phoneShakeStyle}>
-                  <Phone size={13} color={C.white} />
+                  <Icon icon={Phone} size="xs" color={C.white} />
                 </AnimatedRN.View>
-                <Text style={styles.callText}>{t('common.callNow')}</Text>
-              </TouchableOpacity>
+                <Text style={{ fontFamily: F.semibold }} className="text-sm text-white">
+                  {t('common.callNow')}
+                </Text>
+              </Pressable>
             )}
 
-            {/* Enrol Now */}
-            <AnimatedRN.View style={[{ borderRadius: 18 }, enrolGlowStyle]}>
-              <TouchableOpacity
+            {/* Enroll, the single reserved accent action */}
+            <AnimatedRN.View style={[{ borderRadius: 8 }, enrolGlowStyle]}>
+              <Button
+                variant="accent"
+                size="sm"
                 onPress={() => openEnrollModal()}
-                activeOpacity={0.85}
-                style={[styles.enrolBtn, { shadowOpacity: 0, elevation: 0 }]}
-                onPressIn={Platform.OS !== 'web' ? () => { iconNudge.value = withTiming(4, { duration: 150 }); } : undefined}
-                onPressOut={Platform.OS !== 'web' ? () => { iconNudge.value = withTiming(0, { duration: 150 }); } : undefined}
-                {...(IS_WEB ? ({
-                  onMouseEnter: () => { iconNudge.value = withTiming(4, { duration: 150 }); },
-                  onMouseLeave: () => { iconNudge.value = withTiming(0, { duration: 150 }); },
-                } as any) : {})}
+                accessibilityLabel={t('common.enrolNow')}
               >
-                <AnimatedRN.View style={iconNudgeStyle}>
-                  <GraduationCap size={13} color={C.dark} />
-                </AnimatedRN.View>
-                <Text style={styles.enrolText}>{showPills ? t('common.enrolNow') : t('common.enrol')}</Text>
-              </TouchableOpacity>
+                <Icon icon={GraduationCap} size="sm" color={C.dark} />
+                <Text style={{ fontFamily: F.bold }} className="text-sm text-accent-foreground">
+                  {showLinks ? t('common.enrolNow') : t('common.enrol')}
+                </Text>
+              </Button>
             </AnimatedRN.View>
 
-            {/* Language switcher — mobile only (compact, flag + chevron) */}
             {showHamburger && <LanguageSwitcher compact />}
 
-            {/* Hamburger — native always, and narrow web viewports */}
             {showHamburger && (
-              <TouchableOpacity
-                onPress={openDrawer}
-                style={[styles.iconBtn, { backgroundColor: btnBg }]}
-                activeOpacity={0.8}
-              >
-                <Menu size={18} color={iconC} />
-              </TouchableOpacity>
+              <IconButton onPress={openDrawer} label="Open menu">
+                <Icon icon={Menu} size="md" color={C.white} />
+              </IconButton>
             )}
           </View>
         </View>
       </View>
 
-      {/* Lane strip */}
       <LaneStrip />
 
-      {/* ══════════════════════════════════════════════════════════════════════
-          Mobile drawer
-      ══════════════════════════════════════════════════════════════════════ */}
+      {/* ── Mobile drawer ─────────────────────────────────────────────────────── */}
       {showHamburger && (
         <Modal visible={drawerOpen} transparent animationType="none" onRequestClose={closeDrawer}>
-          <TouchableOpacity
-            style={{ flex: 1, backgroundColor: 'rgba(34,31,32,0.55)' }}
-            activeOpacity={1}
-            onPress={closeDrawer}
-          >
+          <Pressable className="flex-1 bg-black/55" onPress={closeDrawer}>
             <Animated.View
-              style={[
-                styles.drawer,
-                { backgroundColor: isDark ? C.dark : C.white },
-                { transform: [{ translateX: drawerTranslate }] },
-              ]}
+              style={[styles.drawer, { transform: [{ translateX: drawerTranslate }] }]}
+              className="bg-background"
             >
-              <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
+              <Pressable className="flex-1" onPress={() => {}}>
                 {/* Drawer header */}
-                <View style={[styles.drawerHeader, { backgroundColor: C.skyDeep }]}>
-                  <View style={styles.logoRow}>
-                    <Image source={LOGO} style={[styles.logoImg, { width: 52, height: 52 }]} resizeMode="contain" />
-                    <Text style={[styles.brandName, { fontSize: 14 }]} numberOfLines={1}>{t('nav.brand')}</Text>
+                <View className="flex-row items-center justify-between border-b border-white/10 bg-primary px-5 py-4">
+                  <View className="flex-row items-center gap-2">
+                    <Image source={LOGO} style={{ width: 48, height: 48, borderRadius: 10 }} resizeMode="contain" />
+                    <Text numberOfLines={1} style={{ fontFamily: F.bold }} className="text-base text-accent">
+                      {t('nav.brand')}
+                    </Text>
                   </View>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                    <TouchableOpacity
-                      onPress={toggleColorScheme}
-                      style={{ padding: 7, borderRadius: 8, backgroundColor: 'rgba(255,255,255,0.15)' }}
-                      activeOpacity={0.8}
-                    >
+                  <View className="flex-row items-center gap-2">
+                    <IconButton onPress={toggleColorScheme} label="Toggle theme">
                       {isDark
-                        ? <Sun  size={15} color={C.yellow} />
-                        : <Moon size={15} color="rgba(255,255,255,0.85)" />}
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={closeDrawer} style={{ padding: 4 }}>
-                      <X size={20} color="rgba(255,255,255,0.70)" />
-                    </TouchableOpacity>
+                        ? <Icon icon={Sun} size="sm" color={C.yellow} />
+                        : <Icon icon={Moon} size="sm" color={C.white} />}
+                    </IconButton>
+                    <IconButton onPress={closeDrawer} label="Close menu">
+                      <Icon icon={X} size="md" color={C.white} />
+                    </IconButton>
                   </View>
                 </View>
 
                 {/* Nav items */}
-                <RNScrollView style={{ paddingTop: 8, flex: 1 }}>
-                  {NAV_ITEMS.map(item => {
+                <RNScrollView className="flex-1 pt-2">
+                  {NAV_ITEMS.map((item) => {
                     const active = isItemActive(item.path);
                     return (
-                      <TouchableOpacity
+                      <Pressable
                         key={item.path}
                         onPress={() => handleNav(item.path)}
-                        style={[
-                          styles.drawerItem,
-                          active && { backgroundColor: 'rgba(1,165,240,0.08)', borderLeftWidth: 3, borderLeftColor: C.skyDeep },
-                        ]}
-                        activeOpacity={0.7}
+                        className={[
+                          'flex-row items-center justify-between px-5 py-3.5 active:bg-foreground/5',
+                          active ? 'border-l-[3px] border-primary bg-primary/10' : '',
+                        ].join(' ')}
                       >
-                        <Text style={{
-                          color:      active ? C.skyDeep : (isDark ? C.white : C.dark),
-                          fontFamily: active ? F.semibold : F.regular,
-                          fontSize:   14,
-                        }}>
-                          {t('nav.' + item.key)}
+                        <Text
+                          style={{ fontFamily: active ? F.semibold : F.regular }}
+                          className={active ? 'text-base text-primary' : 'text-base text-foreground'}
+                        >
+                          {t(`nav.${item.key}`)}
                         </Text>
-                        <ChevronRight size={15} color="rgba(34,31,32,0.40)" />
-                      </TouchableOpacity>
+                        <Icon icon={ChevronRight} size="sm" color={C.muted} />
+                      </Pressable>
                     );
                   })}
 
                   {/* Drawer CTAs */}
-                  <View style={styles.drawerCTAs}>
-                    <TouchableOpacity
+                  <View className="gap-3 p-5 pt-4">
+                    <Button
+                      variant="accent"
                       onPress={() => { closeDrawer(); openEnrollModal(); }}
-                      style={[styles.enrolBtn, { paddingVertical: 13, borderRadius: 11, justifyContent: 'center' }]}
-                      activeOpacity={0.85}
+                      className="w-full"
                     >
-                      <GraduationCap size={15} color={C.dark} />
-                      <Text style={styles.enrolText}>{t('common.enrolNow')}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => { closeDrawer(); Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`); }}
-                      style={[styles.callBtn, { paddingVertical: 13, borderRadius: 11, justifyContent: 'center' }]}
-                      activeOpacity={0.85}
+                      <Icon icon={GraduationCap} size="sm" color={C.dark} />
+                      <Text style={{ fontFamily: F.bold }} className="text-base text-accent-foreground">
+                        {t('common.enrolNow')}
+                      </Text>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onPress={() => { closeDrawer(); Linking.openURL(telHref()); }}
+                      className="w-full"
                     >
-                      <Phone size={14} color={C.white} />
-                      <Text style={styles.callText}>{t('common.callNow')}</Text>
-                    </TouchableOpacity>
+                      <Icon icon={Phone} size="sm" color={C.skyDeep} />
+                      <Text style={{ fontFamily: F.semibold }} className="text-base text-foreground">
+                        {t('common.callNow')}
+                      </Text>
+                    </Button>
                   </View>
                 </RNScrollView>
-              </TouchableOpacity>
+              </Pressable>
             </Animated.View>
-          </TouchableOpacity>
+          </Pressable>
         </Modal>
       )}
     </>
@@ -502,119 +363,6 @@ export default function Navbar({ scrollY }: NavbarProps) {
 }
 
 const styles = StyleSheet.create({
-  row: {
-    borderBottomWidth: 1,
-    zIndex: 50,
-  },
-  rowInner: {
-    width: '100%',
-    alignSelf: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    gap: 8,
-  },
-  logoRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    flexShrink: 0,
-  },
-  logoImg: {
-    width: 62,
-    height: 62,
-    borderRadius: 12,
-  },
-  brandName: {
-    fontFamily: F.bold,
-    fontSize: 19,
-    letterSpacing: 0.3,
-    color: C.white,
-  },
-  brandTag: {
-    color: C.yellow,
-    fontFamily: F.semibold,
-    fontSize: 11,
-    letterSpacing: 1.5,
-    textTransform: 'uppercase',
-  },
-  pillRow: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-    justifyContent: 'center',
-    flexWrap: 'nowrap',
-    overflow: 'hidden',
-  },
-  pillOuter: {
-    height: PILL_H,
-    borderRadius: PILL_H / 2,
-    backgroundColor: C.white,
-    overflow: 'hidden',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(34,31,32,0.10)',
-  },
-  pillCenter: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  pillLabel: {
-    color: C.white,
-    fontFamily: F.bold,
-    fontSize: 10,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  controls: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: IS_WEB ? 8 : 5,
-    flexShrink: 0,
-  },
-  iconBtn: {
-    borderRadius: 8,
-    padding: 7,
-  },
-  callBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-    backgroundColor: C.red,
-    paddingHorizontal: IS_WEB ? 14 : 10,
-    paddingVertical: 7,
-    borderRadius: 18,
-    shadowColor: C.red,
-    shadowOpacity: 0.35,
-    shadowRadius: 6,
-    elevation: 3,
-  },
-  callText: {
-    fontFamily: F.semibold,
-    fontSize: 12,
-    color: C.white,
-  },
-  enrolBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-    backgroundColor: C.yellow,
-    paddingHorizontal: IS_WEB ? 16 : 12,
-    paddingVertical: 8,
-    borderRadius: 18,
-    shadowColor: C.yellow,
-    shadowOpacity: 0.35,
-    shadowRadius: 6,
-    elevation: 3,
-  },
-  enrolText: {
-    color: C.dark,
-    fontFamily: F.bold,
-    fontSize: 12,
-  },
   drawer: {
     position: 'absolute',
     top: 0,
@@ -625,26 +373,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 20,
     elevation: 16,
-  },
-  drawerHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 18,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255,255,255,0.12)',
-  },
-  drawerItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 14,
-  },
-  drawerCTAs: {
-    padding: 20,
-    marginTop: 8,
-    gap: 10,
   },
 });
