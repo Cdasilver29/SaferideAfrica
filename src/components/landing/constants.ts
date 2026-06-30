@@ -33,11 +33,13 @@ export const C = {
 };
 
 // ─── Font names (must match useFonts keys in _layout.tsx) ─────────────────────
+// Manrope, the single brand type family. Weight-only hierarchy, no second
+// display font. Reference fonts through F, never hardcode a family.
 export const F = {
-  regular:  'WorkSans-Regular',
-  medium:   'WorkSans-Medium',
-  semibold: 'WorkSans-SemiBold',
-  bold:     'WorkSans-Bold',
+  regular:  'Manrope-Regular',
+  medium:   'Manrope-Medium',
+  semibold: 'Manrope-SemiBold',
+  bold:     'Manrope-Bold',
 };
 
 // ─── Image sources ────────────────────────────────────────────────────────────

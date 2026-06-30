@@ -39,10 +39,10 @@ export default function RootLayout() {
     IS_WEB
       ? {}
       : {
-          'WorkSans-Regular':  require('../assets/fonts/WorkSans-Regular.ttf'),
-          'WorkSans-Medium':   require('../assets/fonts/WorkSans-Medium.ttf'),
-          'WorkSans-SemiBold': require('../assets/fonts/WorkSans-SemiBold.ttf'),
-          'WorkSans-Bold':     require('../assets/fonts/WorkSans-Bold.ttf'),
+          'Manrope-Regular':  require('../assets/fonts/Manrope-Regular.ttf'),
+          'Manrope-Medium':   require('../assets/fonts/Manrope-Medium.ttf'),
+          'Manrope-SemiBold': require('../assets/fonts/Manrope-SemiBold.ttf'),
+          'Manrope-Bold':     require('../assets/fonts/Manrope-Bold.ttf'),
         }
   );
   const { colorScheme, setColorScheme } = useColorScheme();

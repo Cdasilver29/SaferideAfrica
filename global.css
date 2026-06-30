@@ -25,8 +25,11 @@
     --muted:                  var(--white);
     --muted-foreground:       34 31 32 / 0.6;
     --border:                 34 31 32 / 0.1;
+    --ring:                   var(--sky-deep);
     --primary:                var(--sky-deep);
     --primary-foreground:     var(--white);
+    --secondary:              var(--sky-light);
+    --secondary-foreground:   var(--black);
     --accent:                 var(--yellow);
     --accent-foreground:      var(--black);
     --accent-dark:            var(--black);
@@ -45,8 +48,11 @@
     --muted:                  255 255 255 / 0.05;
     --muted-foreground:       255 255 255 / 0.7;
     --border:                 255 255 255 / 0.15;
+    --ring:                   var(--sky-deep);
     --primary:                var(--sky-deep);
     --primary-foreground:     var(--white);
+    --secondary:              var(--sky-light);
+    --secondary-foreground:   var(--black);
     --accent:                 var(--yellow);
     --accent-foreground:      var(--black);
     --accent-dark:            var(--black);

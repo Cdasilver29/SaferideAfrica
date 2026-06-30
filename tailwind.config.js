@@ -6,28 +6,60 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}"
   ],
   presets: [require("nativewind/preset")],
+  // ─── Design language foundation (Phase 5) ──────────────────────────────────
+  // Brand palette: primary sky #01a5f0, accent yellow #ffd800, foreground dark
+  // #221f20. Colour lives only in tokens (the CSS variables in global.css); no
+  // raw hex in components. Shape, Airbnb-style: rounded-button 8px, rounded-card
+  // 16px (card-lg 20px), pill on search and chips. Spacing follows an 8px rhythm
+  // (use even Tailwind steps: 2=8, 4=16, 6=24, 8=32, 12=48). Type is one family,
+  // Manrope, with weight-only hierarchy (no second display font).
   theme: {
     extend: {
       colors: {
         // Semantic tokens — resolve via CSS variables defined in global.css
-        background:           'rgb(var(--background) / <alpha-value>)',
-        foreground:           'rgb(var(--foreground) / <alpha-value>)',
-        card:                 'rgb(var(--card) / <alpha-value>)',
-        'card-foreground':    'rgb(var(--card-foreground) / <alpha-value>)',
-        muted:                'rgb(var(--muted) / <alpha-value>)',
-        'muted-foreground':   'rgb(var(--muted-foreground) / <alpha-value>)',
-        border:               'rgb(var(--border) / <alpha-value>)',
-        primary:              'rgb(var(--primary) / <alpha-value>)',
-        'primary-foreground': 'rgb(var(--primary-foreground) / <alpha-value>)',
-        accent:               'rgb(var(--accent) / <alpha-value>)',
-        'accent-dark':        'rgb(var(--accent-dark) / <alpha-value>)',
+        background:              'rgb(var(--background) / <alpha-value>)',
+        foreground:              'rgb(var(--foreground) / <alpha-value>)',
+        card:                    'rgb(var(--card) / <alpha-value>)',
+        'card-foreground':       'rgb(var(--card-foreground) / <alpha-value>)',
+        muted:                   'rgb(var(--muted) / <alpha-value>)',
+        'muted-foreground':      'rgb(var(--muted-foreground) / <alpha-value>)',
+        border:                  'rgb(var(--border) / <alpha-value>)',
+        ring:                    'rgb(var(--ring) / <alpha-value>)',
+        primary:                 'rgb(var(--primary) / <alpha-value>)',
+        'primary-foreground':    'rgb(var(--primary-foreground) / <alpha-value>)',
+        secondary:               'rgb(var(--secondary) / <alpha-value>)',
+        'secondary-foreground':  'rgb(var(--secondary-foreground) / <alpha-value>)',
+        accent:                  'rgb(var(--accent) / <alpha-value>)',
+        'accent-foreground':     'rgb(var(--accent-foreground) / <alpha-value>)',
+        'accent-dark':           'rgb(var(--accent-dark) / <alpha-value>)',
+        destructive:             'rgb(var(--destructive) / <alpha-value>)',
+        'destructive-foreground':'rgb(var(--destructive-foreground) / <alpha-value>)',
       },
       fontFamily: {
-        sans:    ['WorkSans-Regular', 'sans-serif'],
-        medium:  ['WorkSans-Medium'],
-        semibold:['WorkSans-SemiBold'],
-        bold:    ['WorkSans-Bold'],
-        heading: ['WorkSans-Bold'],
+        sans:    ['Manrope-Regular', 'sans-serif'],
+        medium:  ['Manrope-Medium'],
+        semibold:['Manrope-SemiBold'],
+        bold:    ['Manrope-Bold'],
+        heading: ['Manrope-Bold'],
+      },
+      // Type scale, [size, lineHeight]. Body 16/24 (1.5), headings tighter.
+      fontSize: {
+        xs:   ['12px', '16px'],
+        sm:   ['14px', '20px'],
+        base: ['16px', '24px'],
+        lg:   ['18px', '28px'],
+        xl:   ['20px', '28px'],
+        '2xl':['24px', '32px'],
+        '3xl':['30px', '36px'],
+        '4xl':['36px', '40px'],
+        '5xl':['48px', '52px'],
+      },
+      // Airbnb-style shape language. Named radii on top of Tailwind's defaults.
+      borderRadius: {
+        button:    '8px',
+        card:      '16px',
+        'card-lg': '20px',
+        pill:      '9999px',
       },
     },
   },
