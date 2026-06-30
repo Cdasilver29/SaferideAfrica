@@ -1,314 +1,106 @@
-import React, { useEffect } from 'react'
-import {
-  View, Text, TouchableOpacity, StyleSheet, Platform, useWindowDimensions,
-} from 'react-native'
-import Animated, {
-  useSharedValue, useAnimatedStyle,
-  withRepeat, withTiming, Easing,
-} from 'react-native-reanimated'
-import { LinearGradient } from 'expo-linear-gradient'
-import { router } from 'expo-router'
-import { useTranslation } from 'react-i18next'
-import { ArrowRight, Star } from 'lucide-react-native'
-import { CLASSES } from '@/data/saferide'
-import { C, F, IS_WEB, MAX_W } from './constants'
-import { SectionIntro } from './SectionIntro'
-import { useTheme } from '@/lib/theme'
+import React from 'react';
+import { View, Text, useWindowDimensions } from 'react-native';
+import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
+import { ArrowRight } from 'lucide-react-native';
+import { CLASSES } from '@/data/saferide';
+import { Badge, Button, Icon, cn } from '@/components/ui';
+import { C, F, IS_WEB, MAX_W } from './constants';
+import { SectionIntro } from './SectionIntro';
 
-const PREVIEW_CODES = ['B-LIGHT', 'B-AUTO', 'EXECUTIVE']
+const PREVIEW_CODES = ['B-LIGHT', 'B-AUTO', 'EXECUTIVE'];
 
-// Maps a class code to its i18n key segment under home.premiumCourses.cards
 const CARD_KEY_MAP: Record<string, string> = {
-  'B-LIGHT':  'bLight',
-  'B-AUTO':   'bAuto',
-  'EXECUTIVE': 'executive',
-}
+  'B-LIGHT': 'bLight',
+  'B-AUTO': 'bAuto',
+  EXECUTIVE: 'executive',
+};
 
-// Which cards show a badge pill (translated text comes from i18n)
 const CARD_HAS_BADGE: Record<string, boolean> = {
-  'B-LIGHT':  true,
-  'B-AUTO':   false,
-  'EXECUTIVE': true,
-}
+  'B-LIGHT': true,
+  'B-AUTO': false,
+  EXECUTIVE: true,
+};
 
-// ─── Single premium card ──────────────────────────────────────────────────────
+// Clean premium card on the Card surface. Decorative effects (rotating gradient
+// border, mouse glow, shimmer) were dropped for restraint; Phase 12 reintroduces
+// tasteful, uniform entrance and hover motion.
 function PremiumCard({ cls, isNarrow }: { cls: (typeof CLASSES)[0]; isNarrow: boolean }) {
-  const { t } = useTranslation()
-  const cardKey = CARD_KEY_MAP[cls.code]
-  const hasBadge = CARD_HAS_BADGE[cls.code]
-  const lessonLine = t(`home.premiumCourses.cards.${cardKey}.lessonLine`)
-  const features = t(`home.premiumCourses.cards.${cardKey}.features`, { returnObjects: true }) as string[]
-
-  // ── Gradient border rotation (loops 0→360° every 8 s) ──────────────────────
-  const rotateAnim = useSharedValue(0)
-  useEffect(() => {
-    rotateAnim.value = withRepeat(
-      withTiming(360, { duration: 8000, easing: Easing.linear }),
-      -1,
-      false,
-    )
-  }, [])
-
-  const gradientWrapStyle = useAnimatedStyle(() => ({
-    position: 'absolute',
-    // Large square centered — covers all corners during rotation
-    width: 700,
-    height: 700,
-    left: '50%',
-    top: '50%',
-    transform: [
-      { translateX: -350 },
-      { translateY: -350 },
-      { rotate: `${rotateAnim.value}deg` },
-    ],
-  }))
-
-  // ── Web: mouse-tracking glow ────────────────────────────────────────────────
-  const mouseX  = useSharedValue(-999)
-  const mouseY  = useSharedValue(-999)
-  const glowOp  = useSharedValue(0)
-
-  const glowStyle = useAnimatedStyle(() => ({
-    position: 'absolute',
-    left: mouseX.value - 90,
-    top:  mouseY.value - 90,
-    width:  180,
-    height: 180,
-    borderRadius: 90,
-    opacity: glowOp.value,
-    backgroundColor: C.skyDeep,
-  }))
-
-  const webPointerProps = Platform.OS === 'web' ? {
-    onPointerMove: (e: any) => {
-      const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
-      mouseX.value = e.clientX - rect.left
-      mouseY.value = e.clientY - rect.top
-      glowOp.value = withTiming(0.12, { duration: 80 })
-    },
-    onPointerLeave: () => {
-      glowOp.value = withTiming(0, { duration: 250 })
-      mouseX.value = -999
-      mouseY.value = -999
-    },
-  } : {}
-
-  // ── Native: slow auto-rotating shimmer ─────────────────────────────────────
-  const shimmerAnim = useSharedValue(0)
-  useEffect(() => {
-    if (Platform.OS !== 'web') {
-      shimmerAnim.value = withRepeat(
-        withTiming(1, { duration: 3000, easing: Easing.inOut(Easing.ease) }),
-        -1,
-        true,
-      )
-    }
-  }, [])
-  const shimmerStyle = useAnimatedStyle(() => ({
-    position: 'absolute',
-    top: 0, left: 0, right: 0, bottom: 0,
-    opacity: shimmerAnim.value * 0.07,
-  }))
-
-  const isExec = cls.code === 'EXECUTIVE'
-  const T = useTheme()
+  const { t } = useTranslation();
+  const cardKey = CARD_KEY_MAP[cls.code];
+  const hasBadge = CARD_HAS_BADGE[cls.code];
+  const lessonLine = t(`home.premiumCourses.cards.${cardKey}.lessonLine`);
+  const features = t(`home.premiumCourses.cards.${cardKey}.features`, { returnObjects: true }) as string[];
+  const isExec = cls.code === 'EXECUTIVE';
 
   return (
-    // Outer border container — 2 px padding reveals rotating gradient as a border
-    <View style={[styles.borderOuter, isNarrow ? { width: '100%' } : { flex: 1 }]}>
-      {/* Rotating gradient — positioned absolutely, larger than card */}
-      <Animated.View style={[gradientWrapStyle, { pointerEvents: 'none' } as any]}>
-        <LinearGradient
-          colors={[C.skyDeep, C.skyLight, C.yellow, C.skyLight, C.skyDeep]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={{ flex: 1 }}
-        />
-      </Animated.View>
+    <View
+      className={cn(
+        isNarrow ? 'w-full' : 'flex-1',
+        'rounded-card border p-6',
+        isExec ? 'border-transparent bg-foreground dark:bg-card' : 'border-border bg-card',
+      )}
+    >
+      {hasBadge && (
+        <Badge variant="accent" className="mb-4">
+          {t(`home.premiumCourses.cards.${cardKey}.badge`)}
+        </Badge>
+      )}
 
-      {/* Inner card — covers center, leaving 2 px gradient border visible */}
-      <View
-        style={[styles.cardInner, { backgroundColor: isExec ? C.dark : T.card }]}
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        {...(webPointerProps as any)}
+      <Text style={{ fontFamily: F.semibold }} className={cn('mb-4 text-sm leading-5', isExec ? 'text-white/70' : 'text-muted-foreground')}>
+        {t('home.premiumCourses.pricingNote')}
+      </Text>
+
+      <Text style={{ fontFamily: F.bold }} className={cn('mb-1 text-lg', isExec ? 'text-white' : 'text-foreground')}>
+        {cls.name}
+      </Text>
+      <Text
+        style={{ fontFamily: F.medium, letterSpacing: 1 }}
+        className={cn('mb-5 text-xs uppercase', isExec ? 'text-white/60' : 'text-muted-foreground')}
       >
-        {/* Mouse glow (web) */}
-        {IS_WEB && (
-          <Animated.View style={[glowStyle, { pointerEvents: 'none' } as any]} />
-        )}
+        {lessonLine}
+      </Text>
 
-        {/* Native shimmer overlay */}
-        {Platform.OS !== 'web' && (
-          <Animated.View style={[shimmerStyle, { pointerEvents: 'none' } as any]}>
-            <LinearGradient
-              colors={[C.skyLight, C.skyDeep]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={StyleSheet.absoluteFillObject}
-            />
-          </Animated.View>
-        )}
+      <View className={cn('mb-4 h-px', isExec ? 'bg-white/15' : 'bg-border')} />
 
-        {/* Badge pill */}
-        {hasBadge && (
-          <View style={styles.badge}>
-            <Star size={10} color={C.dark} fill={C.dark} style={{ marginRight: 4 }} />
-            <Text style={[styles.badgeText, { color: C.dark }]}>{t(`home.premiumCourses.cards.${cardKey}.badge`)}</Text>
-          </View>
-        )}
-
-        {/* Price */}
-        <Text style={[styles.price, { color: isExec ? 'rgba(255,255,255,0.70)' : T.mutedForeground }]}>
-          {t('home.premiumCourses.pricingNote')}
-        </Text>
-
-        {/* Name + lesson line */}
-        <Text style={[styles.className, { color: isExec ? C.white : T.foreground }]}>
-          {cls.name}
-        </Text>
-        <Text style={[styles.lessonLine, { color: isExec ? 'rgba(255,255,255,0.55)' : T.mutedForeground }]}>
-          {lessonLine}
-        </Text>
-
-        {/* Divider */}
-        <View style={[styles.divider, { backgroundColor: isExec ? 'rgba(255,255,255,0.12)' : T.border }]} />
-
-        {/* Feature list */}
-        {features.map((feat) => (
-          <View key={feat} style={styles.featureRow}>
-            <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: isExec ? C.yellow : C.skyDeep, flexShrink: 0 }} />
-            <Text style={[styles.featureText, { color: isExec ? 'rgba(255,255,255,0.80)' : T.mutedForeground }]}>
-              {feat}
-            </Text>
-          </View>
-        ))}
-
-        {/* CTA button */}
-        <TouchableOpacity
-          onPress={() => router.push(`/classes/${cls.code}` as any)}
-          activeOpacity={0.85}
-          style={[
-            styles.cta,
-            { backgroundColor: isExec ? C.yellow : C.dark },
-          ]}
-        >
-          <Text style={[styles.ctaText, { color: isExec ? C.dark : C.white }]}>
-            {t('common.enrolNow')}
+      {features.map((feat) => (
+        <View key={feat} className="mb-2.5 flex-row items-center gap-2.5">
+          <View className={cn('h-1.5 w-1.5 rounded-pill', isExec ? 'bg-accent' : 'bg-primary')} />
+          <Text style={{ fontFamily: F.regular }} className={cn('flex-1 text-sm', isExec ? 'text-white/80' : 'text-muted-foreground')}>
+            {feat}
           </Text>
-          <ArrowRight size={16} color={isExec ? C.dark : C.white} />
-        </TouchableOpacity>
-      </View>
+        </View>
+      ))}
+
+      <Button variant="accent" className="mt-6 w-full" onPress={() => router.push(`/classes/${cls.code}` as any)}>
+        <Text style={{ fontFamily: F.bold }} className="text-base text-accent-foreground">{t('common.enrolNow')}</Text>
+        <Icon icon={ArrowRight} size="md" color={C.dark} />
+      </Button>
     </View>
-  )
+  );
 }
 
-// ─── Section ──────────────────────────────────────────────────────────────────
 export function PremiumCourseCards() {
-  const { t } = useTranslation()
-  const premiumClasses = CLASSES.filter((c) => PREVIEW_CODES.includes(c.code))
-  const T = useTheme()
-  const { width: winW } = useWindowDimensions()
-  const isNarrow = !IS_WEB || (IS_WEB && winW < 768)
+  const { t } = useTranslation();
+  const premiumClasses = CLASSES.filter((c) => PREVIEW_CODES.includes(c.code));
+  const { width: winW } = useWindowDimensions();
+  const isNarrow = !IS_WEB || (IS_WEB && winW < 768);
 
   return (
-    <View style={[styles.section, { backgroundColor: T.background }]}>
-      <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
+    <View className="bg-background px-5 py-14">
+      <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionIntro
           badge={t('home.premiumCourses.badge')}
           title={t('home.premiumCourses.title')}
           description={t('home.premiumCourses.description')}
         />
 
-        <View style={[styles.row, isNarrow ? { gap: 20 } : { flexDirection: 'row', gap: 20 }]}>
+        <View className={cn('gap-5', !isNarrow && 'flex-row')}>
           {premiumClasses.map((cls) => (
             <PremiumCard key={cls.code} cls={cls} isNarrow={isNarrow} />
           ))}
         </View>
       </View>
     </View>
-  )
+  );
 }
-
-const styles = StyleSheet.create({
-  section: {
-    paddingVertical: 56,
-    paddingHorizontal: 20,
-  },
-  row: {
-    flexDirection: 'column',
-  },
-  // 2 px padding = border thickness
-  borderOuter: {
-    padding: 2,
-    borderRadius: 20,
-    overflow: 'hidden',
-    marginBottom: IS_WEB ? 0 : 20,
-  },
-  cardInner: {
-    borderRadius: 18,
-    padding: IS_WEB ? 32 : 24,
-    overflow: 'hidden',
-  },
-  badge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    backgroundColor: C.yellow,
-    borderRadius: 6,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    marginBottom: 18,
-  },
-  badgeText: {
-    fontFamily: F.bold,
-    fontSize: 10,
-    letterSpacing: 1.5,
-    textTransform: 'uppercase',
-  },
-  price: {
-    fontFamily: F.semibold,
-    fontSize: 14,
-    lineHeight: 20,
-    marginBottom: 18,
-  },
-  className: {
-    fontFamily: F.bold,
-    fontSize: IS_WEB ? 18 : 16,
-    marginBottom: 4,
-  },
-  lessonLine: {
-    fontFamily: F.medium,
-    fontSize: 12,
-    letterSpacing: 1,
-    textTransform: 'uppercase',
-    marginBottom: 20,
-  },
-  divider: {
-    height: 1,
-    marginBottom: 18,
-  },
-  featureRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    marginBottom: 10,
-  },
-  featureText: {
-    fontFamily: F.regular,
-    fontSize: 14,
-    flex: 1,
-  },
-  cta: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    paddingVertical: 14,
-    borderRadius: 12,
-    marginTop: 24,
-  },
-  ctaText: {
-    fontFamily: F.bold,
-    fontSize: 15,
-  },
-})
