@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { MapPin } from 'lucide-react-native';
 import { BRANCHES, BRANCH_COORDS, type Branch } from '@/data/saferide';
@@ -10,8 +10,6 @@ interface BranchMapProps {
   onMarkerPress:  (id: string) => void;
   branches?:      readonly Branch[];
 }
-
-const mapHeight = Dimensions.get('window').width < 768 ? 280 : 420;
 
 // Nairobi Eastlands centroid — keeps the pins visible
 const INITIAL_REGION = {
@@ -25,6 +23,8 @@ const COLOR_ACTIVE   = C.yellow;   // accent
 const COLOR_INACTIVE = C.skyDeep;  // primary
 
 export function BranchMap({ activeBranchId, onMarkerPress, branches = BRANCHES }: BranchMapProps) {
+  const { width } = useWindowDimensions();
+  const mapHeight = width < 768 ? 280 : 420;
   return (
     <MapView
       style={{ width: '100%', height: mapHeight, borderRadius: 16 }}

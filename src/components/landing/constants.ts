@@ -1,7 +1,8 @@
-import { Dimensions, Platform } from 'react-native';
+import { Platform } from 'react-native';
 
-export const SCREEN_W = Dimensions.get('window').width;
-export const SCREEN_H = Dimensions.get('window').height;
+// Screen dimensions are intentionally not read at module scope: reading them at
+// import time is unsafe under static (Node) rendering. Components read live size
+// with useWindowDimensions() instead.
 export const IS_WEB = Platform.OS === 'web';
 export const MAX_W = 1100;
 

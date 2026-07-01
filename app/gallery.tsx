@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {
   View, Text, SafeAreaView, ScrollView,
-  Image, TouchableOpacity, Modal,
+  Image, TouchableOpacity, Modal, useWindowDimensions,
 } from 'react-native'
 import Animated, {
   useSharedValue, useAnimatedStyle,
@@ -11,7 +11,7 @@ import { X, ChevronLeft, ChevronRight, ZoomIn, Camera } from 'lucide-react-nativ
 import { useTranslation } from 'react-i18next'
 import Navbar  from '@/components/landing/Navbar'
 import Footer  from '@/components/landing/Footer'
-import { C, F, IS_WEB, MAX_W, GALLERY_IMGS, SCREEN_W, SCREEN_H } from '@/components/landing/constants'
+import { C, F, IS_WEB, MAX_W, GALLERY_IMGS } from '@/components/landing/constants'
 import { ResponsiveImage } from '@/components/ResponsiveImage'
 import { useTheme } from '@/lib/theme'
 
@@ -133,6 +133,7 @@ function EmptyGallery() {
 function GalleryGrid() {
   const T = useTheme()
   const { t } = useTranslation()
+  const { width: winW, height: winH } = useWindowDimensions()
   const items  = GALLERY_IMGS as GalleryItem[]
   const total  = items.length
 
@@ -190,7 +191,7 @@ function GalleryGrid() {
             <>
               <Image
                 source={getSource(items[modalIdx])}
-                style={{ width: SCREEN_W, height: SCREEN_H * 0.7, backgroundColor: 'rgba(1,165,240,0.08)' }}
+                style={{ width: winW, height: winH * 0.7, backgroundColor: 'rgba(1,165,240,0.08)' }}
                 resizeMode="contain"
                 progressiveRenderingEnabled
                 fadeDuration={150}

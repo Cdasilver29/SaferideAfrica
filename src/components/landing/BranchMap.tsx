@@ -1,7 +1,7 @@
 // Fallback — Metro resolves BranchMap.web.tsx (web) and BranchMap.native.tsx (iOS/Android)
 // before reaching this file. This stub exists only to satisfy TypeScript's module resolution
 // and provides a WebView fallback for any other platform.
-import { Dimensions, View } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { BRANCHES, BRANCH_COORDS, type Branch } from '@/data/saferide';
 
@@ -11,9 +11,9 @@ interface BranchMapProps {
   branches?:      readonly Branch[];
 }
 
-const mapHeight = Dimensions.get('window').width < 768 ? 280 : 420;
-
 export function BranchMap({ activeBranchId }: BranchMapProps) {
+  const { width } = useWindowDimensions();
+  const mapHeight = width < 768 ? 280 : 420;
   const branch = (BRANCHES as readonly typeof BRANCHES[number][]).find(b => b.id === activeBranchId);
   const coords = branch ? BRANCH_COORDS[branch.id] : BRANCH_COORDS['donholm'];
   const query  = coords

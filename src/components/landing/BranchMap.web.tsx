@@ -1,7 +1,7 @@
 import React from 'react';
 import { Map, Marker } from 'pigeon-maps';
 import { BRANCHES, BRANCH_COORDS, type Branch } from '@/data/saferide';
-import { Dimensions } from 'react-native';
+import { useWindowDimensions } from 'react-native';
 import { C } from '@/components/landing/constants';
 
 interface BranchMapProps {
@@ -10,12 +10,12 @@ interface BranchMapProps {
   branches?:      readonly Branch[];
 }
 
-const mapHeight = Dimensions.get('window').width < 768 ? 280 : 420;
-
 // Nairobi Eastlands centroid — keeps the pins visible at zoom 12
 const CENTER: [number, number] = [-1.286, 36.890];
 
 export function BranchMap({ activeBranchId, onMarkerPress, branches = BRANCHES }: BranchMapProps) {
+  const { width } = useWindowDimensions();
+  const mapHeight = width < 768 ? 280 : 420;
   return (
     <div style={{ height: mapHeight, borderRadius: 16, overflow: 'hidden' }}>
       <Map height={mapHeight} defaultCenter={CENTER} defaultZoom={12}>

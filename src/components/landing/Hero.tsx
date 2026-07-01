@@ -6,7 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { ChevronDown, ArrowRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { C, F, IS_WEB, SCREEN_H, HERO_SRC } from './constants';
+import { C, F, IS_WEB, HERO_SRC } from './constants';
 import { KenBurnsBackground } from '../animations/KenBurnsBackground';
 import { Button, Icon } from '@/components/ui';
 import { useReduceMotion } from '@/hooks/useReduceMotion';
@@ -148,7 +148,7 @@ interface HeroProps {
 
 export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
   const { t, i18n } = useTranslation();
-  const { width: winW } = useWindowDimensions();
+  const { width: winW, height: winH } = useWindowDimensions();
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
 
   const words = t('hero.headlineWords', { returnObjects: true }) as string[];
@@ -156,7 +156,7 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
   const accentFrom = Math.max(0, visibleWords.length - 2);
   const subheadline = t('hero.subheadline');
 
-  const heroH = IS_WEB ? 580 : SCREEN_H * 0.8;
+  const heroH = IS_WEB ? 580 : winH * 0.8;
 
   return (
     <View style={{ height: heroH }} className="overflow-hidden">
