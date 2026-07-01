@@ -137,13 +137,18 @@ export default function Courses() {
 
         <SeriesTabs active={activeSeries} onChange={setActiveSeries} />
 
-        {/* Series image */}
-        <Image
-          source={activeMeta.image}
-          accessibilityLabel={`${activeMeta.label}: ${activeMeta.subtitle}`}
-          resizeMode="cover"
-          className="mb-4 h-[180px] w-full rounded-card"
-        />
+        {/* Series image. Sized container with the Image filling it via explicit
+            inline width/height: react-native-web injects the source's intrinsic
+            pixel height as an inline style on the wrapper, which beats NativeWind
+            h-/w- classes. Explicit inline dimensions stop that injection. */}
+        <View className="mb-4 overflow-hidden rounded-card" style={{ height: 180 }}>
+          <Image
+            source={activeMeta.image}
+            accessibilityLabel={`${activeMeta.label}: ${activeMeta.subtitle}`}
+            resizeMode="cover"
+            style={{ width: '100%', height: '100%' }}
+          />
+        </View>
 
         {/* Series subtitle */}
         <View className="mb-4">

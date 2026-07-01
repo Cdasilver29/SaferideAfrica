@@ -66,14 +66,20 @@ export default function ClassDetailPage() {
           <Text style={{ color: C.blue, fontFamily: F.semibold, fontSize: 14 }}>Back</Text>
         </TouchableOpacity>
 
-        {/* Series image */}
+        {/* Series image. A fixed 16:9 container with the Image filling it via
+            explicit inline width/height: react-native-web injects the source's
+            intrinsic pixel height onto the Image wrapper, and an explicit height
+            overrides aspect-ratio, so the image stretched full natural height.
+            Pinning it inside a sized container keeps it at 16:9, never taller. */}
         {seriesImage && (
-          <Image
-            source={seriesImage}
-            accessibilityLabel={`${cls.name} vehicle`}
-            resizeMode="cover"
-            style={{ width: '100%', aspectRatio: 16 / 9, borderRadius: 20, marginBottom: 24 }}
-          />
+          <View style={{ width: '100%', aspectRatio: 16 / 9, borderRadius: 20, overflow: 'hidden', marginBottom: 24 }}>
+            <Image
+              source={seriesImage}
+              accessibilityLabel={`${cls.name} vehicle`}
+              resizeMode="cover"
+              style={{ width: '100%', height: '100%' }}
+            />
+          </View>
         )}
 
         {/* Header */}
