@@ -240,7 +240,7 @@ export const SERVICES: ServiceItem[] = [
     name:      'Defensive Driving',
     iconName:  'Shield',
     shortDesc: 'Hazard perception, emergency braking, and space management for every Kenyan road condition.',
-    fullDesc:  'Our Defensive Driving course trains you to anticipate and respond to road hazards before they become accidents. You master hazard perception, proper following distances, emergency braking, evasive manoeuvres, and night-driving safety. The course is conducted on real Nairobi roads — including the Expressway and city streets — giving you skills that could save your life and the lives of others.',
+    fullDesc:  'Our Defensive Driving course trains you to anticipate and respond to road hazards before they become accidents. You master hazard perception, proper following distances, emergency braking, evasive manoeuvres, and night-driving safety. The course is conducted on real Nairobi roads, including the Expressway and city streets, giving you skills that could save your life and the lives of others.',
   },
   {
     code:      'SMART_DL',
@@ -268,7 +268,7 @@ export const SERVICES: ServiceItem[] = [
     name:      'Express Way / Super Highway Special',
     iconName:  'Navigation',
     shortDesc: 'Specialist training for the Nairobi Expressway and super-highways at safe high speeds.',
-    fullDesc:  "Kenya's expressways demand different skills from city driving — high speeds, lane discipline, merge management, and safe exit procedures. Our Expressway Special gives you supervised practice on the Nairobi Expressway and Thika Super Highway, building the confidence to drive safely on Kenya's fastest roads.",
+    fullDesc:  "Kenya's expressways demand different skills from city driving, high speeds, lane discipline, merge management, and safe exit procedures. Our Expressway Special gives you supervised practice on the Nairobi Expressway and Thika Super Highway, building the confidence to drive safely on Kenya's fastest roads.",
   },
   {
     code:      'BEGINNER',
@@ -289,7 +289,7 @@ export const SERVICES: ServiceItem[] = [
     name:      'Road Test Preparation',
     iconName:  'CheckCircle',
     shortDesc: 'Intensive NTSA test simulation so you know exactly what examiners look for on exam day.',
-    fullDesc:  'Our Road Test Preparation sessions mirror the exact NTSA driving test — you practice the same manoeuvres, routes, and assessment criteria examiners use. We cover parallel parking, three-point turns, emergency stops, road observation, and examiner communication. Students who complete this programme achieve a 98% first-attempt pass rate.',
+    fullDesc:  'Our Road Test Preparation sessions mirror the exact NTSA driving test, you practice the same manoeuvres, routes, and assessment criteria examiners use. We cover parallel parking, three-point turns, emergency stops, road observation, and examiner communication. Students who complete this programme achieve a 98% first-attempt pass rate.',
   },
   {
     code:      'CORPORATE',
@@ -390,7 +390,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
         type: 'list',
         items: [
           'Original National ID or valid Kenyan passport',
-          'Valid Provisional Driving Licence (PDL) — obtained after passing the NTSA theory test',
+          'Valid Provisional Driving Licence (PDL), obtained after passing the NTSA theory test',
           'Completed NTSA TIMS online application (tims.ntsa.go.ke)',
           'Passport-sized photograph (if not captured biometrically at the Huduma Centre)',
         ],
@@ -402,9 +402,9 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       {
         type: 'list',
         items: [
-          'Step 1 — Register on the NTSA TIMS portal at tims.ntsa.go.ke using your National ID number and create an account.',
-          'Step 2 — Log in and navigate to "Driving Licence Application." Select your vehicle class (Class B for light vehicles is the most common for new drivers).',
-          'Step 3 — Fill in your personal details and upload the required documents. Double-check that your name matches your National ID exactly.',
+          'Step 1, Register on the NTSA TIMS portal at tims.ntsa.go.ke using your National ID number and create an account.',
+          'Step 2, Log in and navigate to "Driving Licence Application." Select your vehicle class (Class B for light vehicles is the most common for new drivers).',
+          'Step 3, Fill in your personal details and upload the required documents. Double-check that your name matches your National ID exactly.',
           'Step 4: Book a biometric appointment at one of the 15 Huduma Centres nationwide. Nairobi options include Huduma Centre GPO, Westlands, and Embakasi.',
           'Step 5: Attend your appointment for fingerprinting and photograph capture. Arrive with your original National ID.',
           'Step 6: Collect your Smart DL, typically ready within 5 to 10 working days from your biometric appointment.',
@@ -417,11 +417,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       {
         type: 'list',
         items: [
-          'Applying without a valid PDL — your PDL must be current and match your applied vehicle class.',
-          'Selecting the wrong vehicle class — confirm with your instructor whether you need Class B (light vehicles), Class C (heavy commercial), or another category.',
-          'Outstanding NTSA fines — unpaid penalties can block your application. Check and clear any fines on the TIMS portal first.',
-          'Expired National ID — ensure your ID is valid. An expired ID will cause your biometric appointment to fail.',
-          'Incorrect M-Pesa payment details — always use your own ID number as the account reference, not your phone number.',
+          'Applying without a valid PDL, your PDL must be current and match your applied vehicle class.',
+          'Selecting the wrong vehicle class, confirm with your instructor whether you need Class B (light vehicles), Class C (heavy commercial), or another category.',
+          'Outstanding NTSA fines, unpaid penalties can block your application. Check and clear any fines on the TIMS portal first.',
+          'Expired National ID, ensure your ID is valid. An expired ID will cause your biometric appointment to fail.',
+          'Incorrect M-Pesa payment details, always use your own ID number as the account reference, not your phone number.',
         ],
       },
       {
@@ -448,7 +448,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     body: [
       {
         type: 'paragraph',
-        text: "Kenya recorded 5,009 road fatalities in 2025 — a 5.5% increase from 2024. Pedestrians alone accounted for 1,889 of those deaths. These are not just statistics; they are preventable tragedies. Defensive driving is the discipline that separates drivers who navigate Kenyan roads safely from those who become part of those numbers.",
+        text: "Kenya recorded 5,009 road fatalities in 2025, a 5.5% increase from 2024. Pedestrians alone accounted for 1,889 of those deaths. These are not just statistics; they are preventable tragedies. Defensive driving is the discipline that separates drivers who navigate Kenyan roads safely from those who become part of those numbers.",
       },
       {
         type: 'heading',
@@ -456,7 +456,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'Most rear-end collisions happen because drivers follow too closely. The three-second rule is simple: pick a fixed point on the road ahead — a sign, a pothole, a marking. Count the seconds between the car in front crossing it and you reaching it. If it is less than three, you are too close. On wet roads, in poor visibility, or at night, extend this to five seconds minimum. On Nairobi\'s most congested routes — Thika Road, Mombasa Road, Ngong Road — matatus and boda bodas will test this buffer every few minutes.',
+        text: 'Most rear-end collisions happen because drivers follow too closely. The three-second rule is simple: pick a fixed point on the road ahead, a sign, a pothole, a marking. Count the seconds between the car in front crossing it and you reaching it. If it is less than three, you are too close. On wet roads, in poor visibility, or at night, extend this to five seconds minimum. On Nairobi\'s most congested routes, Thika Road, Mombasa Road, Ngong Road, matatus and boda bodas will test this buffer every few minutes.',
       },
       {
         type: 'heading',
@@ -464,7 +464,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'New drivers fixate on the car directly ahead. Experienced defensive drivers scan 12 to 15 seconds down the road — roughly 200 to 300 metres at 60 km/h. This gives you reaction time for sudden stops, pedestrians crossing mid-block, debris, animals, or potholes. At Safe Ride Africa, our instructors train this habit from the very first practical lesson — it is the single most effective way to avoid emergency braking.',
+        text: 'New drivers fixate on the car directly ahead. Experienced defensive drivers scan 12 to 15 seconds down the road, roughly 200 to 300 metres at 60 km/h. This gives you reaction time for sudden stops, pedestrians crossing mid-block, debris, animals, or potholes. At Safe Ride Africa, our instructors train this habit from the very first practical lesson, it is the single most effective way to avoid emergency braking.',
       },
       {
         type: 'heading',
@@ -472,7 +472,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'No mirror setup eliminates every blind spot. Before changing lanes, overtaking, or pulling out from a junction, physically turn your head to check. This takes under one second. Motorcyclists are the highest-risk hazard in blind spots — boda bodas travel fast, fill gaps quickly, and are difficult to detect in mirrors, especially at night or in heavy rain.',
+        text: 'No mirror setup eliminates every blind spot. Before changing lanes, overtaking, or pulling out from a junction, physically turn your head to check. This takes under one second. Motorcyclists are the highest-risk hazard in blind spots, boda bodas travel fast, fill gaps quickly, and are difficult to detect in mirrors, especially at night or in heavy rain.',
       },
       {
         type: 'heading',
@@ -480,7 +480,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'paragraph',
-        text: "The posted speed limit is a legal maximum, not a recommended target. On Nairobi's unpaved estate roads, during the long rains, or on the Nakuru and Mombasa highways in early morning fog, reducing speed by 20 to 30 km/h below the limit is the correct decision. NTSA data consistently identifies speed as a contributing factor in the majority of fatal crashes. Our defensive driving module at Safe Ride teaches you to read the road — not just the speedometer.",
+        text: "The posted speed limit is a legal maximum, not a recommended target. On Nairobi's unpaved estate roads, during the long rains, or on the Nakuru and Mombasa highways in early morning fog, reducing speed by 20 to 30 km/h below the limit is the correct decision. NTSA data consistently identifies speed as a contributing factor in the majority of fatal crashes. Our defensive driving module at Safe Ride teaches you to read the road, not just the speedometer.",
       },
       {
         type: 'heading',
@@ -488,7 +488,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'paragraph',
-        text: "Kenya's pedestrian fatality rate is among the highest in sub-Saharan Africa. Near bus stages, schools, open-air markets, and informal settlements, expect unpredictable movement at all times. Slow down before pedestrian crossings even when you have right of way. At night, assume pedestrians may step out anywhere — very few Nairobi roads outside the CBD have adequate lighting.",
+        text: "Kenya's pedestrian fatality rate is among the highest in sub-Saharan Africa. Near bus stages, schools, open-air markets, and informal settlements, expect unpredictable movement at all times. Slow down before pedestrian crossings even when you have right of way. At night, assume pedestrians may step out anywhere, very few Nairobi roads outside the CBD have adequate lighting.",
       },
       {
         type: 'heading',
@@ -497,7 +497,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       {
         type: 'list',
         items: [
-          'Hazard perception training — identifying risks before they become emergencies',
+          'Hazard perception training, identifying risks before they become emergencies',
           'Emergency braking and vehicle control under panic conditions',
           'Night driving and low-visibility techniques',
           'Managing road rage and aggressive driver interactions',
@@ -506,7 +506,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'callout',
-        text: "Safe Ride Africa's defensive driving module is included in every B-Light, B-Auto, C-Light, and BC full course. It is the training behind our 98% NTSA first-attempt pass rate — and more importantly, it keeps our graduates safe long after the test.",
+        text: "Safe Ride Africa's defensive driving module is included in every B-Light, B-Auto, C-Light, and BC full course. It is the training behind our 98% NTSA first-attempt pass rate, and more importantly, it keeps our graduates safe long after the test.",
       },
     ],
   },
@@ -520,7 +520,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     body: [
       {
         type: 'paragraph',
-        text: "When most Kenyans decide to get their driving licence, the first question is simple: which class? The two most popular options at Safe Ride Africa are Class B — Light (Manual) and Class B — Auto. Both cover the same NTSA syllabus and road test, but the vehicle type and long-term implications differ significantly.",
+        text: "When most Kenyans decide to get their driving licence, the first question is simple: which class? The two most popular options at Safe Ride Africa are Class B, Light (Manual) and Class B, Auto. Both cover the same NTSA syllabus and road test, but the vehicle type and long-term implications differ significantly.",
       },
       {
         type: 'heading',
@@ -528,7 +528,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'Class B — Light (Manual) trains you on a dual-control manual transmission car, the type used in most Kenyan taxis, personal cars, PSV minibuses, and commercial fleets. Class B — Auto trains you on an automatic transmission vehicle, increasingly common in newer private cars and imported second-hand vehicles from Japan. Both classes include NTSA theory preparation, a defensive driving module, the NTSA road test, and Smart DL application guidance.',
+        text: 'Class B, Light (Manual) trains you on a dual-control manual transmission car, the type used in most Kenyan taxis, personal cars, PSV minibuses, and commercial fleets. Class B, Auto trains you on an automatic transmission vehicle, increasingly common in newer private cars and imported second-hand vehicles from Japan. Both classes include NTSA theory preparation, a defensive driving module, the NTSA road test, and Smart DL application guidance.',
       },
       {
         type: 'heading',
@@ -537,8 +537,8 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       {
         type: 'list',
         items: [
-          'B — Light (Manual): current pricing available at enrollment, includes PDL, theory, road test, and Smart DL guidance',
-          'B — Auto: current pricing available at enrollment, same package, automatic vehicle',
+          'B, Light (Manual): current pricing available at enrollment, includes PDL, theory, road test, and Smart DL guidance',
+          'B, Auto: current pricing available at enrollment, same package, automatic vehicle',
           'Executive Class: current pricing available at enrollment, private lessons, fully flexible, home pickup on request',
         ],
       },
@@ -548,11 +548,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'If you plan to drive a personal car, work in ride-hailing (Uber/Bolt), or enter the transport industry, Class B — Light (Manual) gives you the broadest flexibility. The majority of vehicles on Kenyan roads are manual. Crucially, a manual licence also permits you to drive automatic vehicles — but not the other way around.',
+        text: 'If you plan to drive a personal car, work in ride-hailing (Uber/Bolt), or enter the transport industry, Class B, Light (Manual) gives you the broadest flexibility. The majority of vehicles on Kenyan roads are manual. Crucially, a manual licence also permits you to drive automatic vehicles, but not the other way around.',
       },
       {
         type: 'paragraph',
-        text: 'Class B — Auto is the right choice if you specifically intend to drive an automatic vehicle and are not comfortable with manual gear changes. It is also popular with students who have physical limitations that make a clutch difficult to operate. Note that an automatic-only licence does NOT permit you to drive a manual vehicle — if you later want to switch, you would need to retrain and retest.',
+        text: 'Class B, Auto is the right choice if you specifically intend to drive an automatic vehicle and are not comfortable with manual gear changes. It is also popular with students who have physical limitations that make a clutch difficult to operate. Note that an automatic-only licence does NOT permit you to drive a manual vehicle, if you later want to switch, you would need to retrain and retest.',
       },
       {
         type: 'heading',
@@ -568,11 +568,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'NTSA has expanded the licence class system beyond the old BCE categories to more specialised categories tailored to specific vehicle types. If you are applying for a commercial, PSV, or heavy-vehicle licence, speak to our instructors — we offer C-Light, BC, D/PSV, and BPSV courses as well.',
+        text: 'NTSA has expanded the licence class system beyond the old BCE categories to more specialised categories tailored to specific vehicle types. If you are applying for a commercial, PSV, or heavy-vehicle licence, speak to our instructors, we offer C-Light, BC, D/PSV, and BPSV courses as well.',
       },
       {
         type: 'callout',
-        text: 'Our recommendation for most first-time Kenyan drivers: Class B — Light (Manual). The flexibility across every vehicle type on Kenyan roads is unmatched. Not sure? Call us on 0746 097 033 and we will help you choose at no obligation.',
+        text: 'Our recommendation for most first-time Kenyan drivers: Class B, Light (Manual). The flexibility across every vehicle type on Kenyan roads is unmatched. Not sure? Call us on 0746 097 033 and we will help you choose at no obligation.',
       },
     ],
   },
