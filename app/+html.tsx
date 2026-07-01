@@ -17,6 +17,16 @@ const FONT_AND_RESET_CSS = `
 body { font-family: 'Manrope-Regular', system-ui, sans-serif; }
 `;
 
+// Registers the service worker in the browser only. This string is inert markup
+// during Node static rendering; it runs when the page loads in a browser.
+const SW_REGISTER = `
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('/sw.js').catch(function () {});
+  });
+}
+`;
+
 export default function Root({ children }: PropsWithChildren) {
   return (
     <html lang="en">
@@ -27,6 +37,13 @@ export default function Root({ children }: PropsWithChildren) {
 
         <meta name="theme-color" content="#01a5f0" />
         <meta name="author" content="Safe Ride Africa Driving School" />
+
+        {/* Installable PWA: manifest + Apple standalone hints */}
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Safe Ride" />
         <meta
           name="keywords"
           content="driving school Nairobi, NTSA driving lessons Kenya, driving license Nairobi, Safe Ride Africa, defensive driving, Smart DL Kenya, driving school near me"
@@ -49,6 +66,9 @@ export default function Root({ children }: PropsWithChildren) {
         <ScrollViewStyleReset />
 
         <style dangerouslySetInnerHTML={{ __html: FONT_AND_RESET_CSS }} />
+
+        {/* Register the service worker for offline shell + installability */}
+        <script dangerouslySetInnerHTML={{ __html: SW_REGISTER }} />
       </head>
       <body>{children}</body>
     </html>
