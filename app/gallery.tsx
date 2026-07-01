@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {
   View, Text, SafeAreaView, ScrollView,
-  Image, TouchableOpacity, Modal, Platform,
+  Image, TouchableOpacity, Modal,
 } from 'react-native'
 import Animated, {
   useSharedValue, useAnimatedStyle,
@@ -12,7 +12,12 @@ import { useTranslation } from 'react-i18next'
 import Navbar  from '@/components/landing/Navbar'
 import Footer  from '@/components/landing/Footer'
 import { C, F, IS_WEB, MAX_W, GALLERY_IMGS, SCREEN_W, SCREEN_H } from '@/components/landing/constants'
+import { ResponsiveImage } from '@/components/ResponsiveImage'
 import { useTheme } from '@/lib/theme'
+
+// Thumbnails render in a 3-column grid: ~31vw each on mobile, ~360px within the
+// 1100 container on desktop. This is where the biggest 4G saving lands.
+const GALLERY_THUMB_SIZES = '(max-width: 768px) 31vw, 360px'
 
 type GalleryItem = { uri: string; caption: string } | { src: any; caption: string }
 function getSource(item: GalleryItem) {
@@ -70,13 +75,11 @@ function AnimatedPhotoCard({
   return (
     <Animated.View style={[{ borderRadius: 10, overflow: 'hidden', marginBottom: 8 }, animStyle]}>
       <TouchableOpacity activeOpacity={0.88} onPress={onPress} style={{ borderRadius: 10, overflow: 'hidden' }}>
-        <Image
+        <ResponsiveImage
           source={getSource(item)}
+          alt={item.caption}
+          sizes={GALLERY_THUMB_SIZES}
           style={{ width: '100%', height: IMG_H, backgroundColor: 'rgba(1,165,240,0.10)' }}
-          resizeMode="cover"
-          progressiveRenderingEnabled
-          fadeDuration={200}
-          {...(Platform.OS === 'web' ? { loading: 'lazy' } as any : {})}
         />
         <View style={{ position: 'absolute', top: 6, right: 6, backgroundColor: 'rgba(34,31,32,0.45)', borderRadius: 12, padding: 4 }}>
           <ZoomIn size={11} color={C.white} />

@@ -1,11 +1,15 @@
 import React from 'react';
-import { View, Text, Image, Pressable, useWindowDimensions } from 'react-native';
+import { View, Text, Pressable, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { ArrowRight } from 'lucide-react-native';
 import { C, F, IS_WEB, MAX_W, SERVICES_IMG } from './constants';
 import { Button, Card, Icon } from '@/components/ui';
+import { ResponsiveImage } from '@/components/ResponsiveImage';
 import { SectionIntro } from './SectionIntro';
+
+// Services photo: capped ~400px column on wide desktop, full width otherwise.
+const SERVICES_SIZES = '(max-width: 860px) 100vw, 400px';
 
 const PREVIEW_SERVICES = [
   { code: 'DEFENSIVE', i18nKey: 'defensive' },
@@ -57,7 +61,7 @@ export default function ServicesPreview() {
             {/* Photo + CTA */}
             <View style={{ width: photoW }} className="shrink-0">
               <View className="min-h-[420px] flex-1 overflow-hidden rounded-card-lg bg-primary/5">
-                <Image source={SERVICES_IMG} style={{ position: 'absolute', inset: 0 } as any} resizeMode="cover" fadeDuration={200} />
+                <ResponsiveImage source={SERVICES_IMG} alt={t('home.servicesPreview.title')} sizes={SERVICES_SIZES} fill />
               </View>
               <View className="mb-5 mt-4 h-1 w-16 rounded-pill bg-accent" />
               <SeeAllButton align="start" />
@@ -77,12 +81,12 @@ export default function ServicesPreview() {
           </View>
         ) : (
           <>
-            <Image
-              source={SERVICES_IMG}
-              style={{ width: '100%', height: IS_WEB ? Math.min(320, winW * 0.45) : 260, borderRadius: 16, marginBottom: 28 }}
-              resizeMode="cover"
-              fadeDuration={200}
-            />
+            <View
+              className="overflow-hidden rounded-card"
+              style={{ width: '100%', height: IS_WEB ? Math.min(320, winW * 0.45) : 260, marginBottom: 28 }}
+            >
+              <ResponsiveImage source={SERVICES_IMG} alt={t('home.servicesPreview.title')} sizes="100vw" fill />
+            </View>
             <SectionIntro badge={t('home.servicesPreview.badge')} title={t('home.servicesPreview.title')} />
             <View className="mb-9 gap-3.5">
               {PREVIEW_SERVICES.map((svc) => (

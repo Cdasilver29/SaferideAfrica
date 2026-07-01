@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, SafeAreaView, Image, Pressable, Linking, useWindowDimensions } from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, Pressable, Linking, useWindowDimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import {
   CheckCircle, Asterisk, ArrowRight, Eye, Target, Heart,
@@ -20,6 +20,7 @@ import Footer from '@/components/landing/Footer';
 import { COMPANY, MANAGEMENT, SOCIALS, STATS as SAFERIDE_STATS } from '@/data/saferide';
 import { C, F, IS_WEB, MAX_W, ABOUT_OPENER_IMG } from '@/components/landing/constants';
 import { Button, Card, Icon, cn } from '@/components/ui';
+import { ResponsiveImage } from '@/components/ResponsiveImage';
 import { useTheme } from '@/lib/theme';
 
 // ─── Social brand icons (Lucide has no brand glyphs, so hand-drawn SVG) ──────────
@@ -124,7 +125,7 @@ function AboutOpener() {
         <View
           style={[{ width: '100%', height: IS_WEB ? 420 : 260, overflow: 'hidden', marginBottom: 16 }, IS_WEB ? ({ clipPath: 'polygon(0 0, 100% 0, 100% 88%, 92% 100%, 0 100%)' } as any) : { borderRadius: 12 }]}
         >
-          <Image source={ABOUT_OPENER_IMG} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
+          <ResponsiveImage source={ABOUT_OPENER_IMG} alt={t('aboutPage.pageTitle')} sizes="(max-width: 768px) 100vw, 720px" fill />
         </View>
 
         {/* Stats line */}
