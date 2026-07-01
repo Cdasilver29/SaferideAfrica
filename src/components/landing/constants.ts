@@ -136,10 +136,10 @@ export const INSTRUCTOR_IMGS = IS_WEB
 // Note: SERVICES and CLASSES/COURSES data live in src/data/saferide.ts
 
 export const FAQS = [
-  { q: 'How long does it take to complete a driving course?', a: 'Most students complete our standard course in 3–4 weeks. The duration depends on the package chosen and your availability for lessons.' },
+  { q: 'How long does it take to complete a driving course?', a: 'Most students complete our standard course in 3 to 4 weeks. The duration depends on the package chosen and your availability for lessons.' },
   { q: 'Are your instructors NTSA certified?', a: 'Yes. All Safe Ride Africa instructors hold valid NTSA certification and undergo continuous professional development.' },
   { q: 'Do you help with the NTSA Smart DL application?', a: 'Absolutely. We guide every student through the full NTSA Smart DL application and TIMS account setup at no extra charge.' },
-  { q: 'What is the pass rate for your students?', a: 'We are proud of a 98% NTSA first-attempt pass rate — well above the national average — thanks to our intensive test preparation.' },
+  { q: 'What is the pass rate for your students?', a: 'We are proud of a 98% NTSA first-attempt pass rate, well above the national average, thanks to our intensive test preparation.' },
   { q: 'Do you offer refresher courses?', a: 'Yes. We offer flexible refresher programmes tailored to drivers who want to rebuild confidence or prepare for retesting.' },
 ];
 

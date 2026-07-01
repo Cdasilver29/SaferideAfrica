@@ -70,7 +70,7 @@ export default function CoursesPage() {
         <PageHero overline={t('courses.overline')} title={t('coursesPage.pageTitle')} />
         {/* Top 3 classes — same card layout as home page */}
         <CoursesPreview />
-        {/* Full course catalogue: series tabs, class rows, payment notice, refresher */}
+        {/* Full course catalogue: series tabs, class rows, refresher */}
         <Courses />
         <ContactCTA />
         <Footer />

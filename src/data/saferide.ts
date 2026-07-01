@@ -339,8 +339,8 @@ export const SOCIALS = {
 // ─── Company story (two paragraphs for the About opener) ─────────────────────
 
 export const COMPANY_STORY = [
-  `Safe Ride Africa Driving School was founded in ${COMPANY.registration.foundedYear} with a single conviction: that every Kenyan driver deserves world-class training, not just a piece of paper. Starting from a single Nairobi location, the school quickly gained a reputation for rigorous instruction, genuine care for students, and an NTSA-aligned curriculum that prepared learners for real roads — not just the test track.`,
-  `In ${COMPANY.registration.incorporatedDate.split(' ').pop()}, the school was formally incorporated as ${COMPANY.legalName} (PVT ${COMPANY.registration.pvt}), formalising five years of growth into a registered institution. Today we operate ${STATS.branches} branches across Nairobi — from Buruburu (HQ) to Kayole PCEA — and have trained over 2,100 licensed drivers.`,
+  `Safe Ride Africa Driving School was founded in ${COMPANY.registration.foundedYear} with a single conviction: that every Kenyan driver deserves world-class training, not just a piece of paper. Starting from a single Nairobi location, the school quickly gained a reputation for rigorous instruction, genuine care for students, and an NTSA-aligned curriculum that prepared learners for real roads, not just the test track.`,
+  `In ${COMPANY.registration.incorporatedDate.split(' ').pop()}, the school was formally incorporated as ${COMPANY.legalName} (PVT ${COMPANY.registration.pvt}), formalising five years of growth into a registered institution. Today we operate ${STATS.branches} branches across Nairobi, from Buruburu (HQ) to Kayole PCEA, and have trained over 2,100 licensed drivers.`,
 ] as const;
 
 // ─── Blog articles ────────────────────────────────────────────────────────────
