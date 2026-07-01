@@ -49,15 +49,19 @@ export default function Testimonials() {
   }, [reduceMotion]);
 
   const item = items[active] ?? items[0];
-  const photoW = IS_WEB ? 220 : 150;
-  const photoH = IS_WEB ? 290 : 190;
+  // Key layout on actual viewport width, not the IS_WEB platform flag (which is
+  // true on mobile web too and wrongly served the desktop row). Matches the
+  // winW < 768 breakpoint used by CoursesPreview and PremiumCourseCards.
+  const isWide = IS_WEB && winW >= 768;
+  const photoW = isWide ? 220 : 150;
+  const photoH = isWide ? 290 : 190;
 
   return (
     <View className="bg-background px-6 py-[72px]">
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionIntro badge={t('testimonials.overline')} title={t('testimonials.heading')} />
 
-        <View className={cn('items-stretch', IS_WEB ? 'flex-row items-center gap-[72px]' : 'gap-6')}>
+        <View className={cn('items-stretch', isWide ? 'flex-row items-center gap-[72px]' : 'gap-6')}>
           {/* Initials avatar (portraits removed for consent, Phase 13) */}
           <View
             className="self-center overflow-hidden rounded-card border-4 border-white bg-white"
