@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, Platform } from 'react-native';
 import { ArrowLeft, CheckCircle } from 'lucide-react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { CLASSES } from '../../../src/data/saferide';
+import { CLASSES, CLASS_SERIES } from '../../../src/data/saferide';
 import { C, F, IS_WEB, MAX_W } from '../../../src/components/landing/constants';
 import { useTheme } from '../../../src/lib/theme';
 import { useEnrollModal } from '../../../src/context/EnrollModalContext';
@@ -22,6 +22,7 @@ export default function ClassDetailPage() {
   const { open: openEnroll } = useEnrollModal();
 
   const cls = CLASSES.find(c => c.code === code);
+  const seriesImage = cls ? CLASS_SERIES.find(s => s.code === cls.series)?.image : undefined;
 
   if (!cls) {
     return (
@@ -52,6 +53,16 @@ export default function ClassDetailPage() {
           <ArrowLeft size={22} color={C.blue} />
           <Text style={{ color: C.blue, fontFamily: F.semibold, fontSize: 14 }}>Back</Text>
         </TouchableOpacity>
+
+        {/* Series image */}
+        {seriesImage && (
+          <Image
+            source={seriesImage}
+            accessibilityLabel={`${cls.name} vehicle`}
+            resizeMode="cover"
+            style={{ width: '100%', aspectRatio: 16 / 9, borderRadius: 20, marginBottom: 24 }}
+          />
+        )}
 
         {/* Header */}
         <View style={{ backgroundColor: C.dark, borderRadius: 20, padding: 28, marginBottom: 24 }}>

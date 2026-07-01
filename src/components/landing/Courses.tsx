@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  View, Text, Pressable, ScrollView, LayoutAnimation, Platform, UIManager,
+  View, Text, Image, Pressable, ScrollView, LayoutAnimation, Platform, UIManager,
 } from 'react-native';
 import { router } from 'expo-router';
 import { ChevronDown, ChevronUp } from 'lucide-react-native';
@@ -8,7 +8,8 @@ import { useTranslation } from 'react-i18next';
 import { CLASS_SERIES, REFRESHER_LESSONS, SeriesCode, DriveClass, CLASSES } from '@/data/saferide';
 import { useEnrollModal } from '@/context/EnrollModalContext';
 import { Button, Card, Icon, cn } from '@/components/ui';
-import { C, F, IS_WEB, MAX_W } from './constants';
+import { useTheme } from '@/lib/theme';
+import { F, IS_WEB, MAX_W } from './constants';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -19,6 +20,7 @@ function ClassRow({ cls }: { cls: DriveClass }) {
   const [expanded, setExpanded] = useState(false);
   const { t } = useTranslation();
   const { open } = useEnrollModal();
+  const Th = useTheme();
 
   const toggle = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -31,7 +33,7 @@ function ClassRow({ cls }: { cls: DriveClass }) {
         <Text style={{ fontFamily: F.semibold }} className="flex-1 text-sm leading-5 text-foreground">
           {cls.name}
         </Text>
-        <Icon icon={expanded ? ChevronUp : ChevronDown} size="sm" color={C.muted} />
+        <Icon icon={expanded ? ChevronUp : ChevronDown} size="sm" color={Th.mutedForeground} />
       </Pressable>
 
       {expanded && (
@@ -134,6 +136,14 @@ export default function Courses() {
         </View>
 
         <SeriesTabs active={activeSeries} onChange={setActiveSeries} />
+
+        {/* Series image */}
+        <Image
+          source={activeMeta.image}
+          accessibilityLabel={`${activeMeta.label}: ${activeMeta.subtitle}`}
+          resizeMode="cover"
+          className="mb-4 h-[180px] w-full rounded-card"
+        />
 
         {/* Series subtitle */}
         <View className="mb-4">

@@ -2,6 +2,8 @@
 // Single source of truth for all Safe Ride Africa business content.
 // Components import from here. Strings are in English; other locales marked TODO in en.json.
 
+import type { ImageSourcePropType } from 'react-native';
+
 // ─── Company ─────────────────────────────────────────────────────────────────
 
 export const COMPANY = {
@@ -207,12 +209,12 @@ export const CLASSES: DriveClass[] = [
   { code: 'EXECUTIVE', name: 'Executive Class',       series: 'EXEC' },
 ];
 
-export const CLASS_SERIES: { code: SeriesCode; label: string; subtitle: string }[] = [
-  { code: 'A',    label: 'A Series',  subtitle: 'Motorcycles & Tricycles'      },
-  { code: 'B',    label: 'B Series',  subtitle: 'Light Vehicles (Manual & Auto)' },
-  { code: 'C',    label: 'C Series',  subtitle: 'Heavy Commercial Vehicles'    },
-  { code: 'D',    label: 'D / PSV',   subtitle: 'Passenger Service Vehicles'   },
-  { code: 'EXEC', label: 'Executive', subtitle: 'Premium Private Training'     },
+export const CLASS_SERIES: { code: SeriesCode; label: string; subtitle: string; image: ImageSourcePropType }[] = [
+  { code: 'A',    label: 'A Series',  subtitle: 'Motorcycles & Tricycles',        image: require('../../assets/images/courses/a-series.webp')    },
+  { code: 'B',    label: 'B Series',  subtitle: 'Light Vehicles (Manual & Auto)',  image: require('../../assets/images/courses/b-series.webp')    },
+  { code: 'C',    label: 'C Series',  subtitle: 'Heavy Commercial Vehicles',       image: require('../../assets/images/courses/c-series.webp')    },
+  { code: 'D',    label: 'D / PSV',   subtitle: 'Passenger Service Vehicles',      image: require('../../assets/images/courses/d-series.webp')    },
+  { code: 'EXEC', label: 'Executive', subtitle: 'Premium Private Training',        image: require('../../assets/images/courses/exec-series.webp') },
 ];
 
 export const REFRESHER_LESSONS = [
