@@ -185,21 +185,21 @@ export interface DriveClass {
 
 export const CLASSES: DriveClass[] = [
   // A series — motorcycles & tricycles
-  { code: 'A2-TEST',   name: 'A2 — Test Only',        series: 'A' },
-  { code: 'A2-FULL',   name: 'A2 — Full Course',      series: 'A' },
-  { code: 'A3-TUKTUK', name: 'A3 — Tuk-tuk / Parcel', series: 'A' },
+  { code: 'A2-TEST',   name: 'A2: Test Only',        series: 'A' },
+  { code: 'A2-FULL',   name: 'A2: Full Course',      series: 'A' },
+  { code: 'A3-TUKTUK', name: 'A3: Tuk-tuk / Parcel', series: 'A' },
 
   // B series — light vehicles
-  { code: 'B-LIGHT',   name: 'B — Light (Manual)',    series: 'B' },
-  { code: 'B-AUTO',    name: 'B — Auto',              series: 'B' },
-  { code: 'B-HALF',    name: 'B — Half Course',       series: 'B' },
-  { code: 'B-TEST',    name: 'B — Test Only',         series: 'B' },
+  { code: 'B-LIGHT',   name: 'B: Light (Manual)',    series: 'B' },
+  { code: 'B-AUTO',    name: 'B: Auto',              series: 'B' },
+  { code: 'B-HALF',    name: 'B: Half Course',       series: 'B' },
+  { code: 'B-TEST',    name: 'B: Test Only',         series: 'B' },
 
   // C series — heavy commercial
-  { code: 'C-LIGHT',   name: 'C — Light',             series: 'C' },
+  { code: 'C-LIGHT',   name: 'C: Light',             series: 'C' },
   { code: 'BC',        name: 'BC',                    series: 'C' },
-  { code: 'C-HALF',    name: 'C — Half Course',       series: 'C' },
-  { code: 'C-TEST',    name: 'C — Test Only',         series: 'C' },
+  { code: 'C-HALF',    name: 'C: Half Course',       series: 'C' },
+  { code: 'C-TEST',    name: 'C: Test Only',         series: 'C' },
 
   // D / PSV — passenger service vehicles
   { code: 'D-PSV',     name: 'D1, D2, D3, PSV',       series: 'D' },
