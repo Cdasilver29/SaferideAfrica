@@ -21,6 +21,7 @@ import { COMPANY, MANAGEMENT, SOCIALS, STATS as SAFERIDE_STATS } from '@/data/sa
 import { C, F, IS_WEB, MAX_W, ABOUT_OPENER_IMG } from '@/components/landing/constants';
 import { Button, Card, Icon, cn } from '@/components/ui';
 import { ResponsiveImage } from '@/components/ResponsiveImage';
+import { PageHead } from '@/components/PageHead';
 import { useTheme } from '@/lib/theme';
 
 // ─── Social brand icons (Lucide has no brand glyphs, so hand-drawn SVG) ──────────
@@ -342,6 +343,11 @@ export default function AboutPage() {
   const { t } = useTranslation();
   return (
     <SafeAreaView className="flex-1 bg-background">
+      <PageHead
+        title="About Safe Ride Africa: Our Story and Team"
+        description="How Safe Ride Africa became one of Nairobi's most trusted NTSA-certified driving schools, our mission, values, and the team behind the wheel."
+        path="/about"
+      />
       <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('aboutPage.pageOverline')} title={t('aboutPage.pageTitle')} />

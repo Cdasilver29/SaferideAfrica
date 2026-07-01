@@ -14,6 +14,7 @@ import Footer  from '@/components/landing/Footer'
 import { C, F, IS_WEB, MAX_W, GALLERY_IMGS } from '@/components/landing/constants'
 import { ResponsiveImage } from '@/components/ResponsiveImage'
 import { useTheme } from '@/lib/theme'
+import { PageHead } from '@/components/PageHead'
 
 // Thumbnails render in a 3-column grid: ~31vw each on mobile, ~360px within the
 // 1100 container on desktop. This is where the biggest 4G saving lands.
@@ -222,6 +223,11 @@ export default function GalleryPage() {
   const T = useTheme()
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: T.background }}>
+      <PageHead
+        title="Gallery | Safe Ride Africa Driving School"
+        description="Photos from Safe Ride Africa training sessions, road practice, and student milestones across our Nairobi branches."
+        path="/gallery"
+      />
       <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero />

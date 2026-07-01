@@ -14,6 +14,7 @@ import Footer          from '@/components/landing/Footer';
 import { COMPANY, BRANCHES } from '@/data/saferide';
 import { C, F, IS_WEB, MAX_W } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
+import { PageHead, DRIVING_SCHOOL_JSONLD } from '@/components/PageHead';
 
 const CONTACT_LABEL_KEY_MAP: Record<string, string> = {
   Address: 'address',
@@ -344,6 +345,13 @@ export default function ContactPage() {
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: T.background }}>
+      <PageHead
+        title="Contact Safe Ride Africa | Nairobi Driving School"
+        description="Get in touch with Safe Ride Africa. Call, email, or WhatsApp us, or visit a branch across Nairobi to enrol in NTSA-certified driving classes."
+        path="/contact"
+      >
+        <script type="application/ld+json">{DRIVING_SCHOOL_JSONLD}</script>
+      </PageHead>
       <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('contactPage.pageOverline')} title={t('contactPage.pageTitle')} />

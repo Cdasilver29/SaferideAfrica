@@ -6,6 +6,13 @@ import { CLASSES, CLASS_SERIES } from '../../../src/data/saferide';
 import { C, F, IS_WEB, MAX_W } from '../../../src/components/landing/constants';
 import { useTheme } from '../../../src/lib/theme';
 import { useEnrollModal } from '../../../src/context/EnrollModalContext';
+import { PageHead } from '../../../src/components/PageHead';
+
+// Pre-render one static HTML page per class so deep links resolve without a
+// client fallback.
+export function generateStaticParams(): { code: string }[] {
+  return CLASSES.map((c) => ({ code: c.code }));
+}
 
 const INCLUDED = [
   'Theoretical road safety lessons',
@@ -41,6 +48,11 @@ export default function ClassDetailPage() {
       contentContainerStyle={{ paddingBottom: 60 }}
       showsVerticalScrollIndicator={false}
     >
+      <PageHead
+        title={`${cls.name} | Safe Ride Africa`}
+        description={`Enrol in ${cls.name} at Safe Ride Africa. NTSA-aligned theory, practical driving sessions, and full test preparation.`}
+        path={`/classes/${cls.code}`}
+      />
       <View style={IS_WEB ? { maxWidth: 720, width: '100%', alignSelf: 'center', paddingHorizontal: 24 } : { paddingHorizontal: 20 }}>
 
         {/* Back */}

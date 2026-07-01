@@ -10,6 +10,7 @@ import { ArticleCard } from '@/components/landing/ArticleCard';
 import { C, F, IS_WEB, MAX_W, BLOG_IMGS } from '@/components/landing/constants';
 import { BLOG_ARTICLES } from '@/data/saferide';
 import { useTheme } from '@/lib/theme';
+import { PageHead } from '@/components/PageHead';
 
 // ─── Article grid ────────────────────────────────────────────────────────────
 function ArticleGrid() {
@@ -75,6 +76,11 @@ export default function BlogPage() {
   const { t } = useTranslation();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: T.background }}>
+      <PageHead
+        title="Blog: Driving Tips and NTSA Guides | Safe Ride Africa"
+        description="Practical driving advice, NTSA Smart DL guides, and defensive driving tips from Safe Ride Africa's certified instructors in Nairobi."
+        path="/blog"
+      />
       <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('blogPage.pageOverline')} title={t('blogPage.title')} />

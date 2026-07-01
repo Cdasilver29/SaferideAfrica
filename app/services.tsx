@@ -11,6 +11,7 @@ import Footer   from '@/components/landing/Footer';
 
 import { C, F, IS_WEB, MAX_W } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
+import { PageHead } from '@/components/PageHead';
 
 // ─── Why our services stand out ───────────────────────────────────────────────
 function StandOut() {
@@ -101,6 +102,11 @@ export default function ServicesPage() {
   const T = useTheme();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: T.background }}>
+      <PageHead
+        title="Driving Services: Defensive, Smart DL, Executive | Safe Ride Africa"
+        description="Defensive driving, NTSA Smart DL processing, executive classes, ladies special, corporate training, and more across our Nairobi branches."
+        path="/services"
+      />
       <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('servicesPage.pageOverline')} title={t('servicesPage.pageTitle')} />

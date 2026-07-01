@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import * as Localization from 'expo-localization';
@@ -28,12 +29,17 @@ i18next.use(initReactI18next).init({
   interpolation: { escapeValue: false },
 });
 
-// Override with persisted preference on next tick (causes a silent re-render only when language differs)
-AsyncStorage.getItem(LANG_KEY).then((saved) => {
-  if (saved && SUPPORTED.includes(saved) && saved !== i18next.language) {
-    i18next.changeLanguage(saved);
-  }
-});
+// Override with persisted preference on next tick (causes a silent re-render only
+// when language differs). Skipped during Node static rendering, where web has no
+// window/localStorage for AsyncStorage to read.
+const hasClientStorage = Platform.OS !== 'web' || typeof window !== 'undefined';
+if (hasClientStorage) {
+  AsyncStorage.getItem(LANG_KEY).then((saved) => {
+    if (saved && SUPPORTED.includes(saved) && saved !== i18next.language) {
+      i18next.changeLanguage(saved);
+    }
+  });
+}
 
 export const setLanguage = async (code: string): Promise<void> => {
   await AsyncStorage.setItem(LANG_KEY, code);

@@ -7,6 +7,7 @@ import { ChevronRight, BookOpen, ArrowLeft } from 'lucide-react-native';
 import { CLASSES, CLASS_SERIES, SeriesCode, DriveClass } from '../../src/data/saferide';
 import { C, F, IS_WEB, MAX_W } from '../../src/components/landing/constants';
 import { useTheme } from '../../src/lib/theme';
+import { PageHead } from '../../src/components/PageHead';
 
 const SERIES_COLORS: Record<SeriesCode, string> = {
   A:    C.skyLight,
@@ -56,6 +57,11 @@ export default function ClassesScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: T.background }}>
+      <PageHead
+        title="Browse Driving Classes | Safe Ride Africa"
+        description="Browse all Safe Ride Africa driving classes by series: A motorcycles, B light vehicles, C heavy commercial, D PSV, and Executive."
+        path="/classes"
+      />
 
       {/* Header — always dark bg, fine */}
       <View style={{ backgroundColor: C.darkBg, paddingTop: Platform.OS === 'ios' ? 56 : 36, paddingBottom: 20, paddingHorizontal: 24 }}>

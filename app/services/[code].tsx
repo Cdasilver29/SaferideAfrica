@@ -7,6 +7,13 @@ import { SERVICES, STATS } from '../../src/data/saferide';
 import { C, F, IS_WEB, MAX_W } from '../../src/components/landing/constants';
 import { SERVICE_KEY_MAP } from '../../src/components/landing/Services';
 import { useTheme } from '../../src/lib/theme';
+import { PageHead } from '../../src/components/PageHead';
+
+// Pre-render one static HTML page per service so deep links resolve without a
+// client fallback.
+export function generateStaticParams(): { code: string }[] {
+  return SERVICES.map((s) => ({ code: s.code }));
+}
 
 export default function ServiceDetailPage() {
   const { t } = useTranslation();
@@ -35,6 +42,11 @@ export default function ServiceDetailPage() {
       contentContainerStyle={{ paddingBottom: 60 }}
       showsVerticalScrollIndicator={false}
     >
+      <PageHead
+        title={`${svc.name} | Safe Ride Africa`}
+        description={svc.shortDesc}
+        path={`/services/${svc.code}`}
+      />
       <View style={IS_WEB ? { maxWidth: 720, width: '100%', alignSelf: 'center', paddingHorizontal: 24 } : { paddingHorizontal: 20 }}>
 
         {/* Back */}

@@ -13,6 +13,7 @@ import { BRANCHES, Branch } from '@/data/saferide';
 import { Card, Button, Input, Badge, Icon, cn } from '@/components/ui';
 import { F, IS_WEB, MAX_W } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
+import { PageHead } from '@/components/PageHead';
 
 // ─── Branch card (rebuilt on the Card primitive and tokens) ─────────────────────
 function BranchCard({
@@ -231,6 +232,11 @@ export default function BranchesPage() {
   const { t } = useTranslation();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Th.background }}>
+      <PageHead
+        title="Our Branches Across Nairobi | Safe Ride Africa"
+        description="Find a Safe Ride Africa driving school branch near you across Nairobi. Search branches and get directions, hours, and contact details."
+        path="/branches"
+      />
       <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('branchesPage.pageOverline')} title={t('branchesPage.pageTitle')} />

@@ -12,6 +12,7 @@ import CoursesPreview from '@/components/landing/CoursesPreview';
 
 import { C, F, IS_WEB } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
+import { PageHead } from '@/components/PageHead';
 
 // ─── Contact CTA ─────────────────────────────────────────────────────────────
 function ContactCTA() {
@@ -59,6 +60,11 @@ export default function CoursesPage() {
   const { t } = useTranslation();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: T.background }}>
+      <PageHead
+        title="Driving Classes and Courses in Nairobi | Safe Ride Africa"
+        description="Motorcycle, light vehicle, heavy commercial, PSV, and executive driving courses. NTSA-aligned training with a 98% first-try pass rate."
+        path="/courses"
+      />
       <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('courses.overline')} title={t('coursesPage.pageTitle')} />
