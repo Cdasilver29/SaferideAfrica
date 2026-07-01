@@ -15,6 +15,12 @@ const FONT_AND_RESET_CSS = `
 #root { flex: 1; }
 /* Manrope is the default family for any unstyled web text */
 body { font-family: 'Manrope-Regular', system-ui, sans-serif; }
+/* Route-change View Transitions (Phase 17b): a brief cross-fade, only when the
+   user has not asked to reduce motion. The JS side also gates on reduce-motion. */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation-duration: 220ms; }
+}
 `;
 
 // Registers the service worker in the browser only. This string is inert markup
