@@ -352,6 +352,7 @@
         "bLight": {
           "badge": "Le Plus Populaire",
           "lessonLine": "Cours Complet",
+          "snippet": "Le cours complet NTSA Classe B en voiture manuelle à double commande, de la première leçon à l'examen routier.",
           "features": [
             "Leçons de conduite pratique",
             "Théorie NTSA et examen de conduite",
@@ -362,6 +363,7 @@
         },
         "bAuto": {
           "lessonLine": "Cours Complet",
+          "snippet": "Le même programme NTSA Classe B en boîte automatique, sans embrayage, idéal en ville.",
           "features": [
             "Leçons de conduite pratique",
             "Théorie NTSA et examen de conduite",
@@ -373,6 +375,7 @@
         "executive": {
           "badge": "Premium",
           "lessonLine": "Privé · Flexible",
+          "snippet": "Formation privée individuelle selon votre emploi du temps, avec instructeur et véhicule dédiés.",
           "features": [
             "Moniteur certifié dédié",
             "Horaires de cours flexibles",

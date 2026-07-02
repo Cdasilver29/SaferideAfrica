@@ -352,6 +352,7 @@
         "bLight": {
           "badge": "Maarufu Zaidi",
           "lessonLine": "Kozi Kamili",
+          "snippet": "Kozi kamili ya NTSA Daraja B kwa gari la mikono lenye vidhibiti viwili, kutoka somo la kwanza hadi mtihani wa barabarani.",
           "features": [
             "Masomo ya vitendo ya kuendesha",
             "Nadharia ya NTSA na mtihani wa barabarani",
@@ -362,6 +363,7 @@
         },
         "bAuto": {
           "lessonLine": "Kozi Kamili",
+          "snippet": "Mtaala ule ule wa NTSA Daraja B kwa gari la otomatiki, bila klachi, bora kwa uendeshaji wa jijini.",
           "features": [
             "Masomo ya vitendo ya kuendesha",
             "Nadharia ya NTSA na mtihani wa barabarani",
@@ -373,6 +375,7 @@
         "executive": {
           "badge": "Premium",
           "lessonLine": "Faragha · Inabadilika",
+          "snippet": "Mafunzo ya faragha ya ana kwa ana kwa ratiba yako, na mkufunzi na gari maalum.",
           "features": [
             "Mkufunzi maalum aliyeidhinishwa",
             "Ratiba ya masomo inayobadilika",

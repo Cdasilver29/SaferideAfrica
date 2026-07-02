@@ -344,6 +344,7 @@
         "bLight": {
           "badge": "Most Popular",
           "lessonLine": "Full Course",
+          "snippet": "The full NTSA Class B course in a dual-control manual car, from first lesson to road test.",
           "features": [
             "Practical driving lessons",
             "NTSA theory and road test",
@@ -354,6 +355,7 @@
         },
         "bAuto": {
           "lessonLine": "Full Course",
+          "snippet": "The same NTSA Class B curriculum in an automatic, no clutch, ideal for city driving.",
           "features": [
             "Practical driving lessons",
             "NTSA theory and road test",
@@ -365,6 +367,7 @@
         "executive": {
           "badge": "Premium",
           "lessonLine": "Private · Flexible",
+          "snippet": "Private one-on-one training on your schedule, with a dedicated instructor and vehicle.",
           "features": [
             "Dedicated certified instructor",
             "Flexible lesson scheduling",

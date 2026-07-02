@@ -352,6 +352,7 @@
         "bLight": {
           "badge": "最受欢迎",
           "lessonLine": "完整课程",
+          "snippet": "完整的NTSA B类课程，双控手动挡教练车，从第一课直到路考。",
           "features": [
             "实践驾驶课",
             "NTSA理论及路考",
@@ -362,6 +363,7 @@
         },
         "bAuto": {
           "lessonLine": "完整课程",
+          "snippet": "同样的NTSA B类课程，自动挡无离合，适合城市驾驶。",
           "features": [
             "实践驾驶课",
             "NTSA理论及路考",
@@ -373,6 +375,7 @@
         "executive": {
           "badge": "高级",
           "lessonLine": "私人 · 灵活",
+          "snippet": "一对一私人培训，时间灵活，专属教练和车辆。",
           "features": [
             "专属认证教练",
             "灵活的课程安排",
