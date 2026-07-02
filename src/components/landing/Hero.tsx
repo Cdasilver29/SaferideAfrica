@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   View, Text, Pressable, Animated, Platform, useWindowDimensions,
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { ChevronDown, ArrowRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
@@ -11,13 +10,12 @@ import { KenBurnsBackground } from '../animations/KenBurnsBackground';
 import { Button, Icon } from '@/components/ui';
 import { useReduceMotion } from '@/hooks/useReduceMotion';
 
-// Palette-only colour helpers, so the photographic scrims and the glow carry no
-// raw hex: every value is derived from the C source-of-truth constants.
+// Palette-only colour helper, so the CTA glow carries no raw hex: the value is
+// derived from the C source-of-truth constants.
 const rgbTriplet = (hex: string) => {
   const n = parseInt(hex.slice(1), 16);
   return `${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}`;
 };
-const rgba = (hex: string, a: number) => `rgba(${rgbTriplet(hex)}, ${a})`;
 const YELLOW_RGB = rgbTriplet(C.yellow);
 
 // Typewriter that types the subheadline once, then holds static.
@@ -70,7 +68,11 @@ function TypewriterText({ subheadline }: { subheadline: string }) {
 // locale still on the old flat word list keeps working. Phase 12: entrance
 // plays once and settles, shown immediately under reduce-motion.
 type HeadlineSeg = { w: string; c?: string };
-const HEADLINE_COLORS: Record<string, string> = { red: C.red, yellow: C.yellow, white: C.white };
+// "red" stays as a legacy alias mapped to sky: the palette reserves real red
+// for destructive actions, and older locale payloads may still send it.
+const HEADLINE_COLORS: Record<string, string> = {
+  sky: C.skyDeep, red: C.skyDeep, yellow: C.yellow, white: C.white,
+};
 
 function AnimatedHeadline({ segments }: { segments: (HeadlineSeg | string)[] }) {
   const reduceMotion = useReduceMotion();
@@ -155,41 +157,24 @@ interface HeroProps {
 
 export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
   const { t, i18n } = useTranslation();
-  const { width: winW, height: winH } = useWindowDimensions();
+  const { width: winW } = useWindowDimensions();
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
+  // Side-by-side split needs room for the 42px headline in a half-width
+  // panel, so it starts at 1024. Below that the two tones stack.
+  const isWide = IS_WEB && winW >= 1024;
 
   const segments = t('hero.headlineWords', { returnObjects: true }) as (HeadlineSeg | string)[];
   const subheadline = t('hero.subheadline');
 
-  const heroH = IS_WEB ? 580 : winH * 0.8;
-
   return (
-    <View style={{ height: heroH }} className="overflow-hidden">
-      <KenBurnsBackground source={HERO_SRC} />
-
-      {/* Photographic depth: dark gradient base, a sky-light haze, a bottom vignette */}
-      <LinearGradient
-        colors={[rgba(C.dark, 0.3), rgba(C.dark, 0.62)]}
-        start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none' } as any}
-      />
-      <LinearGradient
-        colors={['transparent', rgba(C.skyLight, 0.18), 'transparent']}
-        start={{ x: 0.5, y: 0.05 }}
-        end={{ x: 0.5, y: 0.6 }}
-        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, pointerEvents: 'none' } as any}
-      />
-      <LinearGradient
-        colors={['transparent', rgba(C.dark, 0.62)]}
-        start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-        style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 200, pointerEvents: 'none' } as any}
-      />
-
+    <View className={isWide ? 'flex-row' : undefined} style={isWide ? { height: 580 } : undefined}>
+      {/* Tone one: the brand-dark content panel */}
       <View
-        className="flex-1 items-start justify-start px-6 pb-8 pt-4"
-        style={IS_WEB && !isMobile ? { maxWidth: 720, paddingHorizontal: 48, paddingTop: 24 } : undefined}
+        className={isWide ? 'justify-center' : 'px-6 pb-8 pt-6'}
+        style={[
+          { backgroundColor: C.dark },
+          isWide ? { width: '46%', paddingHorizontal: 48 } : null,
+        ]}
       >
         {/* Headline, the value-proposition focal point */}
         <AnimatedHeadline key={i18n.language} segments={segments} />
@@ -200,7 +185,7 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
         {/* CTAs, desktop only (mobile uses the Navbar Enroll button) */}
         {!isMobile && (
           <View className="flex-row flex-wrap items-center gap-3">
-            {/* Explore Courses, demoted to a secondary outline on the photo */}
+            {/* Explore Courses, a secondary outline on the dark panel */}
             <Pressable
               onPress={onScrollToCourses}
               accessibilityRole="button"
@@ -217,19 +202,27 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
         )}
       </View>
 
-      {/* Scroll-down affordance, web */}
-      {IS_WEB && (
-        <Pressable
-          onPress={onScrollToCourses}
-          accessibilityRole="button"
-          accessibilityLabel={t('hero.exploreCourses')}
-          className="absolute inset-x-0 bottom-20 items-center"
-        >
-          <View className="h-11 w-11 items-center justify-center rounded-pill border border-white/30 bg-white/10">
-            <Icon icon={ChevronDown} size="md" color={C.white} />
-          </View>
-        </Pressable>
-      )}
+      {/* Yellow accent edge dividing the two tones */}
+      <View className="bg-accent" style={isWide ? { width: 4 } : { height: 4 }} />
+
+      {/* Tone two: the photo, clean, no scrims */}
+      <View className="overflow-hidden" style={isWide ? { flex: 1 } : { height: isMobile ? 280 : 360 }}>
+        <KenBurnsBackground source={HERO_SRC} />
+
+        {/* Scroll-down affordance, web, sits over the photo */}
+        {IS_WEB && (
+          <Pressable
+            onPress={onScrollToCourses}
+            accessibilityRole="button"
+            accessibilityLabel={t('hero.exploreCourses')}
+            className="absolute inset-x-0 bottom-6 items-center"
+          >
+            <View className="h-11 w-11 items-center justify-center rounded-pill border border-white/30 bg-black/20">
+              <Icon icon={ChevronDown} size="md" color={C.white} />
+            </View>
+          </Pressable>
+        )}
+      </View>
     </View>
   );
 }
