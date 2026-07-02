@@ -10,6 +10,7 @@ import '../global.css';
 import { EnrollModalProvider } from '../src/context/EnrollModalContext';
 import EnrollModal from '../src/components/EnrollModal';
 import SocialFloat from '../src/components/SocialFloat';
+import RouteSplash from '../src/components/animations/RouteSplash';
 import { C } from '../src/components/landing/constants';
 import { useViewTransitions } from '../src/lib/viewTransitions';
 
@@ -105,6 +106,9 @@ export default function RootLayout() {
               <SocialFloat />
             </View>
           </View>
+          {/* Route-change splash: brand overlay with the logo, about 1s, then
+              fades to the page. No-op under reduce-motion and on first load. */}
+          <RouteSplash />
           {/* Single enrollment modal — accessible from any screen */}
           <EnrollModal />
         </EnrollModalProvider>
