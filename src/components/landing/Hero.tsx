@@ -74,6 +74,8 @@ const HEADLINE_COLORS: Record<string, string> = { red: C.red, yellow: C.yellow, 
 
 function AnimatedHeadline({ segments }: { segments: (HeadlineSeg | string)[] }) {
   const reduceMotion = useReduceMotion();
+  const { width: winW } = useWindowDimensions();
+  const isMobile = !IS_WEB || winW < 768;
   const words: HeadlineSeg[] = segments
     .map((s) => (typeof s === 'string' ? { w: s } : s))
     .filter((s) => s.w && s.w.length > 0);
@@ -92,8 +94,8 @@ function AnimatedHeadline({ segments }: { segments: (HeadlineSeg | string)[] }) 
     return () => stagger.stop();
   }, [reduceMotion]);
 
-  const fontSize = IS_WEB ? 56 : 28;
-  const lineH = IS_WEB ? 64 : 34;
+  const fontSize = isMobile ? 24 : 42;
+  const lineH = isMobile ? 30 : 50;
 
   return (
     <View className="mb-3 flex-row flex-wrap gap-x-2 web:mb-4">
