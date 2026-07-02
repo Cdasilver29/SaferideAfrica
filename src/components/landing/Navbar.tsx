@@ -283,8 +283,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
         <Modal visible={drawerOpen} transparent animationType="none" onRequestClose={closeDrawer}>
           <Pressable className="flex-1 bg-black/55" onPress={closeDrawer}>
             <Animated.View
-              style={[styles.drawer, { transform: [{ translateX: drawerTranslate }] }]}
-              className="bg-background"
+              style={[styles.drawer, { backgroundColor: isDark ? C.dark : C.white }, { transform: [{ translateX: drawerTranslate }] }]}
             >
               <Pressable className="flex-1" onPress={() => {}}>
                 {/* Drawer header */}
