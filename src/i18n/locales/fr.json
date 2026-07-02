@@ -172,11 +172,11 @@
     "overline": "Pourquoi Nous Choisir",
     "heading": "Prenez le Volant\net Prenez les Rênes",
     "items": {
-      "onlineClasses":  { "title": "Cours en Ligne",      "desc": "Accédez aux cours théoriques partout, à tout moment, sur n'importe quel appareil." },
-      "onlineTracking": { "title": "Suivi en Ligne",       "desc": "Suivez vos progrès et votre planning de cours en temps réel." },
-      "affordableFee":  { "title": "Tarifs Abordables",   "desc": "Tarification transparente sans frais cachés." },
-      "bestTrainers":   { "title": "Meilleurs Moniteurs", "desc": "Moniteurs certifiés NTSA avec des années d'expérience." },
-      "perfectTiming":  { "title": "Horaires Flexibles",  "desc": "Créneaux de cours flexibles adaptés à votre emploi du temps." }
+      "realDrivers":    { "title": "Des Conducteurs, Pas de Simples Permis", "desc": "Nous formons des conducteurs compétents sur toutes les routes, pas seulement pour réussir l'examen." },
+      "ntsaCurriculum": { "title": "Nouveau Programme NTSA",                 "desc": "Les cours théoriques et pratiques suivent le dernier programme NTSA et ses critères d'évaluation." },
+      "smartDl":        { "title": "Accompagnement Smart DL",                "desc": "Nous vous guidons dans la demande du permis numérique Smart DL du début à la fin." },
+      "bestTrainers":   { "title": "Moniteurs Certifiés NTSA",               "desc": "Chaque moniteur détient une certification NTSA valide et des années d'expérience sur route." },
+      "perfectTiming":  { "title": "Des Cours à Votre Rythme",               "desc": "Des créneaux flexibles aux horaires qui vous conviennent, dans toutes nos agences." }
     },
     "stats": {
       "totalLearners":     "Total des Apprenants",
@@ -343,6 +343,17 @@
       "title": "Prêt à Conduire avec Sécurité au-Delà ?",
       "description": "Rejoignez des milliers de conducteurs kenyans qui ont obtenu leur permis avec Safe Ride Africa. Choisissez votre cours et commencez dès aujourd'hui."
     },
+    "whySnippet": {
+      "badge": "Pourquoi Nous Choisir",
+      "title": "Pourquoi les Kenyans Apprennent avec Safe Ride",
+      "description": "Ce que nous promettons à chaque élève, et les valeurs qui nous guident.",
+      "points": [
+        "Nous formons des conducteurs, pas de simples titulaires de permis.",
+        "Nouveau programme NTSA avec un accompagnement Smart DL complet.",
+        "Des cours aux horaires qui vous conviennent, dans toutes nos agences."
+      ]
+    },
+
     "premiumCourses": {
       "badge": "Le Plus Populaire",
       "title": "Nos Trois Meilleurs Cours",
@@ -413,6 +424,13 @@
     "missionBody": "Faciliter les meilleures solutions théoriques et pratiques en matière de conduite sécuritaire, aboutissant à un environnement sans accidents.",
     "coreValuesTitle": "Valeurs Fondamentales",
     "coreValuesItems": ["Professionnalisme", "Travail d'équipe", "Service client", "Communication", "Honnêteté"],
+    "coreValuesDescs": [
+      "Un enseignement certifié, des leçons rigoureuses et le respect de votre temps dans chaque agence.",
+      "Une seule équipe derrière chaque élève, de l'accueil au siège conducteur.",
+      "Un accompagnement de la première question jusqu'au permis en main.",
+      "Un retour clair après chaque leçon et un contact direct avec votre moniteur.",
+      "Des réponses franches et un processus transparent, sans raccourcis."
+    ],
     "guaranteeOverline": "Ce que nous garantissons",
     "guaranteeTitle": "Nos engagements envers chaque élève",
     "guaranteeItems": [

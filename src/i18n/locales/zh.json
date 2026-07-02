@@ -172,11 +172,11 @@
     "overline": "为什么选择我们",
     "heading": "坐上驾驶座\n掌握主动权",
     "items": {
-      "onlineClasses":  { "title": "网络课程",   "desc": "随时随地在任何设备上访问理论课程。" },
-      "onlineTracking": { "title": "在线追踪",   "desc": "实时追踪您的进度和课程安排。" },
-      "affordableFee":  { "title": "实惠价格",   "desc": "透明定价，无隐藏费用。" },
-      "bestTrainers":   { "title": "优秀教练",   "desc": "NTSA认证教练，拥有多年丰富经验。" },
-      "perfectTiming":  { "title": "灵活时间",   "desc": "灵活的课程时段，适合您的时间表。" }
+      "realDrivers":    { "title": "培养司机，而非只发证", "desc": "我们培养您成为能驾驭各类道路的合格司机，而不只是通过考试。" },
+      "ntsaCurriculum": { "title": "全新NTSA教学大纲",   "desc": "理论与实践课程均遵循最新的NTSA教学大纲和考核标准。" },
+      "smartDl":        { "title": "Smart DL办理指导",   "desc": "我们全程指导您完成数字化Smart DL驾照申请。" },
+      "bestTrainers":   { "title": "NTSA认证教练",       "desc": "每位教练均持有有效的NTSA认证，拥有多年道路教学经验。" },
+      "perfectTiming":  { "title": "按您的时间上课",     "desc": "灵活的课程时段，适合您的时间，覆盖所有分校。" }
     },
     "stats": {
       "totalLearners":     "学员总数",
@@ -343,6 +343,17 @@
       "title": "准备好以超越期待的安全驾驶了吗？",
       "description": "加入成千上万通过Safe Ride Africa获得驾照的肯尼亚驾驶员。选择您的课程，今天就开始。"
     },
+    "whySnippet": {
+      "badge": "为什么选择我们",
+      "title": "为什么肯尼亚人选择Safe Ride学车",
+      "description": "我们对每位学员的承诺，以及背后的价值观。",
+      "points": [
+        "我们培养司机，而不只是发驾照。",
+        "全新NTSA教学大纲，附带完整的Smart DL办理指导。",
+        "上课时间灵活，任一分校均可。"
+      ]
+    },
+
     "premiumCourses": {
       "badge": "最受欢迎",
       "title": "我们的三大热门课程",
@@ -413,6 +424,13 @@
     "missionBody": "提供最佳的驾驶安全理论与实践解决方案，最终实现零事故的生态环境。",
     "coreValuesTitle": "核心价值观",
     "coreValuesItems": ["专业精神", "团队合作", "客户关怀", "沟通", "诚信"],
+    "coreValuesDescs": [
+      "专业认证的教学、严谨的课程，以及在每个分校对您时间的尊重。",
+      "从前台到驾驶座，整个团队支持每一位学员。",
+      "从首次咨询到拿到驾照，全程陪伴支持。",
+      "每节课后都有清晰的反馈，随时可与教练沟通。",
+      "坦诚的回答和透明的流程，绝不走捷径。"
+    ],
     "guaranteeOverline": "我们的保证",
     "guaranteeTitle": "我们对每位学员的承诺",
     "guaranteeItems": [

@@ -245,15 +245,17 @@ function VisionMissionValues() {
   const { t } = useTranslation();
   const Th = useTheme();
   const { width: winW } = useWindowDimensions();
-  const cols = winW < 640 ? 1 : winW < 1024 ? 2 : 4;
-  const cardWidth: any = cols === 1 ? '100%' : cols === 2 ? (IS_WEB ? 'calc(50% - 8px)' : '48%') : undefined;
+  const stacked = winW < 640;
   const coreValues = t('aboutPage.coreValuesItems', { returnObjects: true }) as string[];
+  const valueDescs = t('aboutPage.coreValuesDescs', { returnObjects: true }) as string[];
 
   const items: { id: string; icon: LucideIcon; tint: string; color: string; heading: string; body: string }[] = [
     { id: 'vision', icon: Eye, tint: 'bg-primary/10', color: C.skyDeep, heading: t('aboutPage.visionTitle'), body: t('aboutPage.visionBody') },
     { id: 'mission', icon: Target, tint: 'bg-accent/15', color: Th.foreground, heading: t('aboutPage.missionTitle'), body: t('aboutPage.missionBody') },
-    { id: 'values', icon: Heart, tint: 'bg-accent/15', color: Th.foreground, heading: t('aboutPage.coreValuesTitle'), body: coreValues.join(' · ') },
   ];
+
+  // Values grid: 1 col on phones, 2 on tablets, 5 across on desktop.
+  const valueWidth: any = winW < 640 ? '100%' : winW < 1024 ? (IS_WEB ? 'calc(50% - 8px)' : '48%') : (IS_WEB ? 'calc(20% - 13px)' : '48%');
 
   return (
     <View className="bg-background px-6 py-16">
@@ -261,7 +263,7 @@ function VisionMissionValues() {
         <SectionHeading title={t('aboutPage.whatDrivesUs')} centered />
         <View className="flex-row flex-wrap gap-4">
           {items.map((item) => (
-            <Card key={item.id} style={cardWidth ? { width: cardWidth } : undefined} className={cn(!cardWidth && 'flex-1', 'p-6')}>
+            <Card key={item.id} style={stacked ? { width: '100%' } : undefined} className={cn(!stacked && 'flex-1', 'p-6')}>
               <View className={cn('mb-3.5 h-12 w-12 items-center justify-center rounded-pill', item.tint)}>
                 <Icon icon={item.icon} size="md" color={item.color} />
               </View>
@@ -269,6 +271,26 @@ function VisionMissionValues() {
               <Text style={{ fontFamily: F.regular }} className="text-sm leading-[22px] text-muted-foreground">{item.body}</Text>
             </Card>
           ))}
+        </View>
+
+        {/* Phase E: each value carries what it means in practice */}
+        <View className="mt-10">
+          <View className="mb-4 flex-row items-center justify-center gap-2">
+            <Icon icon={Heart} size="sm" color={C.skyDeep} />
+            <Text style={{ fontFamily: F.bold }} className="text-base text-foreground">
+              {t('aboutPage.coreValuesTitle')}
+            </Text>
+          </View>
+          <View className="flex-row flex-wrap gap-4">
+            {coreValues.map((value, i) => (
+              <Card key={value} style={{ width: valueWidth }} className="p-5">
+                <Text style={{ fontFamily: F.bold }} className="mb-1.5 text-sm text-foreground">{value}</Text>
+                <Text style={{ fontFamily: F.regular }} className="text-xs leading-[18px] text-muted-foreground">
+                  {valueDescs[i] ?? ''}
+                </Text>
+              </Card>
+            ))}
+          </View>
         </View>
       </View>
     </View>

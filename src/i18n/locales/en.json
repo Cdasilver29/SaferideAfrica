@@ -152,11 +152,11 @@
     "overline": "Why Choose Us",
     "heading": "Get Behind The Wheel\nAnd Take The Lead",
     "items": {
-      "onlineClasses":  { "title": "Online Classes",   "desc": "Access theory lessons anywhere, anytime on any device." },
-      "onlineTracking": { "title": "Online Tracking",  "desc": "Track your progress and lesson schedule in real-time." },
-      "affordableFee":  { "title": "Affordable Fee",   "desc": "Transparent pricing with no hidden charges." },
-      "bestTrainers":   { "title": "Best Trainers",    "desc": "NTSA-certified instructors with years of experience." },
-      "perfectTiming":  { "title": "Perfect Timing",   "desc": "Flexible lesson slots that fit your schedule." }
+      "realDrivers":    { "title": "Drivers, Not Licence Holders", "desc": "We train you to be a competent driver on every major and minor road, not just to pass the test." },
+      "ntsaCurriculum": { "title": "New NTSA Curriculum",          "desc": "Theory and practical lessons follow the latest NTSA curriculum and assessment criteria." },
+      "smartDl":        { "title": "Smart DL Guidance",            "desc": "We walk you through the digital Smart DL application from start to finish." },
+      "bestTrainers":   { "title": "NTSA-Certified Instructors",   "desc": "Every instructor holds valid NTSA certification with years of on-road experience." },
+      "perfectTiming":  { "title": "Lessons On Your Schedule",     "desc": "Flexible lesson slots at times convenient to you, across all our branches." }
     },
     "stats": {
       "totalLearners":    "Total Learners",
@@ -335,6 +335,17 @@
       "title": "Ready to Drive with Safety Beyond?",
       "description": "Join thousands of Kenyan drivers who earned their licence with Safe Ride Africa. Pick your course and start today."
     },
+    "whySnippet": {
+      "badge": "Why Choose Us",
+      "title": "Why Kenyans Learn With Safe Ride",
+      "description": "What we promise every student, and the values behind it.",
+      "points": [
+        "We train you to be a driver, not just a licence holder.",
+        "New NTSA curriculum with full Smart DL guidance.",
+        "Lessons at times that fit your schedule, at any of our branches."
+      ]
+    },
+
     "premiumCourses": {
       "badge": "Most Popular",
       "title": "Our Top Three Classes",
@@ -405,6 +416,13 @@
     "missionBody": "To facilitate the very best theoretical and practical safe solutions in the field of driving that eventually results in accident free ecosystem.",
     "coreValuesTitle": "Core Values",
     "coreValuesItems": ["Professionalism", "Team Work", "Customer Care", "Communication", "Honesty"],
+    "coreValuesDescs": [
+      "Certified instruction, disciplined lessons, and respect for your time at every branch.",
+      "One team behind every learner, from the front desk to the driver's seat.",
+      "Support from your first enquiry to the licence in your hand.",
+      "Clear feedback after every lesson and open lines to your instructor.",
+      "Straight answers and a transparent process, no shortcuts."
+    ],
     "guaranteeOverline": "What We Guarantee",
     "guaranteeTitle": "Our Commitments to Every Student",
     "guaranteeItems": [

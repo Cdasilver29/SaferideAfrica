@@ -172,11 +172,11 @@
     "overline": "Kwa Nini Uchague Sisi",
     "heading": "Shika Usukani\nNa Uwe Mbele",
     "items": {
-      "onlineClasses":  { "title": "Madarasa Mtandaoni",  "desc": "Fikia masomo ya nadharia popote, wakati wowote kwenye kifaa chochote." },
-      "onlineTracking": { "title": "Ufuatiliaji Mtandaoni","desc": "Fuatilia maendeleo yako na ratiba ya masomo kwa wakati halisi." },
-      "affordableFee":  { "title": "Bei Nafuu",            "desc": "Bei wazi bila ada zilizofichwa." },
-      "bestTrainers":   { "title": "Waalimu Bora",         "desc": "Waalimu walioidhinishwa na NTSA wenye miaka ya uzoefu." },
-      "perfectTiming":  { "title": "Wakati Unaofaa",       "desc": "Nafasi za masomo zinazonyumbulika zinazofaa ratiba yako." }
+      "realDrivers":    { "title": "Madereva, Si Wamiliki wa Leseni Tu", "desc": "Tunakufundisha kuwa dereva hodari kwenye kila barabara kuu na ndogo, si kupita mtihani tu." },
+      "ntsaCurriculum": { "title": "Mtaala Mpya wa NTSA",                "desc": "Masomo ya nadharia na vitendo yanafuata mtaala mpya wa NTSA na vigezo vya tathmini." },
+      "smartDl":        { "title": "Mwongozo wa Smart DL",               "desc": "Tunakuongoza kwenye maombi ya Smart DL ya kidijitali kuanzia mwanzo hadi mwisho." },
+      "bestTrainers":   { "title": "Waalimu Walioidhinishwa na NTSA",    "desc": "Kila mwalimu ana cheti halali cha NTSA na miaka ya uzoefu barabarani." },
+      "perfectTiming":  { "title": "Masomo kwa Ratiba Yako",             "desc": "Nafasi za masomo zinazonyumbulika kwa wakati unaokufaa, katika matawi yetu yote." }
     },
     "stats": {
       "totalLearners":     "Jumla ya Wanafunzi",
@@ -343,6 +343,17 @@
       "title": "Uko Tayari Kuendesha kwa Usalama Zaidi?",
       "description": "Jiunge na maelfu ya madereva wa Kenya waliopata leseni yao na Safe Ride Africa. Chagua kozi yako na uanze leo."
     },
+    "whySnippet": {
+      "badge": "Kwa Nini Uchague Sisi",
+      "title": "Kwa Nini Wakenya Hujifunza na Safe Ride",
+      "description": "Tunachomwahidi kila mwanafunzi, na maadili yanayotuongoza.",
+      "points": [
+        "Tunakufundisha kuwa dereva, si mmiliki wa leseni tu.",
+        "Mtaala mpya wa NTSA pamoja na mwongozo kamili wa Smart DL.",
+        "Masomo kwa wakati unaokufaa, katika tawi lolote kati ya matawi yetu."
+      ]
+    },
+
     "premiumCourses": {
       "badge": "Maarufu Zaidi",
       "title": "Madarasa Yetu Matatu Bora",
@@ -413,6 +424,13 @@
     "missionBody": "Kuwezesha suluhisho bora za kinadharia na kivitendo katika uendeshaji salama, na hatimaye kuleta mazingira yasiyo na ajali.",
     "coreValuesTitle": "Maadili Msingi",
     "coreValuesItems": ["Utaalamu", "Kazi ya Pamoja", "Huduma kwa Wateja", "Mawasiliano", "Uaminifu"],
+    "coreValuesDescs": [
+      "Mafunzo ya kitaalamu, masomo yenye nidhamu, na kuheshimu muda wako katika kila tawi.",
+      "Timu moja nyuma ya kila mwanafunzi, kuanzia mapokezi hadi kiti cha dereva.",
+      "Msaada kuanzia swali lako la kwanza hadi leseni mkononi.",
+      "Maoni wazi baada ya kila somo na mawasiliano ya moja kwa moja na mwalimu wako.",
+      "Majibu ya wazi na mchakato wa uwazi, bila njia za mkato."
+    ],
     "guaranteeOverline": "Tunachohakikisha",
     "guaranteeTitle": "Ahadi Zetu kwa Kila Mwanafunzi",
     "guaranteeItems": [

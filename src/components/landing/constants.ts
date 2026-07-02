@@ -150,12 +150,15 @@ export const INSTRUCTORS = [
   { name: 'Anne Wambua',    role: 'Theory Specialist', exp: '5 yrs',  initials: 'AW' },
 ];
 
+// Phase E: NTSA-grounded reasons drawn from the WHY_CHOOSE_US data constant.
+// Display strings come from i18n (whyChooseUs.items); these are the keys and
+// English fallbacks.
 export const WHY_FEATURES = [
-  { iconName: 'BookOpen',     title: 'Online Classes',      desc: 'Access theory lessons anywhere, anytime on any device.' },
-  { iconName: 'Map',          title: 'Online Tracking',     desc: 'Track your progress and lesson schedule in real-time.' },
-  { iconName: 'Tag',          title: 'Affordable Fee',      desc: 'Transparent pricing with no hidden charges.' },
-  { iconName: 'Award',        title: 'Best Trainers',       desc: 'NTSA-certified instructors with years of experience.' },
-  { iconName: 'Clock',        title: 'Perfect Timing',      desc: 'Flexible lesson slots that fit your schedule.' },
+  { iconName: 'ShieldCheck', title: 'Drivers, Not Licence Holders', desc: 'We train you to be a competent driver on every road, not just to pass the test.' },
+  { iconName: 'BookOpen',    title: 'New NTSA Curriculum',          desc: 'Theory and practical lessons follow the latest NTSA curriculum.' },
+  { iconName: 'CreditCard',  title: 'Smart DL Guidance',            desc: 'We walk you through the digital Smart DL application from start to finish.' },
+  { iconName: 'Award',       title: 'NTSA-Certified Instructors',   desc: 'Every instructor holds valid NTSA certification with years of experience.' },
+  { iconName: 'Clock',       title: 'Lessons On Your Schedule',     desc: 'Flexible lesson slots at times convenient to you, across all branches.' },
 ];
 
 export const STATS = [

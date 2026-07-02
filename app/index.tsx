@@ -15,6 +15,7 @@ import Footer       from '@/components/landing/Footer';
 import StatStrip       from '@/components/landing/StatStrip';
 import ServicesPreview from '@/components/landing/ServicesPreview';
 import { PremiumCourseCards } from '@/components/landing/PremiumCourseCards';
+import WhyValuesSnippet from '@/components/landing/WhyValuesSnippet';
 import AboutPreview    from '@/components/landing/AboutPreview';
 import BranchesPreview from '@/components/landing/BranchesPreview';
 import FinalCTA        from '@/components/landing/FinalCTA';
@@ -59,6 +60,7 @@ export default function LandingScreen() {
         <StatStrip />
         <Reveal><ServicesPreview /></Reveal>
         <PremiumCourseCards />
+        <Reveal><WhyValuesSnippet /></Reveal>
         <Reveal><AboutPreview /></Reveal>
         <Reveal><Testimonials /></Reveal>
         <Reveal><BranchesPreview /></Reveal>

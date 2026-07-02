@@ -7,9 +7,9 @@ import { CountUp } from '@/components/CountUp';
 import { useInView } from '@/hooks/useInView';
 
 const WHY_KEY_MAP: Record<string, string> = {
-  BookOpen: 'onlineClasses',
-  Map: 'onlineTracking',
-  Tag: 'affordableFee',
+  ShieldCheck: 'realDrivers',
+  BookOpen: 'ntsaCurriculum',
+  CreditCard: 'smartDl',
   Award: 'bestTrainers',
   Clock: 'perfectTiming',
 };
