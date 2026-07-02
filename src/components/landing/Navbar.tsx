@@ -57,7 +57,7 @@ function IconButton({
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={label}
-      className="h-11 w-11 items-center justify-center rounded-pill bg-white/15 hover:bg-white/25 active:bg-white/25"
+      className="h-11 w-11 items-center justify-center rounded-pill bg-black/20 hover:bg-black/30 active:bg-black/30"
     >
       {children}
     </Pressable>
@@ -80,6 +80,10 @@ export default function Navbar({ scrollY }: NavbarProps) {
   // drawer (8 text links need desktop width to sit on one row).
   const showLinks = IS_WEB && winW >= 1024;
   const showHamburger = !IS_WEB || (IS_WEB && winW < 1024);
+  // Below ~400px the logo + full wordmark + controls no longer fit on one row,
+  // truncating "Safe Ride Africa". On these widths drop the tagline and move the
+  // language switcher into the drawer to give the wordmark its full width.
+  const narrowBrand = !IS_WEB || winW < 400;
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -188,13 +192,15 @@ export default function Navbar({ scrollY }: NavbarProps) {
               >
                 {t('nav.brand')}
               </Text>
-              <Text
-                numberOfLines={1}
-                style={{ fontFamily: F.semibold, letterSpacing: 1.5 }}
-                className="text-[9px] uppercase text-white/70"
-              >
-                {t('nav.tagline')}
-              </Text>
+              {!narrowBrand && (
+                <Text
+                  numberOfLines={1}
+                  style={{ fontFamily: F.semibold, letterSpacing: 1.5 }}
+                  className="text-[9px] uppercase text-white/70"
+                >
+                  {t('nav.tagline')}
+                </Text>
+              )}
             </View>
           </Pressable>
 
@@ -259,7 +265,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
               </Button>
             </AnimatedRN.View>
 
-            {showHamburger && <LanguageSwitcher compact />}
+            {showHamburger && !narrowBrand && <LanguageSwitcher compact />}
 
             {showHamburger && (
               <IconButton onPress={openDrawer} label="Open menu">
@@ -290,6 +296,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
                     </Text>
                   </View>
                   <View className="flex-row items-center gap-2">
+                    {narrowBrand && <LanguageSwitcher compact />}
                     <IconButton onPress={toggleColorScheme} label="Toggle theme">
                       {isDark
                         ? <Icon icon={Sun} size="sm" color={C.yellow} />
