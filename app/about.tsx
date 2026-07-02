@@ -341,8 +341,12 @@ function Management() {
 
 export default function AboutPage() {
   const { t } = useTranslation();
+  const Th = useTheme();
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    // Inline flex/background: NativeWind's flex-1 class is not applied to
+    // SafeAreaView on web, which collapsed the layout and stopped the page from
+    // scrolling. Every other page sets this inline, matching them here.
+    <SafeAreaView style={{ flex: 1, backgroundColor: Th.background }}>
       <PageHead
         title="About Safe Ride Africa: Our Story and Team"
         description="How Safe Ride Africa became one of Nairobi's most trusted NTSA-certified driving schools, our mission, values, and the team behind the wheel."
