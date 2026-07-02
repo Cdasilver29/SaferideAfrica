@@ -399,6 +399,19 @@
     }
   },
 
+  "classPage": {
+    "back": "Retour",
+    "overline": "Détails du Cours",
+    "whoFor": "Pour Qui",
+    "learn": "Ce Que Vous Apprendrez",
+    "structure": "Structure des Leçons",
+    "requirements": "Exigences NTSA",
+    "requirementsNote": "Les exigences sont fixées par la NTSA et peuvent changer. Nous confirmons tout avec vous lors de l'inscription.",
+    "faq": "Questions Fréquentes",
+    "notFound": "Cours introuvable.",
+    "browseClasses": "Parcourir les Cours"
+  },
+
   "aboutPage": {
     "pageOverline": "Notre Histoire",
     "pageTitle": "À propos de Safe Ride Africa",

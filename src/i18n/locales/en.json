@@ -391,6 +391,19 @@
     }
   },
 
+  "classPage": {
+    "back": "Back",
+    "overline": "Class Details",
+    "whoFor": "Who It's For",
+    "learn": "What You Will Learn",
+    "structure": "Lesson Structure",
+    "requirements": "NTSA Requirements",
+    "requirementsNote": "Requirements are set by NTSA and can change. We confirm everything with you at enrolment.",
+    "faq": "Frequently Asked Questions",
+    "notFound": "Class not found.",
+    "browseClasses": "Browse Classes"
+  },
+
   "aboutPage": {
     "pageOverline": "Our Story",
     "pageTitle": "About Safe Ride Africa",

@@ -399,6 +399,19 @@
     }
   },
 
+  "classPage": {
+    "back": "Rudi",
+    "overline": "Maelezo ya Darasa",
+    "whoFor": "Ni la Nani",
+    "learn": "Utakachojifunza",
+    "structure": "Muundo wa Masomo",
+    "requirements": "Mahitaji ya NTSA",
+    "requirementsNote": "Mahitaji huwekwa na NTSA na yanaweza kubadilika. Tunathibitisha kila kitu nawe wakati wa kujiandikisha.",
+    "faq": "Maswali Yanayoulizwa Mara kwa Mara",
+    "notFound": "Darasa halijapatikana.",
+    "browseClasses": "Vinjari Madarasa"
+  },
+
   "aboutPage": {
     "pageOverline": "Hadithi Yetu",
     "pageTitle": "Kuhusu Safe Ride Africa",

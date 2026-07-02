@@ -399,6 +399,19 @@
     }
   },
 
+  "classPage": {
+    "back": "返回",
+    "overline": "课程详情",
+    "whoFor": "适合人群",
+    "learn": "您将学到什么",
+    "structure": "课程结构",
+    "requirements": "NTSA要求",
+    "requirementsNote": "相关要求由NTSA制定，可能会有变动。报名时我们会与您逐项确认。",
+    "faq": "常见问题",
+    "notFound": "未找到该课程。",
+    "browseClasses": "浏览课程"
+  },
+
   "aboutPage": {
     "pageOverline": "我们的故事",
     "pageTitle": "关于 Safe Ride Africa",
