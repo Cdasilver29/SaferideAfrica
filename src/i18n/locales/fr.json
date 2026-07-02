@@ -199,6 +199,9 @@
   "testimonials": {
     "overline": "Avis",
     "heading": "Ce que Disent Nos Élèves",
+    "prev": "Témoignage précédent",
+    "next": "Témoignage suivant",
+    "goTo": "Afficher le témoignage {{num}}",
     "items": [
       {
         "text": "La meilleure auto-école qui soit. Ils m'ont aidé à faire la demande Smart DL très rapidement — je n'arrivais pas à y croire.",

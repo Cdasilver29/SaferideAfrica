@@ -199,6 +199,9 @@
   "testimonials": {
     "overline": "学员评价",
     "heading": "学员们怎么说",
+    "prev": "上一条评价",
+    "next": "下一条评价",
+    "goTo": "查看第{{num}}条评价",
     "items": [
       {
         "text": "最棒的驾驶学校！他们帮我申请了Smart DL，速度超快，令我难以置信。",

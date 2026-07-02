@@ -179,6 +179,9 @@
   "testimonials": {
     "overline": "Reviews",
     "heading": "What Our Students Say",
+    "prev": "Previous testimonial",
+    "next": "Next testimonial",
+    "goTo": "Show testimonial {{num}}",
     "items": [
       {
         "text": "Best driving school ever. Walinisaidia kuapply hii smart dl manze..haraka haraka kwanza hadi sikuamini.",

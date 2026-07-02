@@ -199,6 +199,9 @@
   "testimonials": {
     "overline": "Maoni",
     "heading": "Wanafunzi Wetu Wanasema Nini",
+    "prev": "Maoni yaliyotangulia",
+    "next": "Maoni yanayofuata",
+    "goTo": "Onyesha maoni ya {{num}}",
     "items": [
       {
         "text": "Shule ya uendeshaji bora kabisa. Walinisaidia kuapply hii smart dl manze..haraka haraka kwanza hadi sikuamini.",
