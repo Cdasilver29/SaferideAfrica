@@ -9,6 +9,7 @@ import { C, F, IS_WEB } from '../../../src/components/landing/constants';
 import { useTheme } from '../../../src/lib/theme';
 import { useEnrollModal } from '../../../src/context/EnrollModalContext';
 import { PageHead } from '../../../src/components/PageHead';
+import { Reveal } from '../../../src/components/animations/Reveal';
 
 // Pre-render one static HTML page per class so deep links resolve without a
 // client fallback.
@@ -140,16 +141,21 @@ export default function ClassDetailPage() {
         {detail && (
           <>
             {/* Who it's for */}
+            <Reveal>
             <Section title={t('classPage.whoFor')}>
               {detail.whoFor.map(item => <BulletRow key={item} text={item} />)}
             </Section>
+            </Reveal>
 
             {/* What you will learn */}
+            <Reveal>
             <Section title={t('classPage.learn')}>
               {detail.learn.map(item => <CheckRow key={item} text={item} />)}
             </Section>
+            </Reveal>
 
             {/* Lesson structure */}
+            <Reveal>
             <Section title={t('classPage.structure')}>
               {detail.structure.map((stage, i) => (
                 <View key={stage.title} style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12, marginBottom: i === detail.structure.length - 1 ? 0 : 16 }}>
@@ -163,16 +169,20 @@ export default function ClassDetailPage() {
                 </View>
               ))}
             </Section>
+            </Reveal>
 
             {/* NTSA requirements */}
+            <Reveal>
             <Section title={t('classPage.requirements')}>
               {detail.requirements.map(item => <BulletRow key={item} text={item} />)}
               <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 12, lineHeight: 18, marginTop: 8, fontStyle: 'italic' }}>
                 {t('classPage.requirementsNote')}
               </Text>
             </Section>
+            </Reveal>
 
             {/* FAQ */}
+            <Reveal>
             <Section title={t('classPage.faq')}>
               {detail.faq.map((item, i) => (
                 <View key={item.q} style={{ marginBottom: i === detail.faq.length - 1 ? 0 : 16 }}>
@@ -181,6 +191,7 @@ export default function ClassDetailPage() {
                 </View>
               ))}
             </Section>
+            </Reveal>
           </>
         )}
 

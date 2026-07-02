@@ -11,6 +11,7 @@ import { C, F, IS_WEB, MAX_W, BLOG_IMGS } from '@/components/landing/constants';
 import { BLOG_ARTICLES } from '@/data/saferide';
 import { useTheme } from '@/lib/theme';
 import { PageHead } from '@/components/PageHead';
+import { Reveal } from '@/components/animations/Reveal';
 
 // ─── Article grid ────────────────────────────────────────────────────────────
 function ArticleGrid() {
@@ -84,7 +85,7 @@ export default function BlogPage() {
       <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('blogPage.pageOverline')} title={t('blogPage.title')} />
-        <ArticleGrid />
+        <Reveal><ArticleGrid /></Reveal>
         <Footer />
       </ScrollView>
     </SafeAreaView>

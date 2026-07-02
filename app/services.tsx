@@ -12,6 +12,7 @@ import Footer   from '@/components/landing/Footer';
 import { C, F, IS_WEB, MAX_W } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
 import { PageHead } from '@/components/PageHead';
+import { Reveal } from '@/components/animations/Reveal';
 
 // ─── Why our services stand out ───────────────────────────────────────────────
 function StandOut() {
@@ -111,9 +112,9 @@ export default function ServicesPage() {
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('servicesPage.pageOverline')} title={t('servicesPage.pageTitle')} />
         {/* Full 10-service grid with "Read More" links to /services/[code] */}
-        <Services />
-        <StandOut />
-        <CoursesCTA />
+        <Reveal><Services /></Reveal>
+        <Reveal><StandOut /></Reveal>
+        <Reveal><CoursesCTA /></Reveal>
         <Footer />
       </ScrollView>
     </SafeAreaView>

@@ -14,6 +14,8 @@ import { Card, Button, Badge, Icon, cn } from '@/components/ui';
 import { F, IS_WEB, MAX_W } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
 import { PageHead } from '@/components/PageHead';
+import { Reveal, RevealItem } from '@/components/animations/Reveal';
+import { useInView } from '@/hooks/useInView';
 
 const LOGO = require('../assets/images/saferide-logo.jpg');
 
@@ -111,6 +113,8 @@ function BranchDirectory() {
   const Th = useTheme();
   const { width: winW } = useWindowDimensions();
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  // Phase H: stagger the branch cards in as the grid enters view.
+  const { ref: gridRef, inView: gridInView } = useInView(0.05);
 
   // HQ first, then the remaining branches in their listed order.
   const branches = useMemo(
@@ -155,16 +159,16 @@ function BranchDirectory() {
           <BranchMap activeBranchId={activeId} branches={branches} onMarkerPress={(id) => setSelectedId(id)} />
         </View>
 
-        {/* Branch listing */}
-        <View className="flex-row flex-wrap gap-4">
-          {branches.map((branch) => (
-            <View key={branch.id} style={{ width: cardWidth }}>
+        {/* Branch listing, staggered fade-and-rise on entry */}
+        <View ref={gridRef} className="flex-row flex-wrap gap-4">
+          {branches.map((branch, i) => (
+            <RevealItem key={branch.id} index={i} inView={gridInView} step={60} style={{ width: cardWidth }}>
               <BranchCard
                 branch={branch}
                 isSelected={branch.id === activeId}
                 onSelect={() => setSelectedId(branch.id)}
               />
-            </View>
+            </RevealItem>
           ))}
         </View>
       </View>
@@ -202,7 +206,7 @@ export default function BranchesPage() {
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('branchesPage.pageOverline')} title={t('branchesPage.pageTitle')} />
         <BranchDirectory />
-        <ContactCTA />
+        <Reveal><ContactCTA /></Reveal>
         <Footer />
       </ScrollView>
     </SafeAreaView>

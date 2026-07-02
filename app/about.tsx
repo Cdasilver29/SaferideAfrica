@@ -23,6 +23,7 @@ import { Button, Card, Icon, cn } from '@/components/ui';
 import { ResponsiveImage } from '@/components/ResponsiveImage';
 import { PageHead } from '@/components/PageHead';
 import { useTheme } from '@/lib/theme';
+import { Reveal } from '@/components/animations/Reveal';
 
 // ─── Social brand icons (Lucide has no brand glyphs, so hand-drawn SVG) ──────────
 function FacebookIcon({ size = 15, color }: { size?: number; color: string }) {
@@ -377,15 +378,16 @@ export default function AboutPage() {
       <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('aboutPage.pageOverline')} title={t('aboutPage.pageTitle')} />
-        <AboutOpener />
-        <CompanyStory />
-        <VisionMissionValues />
-        <WhyChooseUs />
-        <Achievements />
-        <Management />
-        <WorkProcess />
-        <FAQ />
-        <FinalCTA />
+        {/* Phase H: one-shot fade-and-rise on each section as it enters view */}
+        <Reveal><AboutOpener /></Reveal>
+        <Reveal><CompanyStory /></Reveal>
+        <Reveal><VisionMissionValues /></Reveal>
+        <Reveal><WhyChooseUs /></Reveal>
+        <Reveal><Achievements /></Reveal>
+        <Reveal><Management /></Reveal>
+        <Reveal><WorkProcess /></Reveal>
+        <Reveal><FAQ /></Reveal>
+        <Reveal><FinalCTA /></Reveal>
         <Footer />
       </ScrollView>
     </SafeAreaView>

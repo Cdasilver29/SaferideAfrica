@@ -13,6 +13,7 @@ import CoursesPreview from '@/components/landing/CoursesPreview';
 import { C, F, IS_WEB } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
 import { PageHead } from '@/components/PageHead';
+import { Reveal } from '@/components/animations/Reveal';
 
 // ─── Contact CTA ─────────────────────────────────────────────────────────────
 function ContactCTA() {
@@ -69,10 +70,10 @@ export default function CoursesPage() {
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('courses.overline')} title={t('coursesPage.pageTitle')} />
         {/* Top 3 classes — same card layout as home page */}
-        <CoursesPreview />
+        <Reveal><CoursesPreview /></Reveal>
         {/* Full course catalogue: series tabs, class rows, refresher */}
-        <Courses />
-        <ContactCTA />
+        <Reveal><Courses /></Reveal>
+        <Reveal><ContactCTA /></Reveal>
         <Footer />
       </ScrollView>
     </SafeAreaView>

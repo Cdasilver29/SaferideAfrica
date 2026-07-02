@@ -15,6 +15,7 @@ import { COMPANY, BRANCHES } from '@/data/saferide';
 import { C, F, IS_WEB, MAX_W } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
 import { PageHead, DRIVING_SCHOOL_JSONLD } from '@/components/PageHead';
+import { Reveal } from '@/components/animations/Reveal';
 
 const CONTACT_LABEL_KEY_MAP: Record<string, string> = {
   Address: 'address',
@@ -363,19 +364,19 @@ export default function ContactPage() {
 
               {/* Left — contact info */}
               <View style={!isMobile ? { flex: 1 } : {}}>
-                <ContactInfo />
+                <Reveal><ContactInfo /></Reveal>
               </View>
 
               {/* Right — form */}
               <View style={!isMobile ? { flex: 1.3 } : {}}>
-                <ContactForm />
+                <Reveal delay={100}><ContactForm /></Reveal>
               </View>
 
             </View>
 
             {/* Map below the two-column block */}
             <View style={{ marginTop: 40 }}>
-              <MapPreview />
+              <Reveal><MapPreview /></Reveal>
             </View>
           </View>
         </View>
