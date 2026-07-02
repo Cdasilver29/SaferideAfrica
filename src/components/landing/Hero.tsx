@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  View, Text, Image, Pressable, Animated, Platform, useWindowDimensions,
+  View, Text, Pressable, Animated, Platform, useWindowDimensions,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -10,8 +10,6 @@ import { C, F, IS_WEB, HERO_SRC } from './constants';
 import { KenBurnsBackground } from '../animations/KenBurnsBackground';
 import { Button, Icon } from '@/components/ui';
 import { useReduceMotion } from '@/hooks/useReduceMotion';
-
-const NTSA_LOGO = require('../../../assets/images/ntsa-logo.png');
 
 // Palette-only colour helpers, so the photographic scrims and the glow carry no
 // raw hex: every value is derived from the C source-of-truth constants.
@@ -186,24 +184,6 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
         className="flex-1 items-start justify-start px-6 pb-8 pt-4"
         style={IS_WEB && !isMobile ? { maxWidth: 720, paddingHorizontal: 48, paddingTop: 24 } : undefined}
       >
-        {/* NTSA badge */}
-        <View
-          className="mb-4 flex-row items-center gap-2 rounded-pill border border-accent/40 bg-accent/15 px-3.5 py-1.5 web:mb-6"
-          style={isMobile ? { alignSelf: 'center' } : undefined}
-        >
-          <Image
-            source={NTSA_LOGO}
-            style={{ width: isMobile ? 14 : 20, height: isMobile ? 14 : 20 }}
-            resizeMode="contain"
-          />
-          <Text
-            style={{ fontFamily: F.bold, letterSpacing: 1.2 }}
-            className="text-[9px] uppercase text-accent web:text-[11px]"
-          >
-            {t('hero.badge')}
-          </Text>
-        </View>
-
         {/* Headline, the value-proposition focal point */}
         <AnimatedHeadline key={i18n.language} words={visibleWords} accentFrom={accentFrom} />
 
