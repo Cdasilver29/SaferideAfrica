@@ -230,6 +230,7 @@ export interface ServiceItem {
   code:      string;
   name:      string;
   iconName:  string;
+  image?:    ImageSourcePropType;
   shortDesc: string;
   fullDesc:  string;
 }
@@ -239,6 +240,7 @@ export const SERVICES: ServiceItem[] = [
     code:      'DEFENSIVE',
     name:      'Defensive Driving',
     iconName:  'Shield',
+    image:     require('../../assets/images/services/defensive-driving.webp'),
     shortDesc: 'Hazard perception, emergency braking, and space management for every Kenyan road condition.',
     fullDesc:  'Our Defensive Driving course trains you to anticipate and respond to road hazards before they become accidents. You master hazard perception, proper following distances, emergency braking, evasive manoeuvres, and night-driving safety. The course is conducted on real Nairobi roads, including the Expressway and city streets, giving you skills that could save your life and the lives of others.',
   },
@@ -246,6 +248,7 @@ export const SERVICES: ServiceItem[] = [
     code:      'SMART_DL',
     name:      'Smart DL',
     iconName:  'Award',
+    image:     require('../../assets/images/services/smart-dl.webp'),
     shortDesc: 'Full NTSA Smart Digital Licence application and TIMS account setup, handled start to finish.',
     fullDesc:  'Safe Ride Africa manages the entire NTSA Smart Digital Licence process on your behalf. We handle TIMS account registration, biometric capture coordination, payment processing, and status tracking. Our staff stays current with every NTSA system update to ensure fast, accurate processing.',
   },
@@ -253,6 +256,7 @@ export const SERVICES: ServiceItem[] = [
     code:      'EXECUTIVE',
     name:      'Executive Classes',
     iconName:  'Star',
+    image:     require('../../assets/images/services/executive-classes.webp'),
     shortDesc: 'Premium one-on-one training with a personalised schedule, ideal for busy professionals.',
     fullDesc:  'The Executive Class offers a truly personalised driving experience. Sessions are booked around your schedule and delivered by our most senior instructors. Whether you are learning from scratch or refining existing skills, the Executive programme delivers discreet, flexible, results-focused training, with current pricing available at enrollment and no hidden charges.',
   },
@@ -260,6 +264,7 @@ export const SERVICES: ServiceItem[] = [
     code:      'LADIES',
     name:      'Ladies Special',
     iconName:  'Users',
+    image:     require('../../assets/images/services/ladies-special.webp'),
     shortDesc: 'A tailored programme for female learners with the option of a female instructor.',
     fullDesc:  'Our Ladies Special programme creates a comfortable, confidence-building environment for female students. Lessons are conducted at your pace, with the option of a female instructor. The curriculum covers all NTSA requirements while placing extra emphasis on confidence-building exercises, city navigation, parking, and personal road safety.',
   },
@@ -267,6 +272,7 @@ export const SERVICES: ServiceItem[] = [
     code:      'EXPRESSWAY',
     name:      'Express Way / Super Highway Special',
     iconName:  'Navigation',
+    image:     require('../../assets/images/services/expressway-special.webp'),
     shortDesc: 'Specialist training for the Nairobi Expressway and super-highways at safe high speeds.',
     fullDesc:  "Kenya's expressways demand different skills from city driving, high speeds, lane discipline, merge management, and safe exit procedures. Our Expressway Special gives you supervised practice on the Nairobi Expressway and Thika Super Highway, building the confidence to drive safely on Kenya's fastest roads.",
   },
@@ -274,6 +280,7 @@ export const SERVICES: ServiceItem[] = [
     code:      'BEGINNER',
     name:      'Beginner Driver Education',
     iconName:  'BookOpen',
+    image:     require('../../assets/images/services/beginner-driver-education.webp'),
     shortDesc: 'A complete from-scratch programme: vehicle controls, road signs, theory class, and road practice.',
     fullDesc:  'The Beginner Driver Education programme is designed for first-time learners with zero prior experience. Starting in a controlled environment, you progress through vehicle familiarisation, basic controls, road signs, NTSA theory, and supervised road practice. By completion you will be fully prepared for the NTSA driving test and confident on real roads.',
   },
@@ -281,6 +288,7 @@ export const SERVICES: ServiceItem[] = [
     code:      'ADVANCED',
     name:      'Advanced Driver Training',
     iconName:  'GraduationCap',
+    image:     require('../../assets/images/services/advanced-driver-training.webp'),
     shortDesc: 'Skill-upgrade training for licenced drivers mastering challenging roads and night conditions.',
     fullDesc:  'Already licenced but want to level up? Our Advanced Driver Training covers high-speed highway driving, night driving, extreme-weather handling, and professional driving techniques. Ideal for drivers who want greater confidence on Kenyan roads or are preparing for corporate and professional driving roles.',
   },
@@ -288,6 +296,7 @@ export const SERVICES: ServiceItem[] = [
     code:      'ROAD_TEST',
     name:      'Road Test Preparation',
     iconName:  'CheckCircle',
+    image:     require('../../assets/images/services/road-test-preparation.webp'),
     shortDesc: 'Intensive NTSA test simulation so you know exactly what examiners look for on exam day.',
     fullDesc:  'Our Road Test Preparation sessions mirror the exact NTSA driving test, you practice the same manoeuvres, routes, and assessment criteria examiners use. We cover parallel parking, three-point turns, emergency stops, road observation, and examiner communication. Students who complete this programme achieve a 98% first-attempt pass rate.',
   },
@@ -295,6 +304,7 @@ export const SERVICES: ServiceItem[] = [
     code:      'CORPORATE',
     name:      'Corporate Driver Training',
     iconName:  'Briefcase',
+    image:     require('../../assets/images/services/corporate-driver-training.webp'),
     shortDesc: 'Fleet and company driver training covering defensive driving, NTSA compliance, and first aid.',
     fullDesc:  'Safe Ride Africa delivers comprehensive corporate driver training programmes for companies of all sizes. We assess your fleet drivers, provide defensive driving refreshers, cover NTSA compliance and log-keeping, and deliver basic first-aid training. Programmes can be conducted at your premises or any of our ten branches. Group rates apply for fleets of five or more.',
   },
@@ -302,6 +312,7 @@ export const SERVICES: ServiceItem[] = [
     code:      'ONLINE',
     name:      'Online Learning Platform',
     iconName:  'Monitor',
+    image:     require('../../assets/images/services/online-learning-platform.webp'),
     shortDesc: 'Live and recorded NTSA-aligned theory classes accessible from any device, anywhere in Kenya.',
     fullDesc:  'Our Online Learning Platform gives you the full NTSA theory curriculum from your phone, tablet, or laptop. Live classes run multiple times per week, with recordings available on demand. Topics include road signs, traffic laws, first aid for drivers, and defensive driving theory. Track your progress through our LMS and chat directly with instructors at any time.',
   },

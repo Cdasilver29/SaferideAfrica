@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, Platform } from 'react-native';
 import { ArrowLeft } from 'lucide-react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -59,6 +59,20 @@ export default function ServiceDetailPage() {
           <ArrowLeft size={22} color={C.blue} />
           <Text style={{ color: C.blue, fontFamily: F.semibold, fontSize: 14 }}>{t('servicesPage.detail.back')}</Text>
         </TouchableOpacity>
+
+        {/* Phase I service photo. Fixed 16:9 container with the Image filling
+            it via explicit inline width/height, or react-native-web stretches
+            it to the source's natural height (same fix as the course images). */}
+        {svc.image && (
+          <View style={{ width: '100%', aspectRatio: 16 / 9, borderRadius: 20, overflow: 'hidden', marginBottom: 24 }}>
+            <Image
+              source={svc.image}
+              accessibilityLabel={svc.name}
+              resizeMode="cover"
+              style={{ width: '100%', height: '100%' }}
+            />
+          </View>
+        )}
 
         {/* Header card */}
         <View style={{ backgroundColor: C.blue, borderRadius: 20, padding: 28, marginBottom: 24 }}>

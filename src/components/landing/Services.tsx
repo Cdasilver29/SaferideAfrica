@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Image, Pressable } from 'react-native';
 import { router } from 'expo-router';
 import { ChevronRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
@@ -26,17 +26,32 @@ function ServiceCard({ svc, readMore }: { svc: ServiceItem; readMore: string }) 
   const key = SERVICE_KEY_MAP[svc.code];
   return (
     <Pressable className="flex-1" onPress={() => router.push(`/services/${svc.code}` as any)} accessibilityRole="link">
-      <Card className="h-full items-center active:bg-foreground/5">
-        <View className="mb-2.5 h-[3px] w-6 rounded-pill bg-accent" />
-        <Text style={{ fontFamily: F.bold }} className="mb-1.5 text-center text-sm leading-5 text-foreground">
-          {t(`servicesPage.items.${key}.name`)}
-        </Text>
-        <Text style={{ fontFamily: F.regular }} className="mb-3 flex-1 text-center text-xs leading-[18px] text-muted-foreground">
-          {t(`servicesPage.items.${key}.shortDesc`)}
-        </Text>
-        <View className="flex-row items-center gap-1">
-          <Text style={{ fontFamily: F.semibold }} className="text-xs text-primary">{readMore}</Text>
-          <Icon icon={ChevronRight} size="xs" color={C.skyDeep} />
+      <Card className="h-full overflow-hidden p-0 active:bg-foreground/5">
+        {/* Phase I service photo. Sized container with explicit inline
+            dimensions on the Image, or react-native-web stretches it to the
+            source's natural height (same fix as the course images). */}
+        {svc.image && (
+          <View style={{ height: 120 }} className="w-full overflow-hidden">
+            <Image
+              source={svc.image}
+              resizeMode="cover"
+              accessibilityLabel={t(`servicesPage.items.${key}.name`)}
+              style={{ width: '100%', height: '100%' }}
+            />
+          </View>
+        )}
+        <View className="flex-1 items-center p-4">
+          <View className="mb-2.5 h-[3px] w-6 rounded-pill bg-accent" />
+          <Text style={{ fontFamily: F.bold }} className="mb-1.5 text-center text-sm leading-5 text-foreground">
+            {t(`servicesPage.items.${key}.name`)}
+          </Text>
+          <Text style={{ fontFamily: F.regular }} className="mb-3 flex-1 text-center text-xs leading-[18px] text-muted-foreground">
+            {t(`servicesPage.items.${key}.shortDesc`)}
+          </Text>
+          <View className="flex-row items-center gap-1">
+            <Text style={{ fontFamily: F.semibold }} className="text-xs text-primary">{readMore}</Text>
+            <Icon icon={ChevronRight} size="xs" color={C.skyDeep} />
+          </View>
         </View>
       </Card>
     </Pressable>
