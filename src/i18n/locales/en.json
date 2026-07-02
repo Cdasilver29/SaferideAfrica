@@ -37,9 +37,9 @@
 
   "hero": {
     "badge": "NTSA Certified Driving School",
-    "headline": "Drive Away with The Right Skills",
-    "headlineWords": ["Drive", "Away", "with", "The", "Right", "Skills"],
-    "subheadline": "We are the leading Driving Institution that centers its training on defensive driving, road safety, first aid, and professional driving training.",
+    "headline": "Welcome to Safe Ride Africa Where Safety is Beyond",
+    "headlineWords": [{ "w": "Welcome" }, { "w": "to" }, { "w": "Safe", "c": "red" }, { "w": "Ride", "c": "red" }, { "w": "Africa", "c": "red" }, { "w": "Where" }, { "w": "Safety", "c": "yellow" }, { "w": "is", "c": "yellow" }, { "w": "Beyond", "c": "yellow" }],
+    "subheadline": "At Safe Ride Africa Driving School, we make lessons enjoyable, flexible, and focused on you. With personal support and expert guidance, we'll help you feel confident on the road and ready for test day.",
     "trustNtsa": "NTSA Certified",
     "trustAward": "Award Winning",
     "trustPassRate": "98% First-Try Pass Rate",

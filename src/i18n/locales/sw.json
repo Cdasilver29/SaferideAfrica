@@ -37,9 +37,9 @@
 
   "hero": {
     "badge": "Shule ya Kuendesha Iliyoidhinishwa na NTSA",
-    "headline": "Endesha kwa Ujuzi na Ujasiri",
-    "headlineWords": ["Endesha", "kwa", "Ujuzi", "na", "Ujasiri", "Daima"],
-    "subheadline": "Sisi ni taasisi inayoongoza ya mafunzo ya uendeshaji inayoweka mafunzo yake katika uendeshaji salama, usalama barabarani, huduma ya kwanza, na mafunzo ya kitaalamu ya uendeshaji.",
+    "headline": "Karibu Safe Ride Africa Ambapo Usalama Ni Zaidi",
+    "headlineWords": [{ "w": "Karibu" }, { "w": "Safe", "c": "red" }, { "w": "Ride", "c": "red" }, { "w": "Africa", "c": "red" }, { "w": "Ambapo" }, { "w": "Usalama", "c": "yellow" }, { "w": "Ni", "c": "yellow" }, { "w": "Zaidi", "c": "yellow" }],
+    "subheadline": "Katika Shule ya Udereva ya Safe Ride Africa, tunafanya masomo yawe ya kufurahisha, yenye kubadilika, na yanayokulenga wewe. Kwa msaada wa kibinafsi na mwongozo wa kitaalamu, tutakusaidia kujiamini barabarani na kuwa tayari kwa siku ya mtihani.",
     "trustNtsa": "Imeidhinishwa na NTSA",
     "trustAward": "Tuzo ya Ubora",
     "trustPassRate": "98% Wanaofaulu Mara ya Kwanza",

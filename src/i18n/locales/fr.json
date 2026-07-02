@@ -37,9 +37,9 @@
 
   "hero": {
     "badge": "Auto-école Certifiée NTSA",
-    "headline": "Conduisez avec les Bonnes Compétences",
-    "headlineWords": ["Conduisez", "loin", "avec", "les", "Bonnes", "Compétences"],
-    "subheadline": "Nous sommes l'établissement de formation à la conduite de référence, dont l'enseignement est centré sur la conduite défensive, la sécurité routière, les premiers secours et la formation professionnelle à la conduite.",
+    "headline": "Bienvenue à Safe Ride Africa Où la Sécurité est Sans Limites",
+    "headlineWords": [{ "w": "Bienvenue" }, { "w": "à" }, { "w": "Safe", "c": "red" }, { "w": "Ride", "c": "red" }, { "w": "Africa", "c": "red" }, { "w": "Où" }, { "w": "la", "c": "yellow" }, { "w": "Sécurité", "c": "yellow" }, { "w": "est", "c": "yellow" }, { "w": "Sans", "c": "yellow" }, { "w": "Limites", "c": "yellow" }],
+    "subheadline": "À l'auto-école Safe Ride Africa, nous rendons les leçons agréables, flexibles et centrées sur vous. Avec un accompagnement personnalisé et des conseils d'experts, nous vous aiderons à vous sentir en confiance sur la route et prêt pour le jour de l'examen.",
     "trustNtsa": "Certifié NTSA",
     "trustAward": "École Primée",
     "trustPassRate": "98% de réussite au premier essai",

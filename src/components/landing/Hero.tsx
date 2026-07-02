@@ -65,11 +65,18 @@ function TypewriterText({ subheadline }: { subheadline: string }) {
   );
 }
 
-// Word-by-word stagger headline; body words white, accent words yellow.
-// Phase 12: removes the infinite accent pulse; the entrance plays once and
-// settles, and is shown immediately under reduce-motion.
-function AnimatedHeadline({ words, accentFrom }: { words: string[]; accentFrom: number }) {
+// Word-by-word stagger headline. Each word carries an optional brand colour
+// (red / yellow / white); plain strings are tolerated and render white so any
+// locale still on the old flat word list keeps working. Phase 12: entrance
+// plays once and settles, shown immediately under reduce-motion.
+type HeadlineSeg = { w: string; c?: string };
+const HEADLINE_COLORS: Record<string, string> = { red: C.red, yellow: C.yellow, white: C.white };
+
+function AnimatedHeadline({ segments }: { segments: (HeadlineSeg | string)[] }) {
   const reduceMotion = useReduceMotion();
+  const words: HeadlineSeg[] = segments
+    .map((s) => (typeof s === 'string' ? { w: s } : s))
+    .filter((s) => s.w && s.w.length > 0);
   const anims = useRef(words.map(() => new Animated.Value(0))).current;
 
   useEffect(() => {
@@ -90,12 +97,12 @@ function AnimatedHeadline({ words, accentFrom }: { words: string[]; accentFrom: 
 
   return (
     <View className="mb-3 flex-row flex-wrap gap-x-2 web:mb-4">
-      {words.filter((w) => w.length > 0).map((word, i) => {
-        const isAccent = i >= accentFrom;
+      {words.map((seg, i) => {
         const anim = anims[i] ?? new Animated.Value(1);
+        const color = HEADLINE_COLORS[seg.c ?? 'white'] ?? C.white;
         return (
           <Animated.View
-            key={word + i}
+            key={seg.w + i}
             style={{
               opacity: anim,
               transform: [
@@ -103,8 +110,8 @@ function AnimatedHeadline({ words, accentFrom }: { words: string[]; accentFrom: 
               ],
             }}
           >
-            <Text style={{ color: isAccent ? C.yellow : C.white, fontFamily: F.bold, fontSize, lineHeight: lineH }}>
-              {word}
+            <Text style={{ color, fontFamily: F.bold, fontSize, lineHeight: lineH }}>
+              {seg.w}
             </Text>
           </Animated.View>
         );
@@ -149,9 +156,7 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
   const { width: winW, height: winH } = useWindowDimensions();
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
 
-  const words = t('hero.headlineWords', { returnObjects: true }) as string[];
-  const visibleWords = words.filter((w) => w.length > 0);
-  const accentFrom = Math.max(0, visibleWords.length - 2);
+  const segments = t('hero.headlineWords', { returnObjects: true }) as (HeadlineSeg | string)[];
   const subheadline = t('hero.subheadline');
 
   const heroH = IS_WEB ? 580 : winH * 0.8;
@@ -185,7 +190,7 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
         style={IS_WEB && !isMobile ? { maxWidth: 720, paddingHorizontal: 48, paddingTop: 24 } : undefined}
       >
         {/* Headline, the value-proposition focal point */}
-        <AnimatedHeadline key={i18n.language} words={visibleWords} accentFrom={accentFrom} />
+        <AnimatedHeadline key={i18n.language} segments={segments} />
 
         {/* Typewriter sub-headline */}
         <TypewriterText key={i18n.language + '-sub'} subheadline={subheadline} />

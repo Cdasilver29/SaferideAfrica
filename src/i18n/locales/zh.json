@@ -37,9 +37,9 @@
 
   "hero": {
     "badge": "NTSA认证驾驶学校",
-    "headline": "以正确技能自信出发",
-    "headlineWords": ["以", "正确", "技能", "自信", "出发", "驾驶"],
-    "subheadline": "我们是领先的驾驶培训机构，以防御性驾驶、道路安全、急救和专业驾驶培训为核心。",
+    "headline": "欢迎来到 Safe Ride Africa 安全至上",
+    "headlineWords": [{ "w": "欢迎来到" }, { "w": "Safe", "c": "red" }, { "w": "Ride", "c": "red" }, { "w": "Africa", "c": "red" }, { "w": "安全至上", "c": "yellow" }],
+    "subheadline": "在 Safe Ride Africa 驾驶学校，我们让课程轻松有趣、灵活，并以你为中心。凭借贴心的支持和专业的指导，我们将帮助你在路上充满信心，为考试当天做好准备。",
     "trustNtsa": "NTSA认证",
     "trustAward": "屡获殊荣",
     "trustPassRate": "98%首次通过率",
