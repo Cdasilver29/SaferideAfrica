@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { View, Text, Pressable, SafeAreaView, ScrollView, Linking, useWindowDimensions } from 'react-native';
+import { View, Text, Image, Pressable, SafeAreaView, ScrollView, Linking, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
 import { MapPin, Phone, Clock, Navigation, ArrowRight, MessageCircle } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +14,8 @@ import { Card, Button, Badge, Icon, cn } from '@/components/ui';
 import { F, IS_WEB, MAX_W } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
 import { PageHead } from '@/components/PageHead';
+
+const LOGO = require('../assets/images/saferide-logo.jpg');
 
 // ─── Branch card (rebuilt on the Card primitive and tokens) ─────────────────────
 function BranchCard({
@@ -125,8 +127,28 @@ function BranchDirectory() {
     : cols === 2 ? (IS_WEB ? 'calc(50% - 8px)' : '48%')
     : (IS_WEB ? 'calc(33.333% - 11px)' : '48%');
 
+  // Watermark stays inside the viewport on narrow screens.
+  const markSize = Math.min(420, winW * 0.8);
+
   return (
-    <View style={{ backgroundColor: Th.background }} className="px-6 py-14">
+    <View style={{ backgroundColor: Th.background }} className="overflow-hidden px-6 py-14">
+      {/* Subtle SafeRide watermark behind the grid; decorative, non-interactive */}
+      <View
+        accessibilityElementsHidden
+        importantForAccessibility="no-hide-descendants"
+        aria-hidden
+        style={{
+          position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+          alignItems: 'center', justifyContent: 'center', pointerEvents: 'none',
+        }}
+      >
+        <Image
+          source={LOGO}
+          resizeMode="contain"
+          style={{ width: markSize, height: markSize, borderRadius: markSize / 2, opacity: 0.05 }}
+        />
+      </View>
+
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         {/* Map */}
         <View className="mb-6">
@@ -173,7 +195,7 @@ export default function BranchesPage() {
     <SafeAreaView style={{ flex: 1, backgroundColor: Th.background }}>
       <PageHead
         title="Our Branches Across Nairobi | Safe Ride Africa"
-        description="Find a Safe Ride Africa driving school branch near you across Nairobi. Search branches and get directions, hours, and contact details."
+        description="Find a Safe Ride Africa driving school branch near you across Nairobi. Browse all branches with directions, hours, and contact details."
         path="/branches"
       />
       <Navbar />
