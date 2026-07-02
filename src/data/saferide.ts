@@ -334,6 +334,7 @@ export const SOCIALS = {
   twitter:   'https://twitter.com/safrideafrica',
   tiktok:    'https://www.tiktok.com/@saferide254',
   instagram: 'https://www.instagram.com/safe_rideafrica',
+  youtube:   'https://www.youtube.com/@saferide254',
 } as const;
 
 // ─── Company story (two paragraphs for the About opener) ─────────────────────

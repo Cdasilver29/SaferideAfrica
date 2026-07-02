@@ -4,9 +4,22 @@ import { router } from 'expo-router';
 import { Phone, Mail, MapPin, Send } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W } from './constants';
-import { COMPANY } from '@/data/saferide';
+import { COMPANY, SOCIALS } from '@/data/saferide';
 import { Button, Icon } from '@/components/ui';
 import LaneStrip from './LaneStrip';
+import {
+  FacebookIcon, TwitterXIcon, TikTokIcon, InstagramIcon, YouTubeIcon,
+} from '../SocialIcons';
+
+// The header keeps only the floating WhatsApp button (Phase B); the full
+// social presence lives here.
+const SOCIAL_LINKS = [
+  { key: 'facebook',  label: 'Facebook',  Glyph: FacebookIcon },
+  { key: 'twitter',   label: 'X',         Glyph: TwitterXIcon },
+  { key: 'tiktok',    label: 'TikTok',    Glyph: TikTokIcon },
+  { key: 'instagram', label: 'Instagram', Glyph: InstagramIcon },
+  { key: 'youtube',   label: 'YouTube',   Glyph: YouTubeIcon },
+] as const;
 
 const FOOTER_NAV = [
   { key: 'home', path: '/' },
@@ -178,16 +191,17 @@ export default function Footer() {
                 </Text>
               )}
 
-              {/* Social monograms (Lucide has no brand glyphs); restrained dark chips */}
-              <View className="mt-5 flex-row gap-2.5">
-                {['f', 't', 'in'].map((label) => (
+              {/* Social links: real brand glyphs, restrained dark chips */}
+              <View className="mt-5 flex-row flex-wrap gap-2.5">
+                {SOCIAL_LINKS.map(({ key, label, Glyph }) => (
                   <Pressable
-                    key={label}
+                    key={key}
+                    onPress={() => Linking.openURL(SOCIALS[key])}
                     accessibilityRole="link"
-                    accessibilityLabel={`Social ${label}`}
+                    accessibilityLabel={label}
                     className="h-11 w-11 items-center justify-center rounded-pill border border-white/20 bg-white/10 active:bg-white/20"
                   >
-                    <Text style={{ fontFamily: F.bold }} className="text-xs text-white">{label}</Text>
+                    <Glyph size={16} />
                   </Pressable>
                 ))}
               </View>
