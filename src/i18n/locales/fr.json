@@ -204,19 +204,16 @@
     "goTo": "Afficher le témoignage {{num}}",
     "items": [
       {
-        "text": "La meilleure auto-école qui soit. Ils m'ont aidé à faire la demande Smart DL très rapidement — je n'arrivais pas à y croire.",
-        "name": "Eric Musyoka",
-        "role": "Chauffeur de Minibus"
+        "text": "Cette auto-école est de tout premier ordre. Ils m'ont vraiment aidé pour ma demande de Smart DL. Tout le processus a été incroyablement rapide, je n'arrivais pas à croire la vitesse à laquelle tout a été réglé.",
+        "name": "Peter Mutuku"
       },
       {
-        "text": "Les leçons sont vraiment agréables et en un mois j'ai pu terminer tout le cours de conduite et réussir les examens NTSA sans aucun souci.",
-        "name": "Maina Mburu",
-        "role": "Étudiant Universitaire"
+        "text": "J'ai vécu une expérience formidable ici. Les moniteurs rendent chaque leçon vraiment agréable, et j'ai terminé tout le cours en un mois seulement. Tout s'est déroulé sans accroc et j'ai réussi mes examens NTSA sans aucun stress. Je recommande vivement.",
+        "name": "Ben Mwangi"
       },
       {
-        "text": "J'ai fait mon cours de recyclage ici, ils m'ont aidé à reprendre confiance sur la route. Je vous le recommande, cela en vaut vraiment la peine.",
-        "name": "Michelle Akinyi",
-        "role": "Journaliste"
+        "text": "J'ai fait mon cours de recyclage ici et cela a complètement transformé ma confiance sur la route. La formation est excellente et réellement efficace. Je recommande vivement, cela vaut chaque minute de votre temps.",
+        "name": "Christine Atieno"
       }
     ]
   },

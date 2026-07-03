@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Image, Pressable, useWindowDimensions } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { ChevronLeft, ChevronRight, Star, Quote } from 'lucide-react-native';
+import { ChevronLeft, ChevronRight, Quote } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W } from './constants';
 import { Icon, cn } from '@/components/ui';
@@ -19,7 +19,7 @@ const PHOTO_SOURCES = IS_WEB
       require('../../../public/mitchelakinyi.webp'),
     ];
 
-const INITIALS = ['EM', 'MM', 'MA'];
+const INITIALS = ['PM', 'BM', 'CA'];
 const FALLBACK_BG = [C.skyDeep, C.skyLight, C.yellow];
 const N = 3;
 
@@ -30,7 +30,7 @@ export default function Testimonials() {
   const { t } = useTranslation();
   const { width: winW } = useWindowDimensions();
   const Th = useTheme();
-  const items = t('testimonials.items', { returnObjects: true }) as Array<{ text: string; name: string; role: string }>;
+  const items = t('testimonials.items', { returnObjects: true }) as Array<{ text: string; name: string; role?: string }>;
 
   const reduceMotion = useReduceMotion();
   const [active, setActive] = useState(0);
@@ -125,14 +125,10 @@ export default function Testimonials() {
                 {`"${item.text}"`}
               </Text>
 
-              <View className="mb-4 flex-row gap-0.5">
-                {[0, 1, 2, 3, 4].map((i) => (
-                  <Star key={i} size={15} color={C.yellow} fill={C.yellow} />
-                ))}
-              </View>
-
               <Text style={{ fontFamily: F.bold }} className="text-lg text-foreground web:text-xl">{item.name}</Text>
-              <Text style={{ fontFamily: F.regular }} className="mt-1 text-sm text-muted-foreground">{item.role}</Text>
+              {!!item.role && (
+                <Text style={{ fontFamily: F.regular }} className="mt-1 text-sm text-muted-foreground">{item.role}</Text>
+              )}
             </Animated.View>
 
             {/* Prev / Next */}

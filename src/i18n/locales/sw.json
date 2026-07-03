@@ -204,19 +204,16 @@
     "goTo": "Onyesha maoni ya {{num}}",
     "items": [
       {
-        "text": "Shule ya uendeshaji bora kabisa. Walinisaidia kuapply hii smart dl manze..haraka haraka kwanza hadi sikuamini.",
-        "name": "Eric Musyoka",
-        "role": "Dereva wa Matatu"
+        "text": "Shule hii ya udereva ni ya kiwango cha juu kabisa. Walinisaidia sana na ombi langu la Smart DL. Mchakato mzima ulikuwa wa haraka ajabu, sikuamini jinsi walivyokamilisha upesi.",
+        "name": "Peter Mutuku"
       },
       {
-        "text": "Masomo ni ya kufurahisha sana na ndani ya mwezi mmoja niliweza kumaliza kozi nzima ya uendeshaji na kufaulu mitihani ya NTSA bila wasiwasi wowote.",
-        "name": "Maina Mburu",
-        "role": "Mwanafunzi wa Chuo Kikuu"
+        "text": "Nilipata uzoefu wa ajabu hapa. Waalimu hufanya kila somo lifurahishe kweli, na nilimaliza kozi nzima ndani ya mwezi mmoja tu. Kila kitu kilienda vizuri, na nilifaulu mitihani yangu ya NTSA bila msongo wowote. Naipendekeza sana.",
+        "name": "Ben Mwangi"
       },
       {
-        "text": "Nilifanya kozi yangu ya kurudia hapa, walihakikisha nilijenga ujasiri barabarani. Ningeweza kupendekeza, ninakuhakikishia inastahili.",
-        "name": "Michelle Akinyi",
-        "role": "Mwandishi wa Habari"
+        "text": "Nilifanya kozi ya kurudia hapa na iliboresha kabisa ujasiri wangu barabarani. Mafunzo ni ya hali ya juu na yanafaa kweli. Naipendekeza sana, inastahili kila dakika ya muda wako.",
+        "name": "Christine Atieno"
       }
     ]
   },

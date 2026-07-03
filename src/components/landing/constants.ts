@@ -174,24 +174,23 @@ export const WORK_STEPS = [
   { num: '04', iconName: 'Car',         title: 'Start Your Training', desc: 'Get behind the wheel and build real road confidence.' },
 ];
 
+// Display strings come from i18n (testimonials.items); this mirrors them as
+// the English source of record.
 export const TESTIMONIALS = [
   {
-    name: 'Eric Musyoka',
-    role: 'Matatu Driver',
-    initials: 'EM',
-    text: 'Best driving school ever. Walinisaidia kuapply hii smart dl manze..haraka haraka kwanza hadi sikuamini.',
+    name: 'Peter Mutuku',
+    initials: 'PM',
+    text: "This driving school is top-tier. They really came through for me with my Smart DL application. The whole process was incredibly fast, I honestly couldn't believe how quickly they got it sorted.",
   },
   {
-    name: 'Maina Mburu',
-    role: 'University Student',
-    initials: 'MM',
-    text: 'The lessons are so much fun and in a month I was able to finish the whole driving course and passed the NTSA exams without any hustle.',
+    name: 'Ben Mwangi',
+    initials: 'BM',
+    text: 'I had an amazing experience here. The instructors make every lesson genuinely enjoyable, and I completed the entire course in just one month. Everything was smooth, and I passed my NTSA exams without any stress. Highly recommended.',
   },
   {
-    name: 'Michelle Akinyi',
-    role: 'Journalist',
-    initials: 'MA',
-    text: 'I did my refresher course here, they ensured I built confidence on the road. I would recommend it, I assure you it is worth it.',
+    name: 'Christine Atieno',
+    initials: 'CA',
+    text: 'Did my refresher course here and it completely transformed my confidence on the road. The training is top-notch and genuinely effective. Highly recommend, worth every bit of your time.',
   },
 ];
 

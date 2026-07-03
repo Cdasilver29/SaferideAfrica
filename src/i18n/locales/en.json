@@ -184,19 +184,16 @@
     "goTo": "Show testimonial {{num}}",
     "items": [
       {
-        "text": "Best driving school ever. Walinisaidia kuapply hii smart dl manze..haraka haraka kwanza hadi sikuamini.",
-        "name": "Eric Musyoka",
-        "role": "Matatu Driver"
+        "text": "This driving school is top-tier. They really came through for me with my Smart DL application. The whole process was incredibly fast, I honestly couldn't believe how quickly they got it sorted.",
+        "name": "Peter Mutuku"
       },
       {
-        "text": "The lessons are so much fun and in a month I was able to finish the whole driving course and passed the NTSA exams without any hustle.",
-        "name": "Maina Mburu",
-        "role": "University Student"
+        "text": "I had an amazing experience here. The instructors make every lesson genuinely enjoyable, and I completed the entire course in just one month. Everything was smooth, and I passed my NTSA exams without any stress. Highly recommended.",
+        "name": "Ben Mwangi"
       },
       {
-        "text": "I did my refresher course here, they ensured I built confidence on the road. I would recommend it, I assure you it is worth it.",
-        "name": "Michelle Akinyi",
-        "role": "Journalist"
+        "text": "Did my refresher course here and it completely transformed my confidence on the road. The training is top-notch and genuinely effective. Highly recommend, worth every bit of your time.",
+        "name": "Christine Atieno"
       }
     ]
   },
