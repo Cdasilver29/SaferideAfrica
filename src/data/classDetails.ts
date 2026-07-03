@@ -8,6 +8,11 @@
 // Deliberately absent: prices, lesson counts, and course durations. The site
 // carries no pricing, NTSA fees are described as process only, and course
 // length is described qualitatively.
+//
+// Age and tier facts were verified in July 2026 against cross-checked Kenyan
+// NTSA-framework guides: high confidence, but not NTSA primary-source. The
+// automatic-transmission restriction is described by function only; do not
+// attach a B1 or B2 subclass number to it, sources conflict on which is which.
 
 export interface ClassDetail {
   overview: string;
@@ -29,29 +34,27 @@ const REQ_ENROL = 'Enrolment at Safe Ride Africa, an NTSA-registered school';
 
 const REQ_BASE = [REQ_ID, REQ_KRA, REQ_PHOTOS, REQ_INTERIM, REQ_ENROL];
 
-// Per-class age lines. Where the source is unverified the line is hedged and
-// carries [CONFIRM]; leave the hedging exactly as written.
-const REQ_AGE_A2 = 'Minimum age: 16, with parental consent if under 18';
-const REQ_AGE_A3 =
-  'Minimum age: per NTSA Category A requirements [CONFIRM: the exact A3 minimum age with NTSA]';
+// Per-class age lines. Where a fact is still unverified the line is hedged
+// and carries [CONFIRM]; leave the hedging exactly as written.
 const REQ_AGE_18 = 'Minimum age: 18 years';
+const REQ_AGE_A3 = 'Minimum age: 21 years';
+const REQ_A3_RETEST =
+  'NTSA requires formal training and retesting for the A3 three-wheeler category';
 
-// Commercial tiers: owner-supplied reference, not yet confirmed against
-// NTSA's published schedule. Render with the uncertainty intact.
+// Commercial: SafeRide offers C-Light (NTSA C1). Higher classes are described
+// generically; their specific ages stay unpublished until confirmed.
 const REQ_C_TIERS = [
-  'NTSA runs commercial licensing as a tiered system. The tiers below are from an owner-supplied reference and are not yet confirmed against NTSA\'s published schedule [CONFIRM all age and experience tiers with NTSA]:',
-  'C1: minimum age 22, must hold B2 for at least 2 years',
-  'C: minimum age 24, must hold C1 for at least 2 years',
-  'CE: minimum age 28, must hold C for at least 4 years',
-  'CD: minimum age 30, must hold CE for at least 2 years',
+  'Minimum age: 22 years (NTSA Class C1, light truck)',
+  'Requires an existing lower-class licence with driving experience before upgrading to commercial',
+  'Higher commercial classes (C, CE, CD) follow NTSA\'s tiered progression: each requires the class below it plus further experience [CONFIRM: their specific minimum ages with NTSA before publishing them]',
 ];
 
-// PSV tiers: same owner-supplied source, same caveat.
+// PSV tiers.
 const REQ_D_TIERS = [
-  'PSV age minimums step up with vehicle capacity. The tiers below are from an owner-supplied reference and are not yet confirmed against NTSA\'s published schedule [CONFIRM all with NTSA]:',
+  'PSV age minimums step up with vehicle capacity:',
   'D1 (van): minimum age 22',
-  'D2 (minibus): minimum age 25',
-  'D3 (bus, 33+ passengers): minimum age 30',
+  'D2 (minibus): minimum age 25, with about 3 years of D1 experience',
+  'D3 (large bus): minimum age 30, with about 3 years of D2 experience',
   'PSV work generally requires professional driver training and a Certificate of Competence [CONFIRM current NTSA requirements]',
 ];
 
@@ -151,7 +154,7 @@ export const CLASS_DETAILS: Record<string, ClassDetail> = {
       'Emergency braking and wet-road handling',
     ],
     structure: FULL_COURSE_STRUCTURE('motorcycle'),
-    requirements: [REQ_AGE_A2, ...REQ_BASE],
+    requirements: [REQ_AGE_18, ...REQ_BASE],
     faq: [
       FAQ_INTERIM,
       {
@@ -181,7 +184,7 @@ export const CLASS_DETAILS: Record<string, ClassDetail> = {
       'NTSA theory essentials: signs, traffic law, and right of way',
     ],
     structure: TEST_ONLY_STRUCTURE,
-    requirements: [REQ_AGE_A2, ...REQ_BASE],
+    requirements: [REQ_AGE_18, ...REQ_BASE],
     faq: [
       FAQ_TEST_ONLY_FIT,
       FAQ_INTERIM,
@@ -209,7 +212,7 @@ export const CLASS_DETAILS: Record<string, ClassDetail> = {
       'Parking and reversing a three-wheeler',
     ],
     structure: FULL_COURSE_STRUCTURE('three-wheeler'),
-    requirements: [REQ_AGE_A3, ...REQ_BASE],
+    requirements: [REQ_AGE_A3, REQ_A3_RETEST, ...REQ_BASE],
     faq: [
       {
         q: 'Is this for passengers or deliveries?',
@@ -247,7 +250,7 @@ export const CLASS_DETAILS: Record<string, ClassDetail> = {
     faq: [
       {
         q: 'Can I drive automatic cars with a manual licence?',
-        a: 'Yes. Training and licensing on a manual vehicle lets you drive both manual and automatic. [CONFIRM: the exact NTSA subclass wording, B1 vs B2, is disputed across sources; verify with NTSA.]',
+        a: 'Yes. Training on a manual licenses you for both manual and automatic vehicles.',
       },
       {
         q: 'I have driven before. Do I need the full course?',
@@ -283,7 +286,11 @@ export const CLASS_DETAILS: Record<string, ClassDetail> = {
     faq: [
       {
         q: 'Can I drive manual cars after this?',
-        a: 'No. An automatic-focused licence restricts you to automatic vehicles. If you want to drive both, take B Manual. [CONFIRM: whether the restricted subclass is B1 or B2 with NTSA; sources conflict.]',
+        a: 'No. An automatic licence restricts you to automatic vehicles. If you want to drive both, take B Manual.',
+      },
+      {
+        q: 'Do I need any driving experience to start?',
+        a: 'No. There is no prior-experience prerequisite, the course starts from zero.',
       },
       {
         q: 'Is it faster than the manual course?',
@@ -364,7 +371,7 @@ export const CLASS_DETAILS: Record<string, ClassDetail> = {
     faq: [
       {
         q: 'Do I need a car licence first?',
-        a: 'Yes. Commercial categories require you to already hold, and to have held, a lower category. See the tier requirements above [CONFIRM with NTSA].',
+        a: 'Yes. Commercial categories require you to already hold a lower category, with driving experience. See the requirements above.',
       },
       {
         q: 'Can I go straight to the top commercial class?',
@@ -403,7 +410,8 @@ export const CLASS_DETAILS: Record<string, ClassDetail> = {
     ],
     requirements: [
       'Minimum age: 18 years for the Class B portion',
-      'You must meet the NTSA eligibility for each category separately. The Class C tiers carry age and experience minimums, see the Class C requirements [CONFIRM with NTSA]',
+      'Minimum age: 22 years for the commercial portion (NTSA Class C1)',
+      'NTSA issues each category separately once you qualify for it: there is no combined licence',
       ...REQ_BASE,
     ],
     faq: [
@@ -417,7 +425,7 @@ export const CLASS_DETAILS: Record<string, ClassDetail> = {
       },
       {
         q: 'Can I get the C licence immediately?',
-        a: 'Only when you meet NTSA\'s age and experience requirements for it [CONFIRM with NTSA].',
+        a: 'Only when you meet NTSA\'s requirements for it, including the minimum age of 22 for Class C1.',
       },
     ],
   },
@@ -525,7 +533,8 @@ export const CLASS_DETAILS: Record<string, ClassDetail> = {
       STAGE_TEST_PREP,
     ],
     requirements: [
-      'B3 professional: minimum age 21, professional driver training, and a Certificate of Competence [CONFIRM with NTSA]',
+      'B3 professional: minimum age 21',
+      'Professional driver training and a Certificate of Competence [CONFIRM current NTSA requirements]',
       ...REQ_BASE,
     ],
     faq: [
@@ -539,7 +548,7 @@ export const CLASS_DETAILS: Record<string, ClassDetail> = {
       },
       {
         q: 'What is the minimum age?',
-        a: '21 for B3 professional [CONFIRM with NTSA].',
+        a: '21 for B3 professional.',
       },
     ],
   },
