@@ -3,7 +3,7 @@ import { View, Text, ScrollView, SafeAreaView, Pressable, Linking, useWindowDime
 import { useRouter } from 'expo-router';
 import {
   CheckCircle, Asterisk, ArrowRight, Eye, Target, Heart,
-  Crown, Briefcase, TrendingUp, Settings, Building2,
+  ShieldCheck, History, MapPin, BadgeCheck, BookOpen,
 } from 'lucide-react-native';
 import type { LucideIcon } from 'lucide-react-native';
 import Svg, { Path, Rect, Circle } from 'react-native-svg';
@@ -17,7 +17,7 @@ import FAQ from '@/components/landing/FAQ';
 import FinalCTA from '@/components/landing/FinalCTA';
 import Footer from '@/components/landing/Footer';
 
-import { COMPANY, MANAGEMENT, SOCIALS, STATS as SAFERIDE_STATS } from '@/data/saferide';
+import { BRANCHES, COMPANY, SOCIALS, STATS as SAFERIDE_STATS } from '@/data/saferide';
 import { C, F, IS_WEB, MAX_W, ABOUT_OPENER_IMG } from '@/components/landing/constants';
 import { Button, Card, Icon, cn } from '@/components/ui';
 import { ResponsiveImage } from '@/components/ResponsiveImage';
@@ -316,40 +316,35 @@ function Achievements() {
   );
 }
 
-// ─── Management organogram ──────────────────────────────────────────────────────────
-const ROLE_ICON: Record<string, LucideIcon> = {
-  'Chief Executive Officer': Crown,
-  'General Manager': Briefcase,
-  'Business Development Manager': TrendingUp,
-  'Operations Manager': Settings,
-  'Branch Managers': Building2,
-};
+// ─── Trust and accreditation ─────────────────────────────────────────────────────
+// Only owner-confirmed claims. The years-operating figure stays [CONFIRM] in the
+// locale strings until the owner supplies it; do not fill it with a guess.
+const TRUST_ITEMS: { icon: LucideIcon; key: string }[] = [
+  { icon: ShieldCheck, key: 'ntsaRegistered' },
+  { icon: History,     key: 'yearsOperating' },
+  { icon: MapPin,      key: 'branches' },
+  { icon: BadgeCheck,  key: 'instructors' },
+  { icon: BookOpen,    key: 'curriculum' },
+];
 
-const ROLE_KEY_MAP: Record<string, string> = {
-  'Chief Executive Officer': 'ceo',
-  'General Manager': 'gm',
-  'Operations Manager': 'ops',
-  'Branch Managers': 'branchManagers',
-};
-
-function Management() {
+function TrustBlock() {
   const { t } = useTranslation();
   const { width: winW } = useWindowDimensions();
-  const cols = winW < 640 ? 1 : winW < 1024 ? 2 : 4;
-  const cardWidth: any = cols === 1 ? '100%' : cols === 2 ? (IS_WEB ? 'calc(50% - 8px)' : '48%') : (IS_WEB ? 'calc(25% - 12px)' : '48%');
+  const cols = winW < 640 ? 1 : winW < 1024 ? 2 : 3;
+  const cardWidth: any = cols === 1 ? '100%' : cols === 2 ? (IS_WEB ? 'calc(50% - 8px)' : '48%') : (IS_WEB ? 'calc(33.333% - 11px)' : '48%');
 
   return (
     <View className="bg-background px-6 py-16">
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
-        <SectionHeading overline={t('aboutPage.leadershipOverline')} title={t('aboutPage.managementTitle')} centered />
+        <SectionHeading overline={t('aboutPage.trust.overline')} title={t('aboutPage.trust.title')} centered />
         <View className="flex-row flex-wrap gap-4">
-          {MANAGEMENT.map((role) => (
-            <Card key={role.title} style={{ width: cardWidth }} className="flex-row items-center gap-3.5 p-4">
+          {TRUST_ITEMS.map(({ icon, key }) => (
+            <Card key={key} style={{ width: cardWidth }} className="flex-row items-center gap-3.5 p-4">
               <View className="h-12 w-12 items-center justify-center rounded-pill bg-primary/10">
-                <Icon icon={ROLE_ICON[role.title] ?? Briefcase} size="md" color={C.skyDeep} />
+                <Icon icon={icon} size="md" color={C.skyDeep} />
               </View>
               <Text style={{ fontFamily: F.bold }} className="flex-1 text-sm leading-5 text-foreground">
-                {t(`aboutPage.roles.${ROLE_KEY_MAP[role.title] ?? ''}`, { defaultValue: role.title })}
+                {t(`aboutPage.trust.items.${key}`, { branches: BRANCHES.length })}
               </Text>
             </Card>
           ))}
@@ -381,7 +376,7 @@ export default function AboutPage() {
         <Reveal><VisionMissionValues /></Reveal>
         <Reveal><WhyChooseUs /></Reveal>
         <Reveal><Achievements /></Reveal>
-        <Reveal><Management /></Reveal>
+        <Reveal><TrustBlock /></Reveal>
         <Reveal><WorkProcess /></Reveal>
         <Reveal><FAQ /></Reveal>
         <Reveal><FinalCTA /></Reveal>

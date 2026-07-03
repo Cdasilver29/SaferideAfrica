@@ -451,13 +451,16 @@
       "全新NTSA课程",
       "保证你能在所有主要和次要道路上成为一名合格的司机"
     ],
-    "leadershipOverline": "领导团队",
-    "managementTitle": "管理团队",
-    "roles": {
-      "ceo": "首席执行官",
-      "gm": "总经理",
-      "ops": "运营经理",
-      "branchManagers": "分校经理"
+    "trust": {
+      "overline": "信任与资质",
+      "title": "值得信赖的驾校",
+      "items": {
+        "ntsaRegistered": "NTSA注册驾校",
+        "yearsOperating": "运营年数：[CONFIRM]",
+        "branches": "内罗毕{{branches}}家分校",
+        "instructors": "NTSA认证教练",
+        "curriculum": "系统化的NTSA标准课程"
+      }
     }
   },
 

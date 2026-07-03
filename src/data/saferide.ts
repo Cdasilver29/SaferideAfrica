@@ -33,14 +33,6 @@ export const VISION  = 'To play a leading role in excellent training of all kind
 export const MISSION = 'To facilitate the very best theoretical and practical safe solutions in the field of driving that eventually results in accident free ecosystem.';
 export const CORE_VALUES = ['Professionalism', 'Team Work', 'Customer Care', 'Communication', 'Honesty'] as const;
 
-export const MANAGEMENT = [
-  { title: 'Chief Executive Officer' },
-  { title: 'General Manager' },
-  { title: 'Business Development Manager' },
-  { title: 'Operations Manager' },
-  { title: 'Branch Managers' },
-] as const;
-
 // ─── Branches ────────────────────────────────────────────────────────────────
 
 // Authoritative 12-branch list, owner-confirmed. Counts elsewhere derive

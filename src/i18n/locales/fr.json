@@ -451,13 +451,16 @@
       "Nouveau programme NTSA",
       "La garantie de devenir un conducteur compétent sur toutes les routes principales et secondaires"
     ],
-    "leadershipOverline": "Direction",
-    "managementTitle": "Équipe de direction",
-    "roles": {
-      "ceo": "Président Directeur Général",
-      "gm": "Directeur Général",
-      "ops": "Directeur des Opérations",
-      "branchManagers": "Directeurs d'Agence"
+    "trust": {
+      "overline": "Confiance et Accréditation",
+      "title": "Une auto-école fiable",
+      "items": {
+        "ntsaRegistered": "Auto-école enregistrée auprès de la NTSA",
+        "yearsOperating": "Années d'activité : [CONFIRM]",
+        "branches": "{{branches}} agences à travers Nairobi",
+        "instructors": "Moniteurs certifiés NTSA",
+        "curriculum": "Programme structuré aligné sur la NTSA"
+      }
     }
   },
 

@@ -451,13 +451,16 @@
       "Mtaala mpya wa NTSA",
       "Uhakika wa kuwa dereva mahiri kwenye barabara kuu na ndogo zote"
     ],
-    "leadershipOverline": "Uongozi",
-    "managementTitle": "Timu ya Uongozi",
-    "roles": {
-      "ceo": "Afisa Mkuu Mtendaji",
-      "gm": "Meneja Mkuu",
-      "ops": "Meneja wa Uendeshaji",
-      "branchManagers": "Mameneja wa Matawi"
+    "trust": {
+      "overline": "Uaminifu na Ithibati",
+      "title": "Shule ya Udereva Unayoweza Kuitegemea",
+      "items": {
+        "ntsaRegistered": "Shule ya udereva iliyosajiliwa na NTSA",
+        "yearsOperating": "Miaka ya uendeshaji: [CONFIRM]",
+        "branches": "Matawi {{branches}} kote Nairobi",
+        "instructors": "Wakufunzi waliothibitishwa na NTSA",
+        "curriculum": "Mtaala uliopangwa unaolingana na NTSA"
+      }
     }
   },
 

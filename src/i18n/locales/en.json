@@ -443,13 +443,16 @@
       "New NTSA curriculum",
       "Guarantee you become a competent driver on all major and minor roads"
     ],
-    "leadershipOverline": "Leadership",
-    "managementTitle": "Management Team",
-    "roles": {
-      "ceo": "Chief Executive Officer",
-      "gm": "General Manager",
-      "ops": "Operations Manager",
-      "branchManagers": "Branch Managers"
+    "trust": {
+      "overline": "Trust & Accreditation",
+      "title": "A Driving School You Can Rely On",
+      "items": {
+        "ntsaRegistered": "NTSA-registered driving school",
+        "yearsOperating": "Years operating: [CONFIRM]",
+        "branches": "{{branches}} branches across Nairobi",
+        "instructors": "NTSA-certified instructors",
+        "curriculum": "Structured, NTSA-aligned curriculum"
+      }
     }
   },
 
