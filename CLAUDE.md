@@ -22,7 +22,8 @@ A public marketing and enrollment-lead site for Safe Ride Africa, a Nairobi driv
 ## Content integrity (Truth Protocol for site copy)
 - Do not fabricate facts, figures, quotes, or ratings in any site copy.
 - Where a fact is unconfirmed, use a [CONFIRM] placeholder rather than a plausible guess.
-- Items marked VERIFY in the content docs (the NTSA age tiers for commercial and PSV classes, the automatic-transmission B1 vs B2 restriction) render with their hedging intact and stay [CONFIRM] until I confirm them with NTSA. Do not rewrite hedged facts into confident claims.
+- Items marked VERIFY in the content docs render with their hedging intact and stay [CONFIRM] until I confirm them with NTSA. Do not rewrite hedged facts into confident claims. Still open: the specific minimum ages for the heavier commercial classes (C, CE, CD) and the PSV professional-training / Certificate of Competence requirement.
+- The automatic-transmission restriction is described by function only: an automatic licence restricts you to automatic vehicles, manual training licenses you for both. Never attach a B1 or B2 subclass number to it, sources conflict on which is which.
 
 ## Verify before declaring a phase done
 - Run `npm run type-check` and `npm run build:web`. Both must be green. After a deletion, a green type-check is the proof nothing dangling references the removed code.
