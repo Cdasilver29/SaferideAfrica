@@ -43,18 +43,9 @@ export const MANAGEMENT = [
 
 // ─── Branches ────────────────────────────────────────────────────────────────
 
-// Authoritative list from the Safe Ride Africa branch flyer. Owner will add
-// further branches later; counts elsewhere derive from BRANCHES.length.
+// Authoritative 12-branch list, owner-confirmed. Counts elsewhere derive
+// from BRANCHES.length; do not hardcode a branch number anywhere.
 export const BRANCHES = [
-  {
-    id: 'donholm',
-    name: 'Donholm',
-    isHQ: false,
-    address: 'Donholm, Nairobi',
-    phone: '0746 097 033',
-    hours: 'Mon–Sat 7am–6pm',
-    mapsQuery: 'SafeRide Africa Donholm Nairobi',
-  },
   {
     id: 'buruburu',
     name: 'Buruburu',
@@ -65,51 +56,6 @@ export const BRANCHES = [
     mapsQuery: 'SafeRide Africa Buruburu Nairobi',
   },
   {
-    id: 'pipeline',
-    name: 'Pipeline',
-    isHQ: false,
-    address: 'Pipeline, Nairobi',
-    phone: '0746 097 033',
-    hours: 'Mon–Sat 7am–6pm',
-    mapsQuery: 'SafeRide Africa Pipeline Nairobi',
-  },
-  {
-    id: 'beecentre',
-    name: 'Bee Centre',
-    isHQ: false,
-    address: 'Bee Centre, Nairobi',
-    phone: '0746 097 033',
-    hours: 'Mon–Sat 7am–6pm',
-    mapsQuery: 'SafeRide Africa Bee Centre Nairobi',
-  },
-  {
-    id: 'ruaraka',
-    name: 'Ruaraka',
-    isHQ: false,
-    address: 'Ruaraka, Nairobi',
-    phone: '0746 097 033',
-    hours: 'Mon–Sat 7am–6pm',
-    mapsQuery: 'SafeRide Africa Ruaraka Nairobi',
-  },
-  {
-    id: 'umoja',
-    name: 'Umoja',
-    isHQ: false,
-    address: 'Umoja, Nairobi',
-    phone: '0757 209 966',
-    hours: 'Mon–Sat 7am–6pm',
-    mapsQuery: 'SafeRide Africa Umoja Nairobi',
-  },
-  {
-    id: 'hamza',
-    name: 'Hamza Jogoo Rd',
-    isHQ: false,
-    address: 'Hamza, Jogoo Road, Nairobi',
-    phone: '0757 209 966',
-    hours: 'Mon–Sat 7am–6pm',
-    mapsQuery: 'SafeRide Africa Hamza Jogoo Road Nairobi',
-  },
-  {
     id: 'nasra',
     name: 'Nasra',
     isHQ: false,
@@ -117,6 +63,42 @@ export const BRANCHES = [
     phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',
     mapsQuery: 'SafeRide Africa Nasra Nairobi',
+  },
+  {
+    id: 'hamza',
+    name: 'Hamza',
+    isHQ: false,
+    address: 'Hamza, Jogoo Road, Nairobi',
+    phone: '0757 209 966',
+    hours: 'Mon–Sat 7am–6pm',
+    mapsQuery: 'SafeRide Africa Hamza Jogoo Road Nairobi',
+  },
+  {
+    id: 'donholm',
+    name: 'Donholm',
+    isHQ: false,
+    address: 'Donholm, Nairobi',
+    phone: '0746 097 033',
+    hours: 'Mon–Sat 7am–6pm',
+    mapsQuery: 'SafeRide Africa Donholm Nairobi',
+  },
+  {
+    id: 'newdonholm',
+    name: 'New Donholm',
+    isHQ: false,
+    address: 'New Donholm, Nairobi',
+    phone: '0746 097 033',
+    hours: 'Mon–Sat 7am–6pm',
+    mapsQuery: 'SafeRide Africa New Donholm Nairobi',
+  },
+  {
+    id: 'elim',
+    name: 'Elim',
+    isHQ: false,
+    address: 'Elim, Nairobi',
+    phone: '0746 097 033',
+    hours: 'Mon–Sat 7am–6pm',
+    mapsQuery: 'SafeRide Africa Elim Nairobi',
   },
   {
     id: 'tena',
@@ -129,12 +111,48 @@ export const BRANCHES = [
   },
   {
     id: 'kayole',
-    name: 'Kayole PCEA',
+    name: 'Kayole',
     isHQ: false,
     address: 'Kayole PCEA, Nairobi',
     phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',
     mapsQuery: 'SafeRide Africa Kayole PCEA Nairobi',
+  },
+  {
+    id: 'beecentre',
+    name: 'Bee Centre',
+    isHQ: false,
+    address: 'Bee Centre, Nairobi',
+    phone: '0746 097 033',
+    hours: 'Mon–Sat 7am–6pm',
+    mapsQuery: 'SafeRide Africa Bee Centre Nairobi',
+  },
+  {
+    id: 'kagundo',
+    name: 'Kagundo Road',
+    isHQ: false,
+    address: 'Kagundo Road, Nairobi',
+    phone: '0757 209 966',
+    hours: 'Mon–Sat 7am–6pm',
+    mapsQuery: 'SafeRide Africa Kagundo Road Nairobi',
+  },
+  {
+    id: 'umoja',
+    name: 'Umoja 1',
+    isHQ: false,
+    address: 'Umoja 1, Nairobi',
+    phone: '0757 209 966',
+    hours: 'Mon–Sat 7am–6pm',
+    mapsQuery: 'SafeRide Africa Umoja 1 Nairobi',
+  },
+  {
+    id: 'embakasi',
+    name: 'Embakasi',
+    isHQ: false,
+    address: 'Embakasi, Nairobi',
+    phone: '0746 097 033',
+    hours: 'Mon–Sat 7am–6pm',
+    mapsQuery: 'SafeRide Africa Embakasi Nairobi',
   },
 ] as const;
 
@@ -145,8 +163,6 @@ export type Branch = typeof BRANCHES[number];
 export const BRANCH_COORDS: Record<string, [number, number]> = {
   donholm:    [-1.2912, 36.8922],
   buruburu:   [-1.2826, 36.8740],
-  pipeline:   [-1.3095, 36.8940],
-  ruaraka:    [-1.2447, 36.8715],
   embakasi:   [-1.3194, 36.8953],
   beecentre:  [-1.2860, 36.8930],
   nasra:      [-1.2745, 36.8830],
@@ -156,7 +172,7 @@ export const BRANCH_COORDS: Record<string, [number, number]> = {
   umoja:      [-1.2864, 36.8924],
   elim:       [-1.2870, 36.8855],
   newdonholm: [-1.2880, 36.8960],
-  umoja3:     [-1.2783, 36.9160],
+  kagundo:    [-1.2783, 36.9160],
 };
 
 // ─── Classes & Pricing ───────────────────────────────────────────────────────
