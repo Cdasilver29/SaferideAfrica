@@ -120,9 +120,9 @@ export const BRANCHES = [
   },
   {
     id: 'beecentre',
-    name: 'Bee Centre',
+    name: 'Bee Center',
     isHQ: false,
-    address: 'Bee Centre, Nairobi',
+    address: 'Bee Center, Nairobi',
     phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',
     mapsQuery: 'SafeRide Africa Bee Centre Nairobi',
