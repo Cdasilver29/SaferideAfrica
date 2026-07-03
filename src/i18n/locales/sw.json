@@ -428,7 +428,7 @@
     "historyOverline": "Historia Yetu",
     "historyTitle": "Zaidi ya Muongo Mmoja wa Barabara Salama za Kenya",
     "historyP1": "Safe Ride Africa Driving School ilianzishwa mwaka {{foundedYear}} kwa imani moja: kila dereva wa Kenya anastahili mafunzo ya kiwango cha kimataifa, sio tu cheti. Kuanzia tawi moja Nairobi, shule ilipata sifa ya haraka kwa mafundisho makali, utunzaji wa kweli kwa wanafunzi, na mtaala unaolingana na NTSA unaowaandaa wanafunzi kwa barabara halisi, sio tu mtihani.",
-    "historyP2": "Mwaka {{incorporatedYear}}, shule ilisajiliwa rasmi kama {{legalName}} (PVT {{pvt}}), ikithibitisha miaka mitano ya ukuaji kuwa taasisi iliyosajiliwa. Leo tunaendesha matawi {{branches}} kote Nairobi, kutoka Buruburu (Makao Makuu) hadi Kayole PCEA, na tumefunza zaidi ya madereva 2,100 wenye leseni.",
+    "historyP2": "Mwaka {{incorporatedYear}}, shule ilisajiliwa rasmi kama {{legalName}} (PVT {{pvt}}), ikithibitisha miaka mitano ya ukuaji kuwa taasisi iliyosajiliwa. Leo tunaendesha matawi kote Nairobi, kutoka Buruburu (Makao Makuu) hadi Kayole PCEA, na tumefunza zaidi ya madereva 2,100 wenye leseni.",
     "historyP3": "Nambari yetu ya usajili wa NTSA (BN {{bn}}) inaweza kuthibitishwa hadharani. Kila mkufunzi ana cheti halali cha NTSA na anashiriki katika maendeleo endelevu ya kitaaluma. Matokeo ni kiwango cha asilimia 98 cha kufaulu jaribio la kwanza la NTSA, takwimu tunayojivunia.",
     "whatDrivesUs": "Kinachotusukuma",
     "visionTitle": "Dira",
@@ -522,7 +522,7 @@
       "corporate": {
         "name": "Mafunzo ya Madereva wa Makampuni",
         "shortDesc": "Mafunzo ya madereva wa meli za magari na makampuni yanayoshughulikia uendeshaji wa kujikinga, uzingatiaji wa NTSA, na huduma ya kwanza.",
-        "fullDesc": "Safe Ride Africa hutoa programu kamili za mafunzo ya madereva wa kampuni kwa makampuni ya ukubwa wowote. Tunatathmini madereva wa meli yako ya magari, tunatoa mafunzo ya kuongeza uendeshaji wa kujikinga, tunashughulikia uzingatiaji wa NTSA na uwekaji kumbukumbu, na tunatoa mafunzo ya msingi ya huduma ya kwanza. Programu zinaweza kufanyika katika eneo lako au katika mojawapo ya matawi yetu {{branches}}. Bei za kikundi zinatumika kwa meli za magari matano au zaidi."
+        "fullDesc": "Safe Ride Africa hutoa programu kamili za mafunzo ya madereva wa kampuni kwa makampuni ya ukubwa wowote. Tunatathmini madereva wa meli yako ya magari, tunatoa mafunzo ya kuongeza uendeshaji wa kujikinga, tunashughulikia uzingatiaji wa NTSA na uwekaji kumbukumbu, na tunatoa mafunzo ya msingi ya huduma ya kwanza. Programu zinaweza kufanyika katika eneo lako au katika mojawapo ya matawi yetu. Bei za kikundi zinatumika kwa meli za magari matano au zaidi."
       },
       "online": {
         "name": "Jukwaa la Kujifunza Mtandaoni",

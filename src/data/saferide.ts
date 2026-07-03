@@ -43,6 +43,8 @@ export const MANAGEMENT = [
 
 // ─── Branches ────────────────────────────────────────────────────────────────
 
+// Authoritative list from the Safe Ride Africa branch flyer. Owner will add
+// further branches later; counts elsewhere derive from BRANCHES.length.
 export const BRANCHES = [
   {
     id: 'donholm',
@@ -55,21 +57,21 @@ export const BRANCHES = [
   },
   {
     id: 'buruburu',
-    name: 'Buru Buru',
+    name: 'Buruburu',
     isHQ: true,
-    address: 'Buru Buru, Nairobi',
+    address: 'Buruburu, Nairobi',
     phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',
-    mapsQuery: 'SafeRide Africa Buru Buru Nairobi',
+    mapsQuery: 'SafeRide Africa Buruburu Nairobi',
   },
   {
-    id: 'embakasi',
-    name: 'Embakasi',
+    id: 'pipeline',
+    name: 'Pipeline',
     isHQ: false,
-    address: 'Embakasi, Nairobi',
+    address: 'Pipeline, Nairobi',
     phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',
-    mapsQuery: 'SafeRide Africa Embakasi Nairobi',
+    mapsQuery: 'SafeRide Africa Pipeline Nairobi',
   },
   {
     id: 'beecentre',
@@ -79,6 +81,33 @@ export const BRANCHES = [
     phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',
     mapsQuery: 'SafeRide Africa Bee Centre Nairobi',
+  },
+  {
+    id: 'ruaraka',
+    name: 'Ruaraka',
+    isHQ: false,
+    address: 'Ruaraka, Nairobi',
+    phone: '0746 097 033',
+    hours: 'Mon–Sat 7am–6pm',
+    mapsQuery: 'SafeRide Africa Ruaraka Nairobi',
+  },
+  {
+    id: 'umoja',
+    name: 'Umoja',
+    isHQ: false,
+    address: 'Umoja, Nairobi',
+    phone: '0757 209 966',
+    hours: 'Mon–Sat 7am–6pm',
+    mapsQuery: 'SafeRide Africa Umoja Nairobi',
+  },
+  {
+    id: 'hamza',
+    name: 'Hamza Jogoo Rd',
+    isHQ: false,
+    address: 'Hamza, Jogoo Road, Nairobi',
+    phone: '0757 209 966',
+    hours: 'Mon–Sat 7am–6pm',
+    mapsQuery: 'SafeRide Africa Hamza Jogoo Road Nairobi',
   },
   {
     id: 'nasra',
@@ -91,66 +120,21 @@ export const BRANCHES = [
   },
   {
     id: 'tena',
-    name: 'Tena',
+    name: 'Tena B',
     isHQ: false,
-    address: 'Tena, Nairobi',
+    address: 'Tena B, Nairobi',
     phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',
     mapsQuery: 'SafeRide Africa Tena Nairobi',
   },
   {
-    id: 'hamza',
-    name: 'Hamza',
-    isHQ: false,
-    address: 'Hamza, Nairobi',
-    phone: '0757 209 966',
-    hours: 'Mon–Sat 7am–6pm',
-    mapsQuery: 'SafeRide Africa Hamza Nairobi',
-  },
-  {
     id: 'kayole',
-    name: 'Kayole',
+    name: 'Kayole PCEA',
     isHQ: false,
-    address: 'Kayole, Nairobi',
+    address: 'Kayole PCEA, Nairobi',
     phone: '0746 097 033',
     hours: 'Mon–Sat 7am–6pm',
-    mapsQuery: 'SafeRide Africa Kayole Nairobi',
-  },
-  {
-    id: 'umoja',
-    name: 'Umoja',
-    isHQ: false,
-    address: 'Umoja, Nairobi',
-    phone: '0757 209 966',
-    hours: 'Mon–Sat 7am–6pm',
-    mapsQuery: 'SafeRide Africa Umoja Nairobi',
-  },
-  {
-    id: 'elim',
-    name: 'Elim',
-    isHQ: false,
-    address: 'Elim, Nairobi',
-    phone: '0746 097 033',
-    hours: 'Mon–Sat 7am–6pm',
-    mapsQuery: 'SafeRide Africa Elim Nairobi',
-  },
-  {
-    id: 'newdonholm',
-    name: 'New Donholm',
-    isHQ: false,
-    address: 'New Donholm, Nairobi',
-    phone: '0746 097 033',
-    hours: 'Mon–Sat 7am–6pm',
-    mapsQuery: 'SafeRide Africa New Donholm Nairobi',
-  },
-  {
-    id: 'umoja3',
-    name: 'Umoja 3 / Kagundo Rd',
-    isHQ: false,
-    address: 'Umoja 3, Kagundo Road, Nairobi',
-    phone: '0757 209 966',
-    hours: 'Mon–Sat 7am–6pm',
-    mapsQuery: 'SafeRide Africa Umoja 3 Kagundo Road Nairobi',
+    mapsQuery: 'SafeRide Africa Kayole PCEA Nairobi',
   },
 ] as const;
 
@@ -161,6 +145,8 @@ export type Branch = typeof BRANCHES[number];
 export const BRANCH_COORDS: Record<string, [number, number]> = {
   donholm:    [-1.2912, 36.8922],
   buruburu:   [-1.2826, 36.8740],
+  pipeline:   [-1.3095, 36.8940],
+  ruaraka:    [-1.2447, 36.8715],
   embakasi:   [-1.3194, 36.8953],
   beecentre:  [-1.2860, 36.8930],
   nasra:      [-1.2745, 36.8830],
@@ -306,7 +292,7 @@ export const SERVICES: ServiceItem[] = [
     iconName:  'Briefcase',
     image:     require('../../assets/images/services/corporate-driver-training.webp'),
     shortDesc: 'Fleet and company driver training covering defensive driving, NTSA compliance, and first aid.',
-    fullDesc:  'Safe Ride Africa delivers comprehensive corporate driver training programmes for companies of all sizes. We assess your fleet drivers, provide defensive driving refreshers, cover NTSA compliance and log-keeping, and deliver basic first-aid training. Programmes can be conducted at your premises or any of our ten branches. Group rates apply for fleets of five or more.',
+    fullDesc:  'Safe Ride Africa delivers comprehensive corporate driver training programmes for companies of all sizes. We assess your fleet drivers, provide defensive driving refreshers, cover NTSA compliance and log-keeping, and deliver basic first-aid training. Programmes can be conducted at your premises or any of our branches across Nairobi. Group rates apply for fleets of five or more.',
   },
   {
     code:      'ONLINE',
@@ -321,7 +307,7 @@ export const SERVICES: ServiceItem[] = [
 // ─── Homepage stats ──────────────────────────────────────────────────────────
 
 export const STATS = {
-  branches:    12,
+  branches:    BRANCHES.length,
   instructors: 20,
   passRate:    98,
   yearsActive: new Date().getFullYear() - 2015,
@@ -352,7 +338,7 @@ export const SOCIALS = {
 
 export const COMPANY_STORY = [
   `Safe Ride Africa Driving School was founded in ${COMPANY.registration.foundedYear} with a single conviction: that every Kenyan driver deserves world-class training, not just a piece of paper. Starting from a single Nairobi location, the school quickly gained a reputation for rigorous instruction, genuine care for students, and an NTSA-aligned curriculum that prepared learners for real roads, not just the test track.`,
-  `In ${COMPANY.registration.incorporatedDate.split(' ').pop()}, the school was formally incorporated as ${COMPANY.legalName} (PVT ${COMPANY.registration.pvt}), formalising five years of growth into a registered institution. Today we operate ${STATS.branches} branches across Nairobi, from Buruburu (HQ) to Kayole PCEA, and have trained over 2,100 licensed drivers.`,
+  `In ${COMPANY.registration.incorporatedDate.split(' ').pop()}, the school was formally incorporated as ${COMPANY.legalName} (PVT ${COMPANY.registration.pvt}), formalising five years of growth into a registered institution. Today we operate branches across Nairobi, from Buruburu (HQ) to Kayole PCEA, and have trained over 2,100 licensed drivers.`,
 ] as const;
 
 // ─── Blog articles ────────────────────────────────────────────────────────────
@@ -442,7 +428,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'paragraph',
-        text: 'At Safe Ride Africa, Smart DL application guidance is included in every full course at no extra charge. Our instructors walk you through TIMS registration, PDL application, theory test booking, payment, and biometric scheduling. We have assisted over 2,100 drivers through this process across our 10 Nairobi branches.',
+        text: 'At Safe Ride Africa, Smart DL application guidance is included in every full course at no extra charge. Our instructors walk you through TIMS registration, PDL application, theory test booking, payment, and biometric scheduling. We have assisted over 2,100 drivers through this process across our Nairobi branches.',
       },
       {
         type: 'callout',

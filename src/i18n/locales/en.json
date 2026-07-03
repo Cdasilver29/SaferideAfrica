@@ -1,6 +1,6 @@
 {
   "topbar": {
-    "address": "Buruburu, Nairobi (HQ) · 10 Branches",
+    "address": "Buruburu, Nairobi (HQ) · Branches across Nairobi",
     "phone": "0746 097 033",
     "email": "saferideafrica777@gmail.com",
     "signIn": "Customer Sign In"
@@ -420,7 +420,7 @@
     "historyOverline": "Our History",
     "historyTitle": "More Than a Decade of Safer Kenyan Roads",
     "historyP1": "Safe Ride Africa Driving School was founded in {{foundedYear}} with a single conviction: that every Kenyan driver deserves world-class training, not just a piece of paper. Starting from a single Nairobi location, the school quickly gained a reputation for rigorous instruction, genuine care for students, and an NTSA-aligned curriculum that prepared learners for real roads, not just the test track.",
-    "historyP2": "In {{incorporatedYear}}, the school was formally incorporated as {{legalName}} (PVT {{pvt}}), formalising five years of growth into a registered institution. Today we operate {{branches}} branches across Nairobi, from Buruburu (HQ) to Kayole PCEA, and have trained over 2,100 licensed drivers.",
+    "historyP2": "In {{incorporatedYear}}, the school was formally incorporated as {{legalName}} (PVT {{pvt}}), formalising five years of growth into a registered institution. Today we operate branches across Nairobi, from Buruburu (HQ) to Kayole PCEA, and have trained over 2,100 licensed drivers.",
     "historyP3": "Our NTSA registration number (BN {{bn}}) is publicly verifiable. Every instructor holds valid NTSA certification and participates in ongoing professional development. The result is a 98% NTSA first-attempt pass rate, a figure we are proud to stand behind.",
     "whatDrivesUs": "What Drives Us",
     "visionTitle": "Vision",
@@ -514,7 +514,7 @@
       "corporate": {
         "name": "Corporate Driver Training",
         "shortDesc": "Fleet and company driver training covering defensive driving, NTSA compliance, and first aid.",
-        "fullDesc": "Safe Ride Africa delivers comprehensive corporate driver training programmes for companies of all sizes. We assess your fleet drivers, provide defensive driving refreshers, cover NTSA compliance and log-keeping, and deliver basic first-aid training. Programmes can be conducted at your premises or any of our {{branches}} branches. Group rates apply for fleets of five or more."
+        "fullDesc": "Safe Ride Africa delivers comprehensive corporate driver training programmes for companies of all sizes. We assess your fleet drivers, provide defensive driving refreshers, cover NTSA compliance and log-keeping, and deliver basic first-aid training. Programmes can be conducted at your premises or any of our branches across Nairobi. Group rates apply for fleets of five or more."
       },
       "online": {
         "name": "Online Learning Platform",

@@ -101,7 +101,6 @@ function AboutOpener() {
         incorporatedYear: COMPANY.registration.incorporatedDate.split(' ').pop(),
         legalName: COMPANY.legalName,
         pvt: COMPANY.registration.pvt,
-        branches: SAFERIDE_STATS.branches,
       })}
     </>
   );
@@ -168,7 +167,6 @@ function AboutOpener() {
                     incorporatedYear: COMPANY.registration.incorporatedDate.split(' ').pop(),
                     legalName: COMPANY.legalName,
                     pvt: COMPANY.registration.pvt,
-                    branches: SAFERIDE_STATS.branches,
                   })}
                 </Text>
               </View>
@@ -230,7 +228,6 @@ function CompanyStory() {
             incorporatedYear: COMPANY.registration.incorporatedDate.split(' ').pop(),
             legalName: COMPANY.legalName,
             pvt: COMPANY.registration.pvt,
-            branches: SAFERIDE_STATS.branches,
           })}
         </Text>
         <Text style={{ fontFamily: F.regular }} className="text-sm leading-[26px] text-muted-foreground">

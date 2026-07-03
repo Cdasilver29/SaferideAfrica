@@ -428,7 +428,7 @@
     "historyOverline": "Notre Histoire",
     "historyTitle": "Plus d'une décennie au service de routes kenyanes plus sûres",
     "historyP1": "Safe Ride Africa Driving School a été fondée en {{foundedYear}} avec une conviction unique : chaque conducteur kenyan mérite une formation de classe mondiale, pas seulement un morceau de papier. Partant d'un seul site à Nairobi, l'école a rapidement acquis une réputation d'enseignement rigoureux, d'attention sincère envers les élèves et d'un programme conforme aux normes NTSA qui prépare les apprenants à la route réelle, pas seulement à l'examen.",
-    "historyP2": "En {{incorporatedYear}}, l'école a été officiellement constituée sous le nom de {{legalName}} (PVT {{pvt}}), formalisant cinq années de croissance en une institution agréée. Aujourd'hui, nous exploitons {{branches}} agences à travers Nairobi, de Buruburu (siège) à Kayole PCEA, et avons formé plus de 2 100 conducteurs titulaires d'un permis.",
+    "historyP2": "En {{incorporatedYear}}, l'école a été officiellement constituée sous le nom de {{legalName}} (PVT {{pvt}}), formalisant cinq années de croissance en une institution agréée. Aujourd'hui, nous exploitons des agences à travers Nairobi, de Buruburu (siège) à Kayole PCEA, et avons formé plus de 2 100 conducteurs titulaires d'un permis.",
     "historyP3": "Notre numéro d'enregistrement NTSA (BN {{bn}}) est vérifiable publiquement. Chaque instructeur détient une certification NTSA valide et participe à un développement professionnel continu. Le résultat est un taux de réussite de 98% au premier essai NTSA, un chiffre dont nous sommes fiers.",
     "whatDrivesUs": "Ce qui nous motive",
     "visionTitle": "Vision",
@@ -522,7 +522,7 @@
       "corporate": {
         "name": "Formation des Conducteurs d'Entreprise",
         "shortDesc": "Formation de chauffeurs de flotte et d'entreprise couvrant la conduite défensive, la conformité NTSA et les premiers secours.",
-        "fullDesc": "Safe Ride Africa propose des programmes complets de formation de conducteurs d'entreprise pour des sociétés de toutes tailles. Nous évaluons les conducteurs de votre flotte, proposons des remises à niveau en conduite défensive, couvrons la conformité NTSA et la tenue de registres, et dispensons une formation de base aux premiers secours. Les programmes peuvent se dérouler dans vos locaux ou dans l'une de nos {{branches}} agences. Des tarifs de groupe s'appliquent pour les flottes de cinq véhicules ou plus."
+        "fullDesc": "Safe Ride Africa propose des programmes complets de formation de conducteurs d'entreprise pour des sociétés de toutes tailles. Nous évaluons les conducteurs de votre flotte, proposons des remises à niveau en conduite défensive, couvrons la conformité NTSA et la tenue de registres, et dispensons une formation de base aux premiers secours. Les programmes peuvent se dérouler dans vos locaux ou dans l'une de nos agences. Des tarifs de groupe s'appliquent pour les flottes de cinq véhicules ou plus."
       },
       "online": {
         "name": "Plateforme d'Apprentissage en Ligne",

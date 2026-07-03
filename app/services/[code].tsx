@@ -3,7 +3,7 @@ import { View, Text, Image, ScrollView, TouchableOpacity, Platform } from 'react
 import { ArrowLeft } from 'lucide-react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { SERVICES, STATS } from '../../src/data/saferide';
+import { SERVICES } from '../../src/data/saferide';
 import { C, F, IS_WEB, MAX_W } from '../../src/components/landing/constants';
 import { SERVICE_KEY_MAP } from '../../src/components/landing/Services';
 import { useTheme } from '../../src/lib/theme';
@@ -93,7 +93,7 @@ export default function ServiceDetailPage() {
             {t('servicesPage.detail.aboutService')}
           </Text>
           <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 14, lineHeight: 24 }}>
-            {t(`servicesPage.items.${key}.fullDesc`, { branches: STATS.branches })}
+            {t(`servicesPage.items.${key}.fullDesc`)}
           </Text>
         </View>
 
