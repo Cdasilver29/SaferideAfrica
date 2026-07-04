@@ -11,8 +11,8 @@ import {
   FacebookIcon, TwitterXIcon, TikTokIcon, InstagramIcon, YouTubeIcon,
 } from '../SocialIcons';
 
-// The header keeps only the floating WhatsApp button (Phase B); the full
-// social presence lives here.
+// The full social set also lives in the header contact strip (TopContactBar);
+// this footer block repeats it for end-of-page reach.
 const SOCIAL_LINKS = [
   { key: 'facebook',  label: 'Facebook',  Glyph: FacebookIcon },
   { key: 'twitter',   label: 'X',         Glyph: TwitterXIcon },

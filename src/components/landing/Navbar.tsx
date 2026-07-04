@@ -21,6 +21,7 @@ import { useEnrollModal } from '@/context/EnrollModalContext';
 import { Button, Icon } from '@/components/ui';
 import LanguageSwitcher from './LanguageSwitcher';
 import LaneStrip from './LaneStrip';
+import TopContactBar from './TopContactBar';
 import { useReduceMotion } from '@/hooks/useReduceMotion';
 
 const LOGO = require('../../../assets/images/saferide-logo.jpg');
@@ -156,6 +157,9 @@ export default function Navbar({ scrollY }: NavbarProps) {
 
   return (
     <>
+      {/* ── Contact strip: phone, email, socials, above the primary nav ──────── */}
+      <TopContactBar />
+
       {/* ── Main row ──────────────────────────────────────────────────────────── */}
       <View
         className={[
