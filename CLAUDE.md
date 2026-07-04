@@ -43,7 +43,7 @@ A public marketing and enrollment-lead site for Safe Ride Africa, a Nairobi driv
 - UI strings go through the i18n t() function.
 
 ## Do not change
-- The BRANCHES list in src/data/saferide.ts is the authoritative current set of 12 branches. Do not change it, MANAGEMENT, or CLASS_SERIES without my explicit say-so.
+- The BRANCHES list in src/data/saferide.ts is the authoritative current set of 12 branches. Do not change it or CLASS_SERIES without my explicit say-so.
 - CLASSES: names, codes, and descriptions stay. Price and lesson-count fields are gone and do not come back.
 
 ## Git

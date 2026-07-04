@@ -3,7 +3,7 @@ import { View, Text, ScrollView, SafeAreaView, Pressable, Linking, useWindowDime
 import { useRouter } from 'expo-router';
 import {
   CheckCircle, Asterisk, ArrowRight, Eye, Target, Heart,
-  ShieldCheck, History, MapPin, BadgeCheck, BookOpen,
+  ShieldCheck, MapPin, BadgeCheck, BookOpen,
 } from 'lucide-react-native';
 import type { LucideIcon } from 'lucide-react-native';
 import Svg, { Path, Rect, Circle } from 'react-native-svg';
@@ -317,11 +317,10 @@ function Achievements() {
 }
 
 // ─── Trust and accreditation ─────────────────────────────────────────────────────
-// Only owner-confirmed claims. The years-operating figure stays [CONFIRM] in the
-// locale strings until the owner supplies it; do not fill it with a guess.
+// Only owner-confirmed claims. The owner publishes no years-operating figure;
+// do not add one.
 const TRUST_ITEMS: { icon: LucideIcon; key: string }[] = [
   { icon: ShieldCheck, key: 'ntsaRegistered' },
-  { icon: History,     key: 'yearsOperating' },
   { icon: MapPin,      key: 'branches' },
   { icon: BadgeCheck,  key: 'instructors' },
   { icon: BookOpen,    key: 'curriculum' },
