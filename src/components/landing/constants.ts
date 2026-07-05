@@ -44,9 +44,17 @@ export const F = {
 };
 
 // ─── Image sources ────────────────────────────────────────────────────────────
+// Hero rotation set (owner-confirmed): Executive Prado, fleet lineup, rolling
+// convoy, branch storefront. First entry paints first, so it stays the fast
+// root-level image. Native keeps the single bundled fallback, no rotation.
 export const HERO_SRC = IS_WEB
-  ? { uri: '/DSC_2116.webp' }
-  : require('../../../assets/images/car-pic.png');
+  ? [
+      { uri: '/DSC_2116.webp' },
+      { uri: '/gallery/DSC_2089.webp' },
+      { uri: '/gallery/DSC_2699.webp' },
+      { uri: '/gallery/DSC_6800.webp' },
+    ]
+  : [require('../../../assets/images/car-pic.png')];
 
 // "Built for Kenyan Roads" section on home page
 export const ABOUT_IMG = IS_WEB
