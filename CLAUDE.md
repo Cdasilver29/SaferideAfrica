@@ -39,6 +39,7 @@ A public marketing and enrollment-lead site for Safe Ride Africa, a Nairobi driv
 - Icons are Lucide, standardized to one stroke width with rounded caps.
 - Animation is react-native-reanimated, transform and opacity only, and must respect reduce-motion. No GSAP.
 - Images: react-native-web overrides NativeWind sizing on Image. Constrain with an explicit sized container or inline width and height, or the image renders at full natural height. This already bit the course images once.
+- NativeWind className does not apply to Reanimated Animated.* components. Put layout and padding on a plain inner View, animate the wrapper. className on Animated.View is a no-op in this setup.
 - Keep backdrop-filter behind the existing @supports gate in global.css.
 - UI strings go through the i18n t() function.
 
