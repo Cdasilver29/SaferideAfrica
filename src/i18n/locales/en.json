@@ -52,14 +52,14 @@
     "heading": "We Provide Service For You",
     "readMore": "Read More",
     "digitalCampusTitle": "Digital Campus",
-    "digitalCampusSubtitle": "Learn, book, and track your progress entirely online — from theory class to licence in hand.",
+    "digitalCampusSubtitle": "Learn, book, and track your progress entirely online, from theory class to licence in hand.",
     "items": {
       "videoCourses":       { "title": "Video Courses",         "desc": "Structured video lessons covering road signs, NTSA rules, and defensive driving theory." },
       "instructorTraining": { "title": "Instructor Training",   "desc": "Dual-control vehicles, one-on-one sessions with certified, experienced instructors." },
       "getLicense":         { "title": "Get License",           "desc": "End-to-end NTSA Smart DL application and TIMS account setup handled for you." },
-      "easyLearn":          { "title": "Easy Learn Driving",    "desc": "Online Theory Classes — Learn Anywhere, Anytime with our Expert Instructors." },
-      "onlineClasses":      { "title": "Online Classes",        "desc": "Live and recorded theory lessons you can attend from anywhere — phone, tablet, or laptop. Learn at your own pace with our NTSA-aligned curriculum." },
-      "bookings":           { "title": "Bookings",              "desc": "Book practical driving slots, theory sessions, and NTSA test dates directly through our platform — no queue, no phone calls." },
+      "easyLearn":          { "title": "Easy Learn Driving",    "desc": "Online Theory Classes: Learn Anywhere, Anytime with our Expert Instructors." },
+      "onlineClasses":      { "title": "Online Classes",        "desc": "Live and recorded theory lessons you can attend from anywhere: phone, tablet, or laptop. Learn at your own pace with our NTSA-aligned curriculum." },
+      "bookings":           { "title": "Bookings",              "desc": "Book practical driving slots, theory sessions, and NTSA test dates directly through our platform: no queue, no phone calls." },
       "lms":                { "title": "LMS",                   "desc": "Our Learning Management System tracks your progress, stores lesson notes, and gives your instructor real-time visibility of your performance." }
     }
   },
@@ -114,7 +114,7 @@
     "items": [
       {
         "q": "How long does it take to complete a driving course?",
-        "a": "Most students complete our standard course in 3–4 weeks. The duration depends on the package chosen and your availability for lessons."
+        "a": "Most students complete our standard course over a few weeks, depending on the package and how often you train."
       },
       {
         "q": "Are your instructors NTSA certified?",
@@ -126,7 +126,7 @@
       },
       {
         "q": "What is the pass rate for your students?",
-        "a": "We are proud of a 98% NTSA first-attempt pass rate — well above the national average — thanks to our intensive test preparation."
+        "a": "We are proud of a 98% NTSA first-attempt pass rate, well above the national average, thanks to our intensive test preparation."
       },
       {
         "q": "Do you offer refresher courses?",
@@ -211,7 +211,7 @@
     "heading": "We Handle Your NTSA Requirements",
     "cta": "Get Started Today",
     "items": {
-      "smartDl":      { "title": "NTSA Smart DL Application", "desc": "We handle the full Smart DL application process on your behalf — fast, accurate, stress-free." },
+      "smartDl":      { "title": "NTSA Smart DL Application", "desc": "We handle the full Smart DL application process on your behalf: fast, accurate, stress-free." },
       "tims":         { "title": "TIMS Account Setup",        "desc": "Full TIMS registration assistance so you can track your licence status from day one." },
       "onlineTheory": { "title": "Online Theory Classes",     "desc": "Learn Anywhere, Anytime with our Expert Instructors through live and recorded sessions." }
     }

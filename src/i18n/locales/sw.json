@@ -52,13 +52,13 @@
     "heading": "Tunatoa Huduma Kwa Ajili Yako",
     "readMore": "Soma Zaidi",
     "digitalCampusTitle": "Kampasi ya Kidijitali",
-    "digitalCampusSubtitle": "Jifunze, hifadhi nafasi, na fuatilia maendeleo yako mtandaoni — kuanzia darasa la nadharia hadi kupata leseni.",
+    "digitalCampusSubtitle": "Jifunze, hifadhi nafasi, na fuatilia maendeleo yako mtandaoni, kuanzia darasa la nadharia hadi kupata leseni.",
     "items": {
       "videoCourses":       { "title": "Kozi za Video",         "desc": "Masomo ya video yaliyopangwa yanayoshughulikia alama za barabara, kanuni za NTSA, na nadharia ya uendeshaji salama." },
       "instructorTraining": { "title": "Mafunzo ya Mwalimu",   "desc": "Magari yenye udhibiti mbili, masomo ya mtu mmoja kwa mmoja na waalimu wenye uzoefu walioidhinishwa." },
       "getLicense":         { "title": "Pata Leseni",           "desc": "Msaada kamili wa kuomba NTSA Smart DL na kusanidi akaunti ya TIMS kwa niaba yako." },
-      "easyLearn":          { "title": "Jifunze Kuendesha Kwa Urahisi", "desc": "Madarasa ya Nadharia Mtandaoni — Jifunze Popote, Wakati Wowote na Waalimu Wetu Wataalam." },
-      "onlineClasses":      { "title": "Madarasa ya Mtandaoni", "desc": "Masomo ya nadharia ya moja kwa moja na yaliyorekodiwa unayoweza kuhudhuria kutoka mahali popote — simu, kompyuta kibao, au laptopi." },
+      "easyLearn":          { "title": "Jifunze Kuendesha Kwa Urahisi", "desc": "Madarasa ya Nadharia Mtandaoni: Jifunze Popote, Wakati Wowote na Waalimu Wetu Wataalam." },
+      "onlineClasses":      { "title": "Madarasa ya Mtandaoni", "desc": "Masomo ya nadharia ya moja kwa moja na yaliyorekodiwa unayoweza kuhudhuria kutoka mahali popote: simu, kompyuta kibao, au laptopi." },
       "bookings":           { "title": "Uhifadhi wa Nafasi",    "desc": "Hifadhi nafasi za mazoezi ya uendeshaji, masomo ya nadharia, na tarehe za mtihani wa NTSA moja kwa moja kupitia jukwaa letu." },
       "lms":                { "title": "Mfumo wa Usimamizi wa Kujifunza", "desc": "Mfumo wetu unafuatilia maendeleo yako, uhifadhi madokezo ya masomo, na humpa mwalimu wako mwonekano wa wakati halisi wa utendaji wako." }
     }
@@ -134,7 +134,7 @@
     "items": [
       {
         "q": "Inachukua muda gani kukamilisha kozi ya uendeshaji?",
-        "a": "Wanafunzi wengi wanakamilisha kozi yetu ya kawaida katika wiki 3–4. Muda unategemea pakiti iliyochaguliwa na upatikanaji wako wa masomo."
+        "a": "Wanafunzi wengi hukamilisha kozi yetu ya kawaida ndani ya wiki chache, kulingana na pakiti uliyochagua na mara ngapi unahudhuria masomo."
       },
       {
         "q": "Je, waalimu wenu wameidhinishwa na NTSA?",
@@ -146,7 +146,7 @@
       },
       {
         "q": "Kiwango cha kufaulu kwa wanafunzi wenu ni kipi?",
-        "a": "Tunajivunia kiwango cha kufaulu cha 98% katika mtihani wa kwanza wa NTSA — zaidi sana ya wastani wa kitaifa — shukrani kwa maandalizi yetu makubwa ya mtihani."
+        "a": "Tunajivunia kiwango cha kufaulu cha 98% katika mtihani wa kwanza wa NTSA, zaidi sana ya wastani wa kitaifa, shukrani kwa maandalizi yetu makubwa ya mtihani."
       },
       {
         "q": "Je, mnatoa kozi za kurudiarudia?",
@@ -231,7 +231,7 @@
     "heading": "Tunashughulikia Mahitaji Yako ya NTSA",
     "cta": "Anza Leo",
     "items": {
-      "smartDl":      { "title": "Ombi la NTSA Smart DL",       "desc": "Tunashughulikia mchakato kamili wa ombi la Smart DL kwa niaba yako — kwa haraka, usahihi, bila msongo." },
+      "smartDl":      { "title": "Ombi la NTSA Smart DL",       "desc": "Tunashughulikia mchakato kamili wa ombi la Smart DL kwa niaba yako: kwa haraka, usahihi, bila msongo." },
       "tims":         { "title": "Usanidi wa Akaunti ya TIMS",  "desc": "Msaada kamili wa usajili wa TIMS ili uweze kufuatilia hali ya leseni yako kuanzia siku ya kwanza." },
       "onlineTheory": { "title": "Madarasa ya Nadharia Mtandaoni", "desc": "Jifunze Popote, Wakati Wowote na Waalimu Wetu Wataalam kupitia vikao vya moja kwa moja na vilivyorekodiwa." }
     }

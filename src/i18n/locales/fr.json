@@ -52,14 +52,14 @@
     "heading": "Des Services Faits Pour Vous",
     "readMore": "En Savoir Plus",
     "digitalCampusTitle": "Campus Numérique",
-    "digitalCampusSubtitle": "Apprenez, réservez et suivez vos progrès entièrement en ligne — du cours théorique à l'obtention du permis.",
+    "digitalCampusSubtitle": "Apprenez, réservez et suivez vos progrès entièrement en ligne, du cours théorique à l'obtention du permis.",
     "items": {
       "videoCourses":       { "title": "Cours Vidéo",              "desc": "Leçons vidéo structurées couvrant les panneaux routiers, le Code de la route NTSA et la théorie de la conduite défensive." },
       "instructorTraining": { "title": "Formation par Moniteur",   "desc": "Véhicules à double commande, séances individuelles avec des moniteurs certifiés et expérimentés." },
       "getLicense":         { "title": "Obtenir son Permis",       "desc": "Traitement complet de votre demande NTSA Smart DL et configuration de votre compte TIMS prise en charge." },
-      "easyLearn":          { "title": "Apprendre à Conduire Facilement", "desc": "Cours théoriques en ligne — Apprenez où que vous soyez, quand vous le souhaitez avec nos moniteurs experts." },
-      "onlineClasses":      { "title": "Cours en Ligne",           "desc": "Leçons théoriques en direct et enregistrées, accessibles depuis n'importe où — téléphone, tablette ou ordinateur — à votre propre rythme." },
-      "bookings":           { "title": "Réservations",             "desc": "Réservez vos séances de conduite pratique, cours théoriques et dates d'examen NTSA directement sur notre plateforme — sans file d'attente." },
+      "easyLearn":          { "title": "Apprendre à Conduire Facilement", "desc": "Cours théoriques en ligne : apprenez où que vous soyez, quand vous le souhaitez avec nos moniteurs experts." },
+      "onlineClasses":      { "title": "Cours en Ligne",           "desc": "Leçons théoriques en direct et enregistrées, accessibles depuis n'importe où (téléphone, tablette ou ordinateur), à votre propre rythme." },
+      "bookings":           { "title": "Réservations",             "desc": "Réservez vos séances de conduite pratique, cours théoriques et dates d'examen NTSA directement sur notre plateforme, sans file d'attente." },
       "lms":                { "title": "Système de Gestion de l'Apprentissage", "desc": "Notre LMS suit vos progrès, conserve vos notes de cours et donne à votre moniteur une visibilité en temps réel sur vos performances." }
     }
   },
@@ -134,7 +134,7 @@
     "items": [
       {
         "q": "Combien de temps faut-il pour terminer un cours de conduite ?",
-        "a": "La plupart des élèves terminent notre cours standard en 3 à 4 semaines. La durée dépend du forfait choisi et de votre disponibilité pour les leçons."
+        "a": "La plupart des élèves terminent notre cours standard en quelques semaines, selon le forfait choisi et la fréquence de vos leçons."
       },
       {
         "q": "Vos moniteurs sont-ils certifiés NTSA ?",
@@ -146,7 +146,7 @@
       },
       {
         "q": "Quel est le taux de réussite de vos élèves ?",
-        "a": "Nous sommes fiers d'un taux de réussite de 98% au premier examen NTSA — bien au-dessus de la moyenne nationale — grâce à notre préparation intensive."
+        "a": "Nous sommes fiers d'un taux de réussite de 98% au premier examen NTSA, bien au-dessus de la moyenne nationale, grâce à notre préparation intensive."
       },
       {
         "q": "Proposez-vous des cours de recyclage ?",
@@ -231,7 +231,7 @@
     "heading": "Nous Gérons Vos Démarches NTSA",
     "cta": "Commencer Aujourd'hui",
     "items": {
-      "smartDl":      { "title": "Demande NTSA Smart DL",      "desc": "Nous gérons l'intégralité de la procédure de demande Smart DL en votre nom — rapidement, précisément, sans stress." },
+      "smartDl":      { "title": "Demande NTSA Smart DL",      "desc": "Nous gérons l'intégralité de la procédure de demande Smart DL en votre nom : rapidement, précisément, sans stress." },
       "tims":         { "title": "Configuration du Compte TIMS","desc": "Assistance complète à l'inscription TIMS pour suivre l'état de votre permis dès le premier jour." },
       "onlineTheory": { "title": "Cours Théoriques en Ligne",  "desc": "Apprenez n'importe où et n'importe quand avec nos moniteurs experts grâce aux séances en direct et enregistrées." }
     }
