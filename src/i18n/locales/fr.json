@@ -347,6 +347,12 @@
       "badge": "FAQ",
       "viewAll": "Voir toute la FAQ"
     },
+    "gallerySnippet": {
+      "badge": "Galerie",
+      "title": "Moments de formation",
+      "description": "Un aperçu de vraies journées de formation avec Safe Ride Africa.",
+      "viewAll": "Voir toute la galerie"
+    },
     "enrolSteps": {
       "badge": "Comment ça marche",
       "title": "Comment s'inscrire",

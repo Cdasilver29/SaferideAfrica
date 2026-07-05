@@ -347,6 +347,12 @@
       "badge": "常见问题",
       "viewAll": "查看完整常见问题"
     },
+    "gallerySnippet": {
+      "badge": "相册",
+      "title": "培训瞬间",
+      "description": "Safe Ride Africa 真实培训日常一览。",
+      "viewAll": "查看完整相册"
+    },
     "enrolSteps": {
       "badge": "流程指南",
       "title": "报名流程",

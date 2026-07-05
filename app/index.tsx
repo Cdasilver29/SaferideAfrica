@@ -19,6 +19,7 @@ import WhyValuesSnippet from '@/components/landing/WhyValuesSnippet';
 import AboutPreview    from '@/components/landing/AboutPreview';
 import HomeFaq         from '@/components/landing/HomeFaq';
 import EnrolSteps      from '@/components/landing/EnrolSteps';
+import GalleryPreview  from '@/components/landing/GalleryPreview';
 import BranchesPreview from '@/components/landing/BranchesPreview';
 import FinalCTA        from '@/components/landing/FinalCTA';
 
@@ -68,6 +69,7 @@ export default function LandingScreen() {
         <Reveal><EnrolSteps /></Reveal>
         <Reveal><Testimonials /></Reveal>
         <Reveal><BranchesPreview /></Reveal>
+        <Reveal><GalleryPreview /></Reveal>
         <Reveal><FinalCTA /></Reveal>
         <Footer />
       </Animated.ScrollView>

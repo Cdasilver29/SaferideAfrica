@@ -347,6 +347,12 @@
       "badge": "Maswali",
       "viewAll": "Soma Maswali Yote"
     },
+    "gallerySnippet": {
+      "badge": "Picha",
+      "title": "Matukio ya Mafunzo",
+      "description": "Muonekano wa siku halisi za mafunzo na Safe Ride Africa.",
+      "viewAll": "Tazama Picha Zote"
+    },
     "enrolSteps": {
       "badge": "Jinsi Inavyofanya Kazi",
       "title": "Jinsi ya Kujiandikisha",

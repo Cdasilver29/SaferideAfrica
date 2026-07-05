@@ -339,6 +339,12 @@
       "badge": "FAQ",
       "viewAll": "Read the Full FAQ"
     },
+    "gallerySnippet": {
+      "badge": "Gallery",
+      "title": "Moments From Training",
+      "description": "A glimpse of real training days with Safe Ride Africa.",
+      "viewAll": "View the Full Gallery"
+    },
     "enrolSteps": {
       "badge": "How It Works",
       "title": "How Enrolment Works",
