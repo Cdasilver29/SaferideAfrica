@@ -339,6 +339,17 @@
       "badge": "FAQ",
       "viewAll": "Read the Full FAQ"
     },
+    "enrolSteps": {
+      "badge": "How It Works",
+      "title": "How Enrolment Works",
+      "description": "Four simple steps from first message to test day.",
+      "steps": [
+        { "title": "Pick Your Course", "desc": "Browse our NTSA licence classes and choose the course that matches your goal, from motorcycle to light vehicle to commercial." },
+        { "title": "Enrol via WhatsApp", "desc": "Send your details through the enrolment form. It reaches our team on WhatsApp and email, and we get back to you with your next steps." },
+        { "title": "Train With Your Instructor", "desc": "Take your theory and practical lessons with NTSA-certified instructors, following the current NTSA curriculum." },
+        { "title": "Sit Your NTSA Test", "desc": "We prepare you for the official NTSA test and guide your Smart DL application on eCitizen from start to finish." }
+      ]
+    },
     "whySnippet": {
       "badge": "Why Choose Us",
       "title": "Why Kenyans Learn With Safe Ride",

@@ -347,6 +347,17 @@
       "badge": "常见问题",
       "viewAll": "查看完整常见问题"
     },
+    "enrolSteps": {
+      "badge": "流程指南",
+      "title": "报名流程",
+      "description": "从第一条消息到考试当天，四个简单步骤。",
+      "steps": [
+        { "title": "选择课程", "desc": "浏览我们的NTSA驾照类别，选择符合你目标的课程，从摩托车到小型汽车再到商用车。" },
+        { "title": "通过WhatsApp报名", "desc": "通过报名表提交你的信息，我们会在WhatsApp和邮箱收到，并尽快回复你后续步骤。" },
+        { "title": "跟随教练学习", "desc": "在NTSA认证教练的指导下完成理论和实践课程，遵循最新的NTSA教学大纲。" },
+        { "title": "参加NTSA考试", "desc": "我们帮你备考NTSA正式考试，并全程指导你在eCitizen上申请Smart DL。" }
+      ]
+    },
     "whySnippet": {
       "badge": "为什么选择我们",
       "title": "为什么肯尼亚人选择Safe Ride学车",

@@ -347,6 +347,17 @@
       "badge": "Maswali",
       "viewAll": "Soma Maswali Yote"
     },
+    "enrolSteps": {
+      "badge": "Jinsi Inavyofanya Kazi",
+      "title": "Jinsi ya Kujiandikisha",
+      "description": "Hatua nne rahisi kutoka ujumbe wa kwanza hadi siku ya mtihani.",
+      "steps": [
+        { "title": "Chagua Kozi Yako", "desc": "Vinjari madaraja ya leseni ya NTSA na uchague kozi inayolingana na lengo lako, kuanzia pikipiki hadi gari dogo na gari la kibiashara." },
+        { "title": "Jiandikishe kupitia WhatsApp", "desc": "Tuma maelezo yako kupitia fomu ya usajili. Yanatufikia kwenye WhatsApp na barua pepe, na tutakurudia na hatua zinazofuata." },
+        { "title": "Funzwa na Mwalimu Wako", "desc": "Somea nadharia na vitendo na walimu waliothibitishwa na NTSA, kwa kufuata mtaala wa sasa wa NTSA." },
+        { "title": "Fanya Mtihani wa NTSA", "desc": "Tunakuandaa kwa mtihani rasmi wa NTSA na kukuongoza katika maombi yako ya Smart DL kwenye eCitizen kuanzia mwanzo hadi mwisho." }
+      ]
+    },
     "whySnippet": {
       "badge": "Kwa Nini Uchague Sisi",
       "title": "Kwa Nini Wakenya Hujifunza na Safe Ride",

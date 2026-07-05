@@ -347,6 +347,17 @@
       "badge": "FAQ",
       "viewAll": "Voir toute la FAQ"
     },
+    "enrolSteps": {
+      "badge": "Comment ça marche",
+      "title": "Comment s'inscrire",
+      "description": "Quatre étapes simples, du premier message au jour de l'examen.",
+      "steps": [
+        { "title": "Choisissez votre cours", "desc": "Parcourez nos catégories de permis NTSA et choisissez le cours qui correspond à votre objectif, de la moto au véhicule léger et commercial." },
+        { "title": "Inscrivez-vous via WhatsApp", "desc": "Envoyez vos coordonnées via le formulaire d'inscription. Elles nous parviennent sur WhatsApp et par e-mail, et nous revenons vers vous avec les prochaines étapes." },
+        { "title": "Formez-vous avec votre moniteur", "desc": "Suivez vos leçons de théorie et de pratique avec des moniteurs certifiés NTSA, selon le programme NTSA en vigueur." },
+        { "title": "Passez votre examen NTSA", "desc": "Nous vous préparons à l'examen officiel NTSA et vous guidons dans votre demande de Smart DL sur eCitizen, du début à la fin." }
+      ]
+    },
     "whySnippet": {
       "badge": "Pourquoi Nous Choisir",
       "title": "Pourquoi les Kenyans Apprennent avec Safe Ride",
