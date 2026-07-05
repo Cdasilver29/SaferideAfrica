@@ -38,7 +38,7 @@
   "hero": {
     "badge": "Shule ya Kuendesha Iliyoidhinishwa na NTSA",
     "headline": "Karibu Safe Ride Africa Ambapo Usalama Ni Zaidi",
-    "headlineWords": [{ "w": "Karibu" }, { "w": "Safe", "c": "sky" }, { "w": "Ride", "c": "sky" }, { "w": "Africa", "c": "sky" }, { "w": "Ambapo" }, { "w": "Usalama", "c": "yellow" }, { "w": "Ni", "c": "yellow" }, { "w": "Zaidi", "c": "yellow" }],
+    "headlineWords": [{ "w": "Ambapo" }, { "w": "Usalama", "c": "yellow" }, { "w": "Ni" }, { "w": "Zaidi" }],
     "subheadline": "Katika Shule ya Udereva ya Safe Ride Africa, tunafanya masomo yawe ya kufurahisha, yenye kubadilika, na yanayokulenga wewe. Kwa msaada wa kibinafsi na mwongozo wa kitaalamu, tutakusaidia kujiamini barabarani na kuwa tayari kwa siku ya mtihani.",
     "trustNtsa": "Imeidhinishwa na NTSA",
     "trustAward": "Tuzo ya Ubora",

@@ -2,21 +2,23 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   View, Text, Pressable, Animated, Platform, useWindowDimensions,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { ChevronDown, ArrowRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { C, F, IS_WEB, HERO_SRC } from './constants';
+import { C, F, IS_WEB, MAX_W, HERO_SRC } from './constants';
 import { KenBurnsBackground } from '../animations/KenBurnsBackground';
 import { Button, Icon } from '@/components/ui';
 import { useReduceMotion } from '@/hooks/useReduceMotion';
 
-// Palette-only colour helper, so the CTA glow carries no raw hex: the value is
-// derived from the C source-of-truth constants.
+// Palette-only colour helper, so the scrim and CTA glow carry no raw hex: the
+// values are derived from the C source-of-truth constants.
 const rgbTriplet = (hex: string) => {
   const n = parseInt(hex.slice(1), 16);
   return `${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}`;
 };
 const YELLOW_RGB = rgbTriplet(C.yellow);
+const DARK_RGB = rgbTriplet(C.dark);
 
 // Typewriter that types the subheadline once, then holds static.
 // Phase 12: types once (no erase loop, no blinking-cursor loop) and shows the
@@ -55,7 +57,7 @@ function TypewriterText({ subheadline }: { subheadline: string }) {
   return (
     <Text
       style={{ fontFamily: F.regular }}
-      className="mb-4 max-w-[540px] text-sm leading-6 text-white/80 web:text-base web:leading-7"
+      className="mb-6 max-w-[540px] text-sm leading-6 text-white/90 web:text-base web:leading-7"
     >
       {displayed}
       {typing && <Text style={{ color: C.yellow, fontFamily: F.bold }}>{'|'}</Text>}
@@ -63,16 +65,11 @@ function TypewriterText({ subheadline }: { subheadline: string }) {
   );
 }
 
-// Word-by-word stagger headline. Each word carries an optional brand colour
-// (red / yellow / white); plain strings are tolerated and render white so any
-// locale still on the old flat word list keeps working. Phase 12: entrance
-// plays once and settles, shown immediately under reduce-motion.
+// Word-by-word stagger headline. White throughout with a single yellow accent
+// word (seg.c === 'yellow'); any other colour tag from older locale payloads
+// renders white. Entrance plays once and settles, shown immediately under
+// reduce-motion.
 type HeadlineSeg = { w: string; c?: string };
-// "red" stays as a legacy alias mapped to sky: the palette reserves real red
-// for destructive actions, and older locale payloads may still send it.
-const HEADLINE_COLORS: Record<string, string> = {
-  sky: C.skyDeep, red: C.skyDeep, yellow: C.yellow, white: C.white,
-};
 
 function AnimatedHeadline({ segments }: { segments: (HeadlineSeg | string)[] }) {
   const reduceMotion = useReduceMotion();
@@ -96,14 +93,14 @@ function AnimatedHeadline({ segments }: { segments: (HeadlineSeg | string)[] }) 
     return () => stagger.stop();
   }, [reduceMotion]);
 
-  const fontSize = isMobile ? 24 : 42;
-  const lineH = isMobile ? 30 : 50;
+  const fontSize = isMobile ? 26 : 42;
+  const lineH = isMobile ? 33 : 50;
 
   return (
     <View className="mb-3 flex-row flex-wrap gap-x-2 web:mb-4">
       {words.map((seg, i) => {
         const anim = anims[i] ?? new Animated.Value(1);
-        const color = HEADLINE_COLORS[seg.c ?? 'white'] ?? C.white;
+        const color = seg.c === 'yellow' ? C.yellow : C.white;
         return (
           <Animated.View
             key={seg.w + i}
@@ -124,8 +121,7 @@ function AnimatedHeadline({ segments }: { segments: (HeadlineSeg | string)[] }) 
   );
 }
 
-// Enrol CTA: the single reserved accent action. Phase 12 settles its glow to a
-// static accent halo (no breathing loop).
+// Enrol CTA: the single reserved accent action, settled to a static halo.
 function GlowingEnrolButton({ onPress }: { onPress: () => void }) {
   const { t } = useTranslation();
   const glowStyle = {
@@ -159,33 +155,55 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
   const { t, i18n } = useTranslation();
   const { width: winW } = useWindowDimensions();
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
-  // Side-by-side split needs room for the 42px headline in a half-width
-  // panel, so it starts at 1024. Below that the two tones stack.
   const isWide = IS_WEB && winW >= 1024;
 
   const segments = t('hero.headlineWords', { returnObjects: true }) as (HeadlineSeg | string)[];
   const subheadline = t('hero.subheadline');
 
+  // One full-bleed hero: the photo fills the section and the copy sits on a
+  // horizontal scrim, dark over the text side fading out across the image.
+  // Mobile keeps a stronger far edge because the copy spans most of the width.
+  const scrimColors = [
+    `rgba(${DARK_RGB}, 0.78)`,
+    `rgba(${DARK_RGB}, ${isMobile ? 0.45 : 0.12})`,
+  ] as const;
+
   return (
-    <View className={isWide ? 'flex-row' : undefined} style={isWide ? { height: 580 } : undefined}>
-      {/* Tone one: the brand-dark content panel */}
+    <View
+      className="justify-center overflow-hidden"
+      style={{ minHeight: isWide ? 580 : isMobile ? 480 : 520 }}
+    >
+      <KenBurnsBackground source={HERO_SRC} />
+
+      {/* Readability scrim over the photo, decorative only */}
+      <LinearGradient
+        colors={scrimColors}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        pointerEvents="none"
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+      />
+
+      {/* Copy block, in flow so the section grows instead of clipping */}
       <View
-        className={isWide ? 'justify-center' : 'px-6 pb-8 pt-6'}
-        style={[
-          { backgroundColor: C.dark },
-          isWide ? { width: '46%', paddingHorizontal: 48 } : null,
-        ]}
+        className="w-full justify-center py-14"
+        style={{
+          maxWidth: MAX_W,
+          alignSelf: 'center',
+          paddingHorizontal: isWide ? 48 : 24,
+        }}
       >
-        {/* Headline, the value-proposition focal point */}
-        <AnimatedHeadline key={i18n.language} segments={segments} />
+        <View style={{ maxWidth: 620 }}>
+          {/* Headline, the value-proposition focal point */}
+          <AnimatedHeadline key={i18n.language} segments={segments} />
 
-        {/* Typewriter sub-headline */}
-        <TypewriterText key={i18n.language + '-sub'} subheadline={subheadline} />
+          {/* Typewriter sub-headline */}
+          <TypewriterText key={i18n.language + '-sub'} subheadline={subheadline} />
 
-        {/* CTAs, desktop only (mobile uses the Navbar Enroll button) */}
-        {!isMobile && (
+          {/* CTAs on the scrim, visible at every width */}
           <View className="flex-row flex-wrap items-center gap-3">
-            {/* Explore Courses, a secondary outline on the dark panel */}
+            <GlowingEnrolButton onPress={onEnrol ?? (() => router.push('/courses' as any))} />
+
             <Pressable
               onPress={onScrollToCourses}
               accessibilityRole="button"
@@ -196,33 +214,23 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
               </Text>
               <Icon icon={ChevronDown} size="md" color={C.white} />
             </Pressable>
-
-            <GlowingEnrolButton onPress={onEnrol ?? (() => router.push('/courses' as any))} />
           </View>
-        )}
+        </View>
       </View>
 
-      {/* Yellow accent edge dividing the two tones */}
-      <View className="bg-accent" style={isWide ? { width: 4 } : { height: 4 }} />
-
-      {/* Tone two: the photo, clean, no scrims */}
-      <View className="overflow-hidden" style={isWide ? { flex: 1 } : { height: isMobile ? 280 : 360 }}>
-        <KenBurnsBackground source={HERO_SRC} />
-
-        {/* Scroll-down affordance, web, sits over the photo */}
-        {IS_WEB && (
-          <Pressable
-            onPress={onScrollToCourses}
-            accessibilityRole="button"
-            accessibilityLabel={t('hero.exploreCourses')}
-            className="absolute inset-x-0 bottom-6 items-center"
-          >
-            <View className="h-11 w-11 items-center justify-center rounded-pill border border-white/30 bg-black/20">
-              <Icon icon={ChevronDown} size="md" color={C.white} />
-            </View>
-          </Pressable>
-        )}
-      </View>
+      {/* Scroll-down affordance, web, sits over the photo */}
+      {IS_WEB && (
+        <Pressable
+          onPress={onScrollToCourses}
+          accessibilityRole="button"
+          accessibilityLabel={t('hero.exploreCourses')}
+          className="absolute inset-x-0 bottom-6 items-center"
+        >
+          <View className="h-11 w-11 items-center justify-center rounded-pill border border-white/30 bg-black/20">
+            <Icon icon={ChevronDown} size="md" color={C.white} />
+          </View>
+        </Pressable>
+      )}
     </View>
   );
 }

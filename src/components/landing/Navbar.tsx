@@ -20,7 +20,6 @@ import { COMPANY } from '@/data/saferide';
 import { useEnrollModal } from '@/context/EnrollModalContext';
 import { Button, Icon } from '@/components/ui';
 import LanguageSwitcher from './LanguageSwitcher';
-import LaneStrip from './LaneStrip';
 import TopContactBar from './TopContactBar';
 import { useReduceMotion } from '@/hooks/useReduceMotion';
 
@@ -279,8 +278,6 @@ export default function Navbar({ scrollY }: NavbarProps) {
           </View>
         </View>
       </View>
-
-      <LaneStrip />
 
       {/* ── Mobile drawer ─────────────────────────────────────────────────────── */}
       {showHamburger && (
