@@ -17,6 +17,7 @@ import ServicesPreview from '@/components/landing/ServicesPreview';
 import { PremiumCourseCards } from '@/components/landing/PremiumCourseCards';
 import WhyValuesSnippet from '@/components/landing/WhyValuesSnippet';
 import AboutPreview    from '@/components/landing/AboutPreview';
+import HomeFaq         from '@/components/landing/HomeFaq';
 import BranchesPreview from '@/components/landing/BranchesPreview';
 import FinalCTA        from '@/components/landing/FinalCTA';
 
@@ -62,6 +63,7 @@ export default function LandingScreen() {
         <PremiumCourseCards />
         <Reveal><WhyValuesSnippet /></Reveal>
         <Reveal><AboutPreview /></Reveal>
+        <Reveal><HomeFaq /></Reveal>
         <Reveal><Testimonials /></Reveal>
         <Reveal><BranchesPreview /></Reveal>
         <Reveal><FinalCTA /></Reveal>

@@ -343,6 +343,10 @@
       "title": "Uko Tayari Kuendesha kwa Usalama Zaidi?",
       "description": "Jiunge na maelfu ya madereva wa Kenya waliopata leseni yao na Safe Ride Africa. Chagua kozi yako na uanze leo."
     },
+    "faqSnippet": {
+      "badge": "Maswali",
+      "viewAll": "Soma Maswali Yote"
+    },
     "whySnippet": {
       "badge": "Kwa Nini Uchague Sisi",
       "title": "Kwa Nini Wakenya Hujifunza na Safe Ride",
