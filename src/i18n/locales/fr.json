@@ -379,6 +379,8 @@
       "badge": "Le Plus Populaire",
       "title": "Nos Trois Meilleurs Cours",
       "description": "Les cours préférés de la plupart des conducteurs kenyans. Comprend la théorie, l'examen de conduite et l'accompagnement Smart DL.",
+      "viewMore": "Voir plus de cours",
+      "showFewer": "Voir moins de cours",
       "pricingNote": "Tarifs indiqués lors de l'inscription",
       "cards": {
         "bLight": {

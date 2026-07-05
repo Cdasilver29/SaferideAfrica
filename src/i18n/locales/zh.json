@@ -379,6 +379,8 @@
       "badge": "最受欢迎",
       "title": "我们的三大热门课程",
       "description": "大多数肯尼亚驾驶员的首选课程。包含理论、路考和Smart DL指导。",
+      "viewMore": "查看更多课程",
+      "showFewer": "收起课程",
       "pricingNote": "价格于报名时显示",
       "cards": {
         "bLight": {

@@ -371,6 +371,8 @@
       "badge": "Most Popular",
       "title": "Our Top Three Classes",
       "description": "The classes most Kenyan drivers choose. All include theory, road test, and Smart DL guidance.",
+      "viewMore": "View More Courses",
+      "showFewer": "Show Fewer Courses",
       "pricingNote": "Pricing shown at enrollment",
       "cards": {
         "bLight": {
