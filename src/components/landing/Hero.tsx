@@ -3,67 +3,20 @@ import {
   View, Text, Pressable, Animated, Easing, Platform, useWindowDimensions,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { router } from 'expo-router';
-import { ChevronDown, ArrowRight } from 'lucide-react-native';
+import { ChevronDown } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W, HERO_SRC } from './constants';
 import { KenBurnsBackground } from '../animations/KenBurnsBackground';
-import { Button, Icon } from '@/components/ui';
+import { Icon } from '@/components/ui';
 import { useReduceMotion } from '@/hooks/useReduceMotion';
 
-// Palette-only colour helper, so the scrim and CTA glow carry no raw hex: the
-// values are derived from the C source-of-truth constants.
+// Palette-only colour helper, so the scrim carries no raw hex: the value is
+// derived from the C source-of-truth constants.
 const rgbTriplet = (hex: string) => {
   const n = parseInt(hex.slice(1), 16);
   return `${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}`;
 };
-const YELLOW_RGB = rgbTriplet(C.yellow);
 const DARK_RGB = rgbTriplet(C.dark);
-
-// Typewriter that types the subheadline once, then holds static.
-// Phase 12: types once (no erase loop, no blinking-cursor loop) and shows the
-// full text immediately under reduce-motion.
-function TypewriterText({ subheadline }: { subheadline: string }) {
-  const reduceMotion = useReduceMotion();
-  const [displayed, setDisplayed] = useState('');
-  const [typing, setTyping] = useState(true);
-  const activeRef = useRef(true);
-
-  useEffect(() => {
-    if (reduceMotion) {
-      setDisplayed(subheadline);
-      setTyping(false);
-      return;
-    }
-    activeRef.current = true;
-    setDisplayed('');
-    setTyping(true);
-
-    const sleep = (ms: number) => new Promise<void>((res) => setTimeout(res, ms));
-
-    (async () => {
-      await sleep(600);
-      for (let i = 1; i <= subheadline.length; i++) {
-        if (!activeRef.current) return;
-        setDisplayed(subheadline.slice(0, i));
-        await sleep(28);
-      }
-      if (activeRef.current) setTyping(false);
-    })();
-
-    return () => { activeRef.current = false; };
-  }, [subheadline, reduceMotion]);
-
-  return (
-    <Text
-      style={{ fontFamily: F.regular }}
-      className="mb-6 max-w-[540px] text-sm leading-6 text-white/90 web:text-base web:leading-7"
-    >
-      {displayed}
-      {typing && <Text style={{ color: C.yellow, fontFamily: F.bold }}>{'|'}</Text>}
-    </Text>
-  );
-}
 
 // Per-slide eyebrow + headline that cross-fades in sync with the rotating hero
 // photo, one pair per slide, driven by the active index KenBurnsBackground
@@ -144,44 +97,17 @@ function HeroSlideText({ slide, slides }: { slide: number; slides: HeroSlide[] }
   );
 }
 
-// Enrol CTA: the single reserved accent action, settled to a static halo.
-function GlowingEnrolButton({ onPress }: { onPress: () => void }) {
-  const { t } = useTranslation();
-  const glowStyle = {
-    shadowColor: C.yellow,
-    shadowOpacity: 0.5,
-    shadowRadius: 16,
-    shadowOffset: { width: 0, height: 0 },
-    elevation: 10,
-    borderRadius: 8,
-    ...(IS_WEB ? { boxShadow: `0 0 18px rgba(${YELLOW_RGB}, 0.5)` } : null),
-  };
-
-  return (
-    <View style={glowStyle as any}>
-      <Button variant="accent" size="lg" onPress={onPress} accessibilityLabel={t('common.enrolNow')}>
-        <Text style={{ fontFamily: F.bold }} className="text-base text-accent-foreground">
-          {t('common.enrolNow')}
-        </Text>
-        <Icon icon={ArrowRight} size="md" color={C.dark} />
-      </Button>
-    </View>
-  );
-}
-
 interface HeroProps {
   onScrollToCourses: () => void;
-  onEnrol?: () => void;
 }
 
-export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
+export default function Hero({ onScrollToCourses }: HeroProps) {
   const { t, i18n } = useTranslation();
   const { width: winW } = useWindowDimensions();
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   const isWide = IS_WEB && winW >= 1024;
 
   const slides = (t('hero.slides', { returnObjects: true }) as HeroSlide[]) ?? [];
-  const subheadline = t('hero.subheadline');
 
   // The active photo index, reported by the rotating background so the headline
   // pair stays in sync. Pinned to 0 under reduce-motion (no rotation).
@@ -224,13 +150,8 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
           {/* Per-slide headline, cross-fading in sync with the photo */}
           <HeroSlideText key={i18n.language} slide={slide} slides={slides} />
 
-          {/* Typewriter sub-headline */}
-          <TypewriterText key={i18n.language + '-sub'} subheadline={subheadline} />
-
-          {/* CTAs on the scrim, visible at every width */}
-          <View className="flex-row flex-wrap items-center gap-3">
-            <GlowingEnrolButton onPress={onEnrol ?? (() => router.push('/courses' as any))} />
-
+          {/* Explore Courses is the one hero-body control; Enrol lives in the header */}
+          <View className="mt-6 flex-row flex-wrap items-center gap-3">
             <Pressable
               onPress={onScrollToCourses}
               accessibilityRole="button"

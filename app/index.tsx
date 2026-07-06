@@ -24,13 +24,11 @@ import BranchesPreview from '@/components/landing/BranchesPreview';
 import FinalCTA        from '@/components/landing/FinalCTA';
 
 import { C } from '@/components/landing/constants';
-import { useEnrollModal } from '@/context/EnrollModalContext';
 import { Reveal } from '@/components/animations/Reveal';
 import { PageHead, DRIVING_SCHOOL_JSONLD } from '@/components/PageHead';
 
 export default function LandingScreen() {
   const { colorScheme } = useColorScheme();
-  const { open: openEnrollModal } = useEnrollModal();
   const isDark = colorScheme === 'dark';
 
   const scrollY = useSharedValue(0);
@@ -59,7 +57,7 @@ export default function LandingScreen() {
         onScroll={scrollHandler}
         scrollEventThrottle={16}
       >
-        <Hero onScrollToCourses={() => router.push('/courses')} onEnrol={openEnrollModal} />
+        <Hero onScrollToCourses={() => router.push('/courses')} />
         <StatStrip />
         <Reveal><ServicesPreview /></Reveal>
         <PremiumCourseCards />
