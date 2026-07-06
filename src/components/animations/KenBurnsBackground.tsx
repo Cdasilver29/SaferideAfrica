@@ -10,7 +10,14 @@ import Animated, {
 } from 'react-native-reanimated'
 import { useReduceMotion } from '@/hooks/useReduceMotion'
 
-type Props = { source: any | any[]; children?: React.ReactNode }
+type Props = {
+  source: any | any[]
+  children?: React.ReactNode
+  // Reports the active rotation index so callers can sync overlay content (the
+  // hero headlines) to the current photo. Fires on mount and every rotation;
+  // under reduce-motion it fires once with 0 and never changes.
+  onIndexChange?: (index: number) => void
+}
 
 const ROTATE_MS = 5000
 const FADE_MS = 1100
@@ -67,7 +74,7 @@ function CrossFadeLayer({ source, role }: { source: any; role: 'active' | 'prev'
 // reduce-motion; otherwise the slow Ken Burns drift continues. Accepts a
 // single source or an array: arrays rotate on a timer with an opacity
 // cross-fade. Under reduce-motion only the first image renders, no rotation.
-export function KenBurnsBackground({ source, children }: Props) {
+export function KenBurnsBackground({ source, children, onIndexChange }: Props) {
   const sources = Array.isArray(source) ? source : [source]
   const reduceMotion = useReduceMotion()
   const scale = useSharedValue(1)
@@ -98,6 +105,12 @@ export function KenBurnsBackground({ source, children }: Props) {
     }, ROTATE_MS)
     return () => clearInterval(id)
   }, [reduceMotion, sources.length])
+
+  // Keep the caller's overlay content in step with the visible photo. Under
+  // reduce-motion the index is pinned to 0 (no rotation).
+  useEffect(() => {
+    onIndexChange?.(reduceMotion ? 0 : rot.active)
+  }, [rot.active, reduceMotion])
 
   useEffect(() => {
     if (reduceMotion) {

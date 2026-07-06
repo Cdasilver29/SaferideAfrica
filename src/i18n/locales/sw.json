@@ -39,6 +39,12 @@
     "badge": "Shule ya Kuendesha Iliyoidhinishwa na NTSA",
     "headline": "Karibu Safe Ride Africa Ambapo Usalama Ni Zaidi",
     "headlineWords": [{ "w": "Ambapo" }, { "w": "Usalama", "c": "yellow" }, { "w": "Ni" }, { "w": "Zaidi" }],
+    "slides": [
+      { "eyebrow": "Karibu Safe Ride Africa", "words": [{ "w": "Ambapo" }, { "w": "Usalama", "c": "yellow" }, { "w": "Ni" }, { "w": "Zaidi" }] },
+      { "eyebrow": "Jifunze Kuendesha Gari Nasi", "words": [{ "w": "Anza" }, { "w": "na" }, { "w": "Kozi" }, { "w": "Bora", "c": "yellow" }] },
+      { "eyebrow": "Jifunze kwa Kujiamini", "words": [{ "w": "Kuza" }, { "w": "Ujuzi", "c": "yellow" }, { "w": "Wako" }, { "w": "wa" }, { "w": "Kuendesha" }] },
+      { "eyebrow": "Jifunze Kuendesha Gari kwa Urahisi", "words": [{ "w": "Pata" }, { "w": "Kazi", "c": "yellow" }, { "w": "Bora" }, { "w": "Nyuma" }, { "w": "ya" }, { "w": "Usukani" }] }
+    ],
     "subheadline": "Katika Shule ya Udereva ya Safe Ride Africa, tunafanya masomo yawe ya kufurahisha, yenye kubadilika, na yanayokulenga wewe. Kwa msaada wa kibinafsi na mwongozo wa kitaalamu, tutakusaidia kujiamini barabarani na kuwa tayari kwa siku ya mtihani.",
     "trustNtsa": "Imeidhinishwa na NTSA",
     "trustAward": "Tuzo ya Ubora",

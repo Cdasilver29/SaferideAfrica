@@ -39,6 +39,12 @@
     "badge": "NTSA Certified Driving School",
     "headline": "Welcome to Safe Ride Africa Where Safety is Beyond",
     "headlineWords": [{ "w": "Where" }, { "w": "Safety", "c": "yellow" }, { "w": "is" }, { "w": "Beyond" }],
+    "slides": [
+      { "eyebrow": "Welcome to Safe Ride Africa", "words": [{ "w": "Where" }, { "w": "Safety", "c": "yellow" }, { "w": "is" }, { "w": "Beyond" }] },
+      { "eyebrow": "Learn Car Driving With Us", "words": [{ "w": "Start" }, { "w": "With" }, { "w": "the" }, { "w": "Best", "c": "yellow" }, { "w": "Course" }] },
+      { "eyebrow": "Learn With Confidence", "words": [{ "w": "Grow" }, { "w": "Your" }, { "w": "Driving" }, { "w": "Skills", "c": "yellow" }] },
+      { "eyebrow": "Learn Car Driving Easily", "words": [{ "w": "Get" }, { "w": "Your" }, { "w": "Best" }, { "w": "Career", "c": "yellow" }, { "w": "Behind" }, { "w": "the" }, { "w": "Wheel" }] }
+    ],
     "subheadline": "At Safe Ride Africa Driving School, we make lessons enjoyable, flexible, and focused on you. With personal support and expert guidance, we'll help you feel confident on the road and ready for test day.",
     "trustNtsa": "NTSA Certified",
     "trustAward": "Award Winning",

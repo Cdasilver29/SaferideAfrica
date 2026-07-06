@@ -39,6 +39,12 @@
     "badge": "Auto-école Certifiée NTSA",
     "headline": "Bienvenue à Safe Ride Africa Où la Sécurité est Sans Limites",
     "headlineWords": [{ "w": "Où" }, { "w": "la" }, { "w": "Sécurité", "c": "yellow" }, { "w": "est" }, { "w": "Sans" }, { "w": "Limites" }],
+    "slides": [
+      { "eyebrow": "Bienvenue à Safe Ride Africa", "words": [{ "w": "Où" }, { "w": "la" }, { "w": "Sécurité", "c": "yellow" }, { "w": "est" }, { "w": "Sans" }, { "w": "Limites" }] },
+      { "eyebrow": "Apprenez à Conduire Avec Nous", "words": [{ "w": "Commencez" }, { "w": "par" }, { "w": "le" }, { "w": "Meilleur", "c": "yellow" }, { "w": "Cours" }] },
+      { "eyebrow": "Apprenez en Toute Confiance", "words": [{ "w": "Développez" }, { "w": "Vos" }, { "w": "Compétences", "c": "yellow" }, { "w": "de" }, { "w": "Conduite" }] },
+      { "eyebrow": "Apprenez à Conduire Facilement", "words": [{ "w": "Bâtissez" }, { "w": "une" }, { "w": "Belle" }, { "w": "Carrière", "c": "yellow" }, { "w": "au" }, { "w": "Volant" }] }
+    ],
     "subheadline": "À l'auto-école Safe Ride Africa, nous rendons les leçons agréables, flexibles et centrées sur vous. Avec un accompagnement personnalisé et des conseils d'experts, nous vous aiderons à vous sentir en confiance sur la route et prêt pour le jour de l'examen.",
     "trustNtsa": "Certifié NTSA",
     "trustAward": "École Primée",

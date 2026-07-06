@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  View, Text, Pressable, Animated, Platform, useWindowDimensions,
+  View, Text, Pressable, Animated, Easing, Platform, useWindowDimensions,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -65,59 +65,82 @@ function TypewriterText({ subheadline }: { subheadline: string }) {
   );
 }
 
-// Word-by-word stagger headline. White throughout with a single yellow accent
-// word (seg.c === 'yellow'); any other colour tag from older locale payloads
-// renders white. Entrance plays once and settles, shown immediately under
-// reduce-motion.
+// Per-slide eyebrow + headline that cross-fades in sync with the rotating hero
+// photo, one pair per slide, driven by the active index KenBurnsBackground
+// reports. Headline is white with a single yellow accent word (seg.c ===
+// 'yellow'). Opacity only, on the react-native Animated API this file already
+// uses; the animated wrapper carries no className (a no-op on Animated.*), so
+// layout sits on the inner View. Under reduce-motion the first slide shows
+// static with no fade.
 type HeadlineSeg = { w: string; c?: string };
+type HeroSlide = { eyebrow: string; words: (HeadlineSeg | string)[] };
 
-function AnimatedHeadline({ segments }: { segments: (HeadlineSeg | string)[] }) {
+function HeroSlideText({ slide, slides }: { slide: number; slides: HeroSlide[] }) {
   const reduceMotion = useReduceMotion();
   const { width: winW } = useWindowDimensions();
   const isMobile = !IS_WEB || winW < 768;
-  const words: HeadlineSeg[] = segments
-    .map((s) => (typeof s === 'string' ? { w: s } : s))
-    .filter((s) => s.w && s.w.length > 0);
-  const anims = useRef(words.map(() => new Animated.Value(0))).current;
+  const opacity = useRef(new Animated.Value(1)).current;
+  const [shown, setShown] = useState(slide);
 
   useEffect(() => {
     if (reduceMotion) {
-      anims.forEach((a) => a.setValue(1));
+      setShown(slide);
+      opacity.setValue(1);
       return;
     }
-    const stagger = Animated.stagger(
-      90,
-      anims.map((a) => Animated.timing(a, { toValue: 1, duration: 500, useNativeDriver: Platform.OS !== 'web' })),
-    );
-    stagger.start();
-    return () => stagger.stop();
-  }, [reduceMotion]);
+    if (slide === shown) return;
+    let cancelled = false;
+    // Fade the current pair out, swap the content at the trough, fade the new
+    // pair in. Exit is quicker than enter so the change feels responsive.
+    Animated.timing(opacity, {
+      toValue: 0, duration: 220, easing: Easing.in(Easing.quad),
+      useNativeDriver: Platform.OS !== 'web',
+    }).start(({ finished }) => {
+      if (!finished || cancelled) return;
+      setShown(slide);
+      opacity.setValue(0);
+      Animated.timing(opacity, {
+        toValue: 1, duration: 480, easing: Easing.out(Easing.quad),
+        useNativeDriver: Platform.OS !== 'web',
+      }).start();
+    });
+    return () => { cancelled = true; };
+  }, [slide, reduceMotion]);
 
+  const data = slides[shown] ?? slides[0];
+  const words: HeadlineSeg[] = (data?.words ?? [])
+    .map((s) => (typeof s === 'string' ? { w: s } : s))
+    .filter((s) => s.w && s.w.length > 0);
   const fontSize = isMobile ? 26 : 42;
   const lineH = isMobile ? 33 : 50;
 
   return (
-    <View className="mb-3 flex-row flex-wrap gap-x-2 web:mb-4">
-      {words.map((seg, i) => {
-        const anim = anims[i] ?? new Animated.Value(1);
-        const color = seg.c === 'yellow' ? C.yellow : C.white;
-        return (
-          <Animated.View
-            key={seg.w + i}
-            style={{
-              opacity: anim,
-              transform: [
-                { translateY: anim.interpolate({ inputRange: [0, 1], outputRange: [24, 0] }) },
-              ],
-            }}
+    <Animated.View style={{ opacity }}>
+      {/* Layout on a plain View; className is a no-op on the Animated wrapper */}
+      <View className="mb-3 web:mb-4">
+        {data?.eyebrow ? (
+          <Text
+            style={{ fontFamily: F.bold, color: C.yellow, letterSpacing: 2 }}
+            className="mb-2.5 text-xs uppercase web:text-sm"
           >
-            <Text style={{ color, fontFamily: F.bold, fontSize, lineHeight: lineH }}>
+            {data.eyebrow}
+          </Text>
+        ) : null}
+        <View className="flex-row flex-wrap gap-x-2">
+          {words.map((seg, i) => (
+            <Text
+              key={seg.w + i}
+              style={{
+                color: seg.c === 'yellow' ? C.yellow : C.white,
+                fontFamily: F.bold, fontSize, lineHeight: lineH,
+              }}
+            >
               {seg.w}
             </Text>
-          </Animated.View>
-        );
-      })}
-    </View>
+          ))}
+        </View>
+      </View>
+    </Animated.View>
   );
 }
 
@@ -157,8 +180,12 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   const isWide = IS_WEB && winW >= 1024;
 
-  const segments = t('hero.headlineWords', { returnObjects: true }) as (HeadlineSeg | string)[];
+  const slides = (t('hero.slides', { returnObjects: true }) as HeroSlide[]) ?? [];
   const subheadline = t('hero.subheadline');
+
+  // The active photo index, reported by the rotating background so the headline
+  // pair stays in sync. Pinned to 0 under reduce-motion (no rotation).
+  const [slide, setSlide] = useState(0);
 
   // One full-bleed hero: the photo fills the section and the copy sits on a
   // horizontal scrim, dark over the text side fading out across the image.
@@ -173,7 +200,7 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
       className="justify-center overflow-hidden"
       style={{ minHeight: isWide ? 580 : isMobile ? 480 : 520 }}
     >
-      <KenBurnsBackground source={HERO_SRC} />
+      <KenBurnsBackground source={HERO_SRC} onIndexChange={setSlide} />
 
       {/* Readability scrim over the photo, decorative only */}
       <LinearGradient
@@ -194,8 +221,8 @@ export default function Hero({ onScrollToCourses, onEnrol }: HeroProps) {
         }}
       >
         <View style={{ maxWidth: 620 }}>
-          {/* Headline, the value-proposition focal point */}
-          <AnimatedHeadline key={i18n.language} segments={segments} />
+          {/* Per-slide headline, cross-fading in sync with the photo */}
+          <HeroSlideText key={i18n.language} slide={slide} slides={slides} />
 
           {/* Typewriter sub-headline */}
           <TypewriterText key={i18n.language + '-sub'} subheadline={subheadline} />
