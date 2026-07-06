@@ -137,11 +137,13 @@ export default function Courses() {
 
         <SeriesTabs active={activeSeries} onChange={setActiveSeries} />
 
-        {/* Series image. Sized container with the Image filling it via explicit
-            inline width/height: react-native-web injects the source's intrinsic
-            pixel height as an inline style on the wrapper, which beats NativeWind
-            h-/w- classes. Explicit inline dimensions stop that injection. */}
-        <View className="mb-4 overflow-hidden rounded-card" style={{ height: 180 }}>
+        {/* Series image. A 3:2 aspect-ratio box (matches the landscape series
+            photos, so they crop little to none, and gives the portrait B-series
+            photo a taller, kinder band). The Image fills it via explicit inline
+            width/height: react-native-web injects the source's intrinsic pixel
+            height onto the wrapper otherwise, which beats NativeWind h-/w-
+            classes. Explicit inline dimensions stop that injection. */}
+        <View className="mb-4 w-full overflow-hidden rounded-card" style={{ aspectRatio: 3 / 2 }}>
           <Image
             source={activeMeta.image}
             accessibilityLabel={`${activeMeta.label}: ${activeMeta.subtitle}`}

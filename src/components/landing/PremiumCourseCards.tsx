@@ -47,9 +47,11 @@ function ClassCard({ cls }: { cls: (typeof CLASSES)[0] }) {
       accessibilityLabel={cls.name}
       className="overflow-hidden rounded-card border border-border bg-card hover:border-primary/50 active:opacity-90"
     >
-      {/* Sized image container: explicit inline dimensions stop react-native-web
-          injecting the source's intrinsic height (same fix as the courses page). */}
-      <View style={{ height: 180 }} className="overflow-hidden">
+      {/* Sized image container: a 3:2 aspect-ratio box frames the landscape
+          series photos with little crop and gives the portrait B-series photo a
+          taller band. Explicit inline dimensions on the Image stop react-native-
+          web injecting the source's intrinsic height (same fix as courses). */}
+      <View style={{ aspectRatio: 3 / 2, width: '100%' }} className="overflow-hidden">
         {image && (
           <Image
             source={image}

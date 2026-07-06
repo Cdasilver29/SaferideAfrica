@@ -27,11 +27,13 @@ function ServiceCard({ svc, readMore }: { svc: ServiceItem; readMore: string }) 
   return (
     <Pressable className="flex-1" onPress={() => router.push(`/services/${svc.code}` as any)} accessibilityRole="link">
       <Card className="h-full overflow-hidden p-0 active:bg-foreground/5">
-        {/* Phase I service photo. Sized container with explicit inline
-            dimensions on the Image, or react-native-web stretches it to the
-            source's natural height (same fix as the course images). */}
+        {/* Phase I service photo. A 3:2 aspect-ratio box keeps the landscape
+            service photos near-uncropped and gives the portrait ones (ladies
+            special, beginner) a taller band. Explicit inline dimensions on the
+            Image stop react-native-web stretching it to the source's natural
+            height (same fix as the course images). */}
         {svc.image && (
-          <View style={{ height: 120 }} className="w-full overflow-hidden">
+          <View style={{ aspectRatio: 3 / 2 }} className="w-full overflow-hidden">
             <Image
               source={svc.image}
               resizeMode="cover"
