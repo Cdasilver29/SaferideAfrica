@@ -17,7 +17,7 @@ import { F } from './landing/constants';
 import { useTheme } from '@/lib/theme';
 import { useReduceMotion } from '@/hooks/useReduceMotion';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// --- Types ---
 
 type SubmitState = 'idle' | 'sending' | 'sent' | 'error';
 
@@ -48,18 +48,23 @@ const DEFAULT_FORM: FormFields = {
 const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
 const WEB3FORMS_KEY = process.env.EXPO_PUBLIC_WEB3FORMS_KEY ?? '';
 
-// ─── Helpers (submission logic unchanged from Phase 3) ──────────────────────────
+// --- Helpers (submission logic unchanged from Phase 3) ---
 
 function parseDDMMYYYY(s: string): Date | null {
   const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
   if (!m) return null;
-  const d = new Date(+m[3], +m[2] - 1, +m[1]);
-  return isNaN(d.getTime()) ? null : d;
+  const day = +m[1], month = +m[2], year = +m[3];
+  const d = new Date(year, month - 1, day);
+  // Date() rolls overflow forward (31/02 becomes 03/03); require a round-trip
+  // so only real calendar dates pass.
+  if (d.getFullYear() !== year || d.getMonth() !== month - 1 || d.getDate() !== day) return null;
+  return d;
 }
 
-// Kenyan mobile only: 07XX / 01XX local form, or +2547XX / +2541XX international.
+// Kenyan mobile only: 07XX / 01XX local form, or international with or
+// without the plus (+254712..., 254712...).
 function isValidWhatsAppNumber(p: string): boolean {
-  return /^(?:\+254|0)[71]\d{8}$/.test(p.replace(/[\s-]/g, ''));
+  return /^(?:\+?254|0)[71]\d{8}$/.test(p.replace(/[\s-]/g, ''));
 }
 
 function validate(f: FormFields): FormErrors {
@@ -100,7 +105,7 @@ function buildWhatsAppLink(f: FormFields, courseName: string, branchName: string
   return `${base}?text=${encodeURIComponent(lines.join('\n'))}`;
 }
 
-// ─── Field atoms ────────────────────────────────────────────────────────────────
+// --- Field atoms ---
 
 function Field({
   label, required, error, hint, children,
@@ -142,7 +147,7 @@ function SectionLabel({ title }: { title: string }) {
   );
 }
 
-// ─── Main modal ───────────────────────────────────────────────────────────────
+// --- Main modal ---
 
 export default function EnrollModal() {
   const { isOpen, close, presetCourseCode } = useEnrollModal();
@@ -272,7 +277,7 @@ export default function EnrollModal() {
     ];
   });
 
-  // ── Sent state ──────────────────────────────────────────────────────────────
+  // --- Sent state ---
   const renderSent = () => {
     return (
       <View className="items-center px-6 py-12">
