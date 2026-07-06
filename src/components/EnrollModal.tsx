@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   View, Text, ScrollView, Platform, KeyboardAvoidingView,
-  useWindowDimensions, Linking, Pressable,
+  Linking, Pressable,
 } from 'react-native';
 import AnimatedRN, {
   useSharedValue, useAnimatedStyle, withSequence, withTiming,
@@ -57,16 +57,17 @@ function parseDDMMYYYY(s: string): Date | null {
   return isNaN(d.getTime()) ? null : d;
 }
 
-function isValidPhone(p: string): boolean {
-  return /^(\+254\d{9}|0\d{9})$/.test(p.replace(/[\s-]/g, ''));
+// Kenyan mobile only: 07XX / 01XX local form, or +2547XX / +2541XX international.
+function isValidWhatsAppNumber(p: string): boolean {
+  return /^(?:\+254|0)[71]\d{8}$/.test(p.replace(/[\s-]/g, ''));
 }
 
 function validate(f: FormFields): FormErrors {
   const e: FormErrors = {};
   if (!f.fullName.trim())
     e.fullName  = 'Full name is required';
-  if (!f.phone || !isValidPhone(f.phone))
-    e.phone     = 'Valid Kenyan number required (07... or +254...)';
+  if (!f.phone || !isValidWhatsAppNumber(f.phone))
+    e.phone     = 'Valid Kenyan mobile required (07..., 01..., or +254...)';
   if (!f.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email))
     e.email     = 'Valid email required';
   if (!f.branchId)
@@ -88,7 +89,7 @@ function buildWhatsAppLink(f: FormFields, courseName: string, branchName: string
   const lines = [
     'Enrollment Enquiry - Safe Ride Africa',
     `Name: ${f.fullName}`,
-    `Phone: ${f.phone}`,
+    `WhatsApp (callback): ${f.phone}`,
     `Email: ${f.email}`,
     `Branch: ${branchName}`,
     `Course: ${courseName}`,
@@ -102,9 +103,9 @@ function buildWhatsAppLink(f: FormFields, courseName: string, branchName: string
 // ─── Field atoms ────────────────────────────────────────────────────────────────
 
 function Field({
-  label, required, error, children,
+  label, required, error, hint, children,
 }: {
-  label: string; required?: boolean; error?: string; children: React.ReactNode;
+  label: string; required?: boolean; error?: string; hint?: string; children: React.ReactNode;
 }) {
   return (
     <View className="mb-3.5">
@@ -120,6 +121,10 @@ function Field({
           className="mt-1 text-xs text-destructive"
         >
           {error}
+        </Text>
+      ) : hint ? (
+        <Text style={{ fontFamily: F.regular }} className="mt-1 text-xs text-muted-foreground">
+          {hint}
         </Text>
       ) : null}
     </View>
@@ -143,8 +148,6 @@ export default function EnrollModal() {
   const { isOpen, close, presetCourseCode } = useEnrollModal();
   const Th = useTheme();
   const reduceMotion = useReduceMotion();
-  const { height: winH } = useWindowDimensions();
-  const scrollMax = Math.max(240, winH - 280);
 
   const [form,        setForm]        = useState<FormFields>(DEFAULT_FORM);
   const [errors,      setErrors]      = useState<FormErrors>({});
@@ -157,6 +160,12 @@ export default function EnrollModal() {
 
   const selectedClass  = CLASSES.find(c => c.code === form.courseCode);
   const selectedBranch = BRANCHES.find(b => b.id === form.branchId);
+
+  const enquiryWaLink = () => buildWhatsAppLink(
+    form,
+    selectedClass?.name  ?? form.courseCode,
+    selectedBranch?.name ?? form.branchId,
+  );
 
   const setF = useCallback(<K extends keyof FormFields>(key: K, val: FormFields[K]) => {
     setForm(prev => ({ ...prev, [key]: val }));
@@ -223,17 +232,21 @@ export default function EnrollModal() {
           from_name:           form.fullName,
           name:                form.fullName,
           email:               form.email,
-          phone:               form.phone,
+          whatsapp_number:     `${form.phone} (client's WhatsApp, callback contact)`,
           branch:              selectedBranch?.name ?? form.branchId,
           course:              selectedClass?.name  ?? form.courseCode,
           preferred_start_date: form.startDate,
-          id_number:           form.idNumber || '—',
+          id_number:           form.idNumber || '(not provided)',
           message:             form.message  || '(no message)',
         }),
       });
       const data = await res.json();
       if (!data.success) throw new Error(data.message ?? 'Submission failed');
       setSubmitState('sent');
+      // Hand the same enquiry to SafeRide's WhatsApp, prefilled so the client
+      // only taps send. Popup blockers can stop this on web; the sent screen
+      // keeps a manual button as the fallback.
+      Linking.openURL(enquiryWaLink()).catch(() => {});
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : 'Something went wrong. Please try again.';
       setErrorMsg(msg);
@@ -261,11 +274,6 @@ export default function EnrollModal() {
 
   // ── Sent state ──────────────────────────────────────────────────────────────
   const renderSent = () => {
-    const waLink = buildWhatsAppLink(
-      form,
-      selectedClass?.name  ?? form.courseCode,
-      selectedBranch?.name ?? form.branchId,
-    );
     return (
       <View className="items-center px-6 py-12">
         <View className="mb-7 h-[88px] w-[88px] items-center justify-center rounded-pill border-2 border-primary bg-primary/10">
@@ -273,9 +281,9 @@ export default function EnrollModal() {
         </View>
         <Text style={{ fontFamily: F.bold }} className="mb-3 text-center text-xl text-foreground">Enquiry received!</Text>
         <Text style={{ fontFamily: F.regular }} className="mb-7 max-w-[320px] text-center text-sm leading-6 text-muted-foreground">
-          We will be in touch soon. You can also reach us directly on WhatsApp right now.
+          Your enquiry has been emailed to our team. WhatsApp should also open with your message ready to send. If it did not, tap below.
         </Text>
-        <Button variant="accent" size="lg" className="w-full max-w-[320px] rounded-card" onPress={() => Linking.openURL(waLink)}>
+        <Button variant="accent" size="lg" className="w-full max-w-[320px] rounded-card" onPress={() => Linking.openURL(enquiryWaLink())}>
           <Icon icon={MessageCircle} size="sm" color={Th.accentDark} />
           <Text style={{ fontFamily: F.bold }} className="text-base text-accent-foreground">Continue on WhatsApp</Text>
         </Button>
@@ -289,7 +297,7 @@ export default function EnrollModal() {
   const sending = submitState === 'sending';
 
   return (
-    <Dialog visible={isOpen} onClose={handleClose} className="max-w-lg overflow-hidden p-0">
+    <Dialog visible={isOpen} onClose={handleClose} className="max-h-full max-w-lg overflow-hidden p-0">
       {/* Header */}
       <View className="border-b border-border px-6 pb-4 pt-6">
         <DialogTitle>Enrol Now</DialogTitle>
@@ -301,11 +309,17 @@ export default function EnrollModal() {
         renderSent()
       ) : (
         <>
-          <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+          {/* flexShrink + minHeight 0 let the body give up height to the fixed
+              header and footer when the card hits the viewport cap, instead of
+              overflowing it. The card itself is capped by max-h-full above. */}
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            style={{ flexShrink: 1, minHeight: 0 }}
+          >
             <ScrollView
-              style={{ maxHeight: scrollMax }}
+              className={Platform.OS === 'web' ? 'modal-scroll' : undefined}
+              style={{ flexShrink: 1, minHeight: 0 }}
               contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 4, paddingBottom: 20 }}
-              showsVerticalScrollIndicator={false}
               keyboardShouldPersistTaps="handled"
             >
               <SectionLabel title="Your Details" />
@@ -322,7 +336,12 @@ export default function EnrollModal() {
                 />
               </Field>
 
-              <Field label="Phone" required error={err('phone')}>
+              <Field
+                label="WhatsApp Number"
+                required
+                error={err('phone')}
+                hint="The number Safe Ride will message you on via WhatsApp."
+              >
                 <Input
                   value={form.phone}
                   onChangeText={v => setF('phone', v)}

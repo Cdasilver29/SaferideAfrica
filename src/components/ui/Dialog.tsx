@@ -4,6 +4,7 @@ import { X } from 'lucide-react-native';
 import { cn } from './utils';
 import { Icon } from './Icon';
 import { C, F } from '../landing/constants';
+import { useReduceMotion } from '@/hooks/useReduceMotion';
 
 // Dialog primitive built on React Native's Modal (the proven EnrollModal
 // pattern), themed to the tokens. A 50% black scrim isolates the foreground;
@@ -18,11 +19,12 @@ type DialogProps = {
 };
 
 export function Dialog({ visible, onClose, children, className }: DialogProps) {
+  const reduceMotion = useReduceMotion();
   return (
     <Modal
       visible={visible}
       transparent
-      animationType="fade"
+      animationType={reduceMotion ? 'none' : 'fade'}
       statusBarTranslucent
       onRequestClose={onClose}
     >
