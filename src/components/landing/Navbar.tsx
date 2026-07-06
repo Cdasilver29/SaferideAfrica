@@ -80,9 +80,12 @@ export default function Navbar({ scrollY }: NavbarProps) {
   // drawer (8 text links need desktop width to sit on one row).
   const showLinks = IS_WEB && winW >= 1024;
   const showHamburger = !IS_WEB || (IS_WEB && winW < 1024);
-  // Below ~400px the logo + full wordmark + controls no longer fit on one row,
-  // truncating "Safe Ride Africa". On these widths drop the tagline and move the
-  // language switcher into the drawer to give the wordmark its full width.
+  // Mobile is below the tablet breakpoint: the header drops the Enrol button
+  // (Enrol stays reachable in the drawer) and the language switcher takes its
+  // place, which frees the row for a larger logo and wordmark.
+  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
+  // Below ~400px the two-line brand no longer fits beside the controls, so the
+  // tagline drops and the wordmark keeps its single line to itself.
   const narrowBrand = !IS_WEB || winW < 400;
 
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -184,14 +187,14 @@ export default function Navbar({ scrollY }: NavbarProps) {
           >
             <Image
               source={LOGO}
-              style={{ width: showLinks ? 56 : 38, height: showLinks ? 56 : 38, borderRadius: 10 }}
+              style={{ width: showLinks ? 56 : 46, height: showLinks ? 56 : 46, borderRadius: 10 }}
               resizeMode="contain"
             />
             <View style={!showLinks ? { flexShrink: 1 } : undefined}>
               <Text
                 numberOfLines={1}
                 style={{ fontFamily: F.bold }}
-                className={showLinks ? 'text-xl text-accent' : 'text-base text-accent'}
+                className={showLinks ? 'text-xl text-accent' : 'text-lg text-accent'}
               >
                 {t('nav.brand')}
               </Text>
@@ -253,22 +256,26 @@ export default function Navbar({ scrollY }: NavbarProps) {
               </Pressable>
             )}
 
-            {/* Enroll, the single reserved accent action */}
-            <AnimatedRN.View style={[{ borderRadius: 8 }, enrolGlowStyle]}>
-              <Button
-                variant="accent"
-                size="sm"
-                onPress={() => openEnrollModal()}
-                accessibilityLabel={t('common.enrolNow')}
-              >
-                <Icon icon={GraduationCap} size="sm" color={C.dark} />
-                <Text style={{ fontFamily: F.bold }} className="text-sm text-accent-foreground">
-                  {showLinks ? t('common.enrolNow') : t('common.enrol')}
-                </Text>
-              </Button>
-            </AnimatedRN.View>
+            {/* Enrol, the single reserved accent action. Hidden on mobile,
+                where it stays reachable in the drawer; the language switcher
+                takes its place in the header. */}
+            {!isMobile && (
+              <AnimatedRN.View style={[{ borderRadius: 8 }, enrolGlowStyle]}>
+                <Button
+                  variant="accent"
+                  size="sm"
+                  onPress={() => openEnrollModal()}
+                  accessibilityLabel={t('common.enrolNow')}
+                >
+                  <Icon icon={GraduationCap} size="sm" color={C.dark} />
+                  <Text style={{ fontFamily: F.bold }} className="text-sm text-accent-foreground">
+                    {showLinks ? t('common.enrolNow') : t('common.enrol')}
+                  </Text>
+                </Button>
+              </AnimatedRN.View>
+            )}
 
-            {showHamburger && !narrowBrand && <LanguageSwitcher compact />}
+            {showHamburger && <LanguageSwitcher compact />}
 
             {showHamburger && (
               <IconButton onPress={openDrawer} label="Open menu">
@@ -296,7 +303,6 @@ export default function Navbar({ scrollY }: NavbarProps) {
                     </Text>
                   </View>
                   <View className="flex-row items-center gap-2">
-                    {narrowBrand && <LanguageSwitcher compact />}
                     <IconButton onPress={toggleColorScheme} label="Toggle theme">
                       {isDark
                         ? <Icon icon={Sun} size="sm" color={C.yellow} />
