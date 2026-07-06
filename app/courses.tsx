@@ -6,9 +6,8 @@ import { useTranslation } from 'react-i18next';
 
 import { PageHero } from '@/components/landing/PageHero';
 import Navbar        from '@/components/landing/Navbar';
-import Courses       from '@/components/landing/Courses';
+import SeriesGrid    from '@/components/landing/SeriesGrid';
 import Footer        from '@/components/landing/Footer';
-import CoursesPreview from '@/components/landing/CoursesPreview';
 
 import { C, F, IS_WEB } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
@@ -69,10 +68,8 @@ export default function CoursesPage() {
       <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('courses.overline')} title={t('coursesPage.pageTitle')} />
-        {/* Top 3 classes — same card layout as home page */}
-        <Reveal><CoursesPreview /></Reveal>
-        {/* Full course catalogue: series tabs, class rows, refresher */}
-        <Reveal><Courses /></Reveal>
+        {/* Five-series image grid; each card expands to reveal its classes */}
+        <Reveal><SeriesGrid /></Reveal>
         <Reveal><ContactCTA /></Reveal>
         <Footer />
       </ScrollView>

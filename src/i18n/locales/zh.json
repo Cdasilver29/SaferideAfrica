@@ -94,6 +94,7 @@
     "whatsIncluded": "包含内容",
     "enrolNow": "立即报名",
     "paymentKcb": "银行转账",
+    "showLess": "收起",
     "refresherTitle": "复习课程",
     "perLesson": "每课时",
     "minLessons": "最少{{count}}课时",
