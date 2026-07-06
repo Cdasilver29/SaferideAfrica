@@ -139,7 +139,7 @@ export function PremiumCourseCards() {
   }));
 
   return (
-    <View className="bg-background px-5 py-14">
+    <View className="bg-background px-6 py-14">
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionIntro
           badge={t('home.premiumCourses.badge')}

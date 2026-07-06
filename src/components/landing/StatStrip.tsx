@@ -31,7 +31,8 @@ export default function StatStrip() {
         backgroundColor: T.isDark ? C.dark : C.white,
         // Padding below the cards so the section has breathing room
         paddingBottom: 40,
-        paddingHorizontal: IS_WEB ? 24 : 16,
+        // Same 24px gutter as every px-6 section, native included
+        paddingHorizontal: 24,
         // z-index so overlapping cards sit above the hero image
         zIndex: 10,
       }}

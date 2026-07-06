@@ -79,7 +79,7 @@ export default function Testimonials() {
   const frameOffset = isWide ? 12 : 8;
 
   return (
-    <View className="bg-background px-6 py-[72px]">
+    <View className="bg-background px-6 py-14">
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionIntro badge={t('testimonials.overline')} title={t('testimonials.heading')} />
 

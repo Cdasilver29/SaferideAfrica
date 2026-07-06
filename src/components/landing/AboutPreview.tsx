@@ -22,7 +22,7 @@ export default function AboutPreview() {
   const feature2 = <FeatureCard variant="accent" title={t('home.aboutPreview.feature2Title')} description={t('home.aboutPreview.feature2Desc')} />;
 
   return (
-    <View className="bg-primary px-6 py-16 dark:bg-background">
+    <View className="bg-primary px-6 py-14 dark:bg-background">
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionIntro
           invert

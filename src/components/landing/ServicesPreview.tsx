@@ -54,7 +54,7 @@ export default function ServicesPreview() {
   const photoW = sideLayout ? Math.min(400, winW * 0.35) : undefined;
 
   return (
-    <View className="bg-background px-6 py-16">
+    <View className="bg-background px-6 py-14">
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         {sideLayout ? (
           <View className="flex-row items-stretch gap-12">

@@ -131,8 +131,12 @@ export default function FinalCTA() {
     <View
       style={{
         backgroundColor: C.skyDeep,
-        height: sectionH,
+        // minHeight instead of a fixed height: long-copy locales at 360px can
+        // grow the section instead of clipping. Waves stay anchored to the
+        // bottom regardless.
+        minHeight: sectionH,
         paddingHorizontal: 24,
+        paddingVertical: 48,
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'hidden',

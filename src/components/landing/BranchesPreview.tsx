@@ -62,7 +62,7 @@ export default function BranchesPreview() {
   const activeId = matches.find((b) => b.id === selectedId)?.id ?? matches[0]?.id ?? '';
 
   return (
-    <View style={{ backgroundColor: Th.background }} className="px-6 py-16">
+    <View style={{ backgroundColor: Th.background }} className="px-6 py-14">
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionIntro
           badge={t('home.branchesPreview.badge')}
