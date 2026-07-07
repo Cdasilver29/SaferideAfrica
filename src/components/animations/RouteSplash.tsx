@@ -17,7 +17,7 @@ import { useReduceMotion } from '@/hooks/useReduceMotion';
 // wrapper: NativeWind className is a no-op on Reanimated Animated.* components
 // in this setup, so layout classes only take effect off the animated node.
 
-const HOLD_MS = 3000;
+const HOLD_MS = 1000;
 const FADE_MS = 300;
 const LOGO_IN_MS = 250;
 

@@ -302,7 +302,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
                       {t('nav.brand')}
                     </Text>
                   </View>
-                  <View className="flex-row items-center gap-2">
+                  <View className="flex-row items-center gap-5">
                     <IconButton onPress={toggleColorScheme} label="Toggle theme">
                       {isDark
                         ? <Icon icon={Sun} size="sm" color={C.yellow} />

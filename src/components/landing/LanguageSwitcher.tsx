@@ -71,15 +71,15 @@ export default function LanguageSwitcher({ compact = false }: { compact?: boolea
           alignItems: 'center',
           justifyContent: 'center',
           gap: compact ? 0 : 6,
-          paddingHorizontal: compact ? 5 : 9,
-          paddingVertical: compact ? 3 : 5,
+          paddingHorizontal: compact ? 8 : 9,
+          paddingVertical: compact ? 6 : 5,
           borderRadius: 8,
           borderWidth: 1,
           borderColor: pressed || open ? C.blue : C.darkBorder,
           backgroundColor: pressed || open ? 'rgba(1,165,240,0.08)' : 'transparent',
         })}
       >
-        <Flag xml={currentLang.flag} size={compact ? 18 : FLAG_W} />
+        <Flag xml={currentLang.flag} size={compact ? 24 : FLAG_W} />
         {!compact && (
           <Text style={{ color: C.mutedDark, fontSize: 12, fontFamily: F.medium }}>
             {t(`languageSwitcher.languages.${currentCode}`)}

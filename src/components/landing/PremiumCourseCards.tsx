@@ -37,8 +37,13 @@ const CARD_MIRRORED: Record<string, boolean> = {
 function ClassCard({ cls }: { cls: (typeof CLASSES)[0] }) {
   const { t } = useTranslation();
   const cardKey = CARD_KEY_MAP[cls.code];
-  const image = CLASS_SERIES.find((s) => s.code === cls.series)?.image;
+  let image = CLASS_SERIES.find((s) => s.code === cls.series)?.image;
   const mirrored = CARD_MIRRORED[cls.code];
+
+  if (IS_WEB) {
+    if (cls.code === 'B-AUTO') image = { uri: '/hero2.webp' };
+    if (cls.code === 'B-LIGHT') image = { uri: '/gallery/DSC_7863.webp' };
+  }
 
   return (
     <Pressable
@@ -149,13 +154,14 @@ export function PremiumCourseCards() {
           description={t('home.premiumCourses.description')}
         />
 
-        <View ref={ref} className={cn('gap-5', !isNarrow && 'flex-row')}>
+        <View ref={ref} className={cn('gap-5', !isNarrow && 'flex-row flex-wrap justify-center')}>
           {premiumClasses.map((cls, i) => (
             <RevealItem
               key={cls.code}
               index={i}
               inView={inView}
               className={isNarrow ? 'w-full' : 'flex-1'}
+              style={!isNarrow ? { minWidth: 280, maxWidth: 360 } : undefined}
             >
               <ClassCard cls={cls} />
             </RevealItem>
