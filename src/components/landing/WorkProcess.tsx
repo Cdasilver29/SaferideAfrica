@@ -135,6 +135,19 @@ export default function WorkProcess() {
   const [activeIndex] = useState(0);
 
   const marqueeX = useSharedValue(0);
+  
+  useEffect(() => {
+    if (!reduceMotion && isMobile) {
+      marqueeX.value = AnimatedRN.withRepeat(
+        AnimatedRN.withTiming(-SET_W, { duration: 15000, easing: AnimatedRN.Easing.linear }),
+        -1,
+        false
+      );
+    } else {
+      marqueeX.value = 0;
+    }
+  }, [reduceMotion, isMobile]);
+
   const marqueeStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: marqueeX.value }],
   }));
