@@ -1,5 +1,5 @@
-import React from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { SafeAreaView, DeviceEventEmitter } from 'react-native';
 import { router } from 'expo-router';
 import { useColorScheme } from 'nativewind';
 import Animated, {
@@ -39,6 +39,15 @@ export default function LandingScreen() {
     },
   });
 
+  const scrollRef = useRef<any>(null);
+
+  useEffect(() => {
+    const sub = DeviceEventEmitter.addListener('scrollToTop', () => {
+      scrollRef.current?.scrollTo({ y: 0, animated: true });
+    });
+    return () => sub.remove();
+  }, []);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: isDark ? C.dark : C.white }}>
       <PageHead
@@ -52,6 +61,7 @@ export default function LandingScreen() {
       <Navbar scrollY={scrollY} />
 
       <Animated.ScrollView
+        ref={scrollRef}
         style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}
         onScroll={scrollHandler}

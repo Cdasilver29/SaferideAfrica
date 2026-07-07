@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Pressable, Linking, Platform, StyleSheet, useWindowDimensions } from 'react-native'
+import { View, Pressable, Linking, Platform, StyleSheet, useWindowDimensions, DeviceEventEmitter } from 'react-native'
 import { Phone, MessageCircle, ChevronUp, X } from 'lucide-react-native'
 import { useTranslation } from 'react-i18next'
 import { COMPANY, SOCIALS } from '@/data/saferide'
@@ -31,7 +31,7 @@ export default function SocialFloat() {
     if (isWeb) {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
-    // On native, we'd need a ref to the global scrollview, but this works for web where requested.
+    DeviceEventEmitter.emit('scrollToTop')
   }
 
   // Positioning

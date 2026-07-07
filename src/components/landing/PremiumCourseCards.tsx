@@ -26,19 +26,12 @@ const CARD_HAS_BADGE: Record<string, boolean> = {
   EXECUTIVE: true,
 };
 
-// Both B classes share the b-series photo (Phase 14 images are per series and
-// stay untouched); mirroring the Auto card keeps the pair visually distinct.
-const CARD_MIRRORED: Record<string, boolean> = {
-  'B-AUTO': true,
-};
-
 // Phase C image-led card: vehicle photo on top, title, one line, Read More.
 // The whole card is the link; Read More is the visible affordance.
 function ClassCard({ cls }: { cls: (typeof CLASSES)[0] }) {
   const { t } = useTranslation();
   const cardKey = CARD_KEY_MAP[cls.code];
   let image = CLASS_SERIES.find((s) => s.code === cls.series)?.image;
-  const mirrored = CARD_MIRRORED[cls.code];
 
   if (IS_WEB) {
     if (cls.code === 'B-AUTO') image = { uri: '/hero2.webp' };
@@ -65,7 +58,6 @@ function ClassCard({ cls }: { cls: (typeof CLASSES)[0] }) {
             style={{
               width: '100%',
               height: '100%',
-              ...(mirrored ? { transform: [{ scaleX: -1 }] } : null),
             }}
           />
         )}

@@ -89,7 +89,7 @@ export default function RootLayout() {
                 }),
               }}
             >
-              <Stack screenOptions={{ headerShown: false }}>
+              <Stack screenOptions={{ headerShown: false, animation: 'fade' }}>
                 <Stack.Screen name="index" />
                 <Stack.Screen name="about" />
                 <Stack.Screen name="courses" />
