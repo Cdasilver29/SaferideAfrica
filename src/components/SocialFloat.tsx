@@ -29,9 +29,17 @@ export default function SocialFloat() {
 
   const scrollToTop = () => {
     if (isWeb) {
+      // Scroll the document itself
       window.scrollTo({ top: 0, behavior: 'smooth' })
-      const scrollables = document.querySelectorAll('[style*="overflow-y: auto"], [style*="overflow-y: scroll"], .css-view-175oi2r');
-      scrollables.forEach(el => el.scrollTo({ top: 0, behavior: 'smooth' }));
+      // Walk the entire DOM and scroll every element that has been scrolled down.
+      // This catches React Native Web ScrollView containers regardless of their
+      // generated class names or inline style formats.
+      const all = document.querySelectorAll('*')
+      all.forEach(el => {
+        if (el.scrollTop > 0) {
+          el.scrollTo({ top: 0, behavior: 'smooth' })
+        }
+      })
     }
     DeviceEventEmitter.emit('scrollToTop')
   }
