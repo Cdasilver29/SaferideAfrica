@@ -69,8 +69,15 @@ export default function ClassDetailPage() {
   const { open: openEnroll } = useEnrollModal();
 
   const cls = CLASSES.find(c => c.code === code);
-  const seriesImage = cls ? CLASS_SERIES.find(s => s.code === cls.series)?.image : undefined;
+  let seriesImage = cls ? CLASS_SERIES.find(s => s.code === cls.series)?.image : undefined;
   const detail = cls ? CLASS_DETAILS[cls.code] : undefined;
+
+  if (IS_WEB && cls) {
+    if (cls.code === 'B-AUTO') seriesImage = { uri: '/gallery/DSC_2225.webp' };
+    if (cls.code === 'B-LIGHT') seriesImage = { uri: '/gallery/DSC_7014.webp' };
+    if (cls.code === 'A3-TUKTUK') seriesImage = { uri: '/gallery/Tuktuk.webp' };
+    if (cls.code === 'C-LIGHT') seriesImage = { uri: '/gallery/truck-highway.webp' };
+  }
 
   if (!cls) {
     return (
