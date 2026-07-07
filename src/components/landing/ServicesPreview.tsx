@@ -3,6 +3,7 @@ import { View, Text, Pressable, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { ArrowRight } from 'lucide-react-native';
+import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { C, F, IS_WEB, MAX_W, SERVICES_IMG } from './constants';
 import { Button, Card, Icon } from '@/components/ui';
 import { ResponsiveImage } from '@/components/ResponsiveImage';
@@ -20,17 +21,46 @@ const PREVIEW_SERVICES = [
 
 function ServiceCard({ svc }: { svc: (typeof PREVIEW_SERVICES)[0] }) {
   const { t } = useTranslation();
+  
+  const rotation = useSharedValue(0);
+  
+  const handlePressIn = () => {
+    rotation.value = withSpring(8, { damping: 2, stiffness: 80 }); // Swing right
+  };
+  
+  const handlePressOut = () => {
+    rotation.value = withSpring(0, { damping: 4, stiffness: 100 }); // Swing back to center
+  };
+
+  const animStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { perspective: 1000 }, // Gives 3D depth to rotation
+        { rotate: `${rotation.value}deg` }
+      ],
+      transformOrigin: 'top center', // Pin at the top
+    };
+  });
+
   return (
-    <Pressable className="flex-1" onPress={() => router.push(`/services/${svc.code}` as any)} accessibilityRole="link">
-      <Card className="h-full items-center active:bg-foreground/5">
-        <View className="mb-2.5 h-[3px] w-6 rounded-pill bg-accent" />
-        <Text style={{ fontFamily: F.bold }} className="mb-2 text-center text-sm leading-5 text-foreground">
-          {t(`home.servicesPreview.items.${svc.i18nKey}.name`)}
-        </Text>
-        <Text style={{ fontFamily: F.regular }} className="flex-1 text-center text-xs leading-[18px] text-muted-foreground">
-          {t(`home.servicesPreview.items.${svc.i18nKey}.desc`)}
-        </Text>
-      </Card>
+    <Pressable 
+      className="flex-1" 
+      onPress={() => router.push(`/services/${svc.code}` as any)} 
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      accessibilityRole="link"
+    >
+      <Animated.View style={[{ flex: 1 }, animStyle]}>
+        <Card className="h-full items-center active:bg-foreground/5">
+          <View className="mb-2.5 h-[3px] w-6 rounded-pill bg-accent" />
+          <Text style={{ fontFamily: F.bold }} className="mb-2 text-center text-sm leading-5 text-foreground">
+            {t(`home.servicesPreview.items.${svc.i18nKey}.name`)}
+          </Text>
+          <Text style={{ fontFamily: F.regular }} className="flex-1 text-center text-xs leading-[18px] text-muted-foreground">
+            {t(`home.servicesPreview.items.${svc.i18nKey}.desc`)}
+          </Text>
+        </Card>
+      </Animated.View>
     </Pressable>
   );
 }

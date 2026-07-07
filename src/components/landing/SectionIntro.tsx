@@ -3,15 +3,39 @@ import { View, Text } from 'react-native';
 import { C, F, IS_WEB } from './constants';
 import { WavyLine } from './WavyLine';
 import { useTheme } from '@/lib/theme';
+import { useInView } from '@/hooks/useInView';
 
 type Props = {
   badge: string;
   title: string;
   description?: string;
   invert?: boolean;
+  typewriter?: boolean;
 };
 
-export function SectionIntro({ badge, title, description, invert }: Props) {
+function TypewriterText({ text, style }: { text: string; style: any }) {
+  const [disp, setDisp] = React.useState('');
+  const { inView, ref } = useInView(0.5);
+  
+  React.useEffect(() => {
+    if (!inView) return;
+    let i = 0;
+    const timer = setInterval(() => {
+      setDisp(text.slice(0, i + 1));
+      i++;
+      if (i >= text.length) clearInterval(timer);
+    }, 35);
+    return () => clearInterval(timer);
+  }, [text, inView]);
+
+  return (
+    <View ref={ref} style={{ alignItems: 'center' }}>
+      <Text style={style}>{disp || ' '}</Text>
+    </View>
+  );
+}
+
+export function SectionIntro({ badge, title, description, invert, typewriter }: Props) {
   const T      = useTheme();
   const fg     = invert ? C.white      : T.foreground;
   const muted  = invert ? C.mutedDark  : T.mutedForeground;
@@ -32,9 +56,13 @@ export function SectionIntro({ badge, title, description, invert }: Props) {
       <WavyLine invert={invert} />
 
       {description ? (
-        <Text style={{ color: muted, fontFamily: F.regular, fontSize: 14, lineHeight: 22, textAlign: 'center', maxWidth: IS_WEB ? 560 : undefined, marginTop: 12 }}>
-          {description}
-        </Text>
+        typewriter ? (
+          <TypewriterText text={description} style={{ color: muted, fontFamily: F.regular, fontSize: 14, lineHeight: 22, textAlign: 'center', maxWidth: IS_WEB ? 560 : undefined, marginTop: 12 }} />
+        ) : (
+          <Text style={{ color: muted, fontFamily: F.regular, fontSize: 14, lineHeight: 22, textAlign: 'center', maxWidth: IS_WEB ? 560 : undefined, marginTop: 12 }}>
+            {description}
+          </Text>
+        )
       ) : null}
     </View>
   );

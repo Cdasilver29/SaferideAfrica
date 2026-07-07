@@ -8,6 +8,7 @@ import {
 import type { LucideIcon } from 'lucide-react-native';
 import Svg, { Path, Rect, Circle } from 'react-native-svg';
 import { useTranslation } from 'react-i18next';
+import Animated, { useSharedValue, useAnimatedStyle, withRepeat, withTiming, withSequence, Easing } from 'react-native-reanimated';
 
 import { PageHero } from '@/components/landing/PageHero';
 import Navbar from '@/components/landing/Navbar';
@@ -259,15 +260,31 @@ function VisionMissionValues() {
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionHeading title={t('aboutPage.whatDrivesUs')} centered />
         <View className="flex-row flex-wrap gap-4">
-          {items.map((item) => (
-            <Card key={item.id} style={stacked ? { width: '100%' } : undefined} className={cn(!stacked && 'flex-1', 'p-6')}>
-              <View className={cn('mb-3.5 h-12 w-12 items-center justify-center rounded-pill', item.tint)}>
-                <Icon icon={item.icon} size="md" color={item.color} />
-              </View>
-              <Text style={{ fontFamily: F.bold }} className="mb-2.5 text-base text-foreground">{item.heading}</Text>
-              <Text style={{ fontFamily: F.regular }} className="text-sm leading-[22px] text-muted-foreground">{item.body}</Text>
-            </Card>
-          ))}
+          {items.map((item, i) => {
+            const scale = useSharedValue(1);
+            React.useEffect(() => {
+              scale.value = withRepeat(
+                withSequence(
+                  withTiming(1.02, { duration: 2000, easing: Easing.inOut(Easing.ease) }),
+                  withTiming(1, { duration: 2000, easing: Easing.inOut(Easing.ease) })
+                ),
+                -1, true
+              );
+            }, []);
+            const animStyle = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
+            
+            return (
+              <Animated.View key={item.id} style={[stacked ? { width: '100%' } : { flex: 1 }, animStyle]}>
+                <Card className="p-6 h-full">
+                  <View className={cn('mb-3.5 h-12 w-12 items-center justify-center rounded-pill', item.tint)}>
+                    <Icon icon={item.icon} size="md" color={item.color} />
+                  </View>
+                  <Text style={{ fontFamily: F.bold }} className="mb-2.5 text-base text-foreground">{item.heading}</Text>
+                  <Text style={{ fontFamily: F.regular }} className="text-sm leading-[22px] text-muted-foreground">{item.body}</Text>
+                </Card>
+              </Animated.View>
+            );
+          })}
         </View>
 
         {/* Phase E: each value carries what it means in practice */}
@@ -279,14 +296,33 @@ function VisionMissionValues() {
             </Text>
           </View>
           <View className="flex-row flex-wrap gap-4">
-            {coreValues.map((value, i) => (
-              <Card key={value} style={{ width: valueWidth }} className="p-5">
-                <Text style={{ fontFamily: F.bold }} className="mb-1.5 text-sm text-foreground">{value}</Text>
-                <Text style={{ fontFamily: F.regular }} className="text-xs leading-[18px] text-muted-foreground">
-                  {valueDescs[i] ?? ''}
-                </Text>
-              </Card>
-            ))}
+            {coreValues.map((value, i) => {
+              const bgColors = ['rgba(225,29,46,0.05)', 'rgba(1,165,240,0.05)', 'rgba(255,204,0,0.1)', 'rgba(34,197,94,0.05)', 'rgba(168,85,247,0.05)'];
+              const borderColors = ['rgba(225,29,46,0.3)', 'rgba(1,165,240,0.3)', 'rgba(255,204,0,0.4)', 'rgba(34,197,94,0.3)', 'rgba(168,85,247,0.3)'];
+              
+              const opacity = useSharedValue(1);
+              React.useEffect(() => {
+                opacity.value = withRepeat(
+                  withSequence(
+                    withTiming(0.6, { duration: 1500, easing: Easing.inOut(Easing.ease) }),
+                    withTiming(1, { duration: 1500, easing: Easing.inOut(Easing.ease) })
+                  ),
+                  -1, true
+                );
+              }, []);
+              const animStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
+
+              return (
+                <Animated.View key={value} style={[{ width: valueWidth }, animStyle]}>
+                  <Card style={{ backgroundColor: bgColors[i % bgColors.length], borderColor: borderColors[i % borderColors.length] }} className="p-5 h-full">
+                    <Text style={{ fontFamily: F.bold }} className="mb-1.5 text-sm text-foreground">{value}</Text>
+                    <Text style={{ fontFamily: F.regular }} className="text-xs leading-[18px] text-muted-foreground">
+                      {valueDescs[i] ?? ''}
+                    </Text>
+                  </Card>
+                </Animated.View>
+              );
+            })}
           </View>
         </View>
       </View>
@@ -336,16 +372,32 @@ function TrustBlock() {
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionHeading overline={t('aboutPage.trust.overline')} title={t('aboutPage.trust.title')} centered />
         <View className="flex-row flex-wrap gap-4">
-          {TRUST_ITEMS.map(({ icon, key }) => (
-            <Card key={key} style={{ width: cardWidth }} className="flex-row items-center gap-3.5 p-4">
-              <View className="h-12 w-12 items-center justify-center rounded-pill bg-primary/10">
-                <Icon icon={icon} size="md" color={C.skyDeep} />
-              </View>
-              <Text style={{ fontFamily: F.bold }} className="flex-1 text-sm leading-5 text-foreground">
-                {t(`aboutPage.trust.items.${key}`)}
-              </Text>
-            </Card>
-          ))}
+          {TRUST_ITEMS.map(({ icon, key }) => {
+            const opacity = useSharedValue(1);
+            React.useEffect(() => {
+              opacity.value = withRepeat(
+                withSequence(
+                  withTiming(0.7, { duration: 1200, easing: Easing.inOut(Easing.ease) }),
+                  withTiming(1, { duration: 1200, easing: Easing.inOut(Easing.ease) })
+                ),
+                -1, true
+              );
+            }, []);
+            const animStyle = useAnimatedStyle(() => ({ opacity: opacity.value }));
+
+            return (
+              <Animated.View key={key} style={[{ width: cardWidth }, animStyle]}>
+                <Card className="flex-row items-center gap-3.5 p-4 h-full">
+                  <View className="h-12 w-12 items-center justify-center rounded-pill bg-primary/10">
+                    <Icon icon={icon} size="md" color={C.skyDeep} />
+                  </View>
+                  <Text style={{ fontFamily: F.bold }} className="flex-1 text-sm leading-5 text-foreground">
+                    {t(`aboutPage.trust.items.${key}`)}
+                  </Text>
+                </Card>
+              </Animated.View>
+            );
+          })}
         </View>
       </View>
     </View>

@@ -54,16 +54,21 @@ export default function WhyValuesSnippet() {
               {t('aboutPage.coreValuesTitle')}
             </Text>
             <View className="flex-row flex-wrap gap-2.5">
-              {values.map((value) => (
-                <View
-                  key={value}
-                  className="h-11 items-center justify-center rounded-pill border border-border bg-card px-5"
-                >
-                  <Text style={{ fontFamily: F.semibold }} className="text-sm text-foreground">
-                    {value}
-                  </Text>
-                </View>
-              ))}
+              {values.map((value, i) => {
+                const bgColors = ['rgba(225,29,46,0.05)', 'rgba(1,165,240,0.05)', 'rgba(255,204,0,0.1)', 'rgba(34,197,94,0.05)', 'rgba(168,85,247,0.05)'];
+                const borderColors = ['rgba(225,29,46,0.3)', 'rgba(1,165,240,0.3)', 'rgba(255,204,0,0.4)', 'rgba(34,197,94,0.3)', 'rgba(168,85,247,0.3)'];
+                return (
+                  <View
+                    key={value}
+                    style={{ backgroundColor: bgColors[i % bgColors.length], borderColor: borderColors[i % borderColors.length] }}
+                    className="h-11 items-center justify-center rounded-pill border px-5"
+                  >
+                    <Text style={{ fontFamily: F.semibold }} className="text-sm text-foreground">
+                      {value}
+                    </Text>
+                  </View>
+                );
+              })}
             </View>
           </View>
         </View>

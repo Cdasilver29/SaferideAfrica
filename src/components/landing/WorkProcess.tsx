@@ -165,7 +165,7 @@ export default function WorkProcess() {
                 style={{
                   flex: 1,
                   opacity: anims[i],
-                  transform: [{ translateY: anims[i].interpolate({ inputRange: [0, 1], outputRange: [28, 0] }) }],
+                  transform: [{ translateX: anims[i].interpolate({ inputRange: [0, 1], outputRange: [100, 0] }) }],
                   position: 'relative',
                 }}
               >

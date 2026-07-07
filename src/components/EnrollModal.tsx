@@ -51,7 +51,7 @@ const WEB3FORMS_KEY = process.env.EXPO_PUBLIC_WEB3FORMS_KEY ?? '';
 // --- Helpers (submission logic unchanged from Phase 3) ---
 
 function parseDDMMYYYY(s: string): Date | null {
-  const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  const m = s.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})$/);
   if (!m) return null;
   const day = +m[1], month = +m[2], year = +m[3];
   const d = new Date(year, month - 1, day);
@@ -408,7 +408,7 @@ export default function EnrollModal() {
                   onChangeText={v => setF('startDate', v)}
                   onBlur={() => handleBlur('startDate')}
                   placeholder="15/07/2025"
-                  keyboardType="numeric"
+                  keyboardType="default"
                   className={cn(err('startDate') && 'border-destructive')}
                 />
               </Field>

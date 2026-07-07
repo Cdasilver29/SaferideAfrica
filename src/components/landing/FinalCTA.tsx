@@ -157,6 +157,7 @@ export default function FinalCTA() {
           title={t('home.finalCta.title')}
           description={t('home.finalCta.description')}
           invert
+          typewriter
         />
 
         <View style={{ flexDirection: IS_WEB ? 'row' : 'column', gap: 14, width: IS_WEB ? undefined : '100%' }}>
