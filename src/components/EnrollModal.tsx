@@ -46,7 +46,7 @@ const DEFAULT_FORM: FormFields = {
 };
 
 const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
-const WEB3FORMS_KEY = process.env.EXPO_PUBLIC_WEB3FORMS_KEY ?? '';
+const WEB3FORMS_KEY = process.env.EXPO_PUBLIC_WEB3FORMS_KEY || '9ec3f5f6-4b69-4ad9-8818-cdc2dd0686a5';
 
 // --- Helpers (submission logic unchanged from Phase 3) ---
 
