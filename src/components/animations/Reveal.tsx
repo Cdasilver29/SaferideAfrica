@@ -11,7 +11,7 @@ import { useReduceMotion } from '@/hooks/useReduceMotion';
 // reduce-motion. Reveal owns its own in-view detection (block sections);
 // RevealItem is driven by a parent's inView so a grid can stagger its cards.
 
-const DURATION = 800;
+const DURATION = 1200;
 
 type RevealProps = ViewProps & {
   delay?: number;
@@ -20,7 +20,7 @@ type RevealProps = ViewProps & {
   children: React.ReactNode;
 };
 
-export function Reveal({ delay = 0, y = 40, className, style, children, ...rest }: RevealProps) {
+export function Reveal({ delay = 0, y = 80, className, style, children, ...rest }: RevealProps) {
   const reduceMotion = useReduceMotion();
   const { ref, inView } = useInView(0.12);
   const progress = useSharedValue(0);
@@ -36,7 +36,7 @@ export function Reveal({ delay = 0, y = 40, className, style, children, ...rest 
     opacity: progress.value,
     transform: [
       { translateY: (1 - progress.value) * y },
-      { scale: 0.95 + 0.05 * progress.value }
+      { scale: 0.85 + 0.15 * progress.value }
     ],
   }));
 
@@ -56,7 +56,7 @@ type RevealItemProps = ViewProps & {
   children: React.ReactNode;
 };
 
-export function RevealItem({ index = 0, inView, step = 80, y = 20, className, style, children, ...rest }: RevealItemProps) {
+export function RevealItem({ index = 0, inView, step = 150, y = 60, className, style, children, ...rest }: RevealItemProps) {
   const reduceMotion = useReduceMotion();
   const progress = useSharedValue(0);
 
@@ -71,7 +71,7 @@ export function RevealItem({ index = 0, inView, step = 80, y = 20, className, st
     opacity: progress.value,
     transform: [
       { translateY: (1 - progress.value) * y },
-      { scale: 0.95 + 0.05 * progress.value }
+      { scale: 0.85 + 0.15 * progress.value }
     ],
   }));
 

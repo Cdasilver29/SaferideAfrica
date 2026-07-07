@@ -34,8 +34,10 @@ function ClassCard({ cls }: { cls: (typeof CLASSES)[0] }) {
   let image = CLASS_SERIES.find((s) => s.code === cls.series)?.image;
 
   if (IS_WEB) {
-    if (cls.code === 'B-AUTO') image = { uri: '/hero2.webp' };
-    if (cls.code === 'B-LIGHT') image = { uri: '/gallery/DSC_7863.webp' };
+    if (cls.code === 'B-AUTO') image = { uri: '/gallery/DSC_2225.webp' };
+    if (cls.code === 'B-LIGHT') image = { uri: '/gallery/DSC_7014.webp' };
+    if (cls.code === 'A3-TUKTUK') image = { uri: '/gallery/Tuktuk.webp' };
+    if (cls.code === 'C-LIGHT') image = { uri: '/gallery/truck-highway.webp' };
   }
 
   return (
