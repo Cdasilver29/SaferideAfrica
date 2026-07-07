@@ -28,17 +28,19 @@ export function Dialog({ visible, onClose, children, className }: DialogProps) {
       statusBarTranslucent
       onRequestClose={onClose}
     >
-      <Pressable
-        onPress={onClose}
-        accessibilityRole="button"
-        accessibilityLabel="Close dialog"
-        className="flex-1 items-center justify-center bg-black/50 p-4"
-      >
-        {/* Absorb presses on the card so they do not reach the scrim. */}
-        <Pressable onPress={() => {}} className={cn('w-full max-w-md rounded-card-lg bg-card p-6', className)}>
+      <View className="flex-1 items-center justify-center bg-black/50 p-4">
+        {/* Backdrop: sits behind the card. Only direct taps dismiss. */}
+        <Pressable
+          onPress={onClose}
+          accessibilityRole="button"
+          accessibilityLabel="Close dialog"
+          style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+        />
+        {/* Card: Just a standard View now since it's not nested inside a Pressable scrim */}
+        <View className={cn('w-full max-w-md rounded-card-lg bg-card p-6', className)}>
           {children}
-        </Pressable>
-      </Pressable>
+        </View>
+      </View>
     </Modal>
   );
 }

@@ -76,7 +76,7 @@ export default function ClassDetailPage() {
     if (cls.code === 'B-AUTO') seriesImage = { uri: '/gallery/DSC_2225.webp' };
     if (cls.code === 'B-LIGHT') seriesImage = { uri: '/gallery/DSC_7014.webp' };
     if (cls.code === 'A3-TUKTUK') seriesImage = { uri: '/gallery/Tuktuk.webp' };
-    if (cls.code === 'C-LIGHT') seriesImage = { uri: '/gallery/truck-highway.webp' };
+    if (cls.code === 'C-LIGHT') seriesImage = { uri: '/gallery/commercial-truck.webp' };
   }
 
   if (!cls) {
