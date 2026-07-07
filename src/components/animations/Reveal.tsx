@@ -11,7 +11,7 @@ import { useReduceMotion } from '@/hooks/useReduceMotion';
 // reduce-motion. Reveal owns its own in-view detection (block sections);
 // RevealItem is driven by a parent's inView so a grid can stagger its cards.
 
-const DURATION = 500;
+const DURATION = 800;
 
 type RevealProps = ViewProps & {
   delay?: number;
@@ -20,7 +20,7 @@ type RevealProps = ViewProps & {
   children: React.ReactNode;
 };
 
-export function Reveal({ delay = 0, y = 24, className, style, children, ...rest }: RevealProps) {
+export function Reveal({ delay = 0, y = 40, className, style, children, ...rest }: RevealProps) {
   const reduceMotion = useReduceMotion();
   const { ref, inView } = useInView(0.12);
   const progress = useSharedValue(0);

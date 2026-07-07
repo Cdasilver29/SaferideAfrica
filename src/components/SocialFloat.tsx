@@ -30,6 +30,8 @@ export default function SocialFloat() {
   const scrollToTop = () => {
     if (isWeb) {
       window.scrollTo({ top: 0, behavior: 'smooth' })
+      const scrollables = document.querySelectorAll('[style*="overflow-y: auto"], [style*="overflow-y: scroll"], .css-view-175oi2r');
+      scrollables.forEach(el => el.scrollTo({ top: 0, behavior: 'smooth' }));
     }
     DeviceEventEmitter.emit('scrollToTop')
   }

@@ -245,7 +245,7 @@ export default function Navbar({ scrollY }: NavbarProps) {
                 onPress={() => Linking.openURL(telHref())}
                 accessibilityRole="button"
                 accessibilityLabel={t('common.callNow')}
-                className="h-11 flex-row items-center gap-1.5 rounded-pill border border-white/40 bg-white/10 px-4 hover:bg-white/20 active:bg-white/20"
+                className="h-11 flex-row items-center gap-1.5 rounded-pill bg-[#e11d2e] px-4 hover:bg-[#c91929] active:bg-[#c91929]"
               >
                 <AnimatedRN.View style={phoneShakeStyle}>
                   <Icon icon={Phone} size="xs" color={C.white} />

@@ -26,8 +26,8 @@ const LOGO = require('../../../assets/images/saferide-logo.jpg');
 export default function RouteSplash() {
   const pathname = usePathname();
   const reduceMotion = useReduceMotion();
-  const [visible, setVisible] = useState(false);
-  const lastPath = useRef(pathname);
+  const [visible, setVisible] = useState(true);
+  const lastPath = useRef<string | null>(null);
   const overlay = useSharedValue(1);
   const logo = useSharedValue(0);
 

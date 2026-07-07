@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   View, Text, Pressable, Animated, Easing, Platform, useWindowDimensions,
 } from 'react-native';
+import AnimatedRN, { FadeInUp, FadeIn } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ChevronDown } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
@@ -146,12 +147,12 @@ export default function Hero({ onScrollToCourses }: HeroProps) {
           paddingHorizontal: isWide ? 48 : 24,
         }}
       >
-        <View style={{ maxWidth: 620, alignItems: isMobile ? 'center' : 'flex-start' }}>
+        <AnimatedRN.View entering={FadeInUp.duration(800).delay(300)} style={{ maxWidth: 620, alignItems: isMobile ? 'center' : 'flex-start' }}>
           {/* Per-slide headline, cross-fading in sync with the photo */}
           <HeroSlideText key={i18n.language} slide={slide} slides={slides} />
 
           {/* Explore Courses is the one hero-body control; Enrol lives in the header */}
-          <View className={['mt-6 flex-row flex-wrap items-center gap-3', isMobile && 'justify-center'].join(' ')}>
+          <AnimatedRN.View entering={FadeInUp.duration(800).delay(600)} className={['mt-6 flex-row flex-wrap items-center gap-3', isMobile && 'justify-center'].join(' ')}>
             <Pressable
               onPress={onScrollToCourses}
               accessibilityRole="button"
@@ -162,8 +163,8 @@ export default function Hero({ onScrollToCourses }: HeroProps) {
               </Text>
               <Icon icon={ChevronDown} size="md" color={C.white} />
             </Pressable>
-          </View>
-        </View>
+          </AnimatedRN.View>
+        </AnimatedRN.View>
       </View>
 
       {/* Scroll-down affordance, web, sits over the photo */}
