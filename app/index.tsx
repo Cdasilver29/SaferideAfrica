@@ -12,7 +12,6 @@ import Hero         from '@/components/landing/Hero';
 import Testimonials from '@/components/landing/Testimonials';
 import Footer       from '@/components/landing/Footer';
 
-import StatStrip       from '@/components/landing/StatStrip';
 import ServicesPreview from '@/components/landing/ServicesPreview';
 import { PremiumCourseCards } from '@/components/landing/PremiumCourseCards';
 import WhyValuesSnippet from '@/components/landing/WhyValuesSnippet';
@@ -68,7 +67,6 @@ export default function LandingScreen() {
         scrollEventThrottle={16}
       >
         <Hero onScrollToCourses={() => router.push('/courses')} />
-        <StatStrip />
         <Reveal><ServicesPreview /></Reveal>
         <PremiumCourseCards />
         <Reveal><WhyValuesSnippet /></Reveal>
