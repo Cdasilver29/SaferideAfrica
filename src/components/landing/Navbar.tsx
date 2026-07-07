@@ -351,12 +351,11 @@ export default function Navbar({ scrollY }: NavbarProps) {
                       </Text>
                     </Button>
                     <Button
-                      variant="outline"
                       onPress={() => { closeDrawer(); Linking.openURL(telHref()); }}
-                      className="w-full"
+                      className="w-full bg-[#e11d2e] active:bg-[#c91929] hover:bg-[#c91929] border-transparent"
                     >
-                      <Icon icon={Phone} size="sm" color={C.skyDeep} />
-                      <Text style={{ fontFamily: F.semibold }} className="text-base text-foreground">
+                      <Icon icon={Phone} size="sm" color={C.white} />
+                      <Text style={{ fontFamily: F.semibold }} className="text-base text-white">
                         {t('common.callNow')}
                       </Text>
                     </Button>

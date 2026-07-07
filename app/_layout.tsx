@@ -12,7 +12,6 @@ import EnrollModal from '../src/components/EnrollModal';
 import SocialFloat from '../src/components/SocialFloat';
 import RouteSplash from '../src/components/animations/RouteSplash';
 import { C } from '../src/components/landing/constants';
-import { useViewTransitions } from '../src/lib/viewTransitions';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -34,9 +33,8 @@ function suppressRNWWarnings() {
 export default function RootLayout() {
   suppressRNWWarnings();
 
-  // Web-only: smooth cross-fade on route changes (no-op on native, when
-  // unsupported, or under reduce-motion).
-  useViewTransitions();
+  // Web-only smooth view transitions removed so RouteSplash triggers properly
+
 
   // Web: CSS @font-face in public/index.html handles font loading natively —
   // passing {} resolves fontsLoaded=true immediately, no JS font loader needed.

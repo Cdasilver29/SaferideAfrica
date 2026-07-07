@@ -34,7 +34,10 @@ export function Reveal({ delay = 0, y = 40, className, style, children, ...rest 
 
   const aStyle = useAnimatedStyle(() => ({
     opacity: progress.value,
-    transform: [{ translateY: (1 - progress.value) * y }],
+    transform: [
+      { translateY: (1 - progress.value) * y },
+      { scale: 0.95 + 0.05 * progress.value }
+    ],
   }));
 
   return (
@@ -66,7 +69,10 @@ export function RevealItem({ index = 0, inView, step = 80, y = 20, className, st
 
   const aStyle = useAnimatedStyle(() => ({
     opacity: progress.value,
-    transform: [{ translateY: (1 - progress.value) * y }],
+    transform: [
+      { translateY: (1 - progress.value) * y },
+      { scale: 0.95 + 0.05 * progress.value }
+    ],
   }));
 
   return (
