@@ -1,89 +1,118 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Pressable, Linking, Platform, StyleSheet, useWindowDimensions } from 'react-native'
-import { Phone } from 'lucide-react-native'
+import { Phone, MessageCircle, ChevronUp, X } from 'lucide-react-native'
 import { useTranslation } from 'react-i18next'
 import { COMPANY, SOCIALS } from '@/data/saferide'
 import { WhatsAppIcon } from './SocialIcons'
 
-// Phase B: the floating widget is a single WhatsApp button (the social spread
-// moved to the footer). One tap opens the chat. Mobile keeps the call button
-// below it since the navbar Call Now control is desktop-only.
-
 const COLORS = {
-  whatsapp: '#25D366', // WhatsApp brand green
-  call:     '#e11d2e',
+  whatsapp: '#25D366',
+  call: '#e11d2e',
+  message: '#0a66c2', // standard blue
+  scroll: '#333333'
 }
 
-const BUTTON_SIZE = 44
-const ICON_SIZE = 20
-const CALL_GAP = 12
+const BUTTON_SIZE = 50
+const ICON_SIZE = 24
+const SUB_BUTTON_SIZE = 44
+const SUB_ICON_SIZE = 20
+const GAP = 12
 
 const isWeb = Platform.OS === 'web'
 
 export default function SocialFloat() {
   const { t } = useTranslation()
   const { width: winW } = useWindowDimensions()
-  const isMobile = !isWeb || winW < 768
+  const [isOpen, setIsOpen] = useState(false)
 
-  const waStyle = {
-    position: (isWeb ? 'fixed' : 'absolute') as any,
-    right: 20,
-    // Web: 62% keeps WhatsApp clear of the hero scroll-down chevron.
-    // Native: 50% centres it vertically on screen.
-    top: (isWeb ? '62%' : '50%') as any,
-    transform: [{ translateY: -(BUTTON_SIZE / 2) }],
-    zIndex: 100,
+  const toggleOpen = () => setIsOpen(!isOpen)
+
+  const scrollToTop = () => {
+    if (isWeb) {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+    // On native, we'd need a ref to the global scrollview, but this works for web where requested.
   }
 
-  const callStyle = {
+  // Positioning
+  const containerStyle = {
+    position: (isWeb ? 'fixed' : 'absolute') as any,
+    left: 20,
+    bottom: 20,
+    zIndex: 100,
+    alignItems: 'center' as any,
+  }
+
+  const scrollUpStyle = {
     position: (isWeb ? 'fixed' : 'absolute') as any,
     right: 20,
-    top: (isWeb ? '62%' : '50%') as any,
-    transform: [{ translateY: BUTTON_SIZE / 2 + CALL_GAP }],
+    bottom: 20,
     zIndex: 100,
   }
 
   return (
     <>
-      <View style={waStyle}>
-        <Pressable
-          onPress={() => Linking.openURL(SOCIALS.whatsapp)}
-          accessibilityRole="link"
-          accessibilityLabel="WhatsApp"
-        >
-          <View
-            style={[
-              styles.button,
-              { backgroundColor: COLORS.whatsapp },
-              !isWeb && { shadowColor: COLORS.whatsapp, shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0.5, shadowRadius: 12 },
-              isWeb && ({ boxShadow: `0 0 16px ${COLORS.whatsapp}` } as any),
-            ]}
-          >
-            <WhatsAppIcon size={ICON_SIZE} />
+      {/* Scroll Up Button - Bottom Right */}
+      <View style={scrollUpStyle}>
+        <Pressable onPress={scrollToTop} accessibilityRole="button" accessibilityLabel="Scroll to top">
+          <View style={[
+            styles.button,
+            { backgroundColor: COLORS.scroll },
+            !isWeb && { shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.3, shadowRadius: 4 },
+            isWeb && ({ boxShadow: '0 4px 12px rgba(0,0,0,0.3)' } as any),
+          ]}>
+            <ChevronUp size={ICON_SIZE} color="#fff" />
           </View>
         </Pressable>
       </View>
 
-      {isMobile && (
-        <View style={callStyle}>
-          <Pressable
-            onPress={() => Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`)}
-            accessibilityRole="link"
-            accessibilityLabel={t('common.callNow')}
-          >
-            <View
-              style={[
-                styles.button,
-                { backgroundColor: COLORS.call },
-                !isWeb && { shadowColor: COLORS.call, shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0.4, shadowRadius: 10 },
-                isWeb && ({ boxShadow: `0 0 14px ${COLORS.call}` } as any),
-              ]}
+      {/* Message / Contact Widget - Bottom Left */}
+      <View style={containerStyle}>
+        {isOpen && (
+          <View style={{ paddingBottom: GAP, alignItems: 'center', gap: GAP }}>
+            <Pressable
+              onPress={() => Linking.openURL(SOCIALS.whatsapp)}
+              accessibilityRole="link"
+              accessibilityLabel="WhatsApp"
             >
-              <Phone size={ICON_SIZE} color="#fff" />
-            </View>
-          </Pressable>
-        </View>
-      )}
+              <View style={[
+                styles.subButton,
+                { backgroundColor: COLORS.whatsapp },
+                !isWeb && { shadowColor: COLORS.whatsapp, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.3, shadowRadius: 4 },
+                isWeb && ({ boxShadow: `0 4px 12px ${COLORS.whatsapp}` } as any),
+              ]}>
+                <WhatsAppIcon size={SUB_ICON_SIZE} />
+              </View>
+            </Pressable>
+
+            <Pressable
+              onPress={() => Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`)}
+              accessibilityRole="link"
+              accessibilityLabel={t('common.callNow')}
+            >
+              <View style={[
+                styles.subButton,
+                { backgroundColor: COLORS.call },
+                !isWeb && { shadowColor: COLORS.call, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.3, shadowRadius: 4 },
+                isWeb && ({ boxShadow: `0 4px 12px ${COLORS.call}` } as any),
+              ]}>
+                <Phone size={SUB_ICON_SIZE} color="#fff" />
+              </View>
+            </Pressable>
+          </View>
+        )}
+
+        <Pressable onPress={toggleOpen} accessibilityRole="button" accessibilityLabel="Contact us">
+          <View style={[
+            styles.button,
+            { backgroundColor: isOpen ? '#666' : COLORS.message },
+            !isWeb && { shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.3, shadowRadius: 4 },
+            isWeb && ({ boxShadow: '0 4px 12px rgba(0,0,0,0.3)' } as any),
+          ]}>
+            {isOpen ? <X size={ICON_SIZE} color="#fff" /> : <MessageCircle size={ICON_SIZE} color="#fff" />}
+          </View>
+        </Pressable>
+      </View>
     </>
   )
 }
@@ -93,6 +122,13 @@ const styles = StyleSheet.create({
     width: BUTTON_SIZE,
     height: BUTTON_SIZE,
     borderRadius: BUTTON_SIZE / 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  subButton: {
+    width: SUB_BUTTON_SIZE,
+    height: SUB_BUTTON_SIZE,
+    borderRadius: SUB_BUTTON_SIZE / 2,
     alignItems: 'center',
     justifyContent: 'center',
   },

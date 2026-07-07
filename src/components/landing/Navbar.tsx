@@ -296,13 +296,13 @@ export default function Navbar({ scrollY }: NavbarProps) {
               <Pressable className="flex-1" onPress={() => {}}>
                 {/* Drawer header */}
                 <View className="flex-row items-center justify-between border-b border-white/10 bg-primary px-5 py-4">
-                  <View className="flex-row items-center gap-2">
-                    <Image source={LOGO} style={{ width: 48, height: 48, borderRadius: 10 }} resizeMode="contain" />
-                    <Text numberOfLines={1} style={{ fontFamily: F.bold }} className="text-base text-accent">
+                  <View className="flex-row items-center gap-2" style={{ flexShrink: 1, paddingRight: 8 }}>
+                    <Image source={LOGO} style={{ width: 40, height: 40, borderRadius: 8 }} resizeMode="contain" />
+                    <Text numberOfLines={1} style={{ fontFamily: F.bold, flexShrink: 1 }} className="text-base text-accent">
                       {t('nav.brand')}
                     </Text>
                   </View>
-                  <View className="flex-row items-center gap-5">
+                  <View className="flex-row items-center gap-2">
                     <IconButton onPress={toggleColorScheme} label="Toggle theme">
                       {isDark
                         ? <Icon icon={Sun} size="sm" color={C.yellow} />

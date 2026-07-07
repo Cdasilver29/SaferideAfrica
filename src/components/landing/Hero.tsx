@@ -70,16 +70,16 @@ function HeroSlideText({ slide, slides }: { slide: number; slides: HeroSlide[] }
   return (
     <Animated.View style={{ opacity }}>
       {/* Layout on a plain View; className is a no-op on the Animated wrapper */}
-      <View className="mb-3 web:mb-4">
+      <View className={['mb-3 web:mb-4', isMobile && 'items-center'].join(' ')}>
         {data?.eyebrow ? (
           <Text
-            style={{ fontFamily: F.bold, color: C.yellow, letterSpacing: 2 }}
+            style={{ fontFamily: F.bold, color: C.yellow, letterSpacing: 2, textAlign: isMobile ? 'center' : 'left' }}
             className="mb-2.5 text-sm uppercase web:text-lg"
           >
             {data.eyebrow}
           </Text>
         ) : null}
-        <View className="flex-row flex-wrap gap-x-2">
+        <View className={['flex-row flex-wrap gap-x-2', isMobile && 'justify-center'].join(' ')}>
           {words.map((seg, i) => (
             <Text
               key={seg.w + i}
@@ -146,12 +146,12 @@ export default function Hero({ onScrollToCourses }: HeroProps) {
           paddingHorizontal: isWide ? 48 : 24,
         }}
       >
-        <View style={{ maxWidth: 620 }}>
+        <View style={{ maxWidth: 620, alignItems: isMobile ? 'center' : 'flex-start' }}>
           {/* Per-slide headline, cross-fading in sync with the photo */}
           <HeroSlideText key={i18n.language} slide={slide} slides={slides} />
 
           {/* Explore Courses is the one hero-body control; Enrol lives in the header */}
-          <View className="mt-6 flex-row flex-wrap items-center gap-3">
+          <View className={['mt-6 flex-row flex-wrap items-center gap-3', isMobile && 'justify-center'].join(' ')}>
             <Pressable
               onPress={onScrollToCourses}
               accessibilityRole="button"
