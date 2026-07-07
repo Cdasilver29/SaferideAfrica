@@ -1,9 +1,7 @@
 import React from 'react';
 import { View, Text, useWindowDimensions } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { CheckCircle } from 'lucide-react-native';
 import { C, F, IS_WEB, MAX_W } from './constants';
-import { Icon } from '@/components/ui';
 import { SectionIntro } from './SectionIntro';
 
 // Phase E: concise homepage snippet of Why Choose Us and Our Values. The full
@@ -32,9 +30,7 @@ export default function WhyValuesSnippet() {
           <View className={twoCol ? 'flex-1 gap-4' : 'gap-4'}>
             {points.map((point) => (
               <View key={point} className="flex-row items-start gap-3">
-                <View className="mt-0.5">
-                  <Icon icon={CheckCircle} size="md" color={C.skyDeep} />
-                </View>
+                <Text style={{ fontSize: 20, marginTop: 1 }}>✅</Text>
                 <Text
                   style={{ fontFamily: F.medium }}
                   className="flex-1 text-sm leading-[23px] text-foreground"

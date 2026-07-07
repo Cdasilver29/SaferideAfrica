@@ -3,7 +3,7 @@ import {
   View, Text, TextInput, TouchableOpacity, SafeAreaView, ScrollView, Linking, Platform, useWindowDimensions,
 } from 'react-native';
 import { router } from 'expo-router';
-import { Mail, Phone, MapPin, ArrowRight, Send, Globe } from 'lucide-react-native';
+import { ArrowRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 
 import { PageHero } from '@/components/landing/PageHero';
@@ -46,36 +46,36 @@ function ContactInfo() {
 
       {[
         {
-          Icon: MapPin,
+          emoji: '📍',
           label: 'Address',
           value: COMPANY.address,
           onPress: undefined,
         },
         {
-          Icon: Phone,
+          emoji: '📞',
           label: 'Primary',
           value: COMPANY.primaryPhone,
           onPress: () => Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`),
         },
         {
-          Icon: Phone,
+          emoji: '📞',
           label: 'Secondary',
           value: COMPANY.secondaryPhone,
           onPress: () => Linking.openURL(`tel:${COMPANY.secondaryPhone.replace(/\s/g, '')}`),
         },
         {
-          Icon: Mail,
+          emoji: '✉️',
           label: 'Email',
           value: COMPANY.email,
           onPress: () => Linking.openURL(`mailto:${COMPANY.email}`),
         },
         {
-          Icon: Globe,
+          emoji: '🌐',
           label: 'Website',
           value: COMPANY.website,
           onPress: undefined,
         },
-      ].map(({ Icon, label, value, onPress }) => (
+      ].map(({ emoji, label, value, onPress }) => (
         <TouchableOpacity
           key={label}
           onPress={onPress ?? undefined}
@@ -93,7 +93,7 @@ function ContactInfo() {
               flexShrink: 0,
             }}
           >
-            <Icon size={15} color={C.blue} />
+            <Text style={{ fontSize: 16 }}>{emoji}</Text>
           </View>
           <View style={{ flex: 1, paddingTop: 2 }}>
             <Text style={{ color: T.mutedForeground, fontFamily: F.medium, fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 2 }}>
@@ -300,7 +300,7 @@ function ContactForm() {
         <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: 14 }}>
           {sent ? t('contactPage.form.sent') : t('contactPage.form.send')}
         </Text>
-        {!sent && <Send size={16} color="#ffffff" />}
+        {!sent && <Text style={{ fontSize: 16 }}>📨</Text>}
       </TouchableOpacity>
     </View>
   );

@@ -1,10 +1,8 @@
 import React from 'react';
 import { View, Text, useWindowDimensions } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { ClipboardList, MessageCircle, GraduationCap, BadgeCheck } from 'lucide-react-native';
-import type { LucideIcon } from 'lucide-react-native';
 import { C, F, IS_WEB, MAX_W } from './constants';
-import { Card, Icon } from '@/components/ui';
+import { Card } from '@/components/ui';
 import { SectionIntro } from './SectionIntro';
 
 // Homepage "how enrolment works" strip (home restructure Phase 4). The four
@@ -13,7 +11,7 @@ import { SectionIntro } from './SectionIntro';
 // the NTSA curriculum, and Smart DL guidance via eCitizen. No pricing, no
 // lesson counts. Entrance motion comes from the Reveal wrapper in app/index.tsx.
 
-const STEP_ICONS: LucideIcon[] = [ClipboardList, MessageCircle, GraduationCap, BadgeCheck];
+const STEP_EMOJIS = ['📋', '💬', '🎓', '✅'];
 
 type Step = { title: string; desc: string };
 
@@ -48,7 +46,7 @@ export default function EnrolSteps() {
                     {i + 1}
                   </Text>
                 </View>
-                <Icon icon={STEP_ICONS[i] ?? ClipboardList} size="lg" color={C.skyDeep} />
+                <Text style={{ fontSize: 24 }}>{STEP_EMOJIS[i] ?? '✅'}</Text>
               </View>
               <Text style={{ fontFamily: F.bold }} className="mb-1 text-base text-foreground">
                 {step.title}

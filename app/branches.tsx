@@ -63,17 +63,17 @@ function BranchCard({
         {/* Info */}
         <View className="mb-3.5 gap-1.5">
           <View className="flex-row items-start gap-2">
-            <View className="mt-px"><Icon icon={MapPin} size={13} color={Th.primary} /></View>
+            <Text style={{ fontSize: 13, marginTop: 1 }}>📍</Text>
             <Text style={{ fontFamily: F.regular }} className="flex-1 text-xs leading-[18px] text-muted-foreground">
               {branch.address}
             </Text>
           </View>
           <View className="flex-row items-center gap-2">
-            <Icon icon={Phone} size={13} color={Th.primary} />
+            <Text style={{ fontSize: 13 }}>📞</Text>
             <Text style={{ fontFamily: F.regular }} className="text-xs text-muted-foreground">{branch.phone}</Text>
           </View>
           <View className="flex-row items-center gap-2">
-            <Icon icon={Clock} size={13} color={Th.primary} />
+            <Text style={{ fontSize: 13 }}>🕒</Text>
             <Text style={{ fontFamily: F.regular }} className="text-xs text-muted-foreground">{branch.hours}</Text>
           </View>
         </View>
@@ -90,7 +90,7 @@ function BranchCard({
               )
             }
           >
-            <Icon icon={Navigation} size={12} color={Th.primaryFg} />
+            <Text style={{ fontSize: 12 }}>🧭</Text>
             <Text style={{ fontFamily: F.semibold }} className="text-xs text-primary-foreground">{t('branchesPage.getDirections')}</Text>
           </Button>
           <Button
@@ -99,7 +99,7 @@ function BranchCard({
             className="flex-1 border-primary"
             onPress={() => Linking.openURL(`tel:${branch.phone.replace(/\s/g, '')}`)}
           >
-            <Icon icon={Phone} size={12} color={Th.primary} />
+            <Text style={{ fontSize: 12 }}>📞</Text>
             <Text style={{ fontFamily: F.semibold }} className="text-xs text-primary">{t('branchesPage.call')}</Text>
           </Button>
         </View>

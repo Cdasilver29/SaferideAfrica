@@ -6,7 +6,7 @@ import {
 import AnimatedRN, {
   useSharedValue, useAnimatedStyle, withSequence, withTiming,
 } from 'react-native-reanimated';
-import { CheckCircle, MessageCircle } from 'lucide-react-native';
+
 import { useEnrollModal } from '../context/EnrollModalContext';
 import { BRANCHES, CLASSES, CLASS_SERIES, SOCIALS } from '../data/saferide';
 import {
@@ -282,14 +282,14 @@ export default function EnrollModal() {
     return (
       <View className="items-center px-6 py-12">
         <View className="mb-7 h-[88px] w-[88px] items-center justify-center rounded-pill border-2 border-primary bg-primary/10">
-          <Icon icon={CheckCircle} size={48} color={Th.primary} />
+          <Text style={{ fontSize: 48 }}>✅</Text>
         </View>
         <Text style={{ fontFamily: F.bold }} className="mb-3 text-center text-xl text-foreground">Enquiry received!</Text>
         <Text style={{ fontFamily: F.regular }} className="mb-7 max-w-[320px] text-center text-sm leading-6 text-muted-foreground">
           Your enquiry has been emailed to our team. WhatsApp should also open with your message ready to send. If it did not, tap below.
         </Text>
         <Button variant="accent" size="lg" className="w-full max-w-[320px] rounded-card" onPress={() => Linking.openURL(enquiryWaLink())}>
-          <Icon icon={MessageCircle} size="sm" color={Th.accentDark} />
+          <Text style={{ fontSize: 16 }}>💬</Text>
           <Text style={{ fontFamily: F.bold }} className="text-base text-accent-foreground">Continue on WhatsApp</Text>
         </Button>
         <Pressable onPress={close} accessibilityRole="button" className="mt-4 h-11 items-center justify-center px-4">

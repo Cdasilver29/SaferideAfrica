@@ -28,11 +28,11 @@ function BranchCard({ branch, isSelected, onPress }: { branch: Branch; isSelecte
           )}
         </View>
         <View className="mb-1 flex-row items-center gap-1.5">
-          <Icon icon={MapPin} size={12} color={Th.primary} />
+          <Text style={{ fontSize: 12 }}>📍</Text>
           <Text style={{ fontFamily: F.regular }} className="flex-1 text-xs text-muted-foreground">{branch.address}</Text>
         </View>
         <View className="flex-row items-center gap-1.5">
-          <Icon icon={Phone} size={12} color={Th.primary} />
+          <Text style={{ fontSize: 12 }}>📞</Text>
           <Text style={{ fontFamily: F.regular }} className="text-xs text-muted-foreground">{branch.phone}</Text>
         </View>
       </Card>

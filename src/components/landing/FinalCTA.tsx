@@ -6,7 +6,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { router } from 'expo-router'
 import { useTranslation } from 'react-i18next'
-import { ArrowRight, Phone } from 'lucide-react-native'
+import { ArrowRight } from 'lucide-react-native'
 import { C, F, IS_WEB, MAX_W } from './constants'
 import { SectionIntro } from './SectionIntro'
 import { useEnrollModal } from '@/context/EnrollModalContext'
@@ -142,7 +142,7 @@ export default function FinalCTA() {
               shadowColor: C.red, shadowOpacity: 0.40, shadowRadius: 12, elevation: 5,
             }}
           >
-            <Phone size={16} color={C.white} />
+            <Text style={{ fontSize: 16 }}>📞</Text>
             <Text style={{ color: C.white, fontFamily: F.semibold, fontSize: 15 }}>{t('common.talkToUs')}</Text>
           </TouchableOpacity>
         </View>

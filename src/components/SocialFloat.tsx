@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, Pressable, Linking, Platform, StyleSheet, useWindowDimensions, DeviceEventEmitter } from 'react-native'
-import { Phone, MessageCircle, ChevronUp, X } from 'lucide-react-native'
+import { ChevronUp, X } from 'lucide-react-native'
 import { useTranslation } from 'react-i18next'
 import { COMPANY, SOCIALS } from '@/data/saferide'
 import { WhatsAppIcon } from './SocialIcons'
@@ -106,7 +106,7 @@ export default function SocialFloat() {
                 !isWeb && { shadowColor: COLORS.call, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.3, shadowRadius: 4 },
                 isWeb && ({ boxShadow: `0 4px 12px ${COLORS.call}` } as any),
               ]}>
-                <Phone size={SUB_ICON_SIZE} color="#fff" />
+                <Text style={{ fontSize: 20 }}>📞</Text>
               </View>
             </Pressable>
           </View>
@@ -119,7 +119,7 @@ export default function SocialFloat() {
             !isWeb && { shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.3, shadowRadius: 4 },
             isWeb && ({ boxShadow: '0 4px 12px rgba(0,0,0,0.3)' } as any),
           ]}>
-            {isOpen ? <X size={ICON_SIZE} color="#fff" /> : <MessageCircle size={ICON_SIZE} color="#fff" />}
+            {isOpen ? <X size={ICON_SIZE} color="#fff" /> : <Text style={{ fontSize: 24 }}>💬</Text>}
           </View>
         </Pressable>
       </View>

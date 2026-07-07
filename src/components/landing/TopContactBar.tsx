@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, Pressable, Linking, useWindowDimensions } from 'react-native';
 import { useColorScheme } from 'nativewind';
-import { Phone, Mail } from 'lucide-react-native';
+
 import { C, F, IS_WEB, MAX_W } from './constants';
 import { COMPANY, SOCIALS } from '@/data/saferide';
-import { Icon } from '@/components/ui';
+
 import {
   WhatsAppIcon, FacebookIcon, TwitterXIcon, TikTokIcon, InstagramIcon, YouTubeIcon,
 } from '../SocialIcons';
@@ -46,7 +46,7 @@ export default function TopContactBar() {
             hitSlop={HIT_SLOP}
             className="flex-row items-center gap-1.5"
           >
-            <Icon icon={Phone} size={13} color={fg} />
+            <Text style={{ fontSize: 12 }}>📞</Text>
             <Text
               style={{ fontFamily: F.semibold }}
               className="text-xs text-secondary-foreground dark:text-white/80"
@@ -62,7 +62,7 @@ export default function TopContactBar() {
               hitSlop={HIT_SLOP}
               className="flex-row items-center gap-1.5"
             >
-              <Icon icon={Mail} size={13} color={fg} />
+              <Text style={{ fontSize: 12 }}>✉️</Text>
               <Text
                 style={{ fontFamily: F.medium }}
                 className="text-xs text-secondary-foreground dark:text-white/80"

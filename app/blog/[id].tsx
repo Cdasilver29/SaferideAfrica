@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Platform } from 'react-native';
-import { ArrowLeft, Calendar, Clock } from 'lucide-react-native';
+import { ArrowLeft } from 'lucide-react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { BLOG_ARTICLES, BlogSection } from '../../src/data/saferide';
@@ -160,11 +160,11 @@ export default function BlogPostPage() {
             </Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-            <Calendar size={13} color={T.mutedForeground} />
+            <Text style={{ fontSize: 13 }}>📅</Text>
             <Text style={{ color: T.mutedForeground, fontFamily: F.medium, fontSize: 13 }}>{post.publishDate}</Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-            <Clock size={13} color={T.mutedForeground} />
+            <Text style={{ fontSize: 13 }}>🕒</Text>
             <Text style={{ color: T.mutedForeground, fontFamily: F.medium, fontSize: 13 }}>{post.readTime}</Text>
           </View>
         </View>
