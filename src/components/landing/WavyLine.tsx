@@ -1,18 +1,18 @@
 import React from 'react';
-import Svg, { Path } from 'react-native-svg';
+import { View } from 'react-native';
 import { C } from './constants';
 
+// Modern gradient line divider — replaces the old SVG wavy path with a cleaner,
+// more visually polished horizontal rule that works across web and native.
 export function WavyLine({ invert = false }: { invert?: boolean }) {
-  const stroke = invert ? 'rgba(255,255,255,0.4)' : C.yellow;
+  const lineColor = invert ? 'rgba(255,255,255,0.35)' : C.yellow;
+  const dotColor = invert ? 'rgba(255,255,255,0.6)' : C.yellow;
+
   return (
-    <Svg width={80} height={12} viewBox="0 0 80 12" style={{ marginTop: 12 }}>
-      <Path
-        d="M2 6 Q 12 1, 22 6 T 42 6 T 62 6 T 78 6"
-        stroke={stroke}
-        strokeWidth={2}
-        fill="none"
-        strokeLinecap="round"
-      />
-    </Svg>
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 12, alignSelf: 'center' }}>
+      <View style={{ width: 28, height: 2, borderRadius: 2, backgroundColor: lineColor, opacity: 0.4 }} />
+      <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: dotColor }} />
+      <View style={{ width: 28, height: 2, borderRadius: 2, backgroundColor: lineColor, opacity: 0.4 }} />
+    </View>
   );
 }

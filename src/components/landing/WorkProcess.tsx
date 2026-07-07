@@ -3,6 +3,7 @@ import { View, Text, Animated, Platform, Pressable, useWindowDimensions } from '
 import AnimatedRN, {
   useSharedValue, useAnimatedStyle,
   withTiming, interpolate, interpolateColor,
+  withRepeat, Easing,
 } from 'react-native-reanimated';
 import { useColorScheme } from 'nativewind';
 import { useTranslation } from 'react-i18next';
@@ -138,8 +139,8 @@ export default function WorkProcess() {
   
   useEffect(() => {
     if (!reduceMotion && isMobile) {
-      marqueeX.value = AnimatedRN.withRepeat(
-        AnimatedRN.withTiming(-SET_W, { duration: 15000, easing: AnimatedRN.Easing.linear }),
+      marqueeX.value = withRepeat(
+        withTiming(-SET_W, { duration: 15000, easing: Easing.linear }),
         -1,
         false
       );

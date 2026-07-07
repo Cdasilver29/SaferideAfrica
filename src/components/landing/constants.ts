@@ -127,7 +127,7 @@ export const BLOG_IMGS = IS_WEB
   ? [
       { uri: '/gallery/DSC_7786.webp' },
       { uri: '/gallery/DSC_7765.webp' },
-      { uri: '/gallery/DSC_7016.webp' },
+      { uri: '/gallery/Defensive-driving.webp' },
     ]
   : Array(3).fill(require('../../../assets/images/car-pic.png'));
 

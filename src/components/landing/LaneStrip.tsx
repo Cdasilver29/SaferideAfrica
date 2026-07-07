@@ -1,44 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import Animated, {
-  useSharedValue, useAnimatedStyle,
-} from 'react-native-reanimated';
-import Svg, { Line } from 'react-native-svg';
 import { C } from './constants';
 
-const H      = 28;
-const DASH   = 44;
-const GAP    = 28;
-const PERIOD = DASH + GAP; // 72 px — one full dash+gap cycle
+const H = 28;
 
+// Modern lane strip — CSS gradient with dotted center line instead of SVG.
+// Looks cleaner and loads faster on all platforms.
 export default function LaneStrip({ reverse = false }: { reverse?: boolean }) {
-  const [stripW, setStripW] = useState(0);
-  // Phase 12: the lane dashes are held static; Ken Burns is the only ambient motion.
-  const offset = useSharedValue(reverse ? -PERIOD : 0);
-
-  const animStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: offset.value }],
-  }));
-
-  // 2 extra periods of width guarantee no gap is visible at any translateX value
-  const svgW = stripW > 0 ? stripW + PERIOD * 2 : 0;
-
   return (
     <View
       style={{
-        zIndex:        50,
-        shadowColor:   '#000',
-        shadowOffset:  { width: 0, height: 3 },
+        zIndex: 50,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.22,
-        shadowRadius:  6,
-        elevation:     5,
+        shadowRadius: 6,
+        elevation: 5,
       }}
     >
-      <View
-        onLayout={e => setStripW(e.nativeEvent.layout.width)}
-        style={{ height: H, overflow: 'hidden' }}
-      >
+      <View style={{ height: H, overflow: 'hidden' }}>
         <LinearGradient
           colors={[C.skyLight, C.skyDeep]}
           start={{ x: 0, y: 0 }}
@@ -46,24 +27,33 @@ export default function LaneStrip({ reverse = false }: { reverse?: boolean }) {
           style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
         />
 
-        {svgW > 0 && (
-          <Animated.View style={[{ position: 'absolute', top: 0, left: 0 }, animStyle]}>
-            <Svg width={svgW} height={H}>
-              <Line
-                x1={0}
-                y1={H / 2}
-                x2={svgW}
-                y2={H / 2}
-                stroke={C.yellow}
-                strokeWidth={3}
-                strokeLinecap="round"
-                strokeDasharray={`${DASH} ${GAP}`}
-              />
-            </Svg>
-          </Animated.View>
-        )}
+        {/* Modern dashed center line using View-based dashes */}
+        <View style={{
+          position: 'absolute',
+          top: H / 2 - 1.5,
+          left: 0,
+          right: 0,
+          height: 3,
+          flexDirection: 'row',
+          gap: 28,
+          paddingHorizontal: 4,
+        }}>
+          {Array.from({ length: 30 }).map((_, i) => (
+            <View
+              key={i}
+              style={{
+                width: 44,
+                height: 3,
+                borderRadius: 1.5,
+                backgroundColor: C.yellow,
+              }}
+            />
+          ))}
+        </View>
 
+        {/* Top highlight line */}
         <View style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, backgroundColor: 'rgba(255,255,255,0.30)' }} />
+        {/* Bottom shadow line */}
         <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, backgroundColor: 'rgba(34,31,32,0.12)' }} />
       </View>
     </View>

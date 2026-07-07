@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, useWindowDimensions } from 'react-native'
 import Animated, {
-  useSharedValue, useAnimatedStyle,
+  useSharedValue, useAnimatedStyle, withRepeat, withTiming,
+  withDelay, Easing,
 } from 'react-native-reanimated'
-import Svg, { Path, Defs, LinearGradient as SvgGradient, Stop } from 'react-native-svg'
 import { router } from 'expo-router'
 import { useTranslation } from 'react-i18next'
 import { ArrowRight, Phone } from 'lucide-react-native'
@@ -11,111 +11,67 @@ import { C, F, IS_WEB, MAX_W } from './constants'
 import { SectionIntro } from './SectionIntro'
 import { useEnrollModal } from '@/context/EnrollModalContext'
 
-// ── Water-wave SVG builder ────────────────────────────────────────────────────
+// ── Modern wave layer using View with animated opacity ────────────────────────
 
-const PERIOD = 320  // px — one complete wave cycle
-
-/**
- * Builds an SVG path for a sine-like wave using cubic bezier curves.
- * The path fills from the wave crest down to H (container height).
- * Total width = svgW so the wave tiles seamlessly at every PERIOD offset.
- */
-function buildWavePath(svgW: number, H: number, yBase: number, amp: number): string {
-  let d = `M0,${yBase}`
-  const steps = Math.ceil(svgW / (PERIOD / 2)) + 2
-  for (let i = 0; i < steps; i++) {
-    const x0  = i * (PERIOD / 2)
-    const xMid = x0 + PERIOD / 4
-    const x1  = x0 + PERIOD / 2
-    const yPeak = i % 2 === 0 ? yBase - amp : yBase + amp
-    d += ` C${xMid - PERIOD / 8},${yPeak} ${xMid + PERIOD / 8},${yPeak} ${x1},${yBase}`
-  }
-  d += ` L${svgW},${H} L0,${H} Z`
-  return d
+type WaveLayerProps = {
+  bottom: number
+  height: number
+  color: string
+  delay: number
 }
 
-// ── Animated wave layer ───────────────────────────────────────────────────────
+function WaveLayer({ bottom, height, color, delay }: WaveLayerProps) {
+  const opacity = useSharedValue(0.3)
 
-type WaveProps = {
-  svgW:      number
-  H:         number
-  yBase:     number
-  amp:       number
-  fill:      string
-  duration:  number
-  initOffset: number   // phase offset so waves don't start at the same position
-}
+  React.useEffect(() => {
+    opacity.value = withDelay(delay, withRepeat(
+      withTiming(0.8, { duration: 3000, easing: Easing.inOut(Easing.ease) }),
+      -1, true
+    ))
+  }, [])
 
-function WaveLayer({ svgW, H, yBase, amp, fill, initOffset }: WaveProps) {
-  // Phase 12: waves are held static; Ken Burns is the only ambient motion.
-  const offset = useSharedValue(initOffset)
-
-  const style = useAnimatedStyle(() => ({
-    transform: [{ translateX: offset.value }],
+  const animStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
   }))
 
-  const path = buildWavePath(svgW, H, yBase, amp)
-
   return (
-    <Animated.View style={[{ position: 'absolute', bottom: 0, left: 0 }, style]}
-      // @ts-ignore pointerEvents on View
+    <Animated.View
+      // @ts-ignore pointerEvents
       pointerEvents="none"
-    >
-      <Svg width={svgW} height={H}>
-        <Path d={path} fill={fill} />
-      </Svg>
-    </Animated.View>
+      style={[{
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        bottom,
+        height,
+        backgroundColor: color,
+        borderTopLeftRadius: 200,
+        borderTopRightRadius: 200,
+      }, animStyle]}
+    />
   )
 }
 
-// ── Wave background (3 layers) ────────────────────────────────────────────────
+// ── Modern wave background (layered Views with animated opacity) ──────────────
 
 function WaveBackground({ sectionH }: { sectionH: number }) {
   const { width } = useWindowDimensions()
   if (width === 0) return null
 
-  // SVG is 2 full periods wider than the container so translateX never reveals a gap
-  const svgW = width + PERIOD * 2
-  const H    = Math.round(sectionH * 0.55)   // waves fill the bottom 55 %
-
   return (
     <View
-      style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: H, overflow: 'hidden' }}
+      style={{ position: 'absolute', left: -60, right: -60, bottom: 0, height: sectionH * 0.55, overflow: 'hidden' }}
       // @ts-ignore
       pointerEvents="none"
     >
-      {/* Layer 1 — back, slow, low amp */}
-      <WaveLayer
-        svgW={svgW} H={H}
-        yBase={H * 0.30} amp={22}
-        fill="rgba(88,204,247,0.18)"
-        duration={7000}
-        initOffset={0}
-      />
-      {/* Layer 2 — mid, medium speed */}
-      <WaveLayer
-        svgW={svgW} H={H}
-        yBase={H * 0.48} amp={30}
-        fill="rgba(255,255,255,0.12)"
-        duration={4800}
-        initOffset={-(PERIOD / 3)}
-      />
-      {/* Layer 3 — front, fast, higher amp, bright crest */}
-      <WaveLayer
-        svgW={svgW} H={H}
-        yBase={H * 0.62} amp={38}
-        fill="rgba(255,255,255,0.20)"
-        duration={3200}
-        initOffset={-(PERIOD * 2 / 3)}
-      />
-      {/* Layer 4 — surface shimmer strip (very thin, fast) */}
-      <WaveLayer
-        svgW={svgW} H={H}
-        yBase={H * 0.62 - 6} amp={12}
-        fill="rgba(255,255,255,0.30)"
-        duration={2400}
-        initOffset={-(PERIOD / 5)}
-      />
+      {/* Layer 1 — wide, slow pulse */}
+      <WaveLayer bottom={-40} height={120} color="rgba(88,204,247,0.15)" delay={0} />
+      {/* Layer 2 — mid */}
+      <WaveLayer bottom={-20} height={90} color="rgba(255,255,255,0.10)" delay={600} />
+      {/* Layer 3 — front, brighter */}
+      <WaveLayer bottom={-10} height={70} color="rgba(255,255,255,0.18)" delay={1200} />
+      {/* Layer 4 — shimmer strip */}
+      <WaveLayer bottom={50} height={30} color="rgba(255,255,255,0.25)" delay={1800} />
     </View>
   )
 }
@@ -131,9 +87,6 @@ export default function FinalCTA() {
     <View
       style={{
         backgroundColor: C.skyDeep,
-        // minHeight instead of a fixed height: long-copy locales at 360px can
-        // grow the section instead of clipping. Waves stay anchored to the
-        // bottom regardless.
         minHeight: sectionH,
         paddingHorizontal: 24,
         paddingVertical: 48,
@@ -142,7 +95,7 @@ export default function FinalCTA() {
         overflow: 'hidden',
       }}
     >
-      {/* Animated water waves — rendered behind content */}
+      {/* Animated wave layers — rendered behind content */}
       <WaveBackground sectionH={sectionH} />
 
       {/* Content floats above the waves */}

@@ -6,7 +6,7 @@ import {
   ShieldCheck, MapPin, BadgeCheck, BookOpen,
 } from 'lucide-react-native';
 import type { LucideIcon } from 'lucide-react-native';
-import Svg, { Path, Rect, Circle } from 'react-native-svg';
+import { FacebookIcon, InstagramIcon, TwitterXIcon as TwitterIcon, TikTokIcon } from '@/components/SocialIcons';
 import { useTranslation } from 'react-i18next';
 import Animated, { useSharedValue, useAnimatedStyle, withRepeat, withTiming, withSequence, Easing } from 'react-native-reanimated';
 
@@ -25,38 +25,6 @@ import { ResponsiveImage } from '@/components/ResponsiveImage';
 import { PageHead } from '@/components/PageHead';
 import { useTheme } from '@/lib/theme';
 import { Reveal } from '@/components/animations/Reveal';
-
-// ─── Social brand icons (Lucide has no brand glyphs, so hand-drawn SVG) ──────────
-function FacebookIcon({ size = 15, color }: { size?: number; color: string }) {
-  return (
-    <Svg width={size} height={size} viewBox="0 0 24 24">
-      <Path fill={color} d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-    </Svg>
-  );
-}
-function InstagramIcon({ size = 15, color }: { size?: number; color: string }) {
-  return (
-    <Svg width={size} height={size} viewBox="0 0 24 24">
-      <Rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke={color} strokeWidth="2" />
-      <Circle cx="12" cy="12" r="4" fill="none" stroke={color} strokeWidth="2" />
-      <Circle cx="17.5" cy="6.5" r="1.5" fill={color} />
-    </Svg>
-  );
-}
-function TwitterIcon({ size = 15, color }: { size?: number; color: string }) {
-  return (
-    <Svg width={size} height={size} viewBox="0 0 24 24">
-      <Path fill={color} d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-    </Svg>
-  );
-}
-function TikTokIcon({ size = 15, color }: { size?: number; color: string }) {
-  return (
-    <Svg width={size} height={size} viewBox="0 0 24 24">
-      <Path fill={color} d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.16a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-1.59z" />
-    </Svg>
-  );
-}
 
 function SocialBadge({ url, icon }: { url: string; icon: React.ReactElement }) {
   return (
@@ -96,14 +64,14 @@ function AboutOpener() {
   const yearsActive = new Date().getFullYear() - COMPANY.registration.foundedYear;
 
   const paragraphs = (
-    <>
+    <Text>
       {t('aboutPage.historyP1', { foundedYear: COMPANY.registration.foundedYear })}{' '}
       {t('aboutPage.historyP2', {
         incorporatedYear: COMPANY.registration.incorporatedDate.split(' ').pop(),
         legalName: COMPANY.legalName,
         pvt: COMPANY.registration.pvt,
       })}
-    </>
+    </Text>
   );
 
   return (
