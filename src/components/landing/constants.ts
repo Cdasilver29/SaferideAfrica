@@ -50,9 +50,9 @@ export const F = {
 export const HERO_SRC = IS_WEB
   ? [
       { uri: '/DSC_2116.webp' },
-      { uri: '/gallery/DSC_2089.webp' },
-      { uri: '/gallery/DSC_2699.webp' },
-      { uri: '/gallery/DSC_6800.webp' },
+      { uri: '/hero2.webp' },
+      { uri: '/hero3.webp' },
+      { uri: '/hero4.webp' },
     ]
   : [require('../../../assets/images/car-pic.png')];
 

@@ -64,8 +64,8 @@ function HeroSlideText({ slide, slides }: { slide: number; slides: HeroSlide[] }
   const words: HeadlineSeg[] = (data?.words ?? [])
     .map((s) => (typeof s === 'string' ? { w: s } : s))
     .filter((s) => s.w && s.w.length > 0);
-  const fontSize = isMobile ? 26 : 42;
-  const lineH = isMobile ? 33 : 50;
+  const fontSize = isMobile ? 32 : 56;
+  const lineH = isMobile ? 40 : 64;
 
   return (
     <Animated.View style={{ opacity }}>
@@ -74,7 +74,7 @@ function HeroSlideText({ slide, slides }: { slide: number; slides: HeroSlide[] }
         {data?.eyebrow ? (
           <Text
             style={{ fontFamily: F.bold, color: C.yellow, letterSpacing: 2 }}
-            className="mb-2.5 text-xs uppercase web:text-sm"
+            className="mb-2.5 text-sm uppercase web:text-lg"
           >
             {data.eyebrow}
           </Text>
