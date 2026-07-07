@@ -65,26 +65,13 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <EnrollModalProvider>
           {/* Outer gutter — light skyDeep tint on web */}
-          <View style={{ flex: 1, backgroundColor: isDark ? C.dark : 'rgba(1,165,240,0.04)' }}>
-            {/* Inner card — max 1280 px on web, edge-to-edge on mobile */}
+          <View style={{ flex: 1, backgroundColor: isDark ? C.dark : C.white }}>
+            {/* Inner card — edge-to-edge on all platforms */}
             <View
               style={{
                 flex: 1,
                 width: '100%',
-                ...(IS_WEB ? {
-                  maxWidth: 1280,
-                  marginHorizontal: 'auto' as any,
-                  borderRadius: 20,
-                  overflow: 'hidden',
-                  backgroundColor: isDark ? C.dark : C.white,
-                  shadowColor: C.dark,
-                  shadowOffset: { width: 0, height: 4 },
-                  shadowOpacity: 0.06,
-                  shadowRadius: 24,
-                  marginVertical: 16,
-                } : {
-                  backgroundColor: isDark ? C.dark : C.white,
-                }),
+                backgroundColor: isDark ? C.dark : C.white,
               }}
             >
               <Stack screenOptions={{ headerShown: false, animation: 'fade' }}>
