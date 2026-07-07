@@ -198,15 +198,13 @@ export default function Navbar({ scrollY }: NavbarProps) {
               >
                 {t('nav.brand')}
               </Text>
-              {!narrowBrand && (
-                <Text
-                  numberOfLines={1}
-                  style={{ fontFamily: F.semibold, letterSpacing: 1.5 }}
-                  className="text-[9px] uppercase text-white/70"
-                >
-                  {t('nav.tagline')}
-                </Text>
-              )}
+              <Text
+                numberOfLines={1}
+                style={{ fontFamily: F.semibold, letterSpacing: 1.5 }}
+                className="text-[9px] uppercase text-white/70"
+              >
+                {t('nav.tagline')}
+              </Text>
             </View>
           </Pressable>
 
@@ -298,9 +296,14 @@ export default function Navbar({ scrollY }: NavbarProps) {
                 <View className="flex-row items-center justify-between border-b border-white/10 bg-primary px-5 py-4">
                   <View className="flex-row items-center gap-2" style={{ flexShrink: 1, paddingRight: 8 }}>
                     <Image source={LOGO} style={{ width: 40, height: 40, borderRadius: 8 }} resizeMode="contain" />
-                    <Text numberOfLines={1} style={{ fontFamily: F.bold, flexShrink: 1 }} className="text-base text-accent">
-                      {t('nav.brand')}
-                    </Text>
+                    <View style={{ flexShrink: 1 }}>
+                      <Text numberOfLines={1} style={{ fontFamily: F.bold }} className="text-base text-accent">
+                        {t('nav.brand')}
+                      </Text>
+                      <Text numberOfLines={1} style={{ fontFamily: F.semibold, letterSpacing: 1.5 }} className="text-[9px] uppercase text-white/70">
+                        {t('nav.tagline')}
+                      </Text>
+                    </View>
                   </View>
                   <View className="flex-row items-center gap-2">
                     <IconButton onPress={toggleColorScheme} label="Toggle theme">

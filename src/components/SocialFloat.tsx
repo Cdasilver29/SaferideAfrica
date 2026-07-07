@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Pressable, Linking, Platform, StyleSheet, useWindowDimensions, DeviceEventEmitter } from 'react-native'
+import { View, Text, Pressable, Linking, Platform, StyleSheet, useWindowDimensions, DeviceEventEmitter } from 'react-native'
 import { ChevronUp, X } from 'lucide-react-native'
 import { useTranslation } from 'react-i18next'
 import { COMPANY, SOCIALS } from '@/data/saferide'
