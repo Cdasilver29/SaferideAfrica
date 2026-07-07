@@ -352,9 +352,10 @@ export const COMPANY_STORY = [
 // ─── Blog articles ────────────────────────────────────────────────────────────
 
 export interface BlogSection {
-  type: 'paragraph' | 'heading' | 'list' | 'callout';
+  type: 'paragraph' | 'heading' | 'list' | 'callout' | 'image';
   text?: string;
   items?: string[];
+  src?: any;
 }
 
 export interface BlogArticle {
@@ -452,6 +453,10 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     publishDate: 'Nov 11, 2025',
     readTime: '6 min read',
     body: [
+      {
+        type: 'image',
+        src: require('../../public/gallery/Defensive.webp'),
+      },
       {
         type: 'paragraph',
         text: "Kenya recorded 5,009 road fatalities in 2025, a 5.5% increase from 2024. Pedestrians alone accounted for 1,889 of those deaths. These are not just statistics; they are preventable tragedies. Defensive driving is the discipline that separates drivers who navigate Kenyan roads safely from those who become part of those numbers.",

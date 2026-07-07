@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Platform, Image } from 'react-native';
 import { ArrowLeft } from 'lucide-react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -15,6 +15,18 @@ export function generateStaticParams(): { id: string }[] {
 }
 
 function BodyBlock({ block, T }: { block: BlogSection; T: any }) {
+  if (block.type === 'image' && block.src) {
+    return (
+      <View style={{ width: '100%', aspectRatio: 16 / 9, borderRadius: 12, overflow: 'hidden', marginBottom: 20, marginTop: 8 }}>
+        <Image
+          source={block.src}
+          style={{ width: '100%', height: '100%' }}
+          resizeMode="cover"
+        />
+      </View>
+    );
+  }
+
   if (block.type === 'heading') {
     return (
       <Text
