@@ -486,7 +486,7 @@
       "title": "Une auto-école fiable",
       "items": {
         "ntsaRegistered": "Auto-école enregistrée auprès de la NTSA",
-        "branches": "{{branches}} agences à travers Nairobi",
+        "branches": "Agences à travers Nairobi",
         "instructors": "Moniteurs certifiés NTSA",
         "curriculum": "Programme structuré aligné sur la NTSA"
       }

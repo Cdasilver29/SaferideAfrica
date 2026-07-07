@@ -18,8 +18,9 @@ export default function StatStrip() {
   const { ref, inView } = useInView();
   const gap = winW < 640 ? 12 : winW < 1024 ? 20 : 24;
 
+  // No branch count is published (standing decision). BRANCHES.length still
+  // powers the map and derived copy, but never a headline figure here.
   const cards = [
-    { key: 'branches',    value: `${STATS.branches}+`,    label: t('home.statStrip.branches') },
     { key: 'instructors', value: `${STATS.instructors}+`, label: t('home.statStrip.instructors') },
     { key: 'passRate',    value: `${STATS.passRate}%`,    label: t('home.statStrip.passRate') },
     { key: 'yearsActive', value: `${STATS.yearsActive}+`, label: t('home.statStrip.yearsActive') },

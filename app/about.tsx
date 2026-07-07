@@ -17,7 +17,7 @@ import FAQ from '@/components/landing/FAQ';
 import FinalCTA from '@/components/landing/FinalCTA';
 import Footer from '@/components/landing/Footer';
 
-import { BRANCHES, COMPANY, SOCIALS, STATS as SAFERIDE_STATS } from '@/data/saferide';
+import { COMPANY, SOCIALS, STATS as SAFERIDE_STATS } from '@/data/saferide';
 import { C, F, IS_WEB, MAX_W, ABOUT_OPENER_IMG } from '@/components/landing/constants';
 import { Button, Card, Icon, cn } from '@/components/ui';
 import { ResponsiveImage } from '@/components/ResponsiveImage';
@@ -137,8 +137,7 @@ function AboutOpener() {
             <StatItem value={`${SAFERIDE_STATS.passRate}%`} label={t('aboutPage.statPassRate')} />
           </View>
           <View className={cn('gap-2', IS_WEB ? 'items-end' : 'flex-row items-center')}>
-            <StatItem value={`${SAFERIDE_STATS.branches}+`} label={t('aboutPage.statBranches')} large />
-            <StatItem value={`${SAFERIDE_STATS.instructors}+`} label={t('aboutPage.statInstructors')} />
+            <StatItem value={`${SAFERIDE_STATS.instructors}+`} label={t('aboutPage.statInstructors')} large />
           </View>
         </View>
 
@@ -343,7 +342,7 @@ function TrustBlock() {
                 <Icon icon={icon} size="md" color={C.skyDeep} />
               </View>
               <Text style={{ fontFamily: F.bold }} className="flex-1 text-sm leading-5 text-foreground">
-                {t(`aboutPage.trust.items.${key}`, { branches: BRANCHES.length })}
+                {t(`aboutPage.trust.items.${key}`)}
               </Text>
             </Card>
           ))}
