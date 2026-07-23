@@ -46,6 +46,13 @@ module.exports = {
           'on-dark-muted': '#9AA3B2',
         },
         danger: '#D64545',
+        // HeaderV3 brand tokens, mirror of `brand` in src/ui/tokens.ts.
+        'brand-primary':    '#01a5f0',
+        'brand-deep':       '#016c9d',
+        'brand-accent':     '#ffd800',
+        'brand-action':     '#e11d2e',
+        'brand-ink':        '#221f20',
+        'brand-on-primary': '#ffffff',
       },
       fontFamily: {
         sans:    ['Manrope-Regular', 'sans-serif'],
