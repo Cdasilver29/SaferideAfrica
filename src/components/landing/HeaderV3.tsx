@@ -248,7 +248,7 @@ export function HeaderV3({
                               onPress={() => setDrawer(false)}
                               className="py-3 pl-9"
                             >
-                              <Text className="font-body text-base text-brand-on-primary/90">
+                              <Text className="font-body text-base text-brand-ink/70">
                                 {child.label}
                               </Text>
                             </Pressable>
@@ -266,7 +266,7 @@ export function HeaderV3({
                     onPress={() => setDrawer(false)}
                     className="border-b border-white/15 py-4"
                   >
-                    <Text className="font-body text-base text-brand-on-primary/90">
+                    <Text className="font-body text-base text-brand-ink/70">
                       {item.label}
                     </Text>
                   </Pressable>
