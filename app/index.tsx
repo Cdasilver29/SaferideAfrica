@@ -9,7 +9,7 @@ import Animated, {
 
 import Hero         from '@/components/landing/Hero';
 import Testimonials from '@/components/landing/Testimonials';
-import { FooterV2 } from '@/components/landing/FooterV2';
+import Footer from '@/components/landing/Footer';
 
 import ServicesPreview from '@/components/landing/ServicesPreview';
 import { PremiumCourseCards } from '@/components/landing/PremiumCourseCards';
@@ -74,7 +74,7 @@ export default function LandingScreen() {
         <Reveal><BranchesPreview /></Reveal>
         <Reveal><GalleryPreview /></Reveal>
         <Reveal><FinalCTA /></Reveal>
-        <FooterV2 />
+        <Footer />
       </Animated.ScrollView>
 
     </SafeAreaView>
