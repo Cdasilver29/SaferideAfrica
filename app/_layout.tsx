@@ -1,6 +1,6 @@
 import '../src/i18n';
 import { useEffect } from 'react';
-import { Platform, View, LogBox } from 'react-native';
+import { Platform, View, LogBox, Pressable, Linking } from 'react-native';
 import { Stack } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
@@ -8,12 +8,20 @@ import { useFonts } from 'expo-font';
 import { Archivo_700Bold, Archivo_600SemiBold } from '@expo-google-fonts/archivo';
 import { Inter_400Regular, Inter_500Medium, Inter_700Bold } from '@expo-google-fonts/inter';
 import { useColorScheme } from 'nativewind';
+import { Sun, Moon } from 'lucide-react-native';
 import '../global.css';
-import { EnrollModalProvider } from '../src/context/EnrollModalContext';
+import { EnrollModalProvider, useEnrollModal } from '../src/context/EnrollModalContext';
 import EnrollModal from '../src/components/EnrollModal';
 import SocialFloat from '../src/components/SocialFloat';
 import RouteSplash from '../src/components/animations/RouteSplash';
 import { C } from '../src/components/landing/constants';
+import { HeaderV3 } from '../src/components/landing/HeaderV3';
+import LanguageSwitcher from '../src/components/landing/LanguageSwitcher';
+import {
+  WhatsAppIcon, FacebookIcon, TwitterXIcon, TikTokIcon, InstagramIcon, YouTubeIcon,
+} from '../src/components/SocialIcons';
+import { COMPANY, SOCIALS } from '../src/data/saferide';
+import { brand } from '../src/ui/tokens';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -30,6 +38,51 @@ function suppressRNWWarnings() {
     if (msg.includes('"shadow*"') || msg.includes('props.pointerEvents')) return;
     orig(...args);
   };
+}
+
+// Persistent site header. Lives inside EnrollModalProvider so useEnrollModal
+// resolves, and reads the nativewind colour scheme for the theme toggle. All
+// the props HeaderV3 needs are assembled here rather than in any one route.
+function SiteHeader() {
+  const { colorScheme, toggleColorScheme } = useColorScheme();
+  const isDark = colorScheme === 'dark';
+  const { open: openEnrollModal } = useEnrollModal();
+
+  const socials = [
+    { label: 'WhatsApp',  url: SOCIALS.whatsapp,  Icon: WhatsAppIcon },
+    { label: 'Facebook',  url: SOCIALS.facebook,  Icon: FacebookIcon },
+    { label: 'X',         url: SOCIALS.twitter,   Icon: TwitterXIcon },
+    { label: 'TikTok',    url: SOCIALS.tiktok,    Icon: TikTokIcon },
+    { label: 'Instagram', url: SOCIALS.instagram, Icon: InstagramIcon },
+    { label: 'YouTube',   url: SOCIALS.youtube,   Icon: YouTubeIcon },
+  ];
+
+  const themeToggle = (
+    <Pressable
+      onPress={toggleColorScheme}
+      accessibilityRole="button"
+      accessibilityLabel="Toggle theme"
+      className="h-11 w-11 items-center justify-center rounded-pill"
+    >
+      {isDark
+        ? <Sun size={18} color={brand.accent} />
+        : <Moon size={18} color={brand.onPrimary} />}
+    </Pressable>
+  );
+
+  const onCallNow = () => Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`);
+  const onEnrol = () => openEnrollModal();
+
+  return (
+    <HeaderV3
+      logoSource={require('../assets/images/saferide-logo.jpg')}
+      socials={socials}
+      languageSwitcher={<LanguageSwitcher />}
+      themeToggle={themeToggle}
+      onCallNow={onCallNow}
+      onEnrol={onEnrol}
+    />
+  );
 }
 
 export default function RootLayout() {
@@ -88,6 +141,7 @@ export default function RootLayout() {
                 backgroundColor: isDark ? C.dark : C.white,
               }}
             >
+              <SiteHeader />
               <Stack screenOptions={{ headerShown: false, animation: 'fade' }}>
                 <Stack.Screen name="index" />
                 <Stack.Screen name="about" />

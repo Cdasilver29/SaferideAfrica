@@ -20,38 +20,36 @@ import {
   ChevronDown,
   Menu,
   X,
+  type LucideIcon,
 } from "lucide-react-native";
-import type { LucideIcon } from "lucide-react-native";
 import { brand } from "../../ui/tokens";
 import { primaryNav, utilityNav, NavItem } from "../../data/navigation";
 
 /**
- * HeaderV3. Three-tier structure borrowed from AA Kenya:
+ * HeaderV3, two tiers.
  *
- *   Tier 1  brand strip   logo + tagline, socials on the right
- *   Tier 2  utility bar   secondary links, language + theme controls
- *   Tier 3  primary nav   main sections with icons and dropdowns, CTAs right
+ *   Tier 1  brand-deep     logo, wordmark, socials, language, theme   ~64px
+ *   Tier 2  brand-primary  nav with icons and dropdowns, CTAs         ~52px
  *
- * Splitting the bar three ways is what stops your nav wrapping to two
- * lines: five controls no longer compete with seven links for one row.
+ * Three tiers was too much furniture for a nav carrying five items.
+ * Merging the utility row into tier 1 halves the height while keeping
+ * every control reachable.
  *
- * Everything the old Navbar did is preserved. The language switcher and
- * theme toggle move to tier 2 where they belong as utilities, and Call
- * Now stays beside Enrol Now in tier 3 where the intent is highest.
- *
- * Below 1024px all three tiers collapse into a logo bar plus drawer.
+ * IMAGE SIZING: dimensions go through the style prop, never className.
+ * NativeWind h- and w- classes do not reliably apply to Image on web,
+ * which is what made the logo render at its natural size.
  */
 
 export interface HeaderV3Props {
-  /** Existing language switcher component, rendered into tier 2 */
   languageSwitcher?: React.ReactNode;
-  /** Existing dark mode toggle, rendered into tier 2 */
   themeToggle?: React.ReactNode;
-  /** Existing social links from src/data/saferide.ts */
-  socials: { label: string; url: string; Icon: React.ComponentType<{ size?: number; color?: string }> }[];
+  socials: {
+    label: string;
+    url: string;
+    Icon: React.ComponentType<{ size?: number; color?: string }>;
+  }[];
   onCallNow: () => void;
   onEnrol: () => void;
-  /** Logo asset, passed in so this component owns no assets */
   logoSource: number | { uri: string };
 }
 
@@ -63,28 +61,36 @@ const NAV_ICONS: Record<string, LucideIcon> = {
   "Get in touch": Phone,
 };
 
-/** Desktop nav item. Opens its dropdown on hover and on click, closes on blur. */
+const LOGO_DESKTOP = { width: 44, height: 44 };
+const LOGO_MOBILE = { width: 38, height: 38 };
+
+function Wordmark({ compact = false }: { compact?: boolean }) {
+  return (
+    <View>
+      <Text
+        className={`font-display ${
+          compact ? "text-base" : "text-lg"
+        } leading-tight text-brand-accent`}
+      >
+        Safe Ride Africa
+      </Text>
+      <Text className="font-body text-[9px] uppercase tracking-[0.22em] text-white/70">
+        Safety beyond
+      </Text>
+    </View>
+  );
+}
+
 function PrimaryNavItem({ item, active }: { item: NavItem; active: boolean }) {
   const [open, setOpen] = useState(false);
   const Icon = NAV_ICONS[item.label];
   const hasChildren = !!item.children?.length;
 
-  const webProps =
-    Platform.OS === "web" && hasChildren
-      ? {
-          onHoverIn: () => setOpen(true),
-          onHoverOut: () => setOpen(false),
-          "aria-haspopup": "menu" as const,
-          "aria-expanded": open,
-        }
-      : {};
-
   return (
     <View
       className="relative"
-      // Keep the panel open while the pointer travels into it
       {...(Platform.OS === "web" && hasChildren
-        ? { onPointerLeave: () => setOpen(false) }
+        ? { onPointerEnter: () => setOpen(true), onPointerLeave: () => setOpen(false) }
         : {})}
     >
       <Link href={item.href} asChild>
@@ -92,32 +98,31 @@ function PrimaryNavItem({ item, active }: { item: NavItem; active: boolean }) {
           accessibilityRole="link"
           accessibilityState={{ selected: active }}
           onPress={hasChildren ? () => setOpen((v) => !v) : undefined}
-          className="flex-row items-center gap-2 rounded-sm px-4 py-3 web:outline-none web:focus-visible:ring-2 web:focus-visible:ring-brand-ink"
-          {...webProps}
+          className="flex-row items-center gap-1.5 rounded-sm px-3 py-3 web:outline-none web:focus-visible:ring-2 web:focus-visible:ring-brand-ink"
+          {...(Platform.OS === "web" && hasChildren
+            ? { "aria-haspopup": "menu" as const, "aria-expanded": open }
+            : {})}
         >
-          {Icon ? <Icon size={17} color={brand.ink} /> : null}
+          {Icon ? <Icon size={16} color={brand.ink} /> : null}
           <Text
-            className={`font-body-bold text-sm uppercase tracking-wide ${
+            className={`font-body-bold text-[13px] uppercase tracking-wide ${
               active ? "text-brand-deep" : "text-brand-ink"
             }`}
           >
             {item.label}
           </Text>
-          {hasChildren ? <ChevronDown size={15} color={brand.ink} /> : null}
+          {hasChildren ? <ChevronDown size={14} color={brand.ink} /> : null}
         </Pressable>
       </Link>
 
       {hasChildren && open ? (
-        <View
-          accessibilityRole={Platform.OS === "web" ? ("menu" as never) : undefined}
-          className="absolute left-0 top-full z-50 min-w-[220px] rounded-b-md border border-black/10 bg-white py-2 shadow-lg"
-        >
+        <View className="absolute left-0 top-full z-50 min-w-[210px] rounded-b-md border border-black/10 bg-white py-1.5 shadow-lg">
           {item.children!.map((child) => (
             <Link key={child.label} href={child.href} asChild>
               <Pressable
                 accessibilityRole="link"
                 onPress={() => setOpen(false)}
-                className="px-4 py-3 web:hover:bg-black/5 web:outline-none web:focus-visible:bg-black/5"
+                className="px-4 py-2.5 web:hover:bg-black/5 web:focus-visible:bg-black/5"
               >
                 <Text className="font-body-medium text-sm text-brand-ink">
                   {child.label}
@@ -145,43 +150,27 @@ export function HeaderV3({
   const pathname = usePathname();
   const isDesktop = width >= 1024;
 
-  const Logo = (
-    <Link href="/" asChild>
-      <Pressable
-        accessibilityRole="link"
-        accessibilityLabel="Safe Ride Africa, home"
-        className="flex-row items-center gap-3"
-      >
-        <Image
-          source={logoSource}
-          className="h-12 w-12 rounded-md"
-          resizeMode="contain"
-          accessibilityLabel=""
-        />
-        <View>
-          <Text className="font-display text-xl text-brand-accent">
-            Safe Ride Africa
-          </Text>
-          <Text className="font-body text-[10px] uppercase tracking-[0.2em] text-brand-on-primary/80">
-            Safety beyond
-          </Text>
-        </View>
-      </Pressable>
-    </Link>
-  );
-
   if (!isDesktop) {
     return (
-      <View className="bg-brand-primary">
-        <View className="flex-row items-center justify-between px-4 py-3">
-          {Logo}
+      <View className="bg-brand-deep">
+        <View className="flex-row items-center justify-between px-4 py-2.5">
+          <Link href="/" asChild>
+            <Pressable
+              accessibilityRole="link"
+              accessibilityLabel="Safe Ride Africa, home"
+              className="flex-row items-center gap-2.5"
+            >
+              <Image source={logoSource} style={LOGO_MOBILE} resizeMode="contain" />
+              <Wordmark compact />
+            </Pressable>
+          </Link>
           <Pressable
             onPress={() => setDrawer(true)}
             accessibilityRole="button"
             accessibilityLabel="Open menu"
             className="h-11 w-11 items-center justify-center rounded-md"
           >
-            <Menu size={26} color={brand.onPrimary} />
+            <Menu size={26} color="#FFFFFF" />
           </Pressable>
         </View>
 
@@ -191,16 +180,19 @@ export function HeaderV3({
           onRequestClose={() => setDrawer(false)}
           presentationStyle="fullScreen"
         >
-          <View className="flex-1 bg-brand-primary">
-            <View className="flex-row items-center justify-between px-4 py-3">
-              {Logo}
+          <View className="flex-1 bg-brand-deep">
+            <View className="flex-row items-center justify-between px-4 py-2.5">
+              <View className="flex-row items-center gap-2.5">
+                <Image source={logoSource} style={LOGO_MOBILE} resizeMode="contain" />
+                <Wordmark compact />
+              </View>
               <Pressable
                 onPress={() => setDrawer(false)}
                 accessibilityRole="button"
                 accessibilityLabel="Close menu"
                 className="h-11 w-11 items-center justify-center"
               >
-                <X size={26} color={brand.onPrimary} />
+                <X size={26} color="#FFFFFF" />
               </Pressable>
             </View>
 
@@ -217,8 +209,8 @@ export function HeaderV3({
                           onPress={() => setDrawer(false)}
                           className="flex-1 flex-row items-center gap-3 py-4"
                         >
-                          {Icon ? <Icon size={20} color={brand.ink} /> : null}
-                          <Text className="font-body-bold text-lg text-brand-ink">
+                          {Icon ? <Icon size={20} color="#FFFFFF" /> : null}
+                          <Text className="font-body-bold text-lg text-white">
                             {item.label}
                           </Text>
                         </Pressable>
@@ -227,14 +219,18 @@ export function HeaderV3({
                         <Pressable
                           onPress={() => setExpanded(isOpen ? null : item.label)}
                           accessibilityRole="button"
-                          accessibilityLabel={`${isOpen ? "Collapse" : "Expand"} ${item.label}`}
+                          accessibilityLabel={`${isOpen ? "Collapse" : "Expand"} ${
+                            item.label
+                          }`}
                           accessibilityState={{ expanded: isOpen }}
                           className="h-11 w-11 items-center justify-center"
                         >
                           <ChevronDown
                             size={20}
-                            color={brand.ink}
-                            style={{ transform: [{ rotate: isOpen ? "180deg" : "0deg" }] }}
+                            color="#FFFFFF"
+                            style={{
+                              transform: [{ rotate: isOpen ? "180deg" : "0deg" }],
+                            }}
                           />
                         </Pressable>
                       ) : null}
@@ -248,7 +244,7 @@ export function HeaderV3({
                               onPress={() => setDrawer(false)}
                               className="py-3 pl-9"
                             >
-                              <Text className="font-body text-base text-brand-ink/70">
+                              <Text className="font-body text-base text-white/85">
                                 {child.label}
                               </Text>
                             </Pressable>
@@ -266,7 +262,7 @@ export function HeaderV3({
                     onPress={() => setDrawer(false)}
                     className="border-b border-white/15 py-4"
                   >
-                    <Text className="font-body text-base text-brand-ink/70">
+                    <Text className="font-body text-base text-white/85">
                       {item.label}
                     </Text>
                   </Pressable>
@@ -278,14 +274,14 @@ export function HeaderV3({
                 {themeToggle}
               </View>
 
-              <View className="mt-6 gap-3 pb-10">
+              <View className="mt-6 gap-3">
                 <Pressable
                   onPress={() => {
                     setDrawer(false);
                     onCallNow();
                   }}
                   accessibilityRole="button"
-                  className="h-14 flex-row items-center justify-center rounded-pill bg-brand-action"
+                  className="flex-row items-center justify-center rounded-pill bg-brand-action py-4"
                 >
                   <Phone size={18} color="#FFFFFF" />
                   <Text className="ml-2 font-body-bold text-base text-white">
@@ -298,7 +294,7 @@ export function HeaderV3({
                     onEnrol();
                   }}
                   accessibilityRole="button"
-                  className="h-14 items-center justify-center rounded-pill bg-brand-accent"
+                  className="items-center justify-center rounded-pill bg-brand-accent py-4"
                 >
                   <Text className="font-body-bold text-base text-brand-ink">
                     Enrol now
@@ -306,16 +302,16 @@ export function HeaderV3({
                 </Pressable>
               </View>
 
-              <View className="flex-row justify-center gap-5 pb-10">
+              <View className="mt-8 flex-row justify-center gap-4 pb-10">
                 {socials.map(({ label, url, Icon }) => (
                   <Pressable
                     key={label}
                     onPress={() => Linking.openURL(url)}
                     accessibilityRole="link"
                     accessibilityLabel={`Safe Ride Africa on ${label}`}
-                    className="h-11 w-11 items-center justify-center"
+                    className="h-11 w-11 items-center justify-center rounded-full bg-white/15"
                   >
-                    <Icon size={22} color={brand.onPrimary} />
+                    <Icon size={20} color="#FFFFFF" />
                   </Pressable>
                 ))}
               </View>
@@ -329,66 +325,40 @@ export function HeaderV3({
   return (
     <View>
       {/* Tier 1, brand strip */}
-      <View className="bg-white">
-        <View className="mx-auto w-full max-w-7xl flex-row items-center justify-between px-6 py-2">
-          <View className="flex-row items-center gap-3">
-            <Image
-              source={logoSource}
-              className="h-11 w-11 rounded-md"
-              resizeMode="contain"
-              accessibilityLabel=""
-            />
-            <View>
-              <Text className="font-display text-xl text-brand-deep">
-                Safe Ride Africa
-              </Text>
-              <Text className="font-body text-[10px] uppercase tracking-[0.2em] text-brand-ink/60">
-                Safety beyond
-              </Text>
-            </View>
-          </View>
+      <View className="bg-brand-deep">
+        <View className="mx-auto w-full max-w-7xl flex-row items-center justify-between px-6 py-2.5">
+          <Link href="/" asChild>
+            <Pressable
+              accessibilityRole="link"
+              accessibilityLabel="Safe Ride Africa, home"
+              className="flex-row items-center gap-3"
+            >
+              <Image source={logoSource} style={LOGO_DESKTOP} resizeMode="contain" />
+              <Wordmark />
+            </Pressable>
+          </Link>
 
-          <View className="flex-row items-center gap-3">
+          <View className="flex-row items-center gap-2">
             {socials.map(({ label, url, Icon }) => (
               <Pressable
                 key={label}
                 onPress={() => Linking.openURL(url)}
                 accessibilityRole="link"
                 accessibilityLabel={`Safe Ride Africa on ${label}`}
-                className="h-9 w-9 items-center justify-center rounded-full bg-brand-primary web:transition-opacity web:hover:opacity-80 web:focus-visible:ring-2 web:focus-visible:ring-brand-ink"
+                className="h-8 w-8 items-center justify-center rounded-full bg-white/15 web:transition-colors web:hover:bg-white/30 web:focus-visible:ring-2 web:focus-visible:ring-white"
               >
-                <Icon size={17} color={brand.onPrimary} />
+                <Icon size={16} color="#FFFFFF" />
               </Pressable>
             ))}
+            <View className="ml-2 flex-row items-center gap-2">
+              {languageSwitcher}
+              {themeToggle}
+            </View>
           </View>
         </View>
       </View>
 
-      {/* Tier 2, utility bar */}
-      <View className="bg-brand-deep">
-        <View className="mx-auto w-full max-w-7xl flex-row items-center justify-between px-6">
-          <View className="flex-row">
-            {utilityNav.map((item) => (
-              <Link key={item.label} href={item.href} asChild>
-                <Pressable
-                  accessibilityRole="link"
-                  className="px-4 py-3 rounded-sm web:outline-none web:focus-visible:ring-2 web:focus-visible:ring-brand-accent"
-                >
-                  <Text className="font-body-bold text-xs uppercase tracking-[0.12em] text-white">
-                    {item.label}
-                  </Text>
-                </Pressable>
-              </Link>
-            ))}
-          </View>
-          <View className="flex-row items-center gap-3 py-1">
-            {languageSwitcher}
-            {themeToggle}
-          </View>
-        </View>
-      </View>
-
-      {/* Tier 3, primary nav */}
+      {/* Tier 2, primary nav */}
       <View className="bg-brand-primary">
         <View className="mx-auto w-full max-w-7xl flex-row items-center justify-between px-6">
           <View className="flex-row items-center">
@@ -399,24 +369,40 @@ export function HeaderV3({
                 active={pathname === item.href}
               />
             ))}
+            {utilityNav.map((item) => (
+              <Link key={item.label} href={item.href} asChild>
+                <Pressable
+                  accessibilityRole="link"
+                  className="rounded-sm px-3 py-3 web:focus-visible:ring-2 web:focus-visible:ring-brand-ink"
+                >
+                  <Text className="font-body-bold text-[13px] uppercase tracking-wide text-brand-ink">
+                    {item.label}
+                  </Text>
+                </Pressable>
+              </Link>
+            ))}
           </View>
 
-          <View className="flex-row items-center gap-3 py-2">
+          <View className="flex-row items-center gap-2.5 py-1.5">
             <Pressable
               onPress={onCallNow}
               accessibilityRole="button"
               accessibilityLabel="Call Safe Ride Africa now"
-              className="h-11 flex-row items-center rounded-pill bg-brand-action px-5 web:transition-opacity web:hover:opacity-90 web:focus-visible:ring-2 web:focus-visible:ring-white"
+              className="h-9 flex-row items-center rounded-pill bg-brand-action px-4 web:transition-opacity web:hover:opacity-90 web:focus-visible:ring-2 web:focus-visible:ring-white"
             >
-              <Phone size={17} color="#FFFFFF" />
-              <Text className="ml-2 font-body-bold text-sm text-white">Call now</Text>
+              <Phone size={15} color="#FFFFFF" />
+              <Text className="ml-1.5 font-body-bold text-[13px] text-white">
+                Call now
+              </Text>
             </Pressable>
             <Pressable
               onPress={onEnrol}
               accessibilityRole="button"
-              className="h-11 items-center justify-center rounded-pill bg-brand-accent px-6 web:transition-opacity web:hover:opacity-90 web:focus-visible:ring-2 web:focus-visible:ring-white"
+              className="h-9 items-center justify-center rounded-pill bg-brand-accent px-5 web:transition-opacity web:hover:opacity-90 web:focus-visible:ring-2 web:focus-visible:ring-white"
             >
-              <Text className="font-body-bold text-sm text-brand-ink">Enrol now</Text>
+              <Text className="font-body-bold text-[13px] text-brand-ink">
+                Enrol now
+              </Text>
             </Pressable>
           </View>
         </View>
