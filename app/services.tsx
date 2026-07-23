@@ -5,7 +5,6 @@ import { ArrowRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 
 import { PageHero } from '@/components/landing/PageHero';
-import Navbar   from '@/components/landing/Navbar';
 import Services from '@/components/landing/Services';
 import Footer   from '@/components/landing/Footer';
 
@@ -108,7 +107,6 @@ export default function ServicesPage() {
         description="Defensive driving, NTSA Smart DL processing, executive classes, ladies special, corporate training, and more across our Nairobi branches."
         path="/services"
       />
-      <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('servicesPage.pageOverline')} title={t('servicesPage.pageTitle')} />
         {/* Full 10-service grid with "Read More" links to /services/[code] */}

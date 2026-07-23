@@ -7,7 +7,6 @@ import { ArrowRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 
 import { PageHero } from '@/components/landing/PageHero';
-import Navbar          from '@/components/landing/Navbar';
 import { BranchMap }   from '@/components/landing/BranchMap';
 import Footer          from '@/components/landing/Footer';
 
@@ -353,7 +352,6 @@ export default function ContactPage() {
       >
         <script type="application/ld+json">{DRIVING_SCHOOL_JSONLD}</script>
       </PageHead>
-      <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('contactPage.pageOverline')} title={t('contactPage.pageTitle')} />
 

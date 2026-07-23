@@ -5,7 +5,6 @@ import { MapPin, Phone, Clock, Navigation, ArrowRight, MessageCircle } from 'luc
 import { useTranslation } from 'react-i18next';
 
 import { PageHero } from '@/components/landing/PageHero';
-import Navbar     from '@/components/landing/Navbar';
 import { BranchMap } from '@/components/landing/BranchMap';
 import Footer     from '@/components/landing/Footer';
 
@@ -202,7 +201,6 @@ export default function BranchesPage() {
         description="Find a Safe Ride Africa driving school branch near you across Nairobi. Browse all branches with directions, hours, and contact details."
         path="/branches"
       />
-      <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('branchesPage.pageOverline')} title={t('branchesPage.pageTitle')} />
         <BranchDirectory />

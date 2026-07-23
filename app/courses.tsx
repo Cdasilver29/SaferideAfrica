@@ -5,7 +5,6 @@ import { ArrowRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 
 import { PageHero } from '@/components/landing/PageHero';
-import Navbar        from '@/components/landing/Navbar';
 import SeriesGrid    from '@/components/landing/SeriesGrid';
 import Footer        from '@/components/landing/Footer';
 
@@ -65,7 +64,6 @@ export default function CoursesPage() {
         description="Motorcycle, light vehicle, heavy commercial, PSV, and executive driving courses. NTSA-aligned training with a 98% first-try pass rate."
         path="/courses"
       />
-      <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('courses.overline')} title={t('coursesPage.pageTitle')} />
         {/* Five-series image grid; each card expands to reveal its classes */}

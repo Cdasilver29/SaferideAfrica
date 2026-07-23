@@ -9,7 +9,6 @@ import Animated, {
 } from 'react-native-reanimated'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react-native'
 import { useTranslation } from 'react-i18next'
-import Navbar  from '@/components/landing/Navbar'
 import Footer  from '@/components/landing/Footer'
 import { C, F, IS_WEB, MAX_W, GALLERY_IMGS } from '@/components/landing/constants'
 import { ResponsiveImage } from '@/components/ResponsiveImage'
@@ -228,7 +227,6 @@ export default function GalleryPage() {
         description="Photos from Safe Ride Africa training sessions, road practice, and student milestones across our Nairobi branches."
         path="/gallery"
       />
-      <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero />
         <GalleryGrid />

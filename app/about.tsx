@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import Animated, { useSharedValue, useAnimatedStyle, withRepeat, withTiming, withSequence, Easing } from 'react-native-reanimated';
 
 import { PageHero } from '@/components/landing/PageHero';
-import Navbar from '@/components/landing/Navbar';
 import WhyChooseUs from '@/components/landing/WhyChooseUs';
 import WorkProcess from '@/components/landing/WorkProcess';
 import FAQ from '@/components/landing/FAQ';
@@ -385,7 +384,6 @@ export default function AboutPage() {
         description="How Safe Ride Africa became one of Nairobi's most trusted NTSA-certified driving schools, our mission, values, and the team behind the wheel."
         path="/about"
       />
-      <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('aboutPage.pageOverline')} title={t('aboutPage.pageTitle')} />
         {/* Phase H: one-shot fade-and-rise on each section as it enters view */}

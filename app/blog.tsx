@@ -3,7 +3,6 @@ import { View, Text, SafeAreaView, ScrollView, useWindowDimensions } from 'react
 import { useTranslation } from 'react-i18next';
 
 import { PageHero } from '@/components/landing/PageHero';
-import Navbar from '@/components/landing/Navbar';
 import Footer from '@/components/landing/Footer';
 import { ArticleCard } from '@/components/landing/ArticleCard';
 
@@ -82,7 +81,6 @@ export default function BlogPage() {
         description="Practical driving advice, NTSA Smart DL guides, and defensive driving tips from Safe Ride Africa's certified instructors in Nairobi."
         path="/blog"
       />
-      <Navbar />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('blogPage.pageOverline')} title={t('blogPage.title')} />
         <Reveal><ArticleGrid /></Reveal>
