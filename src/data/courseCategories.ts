@@ -5,6 +5,8 @@
  * so no fees and no regulator specifics are published here.
  */
 
+import type { Href } from "expo-router";
+
 export interface CourseCategory {
   id: string;
   /** Licence code shown in the PlateBadge */
@@ -13,7 +15,7 @@ export interface CourseCategory {
   blurb: string;
   audience: "beginner" | "endorsement" | "refresher";
   /** Route within the app, or undefined if the card only opens the enrol modal */
-  href?: string;
+  href?: Href;
 }
 
 export const courseCategories: CourseCategory[] = [

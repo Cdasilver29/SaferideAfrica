@@ -24,7 +24,7 @@ export function CourseCategoriesSection({
   categories?: CourseCategory[];
   loading?: boolean;
 }) {
-  const { openEnrollModal } = useEnrollModal();
+  const { open: openEnrollModal } = useEnrollModal();
   const router = useRouter();
 
   return (

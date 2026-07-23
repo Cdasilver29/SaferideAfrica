@@ -34,6 +34,18 @@ module.exports = {
         'accent-dark':           'rgb(var(--accent-dark) / <alpha-value>)',
         destructive:             'rgb(var(--destructive) / <alpha-value>)',
         'destructive-foreground':'rgb(var(--destructive-foreground) / <alpha-value>)',
+        // UI System v2 palette, mirror of src/ui/tokens.ts (see docs/UI-SYSTEM.md)
+        asphalt: { DEFAULT: '#14181F', 800: '#1E242E', 700: '#2A3140' },
+        chalk:   { DEFAULT: '#F7F8F5', dim: '#ECEEE9' },
+        amber:   { DEFAULT: '#FFB700', deep: '#DF9E00' },
+        signal:  '#1FA85B',
+        ink: {
+          DEFAULT: '#14181F',
+          muted: '#5A6272',
+          'on-dark': '#F7F8F5',
+          'on-dark-muted': '#9AA3B2',
+        },
+        danger: '#D64545',
       },
       fontFamily: {
         sans:    ['Manrope-Regular', 'sans-serif'],
@@ -41,6 +53,12 @@ module.exports = {
         semibold:['Manrope-SemiBold'],
         bold:    ['Manrope-Bold'],
         heading: ['Manrope-Bold'],
+        // UI System v2 typefaces, mirror of src/ui/tokens.ts (see docs/UI-SYSTEM.md)
+        display:          ['Archivo_700Bold'],
+        'display-medium': ['Archivo_600SemiBold'],
+        body:             ['Inter_400Regular'],
+        'body-medium':    ['Inter_500Medium'],
+        'body-bold':      ['Inter_700Bold'],
       },
       // Type scale, [size, lineHeight]. Body 16/24 (1.5), headings tighter.
       fontSize: {

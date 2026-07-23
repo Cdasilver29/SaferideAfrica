@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, Text, View, Linking } from "react-native";
-import { Link } from "expo-router";
+import { Link, type Href } from "expo-router";
 import { Caption } from "../../ui/Typography";
 
 /**
@@ -9,7 +9,7 @@ import { Caption } from "../../ui/Typography";
  * ask, so the footer only navigates.
  */
 
-const COLUMNS: { heading: string; links: { label: string; href: string }[] }[] = [
+const COLUMNS: { heading: string; links: { label: string; href: Href }[] }[] = [
   {
     heading: "Training",
     links: [
@@ -53,7 +53,7 @@ export function FooterV2() {
                 {col.heading}
               </Text>
               {col.links.map((l) => (
-                <Link key={l.href} href={l.href} asChild>
+                <Link key={l.label} href={l.href} asChild>
                   <Pressable accessibilityRole="link" className="mt-3">
                     <Text className="font-body text-base text-chalk">{l.label}</Text>
                   </Pressable>

@@ -15,7 +15,7 @@ import { useRouter } from "expo-router";
  * if the asset fails, so the hero never renders broken.
  */
 export function HeroV2() {
-  const { openEnrollModal } = useEnrollModal();
+  const { open: openEnrollModal } = useEnrollModal();
   const router = useRouter();
   const [imgState, setImgState] = useState<"loading" | "ready" | "error">("loading");
 

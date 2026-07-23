@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Pressable, Text, View, useWindowDimensions } from "react-native";
-import { Link, usePathname } from "expo-router";
+import { Link, usePathname, type Href } from "expo-router";
 import { Menu, X } from "lucide-react-native";
 import { Button } from "../../ui/Button";
 import { color, breakpoint } from "../../ui/tokens";
@@ -28,7 +28,7 @@ function NavLink({
   onPress,
   drawer = false,
 }: {
-  href: string;
+  href: Href;
   label: string;
   active: boolean;
   onPress?: () => void;
@@ -63,7 +63,7 @@ export function HeaderV2() {
   const [open, setOpen] = useState(false);
   const { width } = useWindowDimensions();
   const pathname = usePathname();
-  const { openEnrollModal } = useEnrollModal();
+  const { open: openEnrollModal } = useEnrollModal();
   const isDesktop = width >= breakpoint.md;
 
   return (

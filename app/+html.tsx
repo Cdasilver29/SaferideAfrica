@@ -12,6 +12,13 @@ const FONT_AND_RESET_CSS = `
 @font-face { font-family: 'Manrope-Medium';   src: url('/fonts/Manrope-Medium.ttf')   format('truetype'); font-display: swap; }
 @font-face { font-family: 'Manrope-SemiBold'; src: url('/fonts/Manrope-SemiBold.ttf') format('truetype'); font-display: swap; }
 @font-face { font-family: 'Manrope-Bold';     src: url('/fonts/Manrope-Bold.ttf')     format('truetype'); font-display: swap; }
+/* UI System v2 typefaces: Archivo (display) and Inter (body). Family names
+   match the tailwind fontFamily config and the useFonts keys in _layout.tsx. */
+@font-face { font-family: 'Archivo_700Bold';    src: url('/fonts/Archivo_700Bold.ttf')    format('truetype'); font-display: swap; }
+@font-face { font-family: 'Archivo_600SemiBold'; src: url('/fonts/Archivo_600SemiBold.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'Inter_400Regular';   src: url('/fonts/Inter_400Regular.ttf')   format('truetype'); font-display: swap; }
+@font-face { font-family: 'Inter_500Medium';    src: url('/fonts/Inter_500Medium.ttf')    format('truetype'); font-display: swap; }
+@font-face { font-family: 'Inter_700Bold';      src: url('/fonts/Inter_700Bold.ttf')      format('truetype'); font-display: swap; }
 #root { flex: 1; }
 /* Manrope is the default family for any unstyled web text */
 body { font-family: 'Manrope-Regular', system-ui, sans-serif; }

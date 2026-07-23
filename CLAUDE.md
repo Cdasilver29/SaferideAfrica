@@ -43,6 +43,11 @@ A public marketing and enrollment-lead site for Safe Ride Africa, a Nairobi driv
 - Keep backdrop-filter behind the existing @supports gate in global.css.
 - UI strings go through the i18n t() function.
 
+## UI System v2
+- The full spec is in docs/UI-SYSTEM.md. Read it before touching landing UI.
+- Sections compose the primitives in src/ui. They never hardcode hex colors and never set their own section padding.
+- Content rules hold here too: no pricing on public pages, no branch counts, regulator and NTSA wording stays hedged.
+
 ## Do not change
 - The BRANCHES list in src/data/saferide.ts is the authoritative current set of 12 branches. Do not change it or CLASS_SERIES without my explicit say-so.
 - CLASSES: names, codes, and descriptions stay. Price and lesson-count fields are gone and do not come back.
@@ -51,6 +56,3 @@ A public marketing and enrollment-lead site for Safe Ride Africa, a Nairobi driv
 - Make minimal changes. Do not refactor unrelated code.
 - Commit after each logical chunk with a clear, specific message.
 - Tag the repo at each phase boundary.
-
-## The plans
-Finished: docs/IMPROVEMENT_PLAN.md (Phases 0 to 17b, merged). Active: docs/UI_REVAMP_2.md and the course content in docs/SAFERIDE_COURSE_CONTENT.md. Follow the execution protocol in the plan I name. This file is the standing rules; the plans are the work.

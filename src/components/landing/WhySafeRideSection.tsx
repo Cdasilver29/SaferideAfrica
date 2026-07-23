@@ -64,7 +64,7 @@ export function ApplyCtaSection({
   /** Wire to the existing WhatsApp deep-link helper used by EnrollModal */
   onWhatsApp: () => void;
 }) {
-  const { openEnrollModal } = useEnrollModal();
+  const { open: openEnrollModal } = useEnrollModal();
   return (
     <Section tone="dark">
       <View className="items-center">

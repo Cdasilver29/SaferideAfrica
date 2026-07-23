@@ -5,6 +5,8 @@ import { Stack } from 'expo-router';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
+import { Archivo_700Bold, Archivo_600SemiBold } from '@expo-google-fonts/archivo';
+import { Inter_400Regular, Inter_500Medium, Inter_700Bold } from '@expo-google-fonts/inter';
 import { useColorScheme } from 'nativewind';
 import '../global.css';
 import { EnrollModalProvider } from '../src/context/EnrollModalContext';
@@ -36,17 +38,29 @@ export default function RootLayout() {
   // Web-only smooth view transitions removed so RouteSplash triggers properly
 
 
-  // Web: CSS @font-face in public/index.html handles font loading natively —
-  // passing {} resolves fontsLoaded=true immediately, no JS font loader needed.
-  // Native: expo-font loads the TTF files from assets/fonts/.
+  // UI System v2 typefaces (Archivo display, Inter body). Loaded via the
+  // @expo-google-fonts packages on every platform since, unlike Manrope, they
+  // have no CSS @font-face fallback in public/index.html.
+  const uiV2Fonts = {
+    Archivo_700Bold,
+    Archivo_600SemiBold,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_700Bold,
+  };
+
+  // Web: CSS @font-face in public/index.html handles Manrope natively, so only
+  // the UI v2 fonts need the JS loader there.
+  // Native: expo-font loads the Manrope TTF files from assets/fonts/.
   const [fontsLoaded, fontError] = useFonts(
     IS_WEB
-      ? {}
+      ? uiV2Fonts
       : {
           'Manrope-Regular':  require('../assets/fonts/Manrope-Regular.ttf'),
           'Manrope-Medium':   require('../assets/fonts/Manrope-Medium.ttf'),
           'Manrope-SemiBold': require('../assets/fonts/Manrope-SemiBold.ttf'),
           'Manrope-Bold':     require('../assets/fonts/Manrope-Bold.ttf'),
+          ...uiV2Fonts,
         }
   );
   const { colorScheme, setColorScheme } = useColorScheme();
