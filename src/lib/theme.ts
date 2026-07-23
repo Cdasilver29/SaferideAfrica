@@ -19,6 +19,8 @@ export const brandHex = {
   accent:    '#ffd800',
   ink:       '#221f20',
   onPrimary: '#ffffff',
+  // Derived shade of primary, not a value from the brand book. Added for the
+  // header's secondary tier (the utility bar) which needs a deeper cyan.
   deep:      '#016c9d',
   action:    '#e11d2e',
 } as const;
