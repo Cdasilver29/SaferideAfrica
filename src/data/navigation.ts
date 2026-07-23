@@ -1,62 +1,34 @@
 import type { Href } from "expo-router";
 
 /**
- * Three-tier navigation, modelled on the AA Kenya header structure.
+ * Two navigation sets, mirroring the AA structure:
  *
- * ROUTE REALITY CHECK
- * Typed routes are enabled, so every href must resolve to a file in app/.
- * Items below are split into two lists: EXISTING routes you already have,
- * and PROPOSED items that need a route file created before they can be
- * linked. Do not move a proposed item into the live nav until its page
- * exists, or tsc will fail.
+ *   secondaryNav  deep blue tier, white text   supporting pages
+ *   primaryNav    yellow tier, dark text       main sections
+ *
+ * Every href points at a route that already exists. Typed routes are on,
+ * so adding an item without its file in app/ fails the build.
  */
 
 export interface NavItem {
   label: string;
   href: Href;
-  /** Optional dropdown children. Desktop opens on hover or click, mobile as accordion. */
   children?: { label: string; href: Href }[];
 }
 
 /**
- * TIER 2, utility bar. AA uses this for corporate housekeeping links.
- * SafeRide equivalents, using synonyms rather than AA's exact wording:
- *   AA "Enquiries"          -> "Enquiries"      (same, it is the plain word)
- *   AA "Careers"            -> "Work with us"
- *   AA "Road Safety Awards" -> "Road safety"
- *   AA "Events"             -> "Events"         (same, plain word)
- *   AA "Investor Relations" -> dropped. You are not raising capital publicly,
- *                              so this would be an empty page pretending at scale.
+ * Deep blue tier. AA puts corporate housekeeping here. SafeRide's
+ * equivalent is supporting content that shouldn't crowd the main nav.
+ * Wording is our own, not AA's.
  */
-export const utilityNav: NavItem[] = [
-  // ACTIVE once app/contact.tsx exists, which it already does
+export const secondaryNav: NavItem[] = [
+  { label: "Our services", href: "/services" },
+  { label: "Photos", href: "/gallery" },
+  { label: "News", href: "/blog" },
   { label: "Enquiries", href: "/contact" },
 ];
 
-/** Needs route files created first. Move into utilityNav once the page exists. */
-export const proposedUtilityNav: { label: string; route: string; why: string }[] = [
-  {
-    label: "Work with us",
-    route: "app/careers.tsx",
-    why: "Driving schools hire instructors constantly. AA runs this and it converts.",
-  },
-  {
-    label: "Road safety",
-    route: "app/road-safety.tsx",
-    why: "Free advice content. Strong SEO for a driving school and it earns trust before the sale.",
-  },
-  {
-    label: "Events",
-    route: "app/events.tsx",
-    why: "Only worth it if you actually run driver days or clinics. Skip otherwise.",
-  },
-];
-
-/**
- * TIER 3, primary nav. Your existing routes, regrouped so the bar holds
- * one line instead of wrapping to two. Gallery and Blog move under About,
- * which is where AA puts Gallery too.
- */
+/** Yellow tier. The five main sections, dark text. */
 export const primaryNav: NavItem[] = [
   { label: "Home", href: "/" },
   {
@@ -64,8 +36,8 @@ export const primaryNav: NavItem[] = [
     href: "/about",
     children: [
       { label: "Our story", href: "/about" },
-      { label: "Gallery", href: "/gallery" },
-      { label: "Blog", href: "/blog" },
+      { label: "Photo gallery", href: "/gallery" },
+      { label: "News and updates", href: "/blog" },
     ],
   },
   {
@@ -73,7 +45,7 @@ export const primaryNav: NavItem[] = [
     href: "/courses",
     children: [
       { label: "All courses", href: "/courses" },
-      { label: "Services", href: "/services" },
+      { label: "What we offer", href: "/services" },
     ],
   },
   { label: "Branches", href: "/branches" },
@@ -81,31 +53,14 @@ export const primaryNav: NavItem[] = [
 ];
 
 /**
- * Proposed primary-nav children, adapted from AA's driving school menu.
- * Each needs a route file before linking.
+ * Pages worth adding, adapted from AA's menu with our own wording.
+ * Each needs its route file before it can be linked.
  *
- *   AA "Driver Assessment" -> "Driver assessment"
- *       Companies send prospective hires for testing before employment.
- *       This is real B2B revenue and you have the instructors for it.
- *   AA "Premier Driving"   -> "Private tuition"
- *       One-to-one lessons at a premium rate.
- *   AA "AA Institute"      -> "Corporate training"
- *       Defensive driving for company fleets.
+ *   Work with us        app/careers.tsx            you hire instructors constantly
+ *   Road safety         app/road-safety.tsx        free advice, strong SEO, earns trust
+ *   Driver assessment   app/driver-assessment.tsx  employers testing hires, B2B revenue
+ *   Private tuition     app/private-tuition.tsx    premium one-to-one lessons
+ *   Corporate training  app/corporate-training.tsx defensive driving for fleets
+ *
+ * Investor relations deliberately excluded. You are not raising publicly.
  */
-export const proposedCourseChildren: { label: string; route: string; why: string }[] = [
-  {
-    label: "Driver assessment",
-    route: "app/driver-assessment.tsx",
-    why: "B2B: employers testing hires. Highest-margin item on AA's driving school menu.",
-  },
-  {
-    label: "Private tuition",
-    route: "app/private-tuition.tsx",
-    why: "Premium one-to-one lessons, flexible scheduling.",
-  },
-  {
-    label: "Corporate training",
-    route: "app/corporate-training.tsx",
-    why: "Defensive driving for fleets. Recurring contracts rather than one-off learners.",
-  },
-];

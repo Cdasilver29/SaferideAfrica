@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Image,
   Linking,
-  Modal,
   Platform,
   Pressable,
   ScrollView,
@@ -23,21 +22,29 @@ import {
   type LucideIcon,
 } from "lucide-react-native";
 import { brand } from "../../ui/tokens";
-import { primaryNav, utilityNav, NavItem } from "../../data/navigation";
+import { primaryNav, secondaryNav, NavItem } from "../../data/navigation";
 
 /**
- * HeaderV3, two tiers.
+ * HeaderV3, three tiers, modelled on AA's value rhythm: light, dark, bright.
  *
- *   Tier 1  brand-deep     logo, wordmark, socials, language, theme   ~64px
- *   Tier 2  brand-primary  nav with icons and dropdowns, CTAs         ~52px
+ *   Tier 1  brand-primary  logo, wordmark, socials, language, theme
+ *   Tier 2  brand-deep     secondary nav, white text          5.78:1
+ *   Tier 3  brand-accent   primary nav, dark text, CTAs       ~15:1
  *
- * Three tiers was too much furniture for a nav carrying five items.
- * Merging the utility row into tier 1 halves the height while keeping
- * every control reachable.
+ * WHY DARK TEXT ON YELLOW: white on the brand yellow measures about
+ * 1.1:1, which is unreadable. AA's own yellow bar uses dark text for the
+ * same reason. Dark ink on yellow clears 15:1.
  *
- * IMAGE SIZING: dimensions go through the style prop, never className.
- * NativeWind h- and w- classes do not reliably apply to Image on web,
- * which is what made the logo render at its natural size.
+ * THREE BUGS FIXED FROM THE PREVIOUS VERSION:
+ * 1. Dropdown parents are no longer wrapped in Link. The Link consumed
+ *    the press and navigated before the toggle could fire, so panels
+ *    never opened.
+ * 2. The mobile drawer no longer uses Modal. React Native's Modal is
+ *    unreliable on web and presentationStyle is iOS-only, so the drawer
+ *    rendered empty. It is now an absolutely positioned overlay.
+ * 3. Image dimensions and corner radius go through the style prop.
+ *    NativeWind h-, w- and rounded- classes do not reliably apply to
+ *    Image on web, which is what made the logo render at natural size.
  */
 
 export interface HeaderV3Props {
@@ -61,62 +68,93 @@ const NAV_ICONS: Record<string, LucideIcon> = {
   "Get in touch": Phone,
 };
 
-const LOGO_DESKTOP = { width: 44, height: 44 };
-const LOGO_MOBILE = { width: 38, height: 38 };
+const LOGO_DESKTOP = { width: 52, height: 52, borderRadius: 13 };
+const LOGO_MOBILE = { width: 44, height: 44, borderRadius: 11 };
 
 function Wordmark({ compact = false }: { compact?: boolean }) {
   return (
     <View>
       <Text
         className={`font-display ${
-          compact ? "text-base" : "text-lg"
+          compact ? "text-lg" : "text-xl"
         } leading-tight text-brand-accent`}
       >
         Safe Ride Africa
       </Text>
-      <Text className="font-body text-[9px] uppercase tracking-[0.22em] text-white/70">
+      <Text className="font-body text-[9px] uppercase tracking-[0.22em] text-white/80">
         Safety beyond
       </Text>
     </View>
   );
 }
 
+/**
+ * Yellow-tier nav item. Items with children render as a button, not a
+ * link, so the press toggles the panel instead of navigating. The
+ * section's own landing page stays reachable as the first child.
+ */
 function PrimaryNavItem({ item, active }: { item: NavItem; active: boolean }) {
   const [open, setOpen] = useState(false);
   const Icon = NAV_ICONS[item.label];
   const hasChildren = !!item.children?.length;
 
+  const hoverProps =
+    Platform.OS === "web" && hasChildren
+      ? { onHoverIn: () => setOpen(true), onHoverOut: () => setOpen(false) }
+      : {};
+
+  const inner = (
+    <>
+      {Icon ? <Icon size={16} color={brand.ink} /> : null}
+      <Text
+        className={`font-body-bold text-[13px] uppercase tracking-wide ${
+          active ? "text-brand-deep" : "text-brand-ink"
+        }`}
+      >
+        {item.label}
+      </Text>
+      {hasChildren ? (
+        <ChevronDown
+          size={14}
+          color={brand.ink}
+          style={{ transform: [{ rotate: open ? "180deg" : "0deg" }] }}
+        />
+      ) : null}
+    </>
+  );
+
+  const pressableClass =
+    "flex-row items-center gap-1.5 rounded-sm px-3 py-3.5 web:outline-none web:focus-visible:ring-2 web:focus-visible:ring-brand-ink";
+
   return (
-    <View
-      className="relative"
-      {...(Platform.OS === "web" && hasChildren
-        ? { onPointerEnter: () => setOpen(true), onPointerLeave: () => setOpen(false) }
-        : {})}
-    >
-      <Link href={item.href} asChild>
+    <View className="relative" {...hoverProps}>
+      {hasChildren ? (
         <Pressable
-          accessibilityRole="link"
-          accessibilityState={{ selected: active }}
-          onPress={hasChildren ? () => setOpen((v) => !v) : undefined}
-          className="flex-row items-center gap-1.5 rounded-sm px-3 py-3 web:outline-none web:focus-visible:ring-2 web:focus-visible:ring-brand-ink"
-          {...(Platform.OS === "web" && hasChildren
+          accessibilityRole="button"
+          accessibilityLabel={`${item.label} menu`}
+          accessibilityState={{ expanded: open }}
+          onPress={() => setOpen((v) => !v)}
+          className={pressableClass}
+          {...(Platform.OS === "web"
             ? { "aria-haspopup": "menu" as const, "aria-expanded": open }
             : {})}
         >
-          {Icon ? <Icon size={16} color={brand.ink} /> : null}
-          <Text
-            className={`font-body-bold text-[13px] uppercase tracking-wide ${
-              active ? "text-brand-deep" : "text-brand-ink"
-            }`}
-          >
-            {item.label}
-          </Text>
-          {hasChildren ? <ChevronDown size={14} color={brand.ink} /> : null}
+          {inner}
         </Pressable>
-      </Link>
+      ) : (
+        <Link href={item.href} asChild>
+          <Pressable
+            accessibilityRole="link"
+            accessibilityState={{ selected: active }}
+            className={pressableClass}
+          >
+            {inner}
+          </Pressable>
+        </Link>
+      )}
 
       {hasChildren && open ? (
-        <View className="absolute left-0 top-full z-50 min-w-[210px] rounded-b-md border border-black/10 bg-white py-1.5 shadow-lg">
+        <View className="absolute left-0 top-full z-50 min-w-[220px] rounded-b-md border border-black/10 bg-white py-1.5 shadow-lg">
           {item.children!.map((child) => (
             <Link key={child.label} href={child.href} asChild>
               <Pressable
@@ -152,7 +190,7 @@ export function HeaderV3({
 
   if (!isDesktop) {
     return (
-      <View className="bg-brand-deep">
+      <View className="bg-brand-primary">
         <View className="flex-row items-center justify-between px-4 py-2.5">
           <Link href="/" asChild>
             <Pressable
@@ -174,13 +212,16 @@ export function HeaderV3({
           </Pressable>
         </View>
 
-        <Modal
-          visible={drawer}
-          animationType="slide"
-          onRequestClose={() => setDrawer(false)}
-          presentationStyle="fullScreen"
-        >
-          <View className="flex-1 bg-brand-deep">
+        {/* Overlay drawer. Not a Modal: RN Modal is unreliable on web. */}
+        {drawer ? (
+          <View
+            className="absolute inset-0 z-[100] bg-brand-deep"
+            style={
+              Platform.OS === "web"
+                ? ({ position: "fixed", height: "100vh" } as never)
+                : undefined
+            }
+          >
             <View className="flex-row items-center justify-between px-4 py-2.5">
               <View className="flex-row items-center gap-2.5">
                 <Image source={logoSource} style={LOGO_MOBILE} resizeMode="contain" />
@@ -196,7 +237,7 @@ export function HeaderV3({
               </Pressable>
             </View>
 
-            <ScrollView className="flex-1 px-4">
+            <ScrollView className="flex-1 px-4" contentContainerClassName="pb-16">
               {primaryNav.map((item) => {
                 const Icon = NAV_ICONS[item.label];
                 const isOpen = expanded === item.label;
@@ -255,7 +296,7 @@ export function HeaderV3({
                 );
               })}
 
-              {utilityNav.map((item) => (
+              {secondaryNav.map((item) => (
                 <Link key={item.label} href={item.href} asChild>
                   <Pressable
                     accessibilityRole="link"
@@ -302,7 +343,7 @@ export function HeaderV3({
                 </Pressable>
               </View>
 
-              <View className="mt-8 flex-row justify-center gap-4 pb-10">
+              <View className="mt-8 flex-row flex-wrap justify-center gap-4">
                 {socials.map(({ label, url, Icon }) => (
                   <Pressable
                     key={label}
@@ -317,7 +358,7 @@ export function HeaderV3({
               </View>
             </ScrollView>
           </View>
-        </Modal>
+        ) : null}
       </View>
     );
   }
@@ -325,7 +366,7 @@ export function HeaderV3({
   return (
     <View>
       {/* Tier 1, brand strip */}
-      <View className="bg-brand-deep">
+      <View className="bg-brand-primary">
         <View className="mx-auto w-full max-w-7xl flex-row items-center justify-between px-6 py-2.5">
           <Link href="/" asChild>
             <Pressable
@@ -345,7 +386,7 @@ export function HeaderV3({
                 onPress={() => Linking.openURL(url)}
                 accessibilityRole="link"
                 accessibilityLabel={`Safe Ride Africa on ${label}`}
-                className="h-8 w-8 items-center justify-center rounded-full bg-white/15 web:transition-colors web:hover:bg-white/30 web:focus-visible:ring-2 web:focus-visible:ring-white"
+                className="h-8 w-8 items-center justify-center rounded-full bg-white/20 web:transition-colors web:hover:bg-white/35 web:focus-visible:ring-2 web:focus-visible:ring-white"
               >
                 <Icon size={16} color="#FFFFFF" />
               </Pressable>
@@ -358,8 +399,27 @@ export function HeaderV3({
         </View>
       </View>
 
-      {/* Tier 2, primary nav */}
-      <View className="bg-brand-primary">
+      {/* Tier 2, secondary nav, white on deep blue */}
+      <View className="bg-brand-deep">
+        <View className="mx-auto w-full max-w-7xl flex-row items-center px-6">
+          {secondaryNav.map((item) => (
+            <Link key={item.label} href={item.href} asChild>
+              <Pressable
+                accessibilityRole="link"
+                accessibilityState={{ selected: pathname === item.href }}
+                className="rounded-sm px-4 py-2.5 web:transition-colors web:hover:bg-white/10 web:outline-none web:focus-visible:ring-2 web:focus-visible:ring-brand-accent"
+              >
+                <Text className="font-body-bold text-xs uppercase tracking-[0.12em] text-white">
+                  {item.label}
+                </Text>
+              </Pressable>
+            </Link>
+          ))}
+        </View>
+      </View>
+
+      {/* Tier 3, primary nav, dark on yellow */}
+      <View className="bg-brand-accent">
         <View className="mx-auto w-full max-w-7xl flex-row items-center justify-between px-6">
           <View className="flex-row items-center">
             {primaryNav.map((item) => (
@@ -369,18 +429,6 @@ export function HeaderV3({
                 active={pathname === item.href}
               />
             ))}
-            {utilityNav.map((item) => (
-              <Link key={item.label} href={item.href} asChild>
-                <Pressable
-                  accessibilityRole="link"
-                  className="rounded-sm px-3 py-3 web:focus-visible:ring-2 web:focus-visible:ring-brand-ink"
-                >
-                  <Text className="font-body-bold text-[13px] uppercase tracking-wide text-brand-ink">
-                    {item.label}
-                  </Text>
-                </Pressable>
-              </Link>
-            ))}
           </View>
 
           <View className="flex-row items-center gap-2.5 py-1.5">
@@ -388,7 +436,7 @@ export function HeaderV3({
               onPress={onCallNow}
               accessibilityRole="button"
               accessibilityLabel="Call Safe Ride Africa now"
-              className="h-9 flex-row items-center rounded-pill bg-brand-action px-4 web:transition-opacity web:hover:opacity-90 web:focus-visible:ring-2 web:focus-visible:ring-white"
+              className="h-9 flex-row items-center rounded-pill bg-brand-action px-4 web:transition-opacity web:hover:opacity-90 web:focus-visible:ring-2 web:focus-visible:ring-brand-ink"
             >
               <Phone size={15} color="#FFFFFF" />
               <Text className="ml-1.5 font-body-bold text-[13px] text-white">
@@ -398,11 +446,9 @@ export function HeaderV3({
             <Pressable
               onPress={onEnrol}
               accessibilityRole="button"
-              className="h-9 items-center justify-center rounded-pill bg-brand-accent px-5 web:transition-opacity web:hover:opacity-90 web:focus-visible:ring-2 web:focus-visible:ring-white"
+              className="h-9 items-center justify-center rounded-pill bg-brand-deep px-5 web:transition-opacity web:hover:opacity-90 web:focus-visible:ring-2 web:focus-visible:ring-brand-ink"
             >
-              <Text className="font-body-bold text-[13px] text-brand-ink">
-                Enrol now
-              </Text>
+              <Text className="font-body-bold text-[13px] text-white">Enrol now</Text>
             </Pressable>
           </View>
         </View>
