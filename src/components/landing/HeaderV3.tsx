@@ -21,7 +21,7 @@ import {
   X,
   type LucideIcon,
 } from "lucide-react-native";
-import { brand } from "../../ui/tokens";
+import { brand } from "../../lib/tokens";
 import { primaryNav, secondaryNav, NavItem } from "../../data/navigation";
 
 /**

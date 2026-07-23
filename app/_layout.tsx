@@ -21,7 +21,7 @@ import {
   WhatsAppIcon, FacebookIcon, TwitterXIcon, TikTokIcon, InstagramIcon, YouTubeIcon,
 } from '../src/components/SocialIcons';
 import { COMPANY, SOCIALS } from '../src/data/saferide';
-import { brand } from '../src/ui/tokens';
+import { brand } from '../src/lib/tokens';
 
 SplashScreen.preventAutoHideAsync();
 
