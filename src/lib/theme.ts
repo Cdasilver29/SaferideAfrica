@@ -4,32 +4,51 @@
  */
 import { useColorScheme } from 'nativewind';
 
+/**
+ * Raw brand hues. THE single source of truth for every brand hex in the app.
+ * These are theme-invariant (identical in light and dark). The LIGHT/DARK maps
+ * below reference them, and so does the `brand` token in tokens.ts, so each
+ * brand hex is written down exactly once, here.
+ *
+ * `deep` and `action` have no semantic-theme role; they exist only for the
+ * HeaderV3 brand palette (utility-bar cyan and the Call Now red) but live here
+ * so the brand palette stays single-sourced.
+ */
+export const brandHex = {
+  primary:   '#01a5f0',
+  accent:    '#ffd800',
+  ink:       '#221f20',
+  onPrimary: '#ffffff',
+  deep:      '#016c9d',
+  action:    '#e11d2e',
+} as const;
+
 const LIGHT = {
-  background:      '#ffffff',
-  foreground:      '#221f20',
-  card:            '#ffffff',
-  cardForeground:  '#221f20',
-  muted:           '#ffffff',
+  background:      brandHex.onPrimary,
+  foreground:      brandHex.ink,
+  card:            brandHex.onPrimary,
+  cardForeground:  brandHex.ink,
+  muted:           brandHex.onPrimary,
   mutedForeground: 'rgba(34,31,32,0.6)',
   border:          'rgba(34,31,32,0.1)',
-  primary:         '#01a5f0',
-  primaryFg:       '#ffffff',
-  accent:          '#ffd800',
-  accentDark:      '#221f20',
+  primary:         brandHex.primary,
+  primaryFg:       brandHex.onPrimary,
+  accent:          brandHex.accent,
+  accentDark:      brandHex.ink,
 } as const;
 
 const DARK = {
-  background:      '#221f20',
-  foreground:      '#ffffff',
+  background:      brandHex.ink,
+  foreground:      brandHex.onPrimary,
   card:            'rgba(255,255,255,0.06)',
-  cardForeground:  '#ffffff',
+  cardForeground:  brandHex.onPrimary,
   muted:           'rgba(255,255,255,0.06)',
   mutedForeground: 'rgba(255,255,255,0.7)',
   border:          'rgba(255,255,255,0.15)',
-  primary:         '#01a5f0',
-  primaryFg:       '#ffffff',
-  accent:          '#ffd800',
-  accentDark:      '#221f20',
+  primary:         brandHex.primary,
+  primaryFg:       brandHex.onPrimary,
+  accent:          brandHex.accent,
+  accentDark:      brandHex.ink,
 } as const;
 
 export type Theme = {
