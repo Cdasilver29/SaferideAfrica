@@ -1,4 +1,5 @@
 import type { Href } from "expo-router";
+import { SERVICES } from "./saferide";
 
 /**
  * Two navigation sets, mirroring the AA structure:
@@ -22,7 +23,6 @@ export interface NavItem {
  * Wording is our own, not AA's.
  */
 export const secondaryNav: NavItem[] = [
-  { label: "Our services", href: "/services" },
   { label: "Photos", href: "/gallery" },
   { label: "News", href: "/blog" },
   { label: "Enquiries", href: "/contact" },
@@ -47,6 +47,14 @@ export const primaryNav: NavItem[] = [
       { label: "All courses", href: "/courses" },
       { label: "What we offer", href: "/services" },
     ],
+  },
+  {
+    label: "Services",
+    href: "/services",
+    children: SERVICES.map((svc) => ({
+      label: svc.name,
+      href: { pathname: "/services/[code]", params: { code: svc.code } },
+    })),
   },
   { label: "Branches", href: "/branches" },
   { label: "Get in touch", href: "/contact" },

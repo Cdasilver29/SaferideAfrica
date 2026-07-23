@@ -16,6 +16,7 @@ import {
   GraduationCap,
   MapPin,
   Phone,
+  Wrench,
   ChevronDown,
   Menu,
   X,
@@ -64,6 +65,7 @@ const NAV_ICONS: Record<string, LucideIcon> = {
   Home,
   "About us": Info,
   "Driving school": GraduationCap,
+  Services: Wrench,
   Branches: MapPin,
   "Get in touch": Phone,
 };
@@ -97,6 +99,15 @@ function PrimaryNavItem({ item, active }: { item: NavItem; active: boolean }) {
   const [open, setOpen] = useState(false);
   const Icon = NAV_ICONS[item.label];
   const hasChildren = !!item.children?.length;
+
+  // Panels with more than six children split into two even columns; About
+  // us and Driving school stay single-column.
+  const childItems = item.children ?? [];
+  const twoColumn = childItems.length > 6;
+  const mid = Math.ceil(childItems.length / 2);
+  const columns = twoColumn
+    ? [childItems.slice(0, mid), childItems.slice(mid)]
+    : [childItems];
 
   const hoverProps =
     Platform.OS === "web" && hasChildren
@@ -154,19 +165,26 @@ function PrimaryNavItem({ item, active }: { item: NavItem; active: boolean }) {
       )}
 
       {hasChildren && open ? (
-        <View className="absolute left-0 top-full z-50 min-w-[220px] rounded-b-md border border-black/10 bg-white py-1.5 shadow-lg">
-          {item.children!.map((child) => (
-            <Link key={child.label} href={child.href} asChild>
-              <Pressable
-                accessibilityRole="link"
-                onPress={() => setOpen(false)}
-                className="px-4 py-2.5 web:hover:bg-black/5 web:focus-visible:bg-black/5"
-              >
-                <Text className="font-body-medium text-sm text-brand-ink">
-                  {child.label}
-                </Text>
-              </Pressable>
-            </Link>
+        <View
+          className="absolute left-0 top-full z-50 flex-row rounded-b-md border border-black/10 bg-white py-1.5 shadow-lg"
+          style={{ width: twoColumn ? 440 : 220 }}
+        >
+          {columns.map((col, colIndex) => (
+            <View key={colIndex} className="flex-1">
+              {col.map((child) => (
+                <Link key={child.label} href={child.href} asChild>
+                  <Pressable
+                    accessibilityRole="link"
+                    onPress={() => setOpen(false)}
+                    className="px-4 py-2.5 web:hover:bg-black/5 web:focus-visible:bg-black/5"
+                  >
+                    <Text className="font-body-medium text-sm text-brand-ink">
+                      {child.label}
+                    </Text>
+                  </Pressable>
+                </Link>
+              ))}
+            </View>
           ))}
         </View>
       ) : null}
