@@ -95,10 +95,22 @@ function Wordmark({ compact = false }: { compact?: boolean }) {
  * link, so the press toggles the panel instead of navigating. The
  * section's own landing page stays reachable as the first child.
  */
-function PrimaryNavItem({ item, active }: { item: NavItem; active: boolean }) {
-  const [open, setOpen] = useState(false);
+function PrimaryNavItem({
+  item,
+  active,
+  isOpen,
+  onOpen,
+  onClose,
+}: {
+  item: NavItem;
+  active: boolean;
+  isOpen: boolean;
+  onOpen: (label: string) => void;
+  onClose: () => void;
+}) {
   const Icon = NAV_ICONS[item.label];
   const hasChildren = !!item.children?.length;
+  const isWeb = Platform.OS === "web";
 
   // Panels with more than six children split into two even columns; About
   // us and Driving school stay single-column.
@@ -109,9 +121,11 @@ function PrimaryNavItem({ item, active }: { item: NavItem; active: boolean }) {
     ? [childItems.slice(0, mid), childItems.slice(mid)]
     : [childItems];
 
+  // On web, hover is the only trigger, matching AA. Touch devices have no
+  // hover, so there the button press toggles the panel.
   const hoverProps =
-    Platform.OS === "web" && hasChildren
-      ? { onHoverIn: () => setOpen(true), onHoverOut: () => setOpen(false) }
+    isWeb && hasChildren
+      ? { onHoverIn: () => onOpen(item.label), onHoverOut: () => onClose() }
       : {};
 
   const inner = (
@@ -128,7 +142,7 @@ function PrimaryNavItem({ item, active }: { item: NavItem; active: boolean }) {
         <ChevronDown
           size={14}
           color={brand.ink}
-          style={{ transform: [{ rotate: open ? "180deg" : "0deg" }] }}
+          style={{ transform: [{ rotate: isOpen ? "180deg" : "0deg" }] }}
         />
       ) : null}
     </>
@@ -138,16 +152,24 @@ function PrimaryNavItem({ item, active }: { item: NavItem; active: boolean }) {
     "flex-row items-center gap-1.5 rounded-sm px-3 py-3.5 web:outline-none web:focus-visible:ring-2 web:focus-visible:ring-brand-ink";
 
   return (
-    <View className="relative" {...hoverProps}>
+    <View
+      className="relative"
+      style={
+        Platform.OS === "web" ? { overflow: "visible", zIndex: 30 } : undefined
+      }
+      {...hoverProps}
+    >
       {hasChildren ? (
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={`${item.label} menu`}
-          accessibilityState={{ expanded: open }}
-          onPress={() => setOpen((v) => !v)}
+          accessibilityState={{ expanded: isOpen }}
+          onPress={
+            isWeb ? undefined : () => (isOpen ? onClose() : onOpen(item.label))
+          }
           className={pressableClass}
-          {...(Platform.OS === "web"
-            ? { "aria-haspopup": "menu" as const, "aria-expanded": open }
+          {...(isWeb
+            ? { "aria-haspopup": "menu" as const, "aria-expanded": isOpen }
             : {})}
         >
           {inner}
@@ -164,7 +186,7 @@ function PrimaryNavItem({ item, active }: { item: NavItem; active: boolean }) {
         </Link>
       )}
 
-      {hasChildren && open ? (
+      {hasChildren && isOpen ? (
         <View
           className="absolute left-0 top-full z-50 flex-row rounded-b-md border border-black/10 bg-white py-1.5 shadow-lg"
           style={{ width: twoColumn ? 440 : 220 }}
@@ -175,7 +197,7 @@ function PrimaryNavItem({ item, active }: { item: NavItem; active: boolean }) {
                 <Link key={child.label} href={child.href} asChild>
                   <Pressable
                     accessibilityRole="link"
-                    onPress={() => setOpen(false)}
+                    onPress={() => onClose()}
                     className="px-4 py-2.5 web:hover:bg-black/5 web:focus-visible:bg-black/5"
                   >
                     <Text className="font-body-medium text-sm text-brand-ink">
@@ -202,6 +224,7 @@ export function HeaderV3({
 }: HeaderV3Props) {
   const [drawer, setDrawer] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   const { width } = useWindowDimensions();
   const pathname = usePathname();
   const isDesktop = width >= 1024;
@@ -382,7 +405,11 @@ export function HeaderV3({
   }
 
   return (
-    <View>
+    <View
+      style={
+        Platform.OS === "web" ? { overflow: "visible", zIndex: 30 } : undefined
+      }
+    >
       {/* Tier 1, brand strip */}
       <View className="bg-brand-primary">
         <View className="mx-auto w-full max-w-7xl flex-row items-center justify-between px-6 py-2.5">
@@ -437,14 +464,36 @@ export function HeaderV3({
       </View>
 
       {/* Tier 3, primary nav, dark on yellow */}
-      <View className="bg-brand-accent">
-        <View className="mx-auto w-full max-w-7xl flex-row items-center justify-between px-6">
-          <View className="flex-row items-center">
+      <View
+        className="bg-brand-accent"
+        style={
+          Platform.OS === "web" ? { overflow: "visible", zIndex: 30 } : undefined
+        }
+      >
+        <View
+          className="mx-auto w-full max-w-7xl flex-row items-center justify-between px-6"
+          style={
+            Platform.OS === "web"
+              ? { overflow: "visible", zIndex: 30 }
+              : undefined
+          }
+        >
+          <View
+            className="flex-row items-center"
+            style={
+              Platform.OS === "web"
+                ? { overflow: "visible", zIndex: 30 }
+                : undefined
+            }
+          >
             {primaryNav.map((item) => (
               <PrimaryNavItem
                 key={item.label}
                 item={item}
                 active={pathname === item.href}
+                isOpen={openMenu === item.label}
+                onOpen={setOpenMenu}
+                onClose={() => setOpenMenu(null)}
               />
             ))}
           </View>

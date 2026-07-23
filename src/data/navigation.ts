@@ -45,7 +45,6 @@ export const primaryNav: NavItem[] = [
     href: "/courses",
     children: [
       { label: "All courses", href: "/courses" },
-      { label: "What we offer", href: "/services" },
     ],
   },
   {
