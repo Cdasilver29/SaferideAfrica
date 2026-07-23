@@ -34,10 +34,14 @@ export const primaryNav: NavItem[] = [
   {
     label: "About us",
     href: "/about",
+    // Hrefs cast to Href: expo-router's typed-route generation emits backslash
+    // paths on Windows, so a forward-slash literal fails the strict check.
     children: [
-      { label: "Our story", href: "/about" },
-      { label: "Photo gallery", href: "/gallery" },
-      { label: "News and updates", href: "/blog" },
+      { label: "Our story", href: "/about/story" as Href },
+      { label: "Mission and values", href: "/about/values" as Href },
+      { label: "Why choose us", href: "/about/why-us" as Href },
+      { label: "How we work", href: "/about/how-we-work" as Href },
+      { label: "FAQ", href: "/about/faq" as Href },
     ],
   },
   {

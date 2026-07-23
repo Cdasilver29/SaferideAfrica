@@ -482,6 +482,50 @@
         "instructors": "NTSA-certified instructors",
         "curriculum": "Structured, NTSA-aligned curriculum"
       }
+    },
+    "hubIntro": "Safe Ride Africa is an NTSA-registered driving school with branches across Nairobi. Explore our story, the values that guide us, why students choose us, how we work, and answers to common questions.",
+    "cards": {
+      "learnMore": "Learn more",
+      "story": {
+        "title": "Our Story",
+        "desc": "How we started and grew into a trusted Nairobi driving school."
+      },
+      "values": {
+        "title": "Mission & Values",
+        "desc": "The vision, mission, and core values that guide every lesson."
+      },
+      "whyUs": {
+        "title": "Why Choose Us",
+        "desc": "What sets our training, instructors, and results apart."
+      },
+      "howWeWork": {
+        "title": "How We Work",
+        "desc": "The step-by-step journey from enquiry to licence."
+      },
+      "faq": {
+        "title": "FAQ",
+        "desc": "Answers to the questions students ask us most."
+      }
+    },
+    "story": {
+      "overline": "Our Story",
+      "title": "How We Got Here"
+    },
+    "values": {
+      "overline": "Mission & Values",
+      "title": "What Drives Us"
+    },
+    "whyUs": {
+      "overline": "Why Choose Us",
+      "title": "Why Safe Ride Africa"
+    },
+    "howWeWork": {
+      "overline": "How We Work",
+      "title": "Your Journey With Us"
+    },
+    "faq": {
+      "overline": "FAQ",
+      "title": "Frequently Asked Questions"
     }
   },
 

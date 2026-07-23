@@ -145,6 +145,11 @@ export default function RootLayout() {
               <Stack screenOptions={{ headerShown: false, animation: 'fade' }}>
                 <Stack.Screen name="index" />
                 <Stack.Screen name="about" />
+                <Stack.Screen name="about/story" />
+                <Stack.Screen name="about/values" />
+                <Stack.Screen name="about/why-us" />
+                <Stack.Screen name="about/how-we-work" />
+                <Stack.Screen name="about/faq" />
                 <Stack.Screen name="courses" />
                 <Stack.Screen name="services" />
                 <Stack.Screen name="branches" />
