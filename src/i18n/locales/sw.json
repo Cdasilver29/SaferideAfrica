@@ -490,6 +490,26 @@
         "instructors": "Wakufunzi waliothibitishwa na NTSA",
         "curriculum": "Mtaala uliopangwa unaolingana na NTSA"
       }
+    },
+    "story": {
+      "overline": "Hadithi Yetu",
+      "title": "Tulivyofika Hapa"
+    },
+    "values": {
+      "overline": "Dhamira na Maadili",
+      "title": "Kinachotusukuma"
+    },
+    "whyUs": {
+      "overline": "Kwa Nini Utuchague",
+      "title": "Kwa Nini Safe Ride Africa"
+    },
+    "howWeWork": {
+      "overline": "Jinsi Tunavyofanya Kazi",
+      "title": "Safari Yako Nasi"
+    },
+    "faq": {
+      "overline": "Maswali",
+      "title": "Maswali Yanayoulizwa Mara kwa Mara"
     }
   },
 

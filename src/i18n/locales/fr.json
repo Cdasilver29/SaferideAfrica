@@ -490,6 +490,26 @@
         "instructors": "Moniteurs certifiés NTSA",
         "curriculum": "Programme structuré aligné sur la NTSA"
       }
+    },
+    "story": {
+      "overline": "Notre Histoire",
+      "title": "Comment nous en sommes arrivés là"
+    },
+    "values": {
+      "overline": "Mission et Valeurs",
+      "title": "Ce qui nous motive"
+    },
+    "whyUs": {
+      "overline": "Pourquoi nous choisir",
+      "title": "Pourquoi Safe Ride Africa"
+    },
+    "howWeWork": {
+      "overline": "Comment nous travaillons",
+      "title": "Votre parcours avec nous"
+    },
+    "faq": {
+      "overline": "FAQ",
+      "title": "Questions fréquentes"
     }
   },
 

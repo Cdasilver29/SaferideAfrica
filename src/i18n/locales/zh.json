@@ -490,6 +490,26 @@
         "instructors": "NTSA认证教练",
         "curriculum": "系统化的NTSA标准课程"
       }
+    },
+    "story": {
+      "overline": "我们的故事",
+      "title": "我们的成长历程"
+    },
+    "values": {
+      "overline": "使命与价值观",
+      "title": "我们的初心"
+    },
+    "whyUs": {
+      "overline": "为何选择我们",
+      "title": "为何选择 Safe Ride Africa"
+    },
+    "howWeWork": {
+      "overline": "我们的工作方式",
+      "title": "您与我们的旅程"
+    },
+    "faq": {
+      "overline": "常见问题",
+      "title": "常见问题解答"
     }
   },
 
