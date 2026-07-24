@@ -387,8 +387,9 @@ export function HeaderV3({
                       ) : null}
                     </View>
 
-                    {isOpen
-                      ? item.children!.map((child) => (
+                    {isOpen ? (
+                      <>
+                        {item.children?.map((child) => (
                           <Link key={child.label} href={child.href} asChild>
                             <Pressable
                               accessibilityRole="link"
@@ -400,8 +401,30 @@ export function HeaderV3({
                               </Text>
                             </Pressable>
                           </Link>
-                        ))
-                      : null}
+                        ))}
+                        {/* Grouped classes: series heading then its classes. */}
+                        {item.groups?.map((group) => (
+                          <View key={group.label} className="pb-1 pt-2">
+                            <Text className="pb-1 pl-9 font-body-bold text-xs uppercase tracking-[0.1em] text-white/50">
+                              {group.label}
+                            </Text>
+                            {group.items.map((gi) => (
+                              <Link key={gi.label} href={gi.href} asChild>
+                                <Pressable
+                                  accessibilityRole="link"
+                                  onPress={() => setDrawer(false)}
+                                  className="py-3 pl-9"
+                                >
+                                  <Text className="font-body text-base text-white/85">
+                                    {gi.label}
+                                  </Text>
+                                </Pressable>
+                              </Link>
+                            ))}
+                          </View>
+                        ))}
+                      </>
+                    ) : null}
                   </View>
                 );
               })}
