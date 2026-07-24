@@ -3,7 +3,7 @@ import { ScrollView, SafeAreaView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { PageHero } from '@/components/landing/PageHero';
-import { AboutOpener, CompanyStory } from '@/components/landing/AboutSections';
+import { CompanyStory } from '@/components/landing/AboutSections';
 import FinalCTA from '@/components/landing/FinalCTA';
 import Footer from '@/components/landing/Footer';
 
@@ -23,7 +23,6 @@ export default function AboutStoryPage() {
       />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <PageHero overline={t('aboutPage.story.overline')} title={t('aboutPage.story.title')} />
-        <Reveal><AboutOpener /></Reveal>
         <Reveal><CompanyStory /></Reveal>
         <Reveal><FinalCTA /></Reveal>
         <Footer />
