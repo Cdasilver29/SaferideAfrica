@@ -142,10 +142,17 @@ function PrimaryNavItem({
   });
 
   // On web, hover is the only trigger, matching AA. Touch devices have no
-  // hover, so there the button press toggles the panel.
+  // hover, so there the button press toggles the panel. These go on the outer
+  // View, so we use pointer events, not Pressable's onHoverIn/onHoverOut:
+  // react-native-web only wires those on Pressable, and silently drops them on
+  // a plain View. onPointerLeave fires only when leaving the View and every
+  // descendant, so moving from the trigger into the panel keeps it open.
   const hoverProps =
     isWeb && hasChildren
-      ? { onHoverIn: () => onOpen(item.label), onHoverOut: () => onClose() }
+      ? {
+          onPointerEnter: () => onOpen(item.label),
+          onPointerLeave: () => onClose(),
+        }
       : {};
 
   const inner = (
