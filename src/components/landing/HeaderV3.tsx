@@ -112,14 +112,34 @@ function PrimaryNavItem({
   const hasChildren = !!item.children?.length;
   const isWeb = Platform.OS === "web";
 
+  // A grouped panel (series headings plus their classes) takes priority
+  // over the plain child list. Items with children and no groups keep the
+  // simple flat-list behaviour below.
+  const groups = item.groups ?? [];
+  const hasGroups = groups.length > 0;
+
   // Panels with more than six children split into two even columns; About
-  // us and Driving school stay single-column.
+  // us stays single-column.
   const childItems = item.children ?? [];
   const twoColumn = childItems.length > 6;
   const mid = Math.ceil(childItems.length / 2);
   const columns = twoColumn
     ? [childItems.slice(0, mid), childItems.slice(mid)]
     : [childItems];
+
+  // Distribute the groups across three columns, balancing total row count,
+  // not group count: each group weighs one heading row plus one row per
+  // class. Greedy in series order, each group added to the shortest column.
+  const groupColumns: (typeof groups)[] = [[], [], []];
+  const groupRows = [0, 0, 0];
+  groups.forEach((group) => {
+    let target = 0;
+    for (let i = 1; i < groupRows.length; i++) {
+      if (groupRows[i] < groupRows[target]) target = i;
+    }
+    groupColumns[target].push(group);
+    groupRows[target] += 1 + group.items.length;
+  });
 
   // On web, hover is the only trigger, matching AA. Touch devices have no
   // hover, so there the button press toggles the panel.
@@ -186,7 +206,56 @@ function PrimaryNavItem({
         </Link>
       )}
 
-      {hasChildren && isOpen ? (
+      {hasGroups && isOpen ? (
+        <View
+          className="absolute left-0 top-full z-50 rounded-b-md border border-black/10 bg-white px-2 py-2 shadow-lg"
+          style={{ width: 680 }}
+        >
+          {/* Plain children (All courses) sit above the grouped columns. */}
+          {childItems.map((child) => (
+            <Link key={child.label} href={child.href} asChild>
+              <Pressable
+                accessibilityRole="link"
+                onPress={() => onClose()}
+                className="mx-2 rounded-sm px-2 py-2.5 web:hover:bg-black/5 web:focus-visible:bg-black/5"
+              >
+                <Text className="font-body-bold text-sm text-brand-ink">
+                  {child.label}
+                </Text>
+              </Pressable>
+            </Link>
+          ))}
+          <View className="mx-2 my-1 h-px bg-black/10" />
+          <View className="flex-row">
+            {groupColumns.map((col, colIndex) => (
+              <View key={colIndex} className="flex-1 px-2">
+                {col.map((group) => (
+                  <View key={group.label} className="mb-3">
+                    <Text className="px-2 pb-1 font-body-bold text-[11px] uppercase tracking-[0.1em] text-brand-ink/50">
+                      {group.label}
+                    </Text>
+                    {group.items.map((gi) => (
+                      <Link key={gi.label} href={gi.href} asChild>
+                        <Pressable
+                          accessibilityRole="link"
+                          onPress={() => onClose()}
+                          className="rounded-sm px-2 py-1.5 web:hover:bg-black/5 web:focus-visible:bg-black/5"
+                        >
+                          <Text className="font-body-medium text-sm text-brand-ink">
+                            {gi.label}
+                          </Text>
+                        </Pressable>
+                      </Link>
+                    ))}
+                  </View>
+                ))}
+              </View>
+            ))}
+          </View>
+        </View>
+      ) : null}
+
+      {hasChildren && !hasGroups && isOpen ? (
         <View
           className="absolute left-0 top-full z-50 flex-row rounded-b-md border border-black/10 bg-white py-1.5 shadow-lg"
           style={{ width: twoColumn ? 440 : 220 }}

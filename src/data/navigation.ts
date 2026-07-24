@@ -1,5 +1,5 @@
 import type { Href } from "expo-router";
-import { SERVICES } from "./saferide";
+import { SERVICES, CLASS_SERIES, CLASSES } from "./saferide";
 
 /**
  * Two navigation sets, mirroring the AA structure:
@@ -15,6 +15,7 @@ export interface NavItem {
   label: string;
   href: Href;
   children?: { label: string; href: Href }[];
+  groups?: { label: string; items: { label: string; href: Href }[] }[];
 }
 
 /**
@@ -50,6 +51,15 @@ export const primaryNav: NavItem[] = [
     children: [
       { label: "All courses", href: "/courses" },
     ],
+    // One group per licence series, its classes listed beneath. The panel
+    // renders these as columns; "All courses" above stays a plain child.
+    groups: CLASS_SERIES.map((series) => ({
+      label: series.label,
+      items: CLASSES.filter((cls) => cls.series === series.code).map((cls) => ({
+        label: cls.name,
+        href: { pathname: "/classes/[code]", params: { code: cls.code } },
+      })),
+    })),
   },
   {
     label: "Services",
