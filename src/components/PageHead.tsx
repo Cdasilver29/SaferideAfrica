@@ -6,7 +6,7 @@ import Head from 'expo-router/head';
 // its static HTML source (before JavaScript runs). Pass JSON-LD as children on
 // the pages that need it (home, contact).
 
-export const SITE_URL = 'https://www.saferide-africa.com';
+export const SITE_URL = 'https://www.saferideafrica.com';
 const DEFAULT_IMAGE = `${SITE_URL}/DSC_2116.webp`;
 
 // DrivingSchool structured data. Rendered inside PageHead as a raw <script> on

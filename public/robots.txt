@@ -4,4 +4,4 @@ Allow: /
 Disallow: /account
 Disallow: /admin
 
-Sitemap: https://www.saferide-africa.com/sitemap.xml
+Sitemap: https://www.saferideafrica.com/sitemap.xml
