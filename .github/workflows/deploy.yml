@@ -27,9 +27,8 @@ jobs:
       - name: Build web app
         run: npm run build:web
         env:
-          EXPO_PUBLIC_SUPABASE_URL: ${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
-          EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
           EXPO_PUBLIC_APP_URL: ${{ secrets.EXPO_PUBLIC_APP_URL }}
+          EXPO_PUBLIC_WEB3FORMS_KEY: ${{ secrets.EXPO_PUBLIC_WEB3FORMS_KEY }}
 
       - name: Deploy to HostAfrica via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
