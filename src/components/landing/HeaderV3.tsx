@@ -325,7 +325,9 @@ export function HeaderV3({
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const { width } = useWindowDimensions();
   const pathname = usePathname();
-  const isDesktop = width >= 1024;
+  // The two-row header needs the full 1280 container: below that the nav,
+  // logo and CTAs no longer fit on one line, so 1024 to 1279 gets the drawer.
+  const isDesktop = width >= 1280;
 
   if (!isDesktop) {
     return (
