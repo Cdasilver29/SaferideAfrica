@@ -54,7 +54,6 @@ module.exports = {
         'brand-ink':        '#221f20',
         'brand-on-primary': '#ffffff',
         'brand-surface':    '#F4F6F8',
-        'brand-accent-deep':'#B8860B',
       },
       fontFamily: {
         sans:    ['Manrope-Regular', 'sans-serif'],

@@ -26,10 +26,6 @@ export const brandHex = {
   // Light warm grey for the header's main nav row. Brand-only, like deep and
   // action: it carries no semantic-theme role.
   surface:   '#F4F6F8',
-  // Darkened accent for the wordmark, which sits on the light surface row
-  // where the brand yellow measures 1.29:1. This clears 3:1 there, the large
-  // text threshold, since the wordmark is 20px bold.
-  accentDeep: '#B8860B',
 } as const;
 
 const LIGHT = {

@@ -111,14 +111,12 @@ const LOGO_DESKTOP = { width: 58, height: 58, borderRadius: 15 };
 const LOGO_MOBILE = { width: 44, height: 44, borderRadius: 11 };
 
 /**
- * One colour pair on every ground: the name in the darkened accent, the
- * tagline in brand red, both over an ink shadow.
+ * One colour pair on every ground: the name in brand yellow, the tagline in
+ * brand red, both over an ink shadow that carries the legibility.
  *
- * The darkened accent is a compromise. The wordmark renders on three very
- * different grounds and no single value clears 3:1 on all of them: this one
- * reaches 3.00:1 on the light grey of row 2, where the plain brand yellow was
- * 1.29:1, at the cost of the sky bar and the drawer. Per-ground colours are
- * the only way to satisfy all three.
+ * The brand yellow measures 1.29:1 on the light grey of row 2. A darkened
+ * gold was tried and rejected as off-brand; the shadow is what lifts it now.
+ * Note a shadow does not change the computed WCAG ratio.
  */
 function Wordmark({ compact = false }: { compact?: boolean }) {
   return (
@@ -127,7 +125,7 @@ function Wordmark({ compact = false }: { compact?: boolean }) {
         style={WORDMARK_SHADOW}
         className={`font-display ${
           compact ? "text-lg" : "text-xl"
-        } leading-tight text-brand-accent-deep`}
+        } leading-tight text-brand-accent`}
       >
         Safe Ride Africa
       </Text>

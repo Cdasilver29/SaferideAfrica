@@ -13,7 +13,6 @@
  *   ink       = text on light surfaces
  *   onPrimary = text on primary + deep surfaces
  *   surface   = light warm grey, header nav row (brand-only)
- *   accentDeep= darkened yellow for the wordmark on light grounds
  */
 import { brandHex } from './theme';
 
@@ -25,5 +24,4 @@ export const brand = {
   ink:       brandHex.ink,
   onPrimary: brandHex.onPrimary,
   surface:   brandHex.surface,
-  accentDeep: brandHex.accentDeep,
 } as const;
