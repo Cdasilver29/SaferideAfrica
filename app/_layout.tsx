@@ -57,7 +57,9 @@ function SiteHeader() {
     { label: 'YouTube',   url: SOCIALS.youtube,   Icon: YouTubeIcon },
   ];
 
-  const themeToggle = (
+  // onLight is true on the sky header row, where white (2.75:1) and yellow
+  // (1.97:1) both fail; ink clears 5.95:1. The dark drawer keeps the old colours.
+  const themeToggle = (onLight: boolean) => (
     <Pressable
       onPress={toggleColorScheme}
       accessibilityRole="button"
@@ -65,8 +67,8 @@ function SiteHeader() {
       className="h-11 w-11 items-center justify-center rounded-pill"
     >
       {isDark
-        ? <Sun size={18} color={brand.accent} />
-        : <Moon size={18} color={brand.onPrimary} />}
+        ? <Sun size={18} color={onLight ? brand.ink : brand.accent} />
+        : <Moon size={18} color={onLight ? brand.ink : brand.onPrimary} />}
     </Pressable>
   );
 
@@ -77,7 +79,7 @@ function SiteHeader() {
     <HeaderV3
       logoSource={require('../assets/images/saferide-logo.jpg')}
       socials={socials}
-      languageSwitcher={<LanguageSwitcher />}
+      languageSwitcher={(onLight: boolean) => <LanguageSwitcher onLight={onLight} />}
       themeToggle={themeToggle}
       onCallNow={onCallNow}
       onEnrol={onEnrol}

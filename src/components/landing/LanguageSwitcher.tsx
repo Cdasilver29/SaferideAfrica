@@ -46,7 +46,16 @@ function Flag({ xml, size = FLAG_W }: { xml: string; size?: number }) {
   );
 }
 
-export default function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
+export default function LanguageSwitcher({
+  compact = false,
+  onLight = false,
+}: {
+  compact?: boolean;
+  // True on the sky header row, where the default white/70 label and chevron
+  // measure about 3:1. Ink clears 5.95:1 there.
+  onLight?: boolean;
+}) {
+  const controlFg = onLight ? C.dark : C.mutedDark;
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
 
@@ -75,20 +84,20 @@ export default function LanguageSwitcher({ compact = false }: { compact?: boolea
           paddingVertical: compact ? 6 : 5,
           borderRadius: 8,
           borderWidth: 1,
-          borderColor: pressed || open ? C.blue : C.darkBorder,
+          borderColor: pressed || open ? C.blue : onLight ? 'rgba(34,31,32,0.25)' : C.darkBorder,
           backgroundColor: pressed || open ? 'rgba(1,165,240,0.08)' : 'transparent',
         })}
       >
         <Flag xml={currentLang.flag} size={compact ? 24 : FLAG_W} />
         {!compact && (
-          <Text style={{ color: C.mutedDark, fontSize: 12, fontFamily: F.medium }}>
+          <Text style={{ color: controlFg, fontSize: 12, fontFamily: F.medium }}>
             {t(`languageSwitcher.languages.${currentCode}`)}
           </Text>
         )}
         {!compact && (
           <ChevronDown
             size={12}
-            color={C.mutedDark}
+            color={controlFg}
             style={{ transform: open ? [{ rotate: '180deg' }] : [] }}
           />
         )}

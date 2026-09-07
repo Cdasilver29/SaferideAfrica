@@ -51,9 +51,21 @@ import { primaryNav, secondaryNav, NavItem } from "../../data/navigation";
  *    Image on web, which is what made the logo render at natural size.
  */
 
+/**
+ * The language switcher and theme toggle appear on two grounds: the sky row 1
+ * and the brand-deep mobile drawer. Pass a function to colour them per ground
+ * (onLight is true on row 1); a plain node is still accepted and used as is.
+ */
+export type HeaderControl =
+  | React.ReactNode
+  | ((onLight: boolean) => React.ReactNode);
+
+const renderControl = (control: HeaderControl, onLight: boolean) =>
+  typeof control === "function" ? control(onLight) : control;
+
 export interface HeaderV3Props {
-  languageSwitcher?: React.ReactNode;
-  themeToggle?: React.ReactNode;
+  languageSwitcher?: HeaderControl;
+  themeToggle?: HeaderControl;
   socials: {
     label: string;
     url: string;
@@ -304,7 +316,7 @@ function PrimaryNavItem({
               <View key={colIndex} className="flex-1 px-2">
                 {col.map((group) => (
                   <View key={group.label} className="mb-3">
-                    <Text className="px-2 pb-1 font-body-bold text-[11px] uppercase tracking-[0.1em] text-white/70">
+                    <Text className="px-2 pb-1 font-body-bold text-[11px] uppercase tracking-[0.1em] text-white/85">
                       {group.label}
                     </Text>
                     {group.items.map((gi) => (
@@ -472,7 +484,7 @@ export function HeaderV3({
                         {/* Grouped classes: series heading then its classes. */}
                         {item.groups?.map((group) => (
                           <View key={group.label} className="pb-1 pt-2">
-                            <Text className="pb-1 pl-9 font-body-bold text-xs uppercase tracking-[0.1em] text-white/70">
+                            <Text className="pb-1 pl-9 font-body-bold text-xs uppercase tracking-[0.1em] text-white/85">
                               {group.label}
                             </Text>
                             {group.items.map((gi) => (
@@ -511,8 +523,8 @@ export function HeaderV3({
               ))}
 
               <View className="mt-6 flex-row items-center gap-4">
-                {languageSwitcher}
-                {themeToggle}
+                {renderControl(languageSwitcher, false)}
+                {renderControl(themeToggle, false)}
               </View>
 
               <View className="mt-6 gap-3">
@@ -596,14 +608,14 @@ export function HeaderV3({
                 onPress={() => Linking.openURL(url)}
                 accessibilityRole="link"
                 accessibilityLabel={`Safe Ride Africa on ${label}`}
-                className="h-8 w-8 items-center justify-center rounded-full bg-white/20 web:transition-colors web:hover:bg-white/35 web:focus-visible:ring-2 web:focus-visible:ring-white"
+                className="h-8 w-8 items-center justify-center rounded-full bg-brand-ink/10 web:transition-colors web:hover:bg-brand-ink/20 web:focus-visible:ring-2 web:focus-visible:ring-brand-ink"
               >
-                <Icon size={16} color="#FFFFFF" />
+                <Icon size={16} color={brand.ink} />
               </Pressable>
             ))}
             <View className="ml-2 flex-row items-center gap-2">
-              {languageSwitcher}
-              {themeToggle}
+              {renderControl(languageSwitcher, true)}
+              {renderControl(themeToggle, true)}
             </View>
           </View>
         </View>
