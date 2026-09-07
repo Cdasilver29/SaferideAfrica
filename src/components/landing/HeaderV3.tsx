@@ -109,6 +109,53 @@ function Wordmark({
 }
 
 /**
+ * One row inside a dropdown panel. The panel is brand-deep, so the label is
+ * white (5.79:1). On hover the row takes the yellow pad, and there the label
+ * must flip to ink, since white on brand-accent is about 1.1:1.
+ *
+ * Hover is tracked in state rather than with a CSS hover class: a :hover on
+ * the Text only fires while the pointer is over the glyphs, so hovering the
+ * row's padding would leave white text sitting on the yellow pad. Focus uses
+ * a ring instead of the pad, so the label colour never has to change for it.
+ */
+function PanelItem({
+  href,
+  label,
+  bold = false,
+  className = "",
+  onNavigate,
+}: {
+  href: NavItem["href"];
+  label: string;
+  bold?: boolean;
+  className?: string;
+  onNavigate: () => void;
+}) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <Link href={href} asChild>
+      <Pressable
+        accessibilityRole="link"
+        onPress={onNavigate}
+        onHoverIn={() => setHovered(true)}
+        onHoverOut={() => setHovered(false)}
+        className={`${className} web:outline-none web:focus-visible:ring-2 web:focus-visible:ring-brand-accent ${
+          hovered ? "bg-brand-accent" : ""
+        }`}
+      >
+        <Text
+          className={`${bold ? "font-body-bold" : "font-body-medium"} text-sm ${
+            hovered ? "text-brand-ink" : "text-white"
+          }`}
+        >
+          {label}
+        </Text>
+      </Pressable>
+    </Link>
+  );
+}
+
+/**
  * Yellow-tier nav item. Items with children render as a button, not a
  * link, so the press toggles the panel instead of navigating. The
  * section's own landing page stays reachable as the first child.
@@ -237,44 +284,37 @@ function PrimaryNavItem({
 
       {hasGroups && isOpen ? (
         <View
-          className="absolute left-0 top-full z-50 rounded-b-md border border-black/10 bg-brand-primary px-2 py-2 shadow-lg"
+          className="absolute left-0 top-full z-50 rounded-b-md border border-black/10 bg-brand-deep px-2 py-2 shadow-lg"
           style={{ width: 680 }}
         >
           {/* Plain children (All courses) sit above the grouped columns. */}
           {childItems.map((child) => (
-            <Link key={child.label} href={child.href} asChild>
-              <Pressable
-                accessibilityRole="link"
-                onPress={() => onClose()}
-                className="mx-2 rounded-sm px-2 py-2.5 web:hover:bg-brand-accent web:focus-visible:bg-brand-accent"
-              >
-                <Text className="font-body-bold text-sm text-brand-ink">
-                  {child.label}
-                </Text>
-              </Pressable>
-            </Link>
+            <PanelItem
+              key={child.label}
+              href={child.href}
+              label={child.label}
+              bold
+              className="mx-2 rounded-sm px-2 py-2.5"
+              onNavigate={onClose}
+            />
           ))}
-          <View className="mx-2 my-1 h-px bg-black/10" />
+          <View className="mx-2 my-1 h-px bg-white/25" />
           <View className="flex-row">
             {groupColumns.map((col, colIndex) => (
               <View key={colIndex} className="flex-1 px-2">
                 {col.map((group) => (
                   <View key={group.label} className="mb-3">
-                    <Text className="px-2 pb-1 font-body-bold text-[11px] uppercase tracking-[0.1em] text-brand-ink/60">
+                    <Text className="px-2 pb-1 font-body-bold text-[11px] uppercase tracking-[0.1em] text-white/70">
                       {group.label}
                     </Text>
                     {group.items.map((gi) => (
-                      <Link key={gi.label} href={gi.href} asChild>
-                        <Pressable
-                          accessibilityRole="link"
-                          onPress={() => onClose()}
-                          className="rounded-sm px-2 py-1.5 web:hover:bg-brand-accent web:focus-visible:bg-brand-accent"
-                        >
-                          <Text className="font-body-medium text-sm text-brand-ink">
-                            {gi.label}
-                          </Text>
-                        </Pressable>
-                      </Link>
+                      <PanelItem
+                        key={gi.label}
+                        href={gi.href}
+                        label={gi.label}
+                        className="rounded-sm px-2 py-1.5"
+                        onNavigate={onClose}
+                      />
                     ))}
                   </View>
                 ))}
@@ -286,23 +326,19 @@ function PrimaryNavItem({
 
       {hasChildren && !hasGroups && isOpen ? (
         <View
-          className="absolute left-0 top-full z-50 flex-row rounded-b-md border border-black/10 bg-brand-primary py-1.5 shadow-lg"
+          className="absolute left-0 top-full z-50 flex-row rounded-b-md border border-black/10 bg-brand-deep py-1.5 shadow-lg"
           style={{ width: twoColumn ? 440 : 220 }}
         >
           {columns.map((col, colIndex) => (
             <View key={colIndex} className="flex-1">
               {col.map((child) => (
-                <Link key={child.label} href={child.href} asChild>
-                  <Pressable
-                    accessibilityRole="link"
-                    onPress={() => onClose()}
-                    className="px-4 py-2.5 web:hover:bg-brand-accent web:focus-visible:bg-brand-accent"
-                  >
-                    <Text className="font-body-medium text-sm text-brand-ink">
-                      {child.label}
-                    </Text>
-                  </Pressable>
-                </Link>
+                <PanelItem
+                  key={child.label}
+                  href={child.href}
+                  label={child.label}
+                  className="px-4 py-2.5"
+                  onNavigate={onClose}
+                />
               ))}
             </View>
           ))}
@@ -436,7 +472,7 @@ export function HeaderV3({
                         {/* Grouped classes: series heading then its classes. */}
                         {item.groups?.map((group) => (
                           <View key={group.label} className="pb-1 pt-2">
-                            <Text className="pb-1 pl-9 font-body-bold text-xs uppercase tracking-[0.1em] text-white/50">
+                            <Text className="pb-1 pl-9 font-body-bold text-xs uppercase tracking-[0.1em] text-white/70">
                               {group.label}
                             </Text>
                             {group.items.map((gi) => (
@@ -533,8 +569,9 @@ export function HeaderV3({
         Platform.OS === "web" ? { overflow: "visible", zIndex: 30 } : undefined
       }
     >
-      {/* Row 1, thin utility strip. Deep sky, white text, no logo. */}
-      <View className="bg-brand-deep">
+      {/* Row 1, thin utility strip on true sky. Labels are ink, not white:
+          white on brand-primary is only 2.75:1. No logo on this row. */}
+      <View className="bg-brand-primary">
         <View className="mx-auto w-full max-w-7xl flex-row items-center justify-between px-6 py-2">
           <View className="flex-row items-center">
             {secondaryNav.map((item) => (
@@ -544,7 +581,7 @@ export function HeaderV3({
                   accessibilityState={{ selected: pathname === item.href }}
                   className="rounded-sm px-3 py-1 web:transition-colors web:hover:bg-white/10 web:outline-none web:focus-visible:ring-2 web:focus-visible:ring-brand-accent"
                 >
-                  <Text className="font-body-bold text-xs uppercase tracking-[0.12em] text-white">
+                  <Text className="font-body-bold text-xs uppercase tracking-[0.12em] text-brand-ink">
                     {item.label}
                   </Text>
                 </Pressable>
