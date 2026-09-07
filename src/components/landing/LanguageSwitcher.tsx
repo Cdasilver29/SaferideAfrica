@@ -55,8 +55,9 @@ export default function LanguageSwitcher({
   // measure about 3:1. Ink clears 5.95:1 there.
   onLight?: boolean;
 }) {
-  // On dark grounds white/70 measured 3.67:1; white/85 clears 4.64:1.
-  const controlFg = onLight ? C.dark : 'rgba(255,255,255,0.85)';
+  // Row 1 is white by design decision, so onLight is white too; on dark
+  // grounds white/85 clears 4.64:1 (white/70 measured 3.67:1).
+  const controlFg = onLight ? C.white : 'rgba(255,255,255,0.85)';
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
 
@@ -85,7 +86,7 @@ export default function LanguageSwitcher({
           paddingVertical: compact ? 6 : 5,
           borderRadius: 8,
           borderWidth: 1,
-          borderColor: pressed || open ? C.blue : onLight ? 'rgba(34,31,32,0.25)' : C.darkBorder,
+          borderColor: pressed || open ? C.blue : C.darkBorder,
           backgroundColor: pressed || open ? 'rgba(1,165,240,0.08)' : 'transparent',
         })}
       >

@@ -70,6 +70,8 @@ export interface HeaderV3Props {
     label: string;
     url: string;
     Icon: React.ComponentType<{ size?: number; color?: string }>;
+    /** Network brand colour. Falls back to white where omitted. */
+    color?: string;
   }[];
   onCallNow: () => void;
   onEnrol: () => void;
@@ -89,31 +91,21 @@ const LOGO_DESKTOP = { width: 52, height: 52, borderRadius: 13 };
 const LOGO_MOBILE = { width: 44, height: 44, borderRadius: 11 };
 
 /**
- * The wordmark sits on two very different grounds: the sky mobile bar and
- * deep drawer (yellow name, white tagline) and the light grey desktop row 2,
- * where both of those would fail contrast. onLight switches it to ink.
+ * One colour pair on every ground, by design decision: the name in brand
+ * yellow, the tagline in brand red. Note this is weak on the light grey of
+ * row 2, where yellow measures about 1.3:1; see the audit in the commit.
  */
-function Wordmark({
-  compact = false,
-  onLight = false,
-}: {
-  compact?: boolean;
-  onLight?: boolean;
-}) {
+function Wordmark({ compact = false }: { compact?: boolean }) {
   return (
     <View>
       <Text
         className={`font-display ${
           compact ? "text-lg" : "text-xl"
-        } leading-tight ${onLight ? "text-brand-ink" : "text-brand-accent"}`}
+        } leading-tight text-brand-accent`}
       >
         Safe Ride Africa
       </Text>
-      <Text
-        className={`font-body text-[9px] uppercase tracking-[0.22em] ${
-          onLight ? "text-brand-ink/60" : "text-white/80"
-        }`}
-      >
+      <Text className="font-body text-[9px] uppercase tracking-[0.22em] text-brand-action">
         Safety beyond
       </Text>
     </View>
@@ -556,7 +548,7 @@ export function HeaderV3({
               </View>
 
               <View className="mt-8 flex-row flex-wrap justify-center gap-4">
-                {socials.map(({ label, url, Icon }) => (
+                {socials.map(({ label, url, Icon, color }) => (
                   <Pressable
                     key={label}
                     onPress={() => Linking.openURL(url)}
@@ -564,7 +556,7 @@ export function HeaderV3({
                     accessibilityLabel={`Safe Ride Africa on ${label}`}
                     className="h-11 w-11 items-center justify-center rounded-full bg-white/15"
                   >
-                    <Icon size={20} color="#FFFFFF" />
+                    <Icon size={20} color={color ?? "#FFFFFF"} />
                   </Pressable>
                 ))}
               </View>
@@ -603,7 +595,7 @@ export function HeaderV3({
           </View>
 
           <View className="flex-row items-center gap-2">
-            {socials.map(({ label, url, Icon }) => (
+            {socials.map(({ label, url, Icon, color }) => (
               <Pressable
                 key={label}
                 onPress={() => Linking.openURL(url)}
@@ -611,7 +603,7 @@ export function HeaderV3({
                 accessibilityLabel={`Safe Ride Africa on ${label}`}
                 className="h-8 w-8 items-center justify-center rounded-full bg-white/20 web:transition-colors web:hover:bg-white/35 web:focus-visible:ring-2 web:focus-visible:ring-white"
               >
-                <Icon size={16} color="#FFFFFF" />
+                <Icon size={16} color={color ?? "#FFFFFF"} />
               </Pressable>
             ))}
             <View className="ml-2 flex-row items-center gap-2">
@@ -647,7 +639,7 @@ export function HeaderV3({
               className="shrink-0 flex-row items-center gap-3 py-2"
             >
               <Image source={logoSource} style={LOGO_DESKTOP} resizeMode="contain" />
-              <Wordmark onLight />
+              <Wordmark />
             </Pressable>
           </Link>
 

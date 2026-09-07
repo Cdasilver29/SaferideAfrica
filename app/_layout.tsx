@@ -48,17 +48,19 @@ function SiteHeader() {
   const isDark = colorScheme === 'dark';
   const { open: openEnrollModal } = useEnrollModal();
 
+  // Each network's own brand colour. The glyphs are single-fill, so these are
+  // the primary mark colours rather than Instagram's or TikTok's gradients.
   const socials = [
-    { label: 'WhatsApp',  url: SOCIALS.whatsapp,  Icon: WhatsAppIcon },
-    { label: 'Facebook',  url: SOCIALS.facebook,  Icon: FacebookIcon },
-    { label: 'X',         url: SOCIALS.twitter,   Icon: TwitterXIcon },
-    { label: 'TikTok',    url: SOCIALS.tiktok,    Icon: TikTokIcon },
-    { label: 'Instagram', url: SOCIALS.instagram, Icon: InstagramIcon },
-    { label: 'YouTube',   url: SOCIALS.youtube,   Icon: YouTubeIcon },
+    { label: 'WhatsApp',  url: SOCIALS.whatsapp,  Icon: WhatsAppIcon,  color: '#25D366' },
+    { label: 'Facebook',  url: SOCIALS.facebook,  Icon: FacebookIcon,  color: '#1877F2' },
+    { label: 'X',         url: SOCIALS.twitter,   Icon: TwitterXIcon,  color: '#000000' },
+    { label: 'TikTok',    url: SOCIALS.tiktok,    Icon: TikTokIcon,    color: '#000000' },
+    { label: 'Instagram', url: SOCIALS.instagram, Icon: InstagramIcon, color: '#E4405F' },
+    { label: 'YouTube',   url: SOCIALS.youtube,   Icon: YouTubeIcon,   color: '#FF0000' },
   ];
 
-  // onLight is true on the sky header row, where white (2.75:1) and yellow
-  // (1.97:1) both fail; ink clears 5.95:1. The dark drawer keeps the old colours.
+  // onLight is true on the sky header row. That row is white by design
+  // decision, so the icon is white there too, matching the labels and socials.
   const themeToggle = (onLight: boolean) => (
     <Pressable
       onPress={toggleColorScheme}
@@ -67,8 +69,8 @@ function SiteHeader() {
       className="h-11 w-11 items-center justify-center rounded-pill"
     >
       {isDark
-        ? <Sun size={18} color={onLight ? brand.ink : brand.accent} />
-        : <Moon size={18} color={onLight ? brand.ink : brand.onPrimary} />}
+        ? <Sun size={18} color={onLight ? brand.onPrimary : brand.accent} />
+        : <Moon size={18} color={brand.onPrimary} />}
     </Pressable>
   );
 
