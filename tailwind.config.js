@@ -53,6 +53,7 @@ module.exports = {
         'brand-action':     '#e11d2e',
         'brand-ink':        '#221f20',
         'brand-on-primary': '#ffffff',
+        'brand-surface':    '#F4F6F8',
       },
       fontFamily: {
         sans:    ['Manrope-Regular', 'sans-serif'],

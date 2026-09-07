@@ -26,15 +26,18 @@ import { brand } from "../../lib/tokens";
 import { primaryNav, secondaryNav, NavItem } from "../../data/navigation";
 
 /**
- * HeaderV3, three tiers, modelled on AA's value rhythm: light, dark, bright.
+ * HeaderV3, two rows on desktop.
  *
- *   Tier 1  brand-primary  logo, wordmark, socials, language, theme
- *   Tier 2  brand-deep     secondary nav, white text          5.78:1
- *   Tier 3  brand-accent   primary nav, dark text, CTAs       ~15:1
+ *   Row 1  brand-deep     thin utility strip: secondary nav, socials,
+ *                         language, theme. White text, 5.78:1. No logo.
+ *   Row 2  brand-surface  logo, primary nav, CTAs. Light grey, so every
+ *                         label is brand-ink; nothing on this row is white.
  *
- * WHY DARK TEXT ON YELLOW: white on the brand yellow measures about
- * 1.1:1, which is unreadable. AA's own yellow bar uses dark text for the
- * same reason. Dark ink on yellow clears 15:1.
+ * WHY DARK TEXT THROUGHOUT ROW 2: the surface is light, so white would be
+ * unreadable. State is signalled with a yellow pad behind the item instead
+ * of a colour change, keeping dark ink on yellow at about 15:1. The same
+ * rule governs the dropdown panels: sky background, brand-ink labels at
+ * about 6.9:1, yellow pad on hover.
  *
  * THREE BUGS FIXED FROM THE PREVIOUS VERSION:
  * 1. Dropdown parents are no longer wrapped in Link. The Link consumed
@@ -73,17 +76,32 @@ const NAV_ICONS: Record<string, LucideIcon> = {
 const LOGO_DESKTOP = { width: 52, height: 52, borderRadius: 13 };
 const LOGO_MOBILE = { width: 44, height: 44, borderRadius: 11 };
 
-function Wordmark({ compact = false }: { compact?: boolean }) {
+/**
+ * The wordmark sits on two very different grounds: the sky mobile bar and
+ * deep drawer (yellow name, white tagline) and the light grey desktop row 2,
+ * where both of those would fail contrast. onLight switches it to ink.
+ */
+function Wordmark({
+  compact = false,
+  onLight = false,
+}: {
+  compact?: boolean;
+  onLight?: boolean;
+}) {
   return (
     <View>
       <Text
         className={`font-display ${
           compact ? "text-lg" : "text-xl"
-        } leading-tight text-brand-accent`}
+        } leading-tight ${onLight ? "text-brand-ink" : "text-brand-accent"}`}
       >
         Safe Ride Africa
       </Text>
-      <Text className="font-body text-[9px] uppercase tracking-[0.22em] text-white/80">
+      <Text
+        className={`font-body text-[9px] uppercase tracking-[0.22em] ${
+          onLight ? "text-brand-ink/60" : "text-white/80"
+        }`}
+      >
         Safety beyond
       </Text>
     </View>
@@ -158,11 +176,7 @@ function PrimaryNavItem({
   const inner = (
     <>
       {Icon ? <Icon size={16} color={brand.ink} /> : null}
-      <Text
-        className={`font-body-bold text-[13px] uppercase tracking-wide ${
-          active ? "text-brand-deep" : "text-brand-ink"
-        }`}
-      >
+      <Text className="font-body-bold text-[13px] uppercase tracking-wide text-brand-ink">
         {item.label}
       </Text>
       {hasChildren ? (
@@ -175,8 +189,16 @@ function PrimaryNavItem({
     </>
   );
 
-  const pressableClass =
-    "flex-row items-center gap-1.5 rounded-sm px-3 py-3.5 web:outline-none web:focus-visible:ring-2 web:focus-visible:ring-brand-ink";
+  // Row 2 is light grey, so the label colour never changes. State is a yellow
+  // pad behind the item: hovered, open, or active all read dark-on-yellow,
+  // everything else dark-on-grey.
+  const highlighted = active || isOpen;
+  const pressableClass = [
+    "flex-row items-center gap-1.5 rounded-sm px-3 py-3.5",
+    "web:transition-colors web:hover:bg-brand-accent",
+    "web:outline-none web:focus-visible:ring-2 web:focus-visible:ring-brand-ink",
+    highlighted ? "bg-brand-accent" : "",
+  ].join(" ");
 
   return (
     <View
@@ -215,7 +237,7 @@ function PrimaryNavItem({
 
       {hasGroups && isOpen ? (
         <View
-          className="absolute left-0 top-full z-50 rounded-b-md border border-black/10 bg-white px-2 py-2 shadow-lg"
+          className="absolute left-0 top-full z-50 rounded-b-md border border-black/10 bg-brand-primary px-2 py-2 shadow-lg"
           style={{ width: 680 }}
         >
           {/* Plain children (All courses) sit above the grouped columns. */}
@@ -224,7 +246,7 @@ function PrimaryNavItem({
               <Pressable
                 accessibilityRole="link"
                 onPress={() => onClose()}
-                className="mx-2 rounded-sm px-2 py-2.5 web:hover:bg-black/5 web:focus-visible:bg-black/5"
+                className="mx-2 rounded-sm px-2 py-2.5 web:hover:bg-brand-accent web:focus-visible:bg-brand-accent"
               >
                 <Text className="font-body-bold text-sm text-brand-ink">
                   {child.label}
@@ -238,7 +260,7 @@ function PrimaryNavItem({
               <View key={colIndex} className="flex-1 px-2">
                 {col.map((group) => (
                   <View key={group.label} className="mb-3">
-                    <Text className="px-2 pb-1 font-body-bold text-[11px] uppercase tracking-[0.1em] text-brand-ink/50">
+                    <Text className="px-2 pb-1 font-body-bold text-[11px] uppercase tracking-[0.1em] text-brand-ink/60">
                       {group.label}
                     </Text>
                     {group.items.map((gi) => (
@@ -246,7 +268,7 @@ function PrimaryNavItem({
                         <Pressable
                           accessibilityRole="link"
                           onPress={() => onClose()}
-                          className="rounded-sm px-2 py-1.5 web:hover:bg-black/5 web:focus-visible:bg-black/5"
+                          className="rounded-sm px-2 py-1.5 web:hover:bg-brand-accent web:focus-visible:bg-brand-accent"
                         >
                           <Text className="font-body-medium text-sm text-brand-ink">
                             {gi.label}
@@ -264,7 +286,7 @@ function PrimaryNavItem({
 
       {hasChildren && !hasGroups && isOpen ? (
         <View
-          className="absolute left-0 top-full z-50 flex-row rounded-b-md border border-black/10 bg-white py-1.5 shadow-lg"
+          className="absolute left-0 top-full z-50 flex-row rounded-b-md border border-black/10 bg-brand-primary py-1.5 shadow-lg"
           style={{ width: twoColumn ? 440 : 220 }}
         >
           {columns.map((col, colIndex) => (
@@ -274,7 +296,7 @@ function PrimaryNavItem({
                   <Pressable
                     accessibilityRole="link"
                     onPress={() => onClose()}
-                    className="px-4 py-2.5 web:hover:bg-black/5 web:focus-visible:bg-black/5"
+                    className="px-4 py-2.5 web:hover:bg-brand-accent web:focus-visible:bg-brand-accent"
                   >
                     <Text className="font-body-medium text-sm text-brand-ink">
                       {child.label}
@@ -509,19 +531,24 @@ export function HeaderV3({
         Platform.OS === "web" ? { overflow: "visible", zIndex: 30 } : undefined
       }
     >
-      {/* Tier 1, brand strip */}
-      <View className="bg-brand-primary">
-        <View className="mx-auto w-full max-w-7xl flex-row items-center justify-between px-6 py-2.5">
-          <Link href="/" asChild>
-            <Pressable
-              accessibilityRole="link"
-              accessibilityLabel="Safe Ride Africa, home"
-              className="flex-row items-center gap-3"
-            >
-              <Image source={logoSource} style={LOGO_DESKTOP} resizeMode="contain" />
-              <Wordmark />
-            </Pressable>
-          </Link>
+      {/* Row 1, thin utility strip. Deep sky, white text, no logo. */}
+      <View className="bg-brand-deep">
+        <View className="mx-auto w-full max-w-7xl flex-row items-center justify-between px-6 py-2">
+          <View className="flex-row items-center">
+            {secondaryNav.map((item) => (
+              <Link key={item.label} href={item.href} asChild>
+                <Pressable
+                  accessibilityRole="link"
+                  accessibilityState={{ selected: pathname === item.href }}
+                  className="rounded-sm px-3 py-1 web:transition-colors web:hover:bg-white/10 web:outline-none web:focus-visible:ring-2 web:focus-visible:ring-brand-accent"
+                >
+                  <Text className="font-body-bold text-xs uppercase tracking-[0.12em] text-white">
+                    {item.label}
+                  </Text>
+                </Pressable>
+              </Link>
+            ))}
+          </View>
 
           <View className="flex-row items-center gap-2">
             {socials.map(({ label, url, Icon }) => (
@@ -543,28 +570,12 @@ export function HeaderV3({
         </View>
       </View>
 
-      {/* Tier 2, secondary nav, white on deep blue */}
-      <View className="bg-brand-deep">
-        <View className="mx-auto w-full max-w-7xl flex-row items-center px-6">
-          {secondaryNav.map((item) => (
-            <Link key={item.label} href={item.href} asChild>
-              <Pressable
-                accessibilityRole="link"
-                accessibilityState={{ selected: pathname === item.href }}
-                className="rounded-sm px-4 py-2.5 web:transition-colors web:hover:bg-white/10 web:outline-none web:focus-visible:ring-2 web:focus-visible:ring-brand-accent"
-              >
-                <Text className="font-body-bold text-xs uppercase tracking-[0.12em] text-white">
-                  {item.label}
-                </Text>
-              </Pressable>
-            </Link>
-          ))}
-        </View>
-      </View>
-
-      {/* Tier 3, primary nav, dark on yellow */}
+      {/* Row 2, main nav on the light surface: logo left, nav centre, CTAs
+          right. The dropdown panels anchor here, so this row carries the
+          overflow/zIndex chain that stops them being clipped: wrapper, row,
+          container, nav group, then each PrimaryNavItem root. Do not flatten. */}
       <View
-        className="bg-brand-accent"
+        className="bg-brand-surface"
         style={
           Platform.OS === "web" ? { overflow: "visible", zIndex: 30 } : undefined
         }
@@ -577,6 +588,17 @@ export function HeaderV3({
               : undefined
           }
         >
+          <Link href="/" asChild>
+            <Pressable
+              accessibilityRole="link"
+              accessibilityLabel="Safe Ride Africa, home"
+              className="flex-row items-center gap-3 py-2"
+            >
+              <Image source={logoSource} style={LOGO_DESKTOP} resizeMode="contain" />
+              <Wordmark onLight />
+            </Pressable>
+          </Link>
+
           <View
             className="flex-row items-center"
             style={
@@ -597,7 +619,7 @@ export function HeaderV3({
             ))}
           </View>
 
-          <View className="flex-row items-center gap-2.5 py-1.5">
+          <View className="flex-row items-center gap-2.5 py-2">
             <Pressable
               onPress={onCallNow}
               accessibilityRole="button"
@@ -612,9 +634,11 @@ export function HeaderV3({
             <Pressable
               onPress={onEnrol}
               accessibilityRole="button"
-              className="h-9 items-center justify-center rounded-pill bg-brand-deep px-5 web:transition-opacity web:hover:opacity-90 web:focus-visible:ring-2 web:focus-visible:ring-brand-ink"
+              className="h-9 items-center justify-center rounded-pill bg-brand-accent px-5 web:transition-opacity web:hover:opacity-90 web:focus-visible:ring-2 web:focus-visible:ring-brand-ink"
             >
-              <Text className="font-body-bold text-[13px] text-white">Enrol now</Text>
+              <Text className="font-body-bold text-[13px] text-brand-ink">
+                Enrol now
+              </Text>
             </Pressable>
           </View>
         </View>

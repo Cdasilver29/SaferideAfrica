@@ -23,6 +23,9 @@ export const brandHex = {
   // header's secondary tier (the utility bar) which needs a deeper cyan.
   deep:      '#016c9d',
   action:    '#e11d2e',
+  // Light warm grey for the header's main nav row. Brand-only, like deep and
+  // action: it carries no semantic-theme role.
+  surface:   '#F4F6F8',
 } as const;
 
 const LIGHT = {

@@ -12,6 +12,7 @@
  *   action    = Call Now red only (brand-only)
  *   ink       = text on light surfaces
  *   onPrimary = text on primary + deep surfaces
+ *   surface   = light warm grey, header nav row (brand-only)
  */
 import { brandHex } from './theme';
 
@@ -22,4 +23,5 @@ export const brand = {
   action:    brandHex.action,
   ink:       brandHex.ink,
   onPrimary: brandHex.onPrimary,
+  surface:   brandHex.surface,
 } as const;
