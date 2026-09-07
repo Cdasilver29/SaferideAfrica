@@ -251,7 +251,7 @@ function PrimaryNavItem({
   // the row over budget at 1280; the drawer keeps its icons, it has the room.
   const inner = (
     <>
-      <Text className="font-body-bold text-[13px] uppercase tracking-wide text-brand-ink">
+      <Text className="font-body-bold text-[12px] uppercase tracking-wide text-brand-ink">
         {item.label}
       </Text>
       {hasChildren ? (
@@ -269,7 +269,7 @@ function PrimaryNavItem({
   // everything else dark-on-grey.
   const highlighted = active || isOpen;
   const pressableClass = [
-    "flex-row items-center gap-1.5 rounded-sm px-3 py-3.5",
+    "flex-row items-center gap-1.5 rounded-sm px-2.5 py-3",
     "web:transition-colors web:hover:bg-brand-accent",
     "web:outline-none web:focus-visible:ring-2 web:focus-visible:ring-brand-ink",
     highlighted ? "bg-brand-accent" : "",
@@ -694,19 +694,19 @@ export function HeaderV3({
               onPress={onCallNow}
               accessibilityRole="button"
               accessibilityLabel="Call Safe Ride Africa now"
-              className="h-9 flex-row items-center rounded-pill bg-brand-action px-4 web:transition-opacity web:hover:opacity-90 web:focus-visible:ring-2 web:focus-visible:ring-brand-ink"
+              className="h-8 flex-row items-center rounded-pill bg-brand-action px-3.5 web:transition-opacity web:hover:opacity-90 web:focus-visible:ring-2 web:focus-visible:ring-brand-ink"
             >
-              <Phone size={15} color="#FFFFFF" />
-              <Text className="ml-1.5 font-body-bold text-[13px] text-white">
+              <Phone size={14} color="#FFFFFF" />
+              <Text className="ml-1.5 font-body-bold text-[12px] text-white">
                 Call now
               </Text>
             </Pressable>
             <Pressable
               onPress={onEnrol}
               accessibilityRole="button"
-              className="h-9 items-center justify-center rounded-pill bg-brand-accent px-5 web:transition-opacity web:hover:opacity-90 web:focus-visible:ring-2 web:focus-visible:ring-brand-ink"
+              className="h-8 items-center justify-center rounded-pill bg-brand-accent px-4 web:transition-opacity web:hover:opacity-90 web:focus-visible:ring-2 web:focus-visible:ring-brand-ink"
             >
-              <Text className="font-body-bold text-[13px] text-brand-ink">
+              <Text className="font-body-bold text-[12px] text-brand-ink">
                 Enrol now
               </Text>
             </Pressable>
