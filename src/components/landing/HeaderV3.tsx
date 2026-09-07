@@ -581,7 +581,7 @@ export function HeaderV3({
         }
       >
         <View
-          className="mx-auto w-full max-w-7xl flex-row items-center justify-between px-6"
+          className="mx-auto w-full max-w-7xl flex-row items-center justify-between gap-x-8 px-6"
           style={
             Platform.OS === "web"
               ? { overflow: "visible", zIndex: 30 }
@@ -592,7 +592,7 @@ export function HeaderV3({
             <Pressable
               accessibilityRole="link"
               accessibilityLabel="Safe Ride Africa, home"
-              className="flex-row items-center gap-3 py-2"
+              className="shrink-0 flex-row items-center gap-3 py-2"
             >
               <Image source={logoSource} style={LOGO_DESKTOP} resizeMode="contain" />
               <Wordmark onLight />
@@ -600,7 +600,7 @@ export function HeaderV3({
           </Link>
 
           <View
-            className="flex-row items-center"
+            className="flex-1 flex-row items-center justify-center"
             style={
               Platform.OS === "web"
                 ? { overflow: "visible", zIndex: 30 }
