@@ -126,7 +126,6 @@ function PrimaryNavItem({
   onOpen: (label: string) => void;
   onClose: () => void;
 }) {
-  const Icon = NAV_ICONS[item.label];
   const hasChildren = !!item.children?.length;
   const isWeb = Platform.OS === "web";
 
@@ -173,9 +172,10 @@ function PrimaryNavItem({
         }
       : {};
 
+  // Text-only on desktop. The leading glyph cost about 22px per item and put
+  // the row over budget at 1280; the drawer keeps its icons, it has the room.
   const inner = (
     <>
-      {Icon ? <Icon size={16} color={brand.ink} /> : null}
       <Text className="font-body-bold text-[13px] uppercase tracking-wide text-brand-ink">
         {item.label}
       </Text>
@@ -600,7 +600,7 @@ export function HeaderV3({
           </Link>
 
           <View
-            className="flex-1 flex-row items-center justify-center"
+            className="flex-1 flex-row items-center justify-start"
             style={
               Platform.OS === "web"
                 ? { overflow: "visible", zIndex: 30 }
