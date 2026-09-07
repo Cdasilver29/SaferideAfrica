@@ -211,12 +211,6 @@ export const CLASS_SERIES: { code: SeriesCode; label: string; subtitle: string; 
   { code: 'EXEC', label: 'Executive', subtitle: 'Premium Private Training',        image: require('../../assets/images/courses/exec-series.webp') },
 ];
 
-export const REFRESHER_LESSONS = [
-  { code: 'REF-BLIGHT', name: 'B-Light Refresher', perLesson: 700,   minLessons: 3 },
-  { code: 'REF-AUTO',   name: 'Auto Refresher',    perLesson: 800,   minLessons: 3 },
-  { code: 'REF-CLIGHT', name: 'C-Light Refresher', perLesson: 1_000, minLessons: 3 },
-] as const;
-
 
 // ─── Services (10) ───────────────────────────────────────────────────────────
 
