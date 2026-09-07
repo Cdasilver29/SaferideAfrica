@@ -68,7 +68,7 @@ export default function LandingScreen() {
         scrollEventThrottle={16}
       >
         <Hero onScrollToCourses={() => router.push('/courses')} />
-        <Reveal variant="rise"><StatStrip /></Reveal>
+        <StatStrip />
         <Reveal variant="rise"><ServicesPreview /></Reveal>
         <PremiumCourseCards />
         <Reveal variant="slide-left"><WhyValuesSnippet /></Reveal>
