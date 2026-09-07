@@ -581,8 +581,9 @@ export function HeaderV3({
         Platform.OS === "web" ? { overflow: "visible", zIndex: 30 } : undefined
       }
     >
-      {/* Row 1, thin utility strip on true sky. Labels are ink, not white:
-          white on brand-primary is only 2.75:1. No logo on this row. */}
+      {/* Row 1, thin utility strip on true sky. Labels and social glyphs are
+          white by design decision; note white on brand-primary measures
+          2.75:1, below the 4.5:1 text threshold. No logo on this row. */}
       <View className="bg-brand-primary">
         <View className="mx-auto w-full max-w-7xl flex-row items-center justify-between px-6 py-2">
           <View className="flex-row items-center">
@@ -593,7 +594,7 @@ export function HeaderV3({
                   accessibilityState={{ selected: pathname === item.href }}
                   className="rounded-sm px-3 py-1 web:transition-colors web:hover:bg-white/10 web:outline-none web:focus-visible:ring-2 web:focus-visible:ring-brand-accent"
                 >
-                  <Text className="font-body-bold text-xs uppercase tracking-[0.12em] text-brand-ink">
+                  <Text className="font-body-bold text-xs uppercase tracking-[0.12em] text-white">
                     {item.label}
                   </Text>
                 </Pressable>
@@ -608,9 +609,9 @@ export function HeaderV3({
                 onPress={() => Linking.openURL(url)}
                 accessibilityRole="link"
                 accessibilityLabel={`Safe Ride Africa on ${label}`}
-                className="h-8 w-8 items-center justify-center rounded-full bg-brand-ink/10 web:transition-colors web:hover:bg-brand-ink/20 web:focus-visible:ring-2 web:focus-visible:ring-brand-ink"
+                className="h-8 w-8 items-center justify-center rounded-full bg-white/20 web:transition-colors web:hover:bg-white/35 web:focus-visible:ring-2 web:focus-visible:ring-white"
               >
-                <Icon size={16} color={brand.ink} />
+                <Icon size={16} color="#FFFFFF" />
               </Pressable>
             ))}
             <View className="ml-2 flex-row items-center gap-2">

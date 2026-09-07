@@ -55,7 +55,8 @@ export default function LanguageSwitcher({
   // measure about 3:1. Ink clears 5.95:1 there.
   onLight?: boolean;
 }) {
-  const controlFg = onLight ? C.dark : C.mutedDark;
+  // On dark grounds white/70 measured 3.67:1; white/85 clears 4.64:1.
+  const controlFg = onLight ? C.dark : 'rgba(255,255,255,0.85)';
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
 
