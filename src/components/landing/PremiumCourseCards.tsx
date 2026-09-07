@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, Pressable, useWindowDimensions } from 'react-native';
+import { View, Text, Pressable, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
 import { ArrowRight, Plus, Minus } from 'lucide-react-native';
 import { CLASSES, CLASS_SERIES } from '@/data/saferide';
-import { Badge, Button, Icon, cn } from '@/components/ui';
+import { Button, Icon, cn } from '@/components/ui';
 import { C, F, IS_WEB, MAX_W } from './constants';
 import { SectionIntro } from './SectionIntro';
 import { useInView } from '@/hooks/useInView';
 import { useReduceMotion } from '@/hooks/useReduceMotion';
 import { RevealItem } from '@/components/animations/Reveal';
+import { ImageCard } from './ImageCard';
 
 const PREVIEW_CODES = ['B-LIGHT', 'B-AUTO', 'EXECUTIVE'];
 
@@ -27,7 +28,8 @@ const CARD_HAS_BADGE: Record<string, boolean> = {
 };
 
 // Phase C image-led card: vehicle photo on top, title, one line, Read More.
-// The whole card is the link; Read More is the visible affordance.
+// The card shape itself lives in ImageCard; this resolves the CLASSES row to
+// the destination, copy, and photo that shape needs.
 function ClassCard({ cls }: { cls: (typeof CLASSES)[0] }) {
   const { t } = useTranslation();
   const cardKey = CARD_KEY_MAP[cls.code];
@@ -39,50 +41,14 @@ function ClassCard({ cls }: { cls: (typeof CLASSES)[0] }) {
   }
 
   return (
-    <Pressable
-      onPress={() => router.push(`/classes/${cls.code}` as any)}
-      accessibilityRole="link"
-      accessibilityLabel={cls.name}
-      className="overflow-hidden rounded-card border border-border bg-card hover:border-primary/50 active:opacity-90"
-    >
-      {/* Sized image container: a 3:2 aspect-ratio box frames the landscape
-          series photos with little crop and gives the portrait B-series photo a
-          taller band. Explicit inline dimensions on the Image stop react-native-
-          web injecting the source's intrinsic height (same fix as courses). */}
-      <View style={{ aspectRatio: 3 / 2, width: '100%' }} className="overflow-hidden">
-        {image && (
-          <Image
-            source={image}
-            resizeMode="cover"
-            accessibilityLabel={`${cls.name} vehicle`}
-            style={{
-              width: '100%',
-              height: '100%',
-            }}
-          />
-        )}
-        {CARD_HAS_BADGE[cls.code] && (
-          <Badge variant="accent" className="absolute left-3 top-3">
-            {t(`home.premiumCourses.cards.${cardKey}.badge`)}
-          </Badge>
-        )}
-      </View>
-
-      <View className="p-5">
-        <Text style={{ fontFamily: F.bold }} className="mb-1 text-lg text-foreground">
-          {cls.name}
-        </Text>
-        <Text style={{ fontFamily: F.regular }} className="mb-2 text-sm leading-5 text-muted-foreground">
-          {t(`home.premiumCourses.cards.${cardKey}.snippet`)}
-        </Text>
-        <View className="h-11 flex-row items-center gap-1.5">
-          <Text style={{ fontFamily: F.semibold }} className="text-sm text-primary">
-            {t('common.readMore')}
-          </Text>
-          <Icon icon={ArrowRight} size="sm" color={C.skyDeep} />
-        </View>
-      </View>
-    </Pressable>
+    <ImageCard
+      href={`/classes/${cls.code}`}
+      title={cls.name}
+      description={t(`home.premiumCourses.cards.${cardKey}.snippet`)}
+      image={image}
+      imageAlt={`${cls.name} vehicle`}
+      badge={CARD_HAS_BADGE[cls.code] ? t(`home.premiumCourses.cards.${cardKey}.badge`) : undefined}
+    />
   );
 }
 

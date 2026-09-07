@@ -418,6 +418,25 @@
           ]
         }
       }
+    },
+    "driverTypes": {
+      "badge": "Where You Are Now",
+      "title": "Which Driver Are You?",
+      "description": "Three common starting points. Pick the one that sounds like you.",
+      "cards": {
+        "new": {
+          "title": "New to driving",
+          "desc": "Starting from scratch: vehicle controls, road signs, theory class, and your first hours of road practice."
+        },
+        "category": {
+          "title": "Adding a category",
+          "desc": "Already licensed and after another class, from motorcycles and tricycles to heavy commercial and PSV."
+        },
+        "refresher": {
+          "title": "Getting back on the road",
+          "desc": "Rusty after time away, or preparing for a retest. One-on-one lessons shaped around what you want to improve."
+        }
+      }
     }
   },
 
@@ -572,6 +591,11 @@
         "name": "Online Learning Platform",
         "shortDesc": "Live and recorded NTSA-aligned theory classes accessible from any device, anywhere in Kenya.",
         "fullDesc": "Our Online Learning Platform gives you the full NTSA theory curriculum from your phone, tablet, or laptop. Live classes run multiple times per week, with recordings available on demand. Topics include road signs, traffic laws, first aid for drivers, and defensive driving theory. Track your progress through our LMS and chat directly with instructors at any time."
+      },
+      "refresher": {
+        "name": "Refresher Driving",
+        "shortDesc": "Rebuild your confidence with focused, one-on-one lessons.",
+        "fullDesc": "Our refresher course is for licensed drivers who want to rebuild their confidence behind the wheel. Whether you have been off the road for a while, feel rusty after passing your test, or want focused practice before a retest, an instructor works with you one-on-one to sharpen the skills you already have. Lessons are shaped around what you want to improve, at a pace that suits you."
       }
     }
   },

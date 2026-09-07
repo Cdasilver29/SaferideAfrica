@@ -2,6 +2,7 @@
 // Single source of truth for all Safe Ride Africa business content.
 // Components import from here. Strings are in English; other locales marked TODO in en.json.
 
+import { Platform } from 'react-native';
 import type { ImageSourcePropType } from 'react-native';
 
 // ─── Company ─────────────────────────────────────────────────────────────────
@@ -211,14 +212,8 @@ export const CLASS_SERIES: { code: SeriesCode; label: string; subtitle: string; 
   { code: 'EXEC', label: 'Executive', subtitle: 'Premium Private Training',        image: require('../../assets/images/courses/exec-series.webp') },
 ];
 
-export const REFRESHER_LESSONS = [
-  { code: 'REF-BLIGHT', name: 'B-Light Refresher', perLesson: 700,   minLessons: 3 },
-  { code: 'REF-AUTO',   name: 'Auto Refresher',    perLesson: 800,   minLessons: 3 },
-  { code: 'REF-CLIGHT', name: 'C-Light Refresher', perLesson: 1_000, minLessons: 3 },
-] as const;
 
-
-// ─── Services (10) ───────────────────────────────────────────────────────────
+// ─── Services (11) ───────────────────────────────────────────────────────────
 
 export interface ServiceItem {
   code:      string;
@@ -228,6 +223,20 @@ export interface ServiceItem {
   shortDesc: string;
   fullDesc:  string;
 }
+
+// The refresher photo comes from the gallery set, which lives in public/ and
+// is web-only. Native falls back to the bundled image the same way every
+// other gallery source in constants.ts does, so it shows the fallback rather
+// than an empty frame.
+//
+// Stopgap: DSC_7860 is a branded training car with nobody in frame. The
+// gallery has no photo of one-on-one instruction, and the previous pick
+// showed a group, which contradicted the one-on-one copy. Replace this with
+// a real one-on-one lesson photo when one exists, ideally bundled under
+// assets/images/services/ so the web-only gate can go away.
+const REFRESHER_IMG: ImageSourcePropType = Platform.OS === 'web'
+  ? { uri: '/gallery/DSC_7860.webp' }
+  : require('../../assets/images/car-pic.png');
 
 export const SERVICES: ServiceItem[] = [
   {
@@ -309,6 +318,14 @@ export const SERVICES: ServiceItem[] = [
     image:     require('../../assets/images/services/online-learning-platform.webp'),
     shortDesc: 'Live and recorded NTSA-aligned theory classes accessible from any device, anywhere in Kenya.',
     fullDesc:  'Our Online Learning Platform gives you the full NTSA theory curriculum from your phone, tablet, or laptop. Live classes run multiple times per week, with recordings available on demand. Topics include road signs, traffic laws, first aid for drivers, and defensive driving theory. Track your progress through our LMS and chat directly with instructors at any time.',
+  },
+  {
+    code:      'REFRESHER',
+    name:      'Refresher Driving',
+    iconName:  'RefreshCw',
+    image:     REFRESHER_IMG,
+    shortDesc: 'Rebuild your confidence with focused, one-on-one lessons.',
+    fullDesc:  'Our refresher course is for licensed drivers who want to rebuild their confidence behind the wheel. Whether you have been off the road for a while, feel rusty after passing your test, or want focused practice before a retest, an instructor works with you one-on-one to sharpen the skills you already have. Lessons are shaped around what you want to improve, at a pace that suits you.',
   },
 ];
 

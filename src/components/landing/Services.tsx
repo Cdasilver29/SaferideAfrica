@@ -19,6 +19,7 @@ export const SERVICE_KEY_MAP: Record<string, string> = {
   ROAD_TEST: 'roadTest',
   CORPORATE: 'corporate',
   ONLINE: 'online',
+  REFRESHER: 'refresher',
 };
 
 function ServiceCard({ svc, readMore }: { svc: ServiceItem; readMore: string }) {
