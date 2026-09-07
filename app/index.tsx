@@ -9,6 +9,7 @@ import Animated, {
 
 import Navbar       from '@/components/landing/Navbar';
 import Hero         from '@/components/landing/Hero';
+import StatStrip    from '@/components/landing/StatStrip';
 import Testimonials from '@/components/landing/Testimonials';
 import Footer       from '@/components/landing/Footer';
 
@@ -67,16 +68,17 @@ export default function LandingScreen() {
         scrollEventThrottle={16}
       >
         <Hero onScrollToCourses={() => router.push('/courses')} />
-        <Reveal><ServicesPreview /></Reveal>
+        <Reveal variant="rise"><StatStrip /></Reveal>
+        <Reveal variant="rise"><ServicesPreview /></Reveal>
         <PremiumCourseCards />
-        <Reveal><WhyValuesSnippet /></Reveal>
-        <Reveal><AboutPreview /></Reveal>
-        <Reveal><HomeFaq /></Reveal>
-        <Reveal><EnrolSteps /></Reveal>
-        <Reveal><Testimonials /></Reveal>
-        <Reveal><BranchesPreview /></Reveal>
-        <Reveal><GalleryPreview /></Reveal>
-        <Reveal><FinalCTA /></Reveal>
+        <Reveal variant="slide-left"><WhyValuesSnippet /></Reveal>
+        <Reveal variant="slide-right"><AboutPreview /></Reveal>
+        <Reveal variant="rise"><HomeFaq /></Reveal>
+        <Reveal variant="flip"><EnrolSteps /></Reveal>
+        <Reveal variant="slide-left"><Testimonials /></Reveal>
+        <Reveal variant="rise"><BranchesPreview /></Reveal>
+        <Reveal variant="slide-right"><GalleryPreview /></Reveal>
+        <Reveal variant="light-speed"><FinalCTA /></Reveal>
         <Footer />
       </Animated.ScrollView>
 
