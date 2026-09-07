@@ -87,21 +87,47 @@ const NAV_ICONS: Record<string, LucideIcon> = {
   "Get in touch": Phone,
 };
 
-const LOGO_DESKTOP = { width: 52, height: 52, borderRadius: 13 };
+// Ink at ~85% and ~55% alpha, via the 8-digit-hex suffix used elsewhere in
+// the codebase. A shadow lifts perceived legibility but does not change the
+// computed WCAG ratio, which is measured on flat colours.
+const WORDMARK_SHADOW = {
+  textShadowColor: `${brand.ink}d9`,
+  textShadowOffset: { width: 0, height: 2 },
+  textShadowRadius: 3,
+} as const;
+
+const GLYPH_SHADOW =
+  Platform.OS === "web"
+    ? ({ filter: `drop-shadow(0 1px 2px ${brand.ink}8c)` } as never)
+    : {
+        shadowColor: brand.ink,
+        shadowOpacity: 0.55,
+        shadowRadius: 2,
+        shadowOffset: { width: 0, height: 1 },
+        elevation: 3,
+      };
+
+const LOGO_DESKTOP = { width: 58, height: 58, borderRadius: 15 };
 const LOGO_MOBILE = { width: 44, height: 44, borderRadius: 11 };
 
 /**
- * One colour pair on every ground, by design decision: the name in brand
- * yellow, the tagline in brand red. Note this is weak on the light grey of
- * row 2, where yellow measures about 1.3:1; see the audit in the commit.
+ * One colour pair on every ground: the name in the darkened accent, the
+ * tagline in brand red, both over an ink shadow.
+ *
+ * The darkened accent is a compromise. The wordmark renders on three very
+ * different grounds and no single value clears 3:1 on all of them: this one
+ * reaches 3.00:1 on the light grey of row 2, where the plain brand yellow was
+ * 1.29:1, at the cost of the sky bar and the drawer. Per-ground colours are
+ * the only way to satisfy all three.
  */
 function Wordmark({ compact = false }: { compact?: boolean }) {
   return (
     <View>
       <Text
+        style={WORDMARK_SHADOW}
         className={`font-display ${
           compact ? "text-lg" : "text-xl"
-        } leading-tight text-brand-accent`}
+        } leading-tight text-brand-accent-deep`}
       >
         Safe Ride Africa
       </Text>
@@ -554,6 +580,7 @@ export function HeaderV3({
                     onPress={() => Linking.openURL(url)}
                     accessibilityRole="link"
                     accessibilityLabel={`Safe Ride Africa on ${label}`}
+                    style={GLYPH_SHADOW}
                     className="h-11 w-11 items-center justify-center rounded-full bg-white/15"
                   >
                     <Icon size={20} color={color ?? "#FFFFFF"} />
@@ -577,16 +604,16 @@ export function HeaderV3({
           white by design decision; note white on brand-primary measures
           2.75:1, below the 4.5:1 text threshold. No logo on this row. */}
       <View className="bg-brand-primary">
-        <View className="mx-auto w-full max-w-7xl flex-row items-center justify-between px-6 py-2">
+        <View className="mx-auto w-full max-w-7xl flex-row items-center justify-between px-6 py-1">
           <View className="flex-row items-center">
             {secondaryNav.map((item) => (
               <Link key={item.label} href={item.href} asChild>
                 <Pressable
                   accessibilityRole="link"
                   accessibilityState={{ selected: pathname === item.href }}
-                  className="rounded-sm px-3 py-1 web:transition-colors web:hover:bg-white/10 web:outline-none web:focus-visible:ring-2 web:focus-visible:ring-brand-accent"
+                  className="rounded-sm px-2.5 py-0.5 web:transition-colors web:hover:bg-white/10 web:outline-none web:focus-visible:ring-2 web:focus-visible:ring-brand-accent"
                 >
-                  <Text className="font-body-bold text-xs uppercase tracking-[0.12em] text-white">
+                  <Text className="font-body-bold text-[11px] uppercase tracking-[0.12em] text-white">
                     {item.label}
                   </Text>
                 </Pressable>
@@ -601,9 +628,10 @@ export function HeaderV3({
                 onPress={() => Linking.openURL(url)}
                 accessibilityRole="link"
                 accessibilityLabel={`Safe Ride Africa on ${label}`}
-                className="h-8 w-8 items-center justify-center rounded-full bg-white/20 web:transition-colors web:hover:bg-white/35 web:focus-visible:ring-2 web:focus-visible:ring-white"
+                style={GLYPH_SHADOW}
+                className="h-7 w-7 items-center justify-center rounded-full bg-white/20 web:transition-colors web:hover:bg-white/35 web:focus-visible:ring-2 web:focus-visible:ring-white"
               >
-                <Icon size={16} color={color ?? "#FFFFFF"} />
+                <Icon size={14} color={color ?? "#FFFFFF"} />
               </Pressable>
             ))}
             <View className="ml-2 flex-row items-center gap-2">

@@ -66,11 +66,11 @@ function SiteHeader() {
       onPress={toggleColorScheme}
       accessibilityRole="button"
       accessibilityLabel="Toggle theme"
-      className="h-11 w-11 items-center justify-center rounded-pill"
+      className={`${onLight ? "h-7 w-7" : "h-11 w-11"} items-center justify-center rounded-pill`}
     >
       {isDark
-        ? <Sun size={18} color={onLight ? brand.onPrimary : brand.accent} />
-        : <Moon size={18} color={brand.onPrimary} />}
+        ? <Sun size={onLight ? 15 : 18} color={onLight ? brand.onPrimary : brand.accent} />
+        : <Moon size={onLight ? 15 : 18} color={brand.onPrimary} />}
     </Pressable>
   );
 
