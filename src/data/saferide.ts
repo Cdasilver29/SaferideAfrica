@@ -212,7 +212,7 @@ export const CLASS_SERIES: { code: SeriesCode; label: string; subtitle: string; 
 ];
 
 
-// ─── Services (10) ───────────────────────────────────────────────────────────
+// ─── Services (11) ───────────────────────────────────────────────────────────
 
 export interface ServiceItem {
   code:      string;
@@ -303,6 +303,14 @@ export const SERVICES: ServiceItem[] = [
     image:     require('../../assets/images/services/online-learning-platform.webp'),
     shortDesc: 'Live and recorded NTSA-aligned theory classes accessible from any device, anywhere in Kenya.',
     fullDesc:  'Our Online Learning Platform gives you the full NTSA theory curriculum from your phone, tablet, or laptop. Live classes run multiple times per week, with recordings available on demand. Topics include road signs, traffic laws, first aid for drivers, and defensive driving theory. Track your progress through our LMS and chat directly with instructors at any time.',
+  },
+  {
+    code:      'REFRESHER',
+    name:      'Refresher Driving',
+    iconName:  'RefreshCw',
+    image:     { uri: '/gallery/DSC_2678.webp' },
+    shortDesc: 'Rebuild your confidence with focused, one-on-one lessons.',
+    fullDesc:  'Our refresher course is for licensed drivers who want to rebuild their confidence behind the wheel. Whether you have been off the road for a while, feel rusty after passing your test, or want focused practice before a retest, an instructor works with you one-on-one to sharpen the skills you already have. Lessons are shaped around what you want to improve, at a pace that suits you.',
   },
 ];
 

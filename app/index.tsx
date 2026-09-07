@@ -15,6 +15,7 @@ import Footer       from '@/components/landing/Footer';
 
 import ServicesPreview from '@/components/landing/ServicesPreview';
 import { PremiumCourseCards } from '@/components/landing/PremiumCourseCards';
+import DriverTypeSection from '@/components/landing/DriverTypeSection';
 import WhyValuesSnippet from '@/components/landing/WhyValuesSnippet';
 import AboutPreview    from '@/components/landing/AboutPreview';
 import HomeFaq         from '@/components/landing/HomeFaq';
@@ -71,6 +72,7 @@ export default function LandingScreen() {
         <StatStrip />
         <Reveal variant="rise"><ServicesPreview /></Reveal>
         <PremiumCourseCards />
+        <Reveal variant="slide-right"><DriverTypeSection /></Reveal>
         <Reveal variant="slide-left"><WhyValuesSnippet /></Reveal>
         <Reveal variant="slide-right"><AboutPreview /></Reveal>
         <Reveal variant="rise"><HomeFaq /></Reveal>
