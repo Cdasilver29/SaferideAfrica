@@ -124,7 +124,7 @@ function Wordmark({ compact = false }: { compact?: boolean }) {
       <Text
         style={WORDMARK_SHADOW}
         className={`font-display ${
-          compact ? "text-lg" : "text-xl"
+          compact ? "text-lg" : "text-2xl"
         } leading-tight text-brand-accent`}
       >
         Safe Ride Africa
@@ -670,7 +670,7 @@ export function HeaderV3({
           </Link>
 
           <View
-            className="flex-1 flex-row items-center justify-start"
+            className="flex-1 flex-row items-center justify-end"
             style={
               Platform.OS === "web"
                 ? { overflow: "visible", zIndex: 30 }
