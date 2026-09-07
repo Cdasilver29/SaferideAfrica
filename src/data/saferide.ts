@@ -2,6 +2,7 @@
 // Single source of truth for all Safe Ride Africa business content.
 // Components import from here. Strings are in English; other locales marked TODO in en.json.
 
+import { Platform } from 'react-native';
 import type { ImageSourcePropType } from 'react-native';
 
 // ─── Company ─────────────────────────────────────────────────────────────────
@@ -223,6 +224,14 @@ export interface ServiceItem {
   fullDesc:  string;
 }
 
+// The refresher photo comes from the gallery set, which lives in public/ and
+// is web-only. Native falls back to the bundled image the same way every
+// other gallery source in constants.ts does, so it shows the fallback rather
+// than an empty frame.
+const REFRESHER_IMG: ImageSourcePropType = Platform.OS === 'web'
+  ? { uri: '/gallery/DSC_2678.webp' }
+  : require('../../assets/images/car-pic.png');
+
 export const SERVICES: ServiceItem[] = [
   {
     code:      'DEFENSIVE',
@@ -308,7 +317,7 @@ export const SERVICES: ServiceItem[] = [
     code:      'REFRESHER',
     name:      'Refresher Driving',
     iconName:  'RefreshCw',
-    image:     { uri: '/gallery/DSC_2678.webp' },
+    image:     REFRESHER_IMG,
     shortDesc: 'Rebuild your confidence with focused, one-on-one lessons.',
     fullDesc:  'Our refresher course is for licensed drivers who want to rebuild their confidence behind the wheel. Whether you have been off the road for a while, feel rusty after passing your test, or want focused practice before a retest, an instructor works with you one-on-one to sharpen the skills you already have. Lessons are shaped around what you want to improve, at a pace that suits you.',
   },
