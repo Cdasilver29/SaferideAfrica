@@ -74,7 +74,7 @@ function HeroSlideText({ slide, slides }: { slide: number; slides: HeroSlide[] }
       <View className={['mb-3 web:mb-4', isMobile && 'items-center'].join(' ')}>
         {data?.eyebrow ? (
           <Text
-            style={{ fontFamily: F.bold, color: C.yellow, letterSpacing: 2, textAlign: isMobile ? 'center' : 'left' }}
+            style={{ fontFamily: F.bold, color: C.skyDeep, letterSpacing: 2, textAlign: isMobile ? 'center' : 'left' }}
             className="mb-2.5 text-sm uppercase web:text-lg"
           >
             {data.eyebrow}
