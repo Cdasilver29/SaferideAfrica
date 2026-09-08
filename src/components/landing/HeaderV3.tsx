@@ -49,6 +49,15 @@ import { primaryNav, secondaryNav, NavItem } from "../../data/navigation";
  * 3. Image dimensions and corner radius go through the style prop.
  *    NativeWind h-, w- and rounded- classes do not reliably apply to
  *    Image on web, which is what made the logo render at natural size.
+ * 4. The mobile root carries an explicit zIndex. Every react-native-web
+ *    View is a stacking context at z-index 0, so the drawer's z-index 100
+ *    resolved inside the header and painted behind the Stack content and
+ *    SocialFloat. The root now sits at 200, above both.
+ *
+ * MOBILE IS TWO BARS, mirroring the AA pattern: a thin sky utility bar with
+ * its own toggle and the socials, then a taller grey bar with the logo and
+ * the main-nav toggle. Each toggle opens its own drawer; only one is ever
+ * open, since each opener closes the other.
  */
 
 /**
@@ -109,6 +118,9 @@ const GLYPH_SHADOW =
 
 const LOGO_DESKTOP = { width: 58, height: 58, borderRadius: 15 };
 const LOGO_MOBILE = { width: 44, height: 44, borderRadius: 11 };
+// Drawers show the mark alone, with no wordmark beside it, so it carries the
+// brand on its own and is sized up accordingly.
+const LOGO_DRAWER = { width: 56, height: 56, borderRadius: 14 };
 
 /**
  * One colour pair on every ground: the name in brand yellow, the tagline in
@@ -376,6 +388,54 @@ function PrimaryNavItem({
   );
 }
 
+/**
+ * Shell shared by both mobile drawers: full-bleed brand-deep overlay, the logo
+ * alone at the top with a close button, then a scrolling body.
+ *
+ * Not a Modal, per the earlier fix: RN's Modal is unreliable on web. It is an
+ * absolutely positioned overlay, fixed on web so it covers the viewport rather
+ * than the header box, and it carries its own zIndex so it stays above the
+ * page even if the root's escape is ever lost.
+ */
+function MobileDrawer({
+  logoSource,
+  label,
+  onClose,
+  children,
+}: {
+  logoSource: number | { uri: string };
+  label: string;
+  onClose: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <View
+      className="absolute inset-0 z-[100] bg-brand-deep"
+      style={
+        Platform.OS === "web"
+          ? ({ position: "fixed", height: "100vh", zIndex: 100 } as never)
+          : undefined
+      }
+    >
+      <View className="flex-row items-center justify-between px-4 py-2.5">
+        <Image source={logoSource} style={LOGO_DRAWER} resizeMode="contain" />
+        <Pressable
+          onPress={onClose}
+          accessibilityRole="button"
+          accessibilityLabel={`Close ${label}`}
+          className="h-11 w-11 items-center justify-center"
+        >
+          <X size={26} color="#FFFFFF" />
+        </Pressable>
+      </View>
+
+      <ScrollView className="flex-1 px-4" contentContainerClassName="pb-16">
+        {children}
+      </ScrollView>
+    </View>
+  );
+}
+
 export function HeaderV3({
   languageSwitcher,
   themeToggle,
@@ -384,7 +444,8 @@ export function HeaderV3({
   onEnrol,
   logoSource,
 }: HeaderV3Props) {
-  const [drawer, setDrawer] = useState(false);
+  const [utilityDrawer, setUtilityDrawer] = useState(false);
+  const [navDrawer, setNavDrawer] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const { width } = useWindowDimensions();
@@ -394,199 +455,231 @@ export function HeaderV3({
   const isDesktop = width >= 1280;
 
   if (!isDesktop) {
+    // Only one drawer is open at a time: each opener closes the other.
+    const openUtility = () => { setNavDrawer(false); setUtilityDrawer(true); };
+    const openNav = () => { setUtilityDrawer(false); setNavDrawer(true); };
+    const closeDrawers = () => { setUtilityDrawer(false); setNavDrawer(false); };
+
     return (
-      <View className="bg-brand-primary">
-        <View className="flex-row items-center justify-between px-4 py-2.5">
-          <Link href="/" asChild>
+      // zIndex 200 lifts the whole mobile header, drawers included, clear of
+      // the Stack content and SocialFloat. See bug 4 in the file header.
+      <View style={Platform.OS === "web" ? { zIndex: 200 } : undefined}>
+        {/* Bar 1, thin sky utility strip: its own toggle left, socials right.
+            The 44px pressables set the bar height; the glyph circles stay at
+            28px so the strip still reads as thin. */}
+        <View className="bg-brand-primary">
+          <View className="flex-row items-center justify-between px-3">
             <Pressable
-              accessibilityRole="link"
-              accessibilityLabel="Safe Ride Africa, home"
-              className="flex-row items-center gap-2.5"
+              onPress={openUtility}
+              accessibilityRole="button"
+              accessibilityLabel="Open utility menu"
+              accessibilityState={{ expanded: utilityDrawer }}
+              className="h-11 w-11 items-center justify-center rounded-md"
             >
-              <Image source={logoSource} style={LOGO_MOBILE} resizeMode="contain" />
-              <Wordmark compact />
+              <Menu size={20} color={brand.onPrimary} />
             </Pressable>
-          </Link>
-          <Pressable
-            onPress={() => setDrawer(true)}
-            accessibilityRole="button"
-            accessibilityLabel="Open menu"
-            className="h-11 w-11 items-center justify-center rounded-md"
-          >
-            <Menu size={26} color="#FFFFFF" />
-          </Pressable>
+
+            <View className="flex-row items-center">
+              {socials.slice(0, 3).map(({ label, url, Icon, color }) => (
+                <Pressable
+                  key={label}
+                  onPress={() => Linking.openURL(url)}
+                  accessibilityRole="link"
+                  accessibilityLabel={`Safe Ride Africa on ${label}`}
+                  className="h-11 w-11 items-center justify-center"
+                >
+                  <View
+                    style={GLYPH_SHADOW}
+                    className="h-7 w-7 items-center justify-center rounded-full bg-white/20"
+                  >
+                    <Icon size={14} color={color ?? "#FFFFFF"} />
+                  </View>
+                </Pressable>
+              ))}
+            </View>
+          </View>
         </View>
 
-        {/* Overlay drawer. Not a Modal: RN Modal is unreliable on web. */}
-        {drawer ? (
-          <View
-            className="absolute inset-0 z-[100] bg-brand-deep"
-            style={
-              Platform.OS === "web"
-                ? ({ position: "fixed", height: "100vh" } as never)
-                : undefined
-            }
-          >
-            <View className="flex-row items-center justify-between px-4 py-2.5">
-              <View className="flex-row items-center gap-2.5">
+        {/* Bar 2, the grey main bar: logo left, main-nav toggle right. The
+            surface is light, so the glyph is ink here, not white. */}
+        <View className="bg-brand-surface">
+          <View className="flex-row items-center justify-between px-4 py-2">
+            <Link href="/" asChild>
+              <Pressable
+                accessibilityRole="link"
+                accessibilityLabel="Safe Ride Africa, home"
+                className="flex-row items-center gap-2.5"
+              >
                 <Image source={logoSource} style={LOGO_MOBILE} resizeMode="contain" />
                 <Wordmark compact />
-              </View>
-              <Pressable
-                onPress={() => setDrawer(false)}
-                accessibilityRole="button"
-                accessibilityLabel="Close menu"
-                className="h-11 w-11 items-center justify-center"
-              >
-                <X size={26} color="#FFFFFF" />
               </Pressable>
+            </Link>
+
+            <Pressable
+              onPress={openNav}
+              accessibilityRole="button"
+              accessibilityLabel="Open main menu"
+              accessibilityState={{ expanded: navDrawer }}
+              className="h-11 w-11 items-center justify-center rounded-md"
+            >
+              <Menu size={26} color={brand.ink} />
+            </Pressable>
+          </View>
+        </View>
+
+        {/* Utility drawer: the secondary set, plus language and theme and the
+            full social row. */}
+        {utilityDrawer ? (
+          <MobileDrawer logoSource={logoSource} label="utility menu" onClose={closeDrawers}>
+            {secondaryNav.map((item) => (
+              <Link key={item.label} href={item.href} asChild>
+                <Pressable
+                  accessibilityRole="link"
+                  onPress={closeDrawers}
+                  className="border-b border-white/15 py-4"
+                >
+                  <Text className="font-body-bold text-lg text-white">
+                    {item.label}
+                  </Text>
+                </Pressable>
+              </Link>
+            ))}
+
+            <View className="mt-6 flex-row items-center gap-4">
+              {renderControl(languageSwitcher, false)}
+              {renderControl(themeToggle, false)}
             </View>
 
-            <ScrollView className="flex-1 px-4" contentContainerClassName="pb-16">
-              {primaryNav.map((item) => {
-                const Icon = NAV_ICONS[item.label];
-                const isOpen = expanded === item.label;
-                return (
-                  <View key={item.label} className="border-b border-white/15">
-                    <View className="flex-row items-center">
-                      <Link href={item.href} asChild>
-                        <Pressable
-                          accessibilityRole="link"
-                          onPress={() => setDrawer(false)}
-                          className="flex-1 flex-row items-center gap-3 py-4"
-                        >
-                          {Icon ? <Icon size={20} color="#FFFFFF" /> : null}
-                          <Text className="font-body-bold text-lg text-white">
-                            {item.label}
-                          </Text>
-                        </Pressable>
-                      </Link>
-                      {item.children?.length ? (
-                        <Pressable
-                          onPress={() => setExpanded(isOpen ? null : item.label)}
-                          accessibilityRole="button"
-                          accessibilityLabel={`${isOpen ? "Collapse" : "Expand"} ${
-                            item.label
-                          }`}
-                          accessibilityState={{ expanded: isOpen }}
-                          className="h-11 w-11 items-center justify-center"
-                        >
-                          <ChevronDown
-                            size={20}
-                            color="#FFFFFF"
-                            style={{
-                              transform: [{ rotate: isOpen ? "180deg" : "0deg" }],
-                            }}
-                          />
-                        </Pressable>
-                      ) : null}
-                    </View>
+            <View className="mt-8 flex-row flex-wrap justify-center gap-4">
+              {socials.map(({ label, url, Icon, color }) => (
+                <Pressable
+                  key={label}
+                  onPress={() => Linking.openURL(url)}
+                  accessibilityRole="link"
+                  accessibilityLabel={`Safe Ride Africa on ${label}`}
+                  style={GLYPH_SHADOW}
+                  className="h-11 w-11 items-center justify-center rounded-full bg-white/15"
+                >
+                  <Icon size={20} color={color ?? "#FFFFFF"} />
+                </Pressable>
+              ))}
+            </View>
+          </MobileDrawer>
+        ) : null}
 
-                    {isOpen ? (
-                      <>
-                        {item.children?.map((child) => (
-                          <Link key={child.label} href={child.href} asChild>
-                            <Pressable
-                              accessibilityRole="link"
-                              onPress={() => setDrawer(false)}
-                              className="py-3 pl-9"
-                            >
-                              <Text className="font-body text-base text-white/85">
-                                {child.label}
-                              </Text>
-                            </Pressable>
-                          </Link>
-                        ))}
-                        {/* Grouped classes: series heading then its classes. */}
-                        {item.groups?.map((group) => (
-                          <View key={group.label} className="pb-1 pt-2">
-                            <Text className="pb-1 pl-9 font-body-bold text-xs uppercase tracking-[0.1em] text-white/85">
-                              {group.label}
-                            </Text>
-                            {group.items.map((gi) => (
-                              <Link key={gi.label} href={gi.href} asChild>
-                                <Pressable
-                                  accessibilityRole="link"
-                                  onPress={() => setDrawer(false)}
-                                  className="py-3 pl-9"
-                                >
-                                  <Text className="font-body text-base text-white/85">
-                                    {gi.label}
-                                  </Text>
-                                </Pressable>
-                              </Link>
-                            ))}
-                          </View>
-                        ))}
-                      </>
+        {/* Main-nav drawer: the primary set with its expandable children and
+            grouped classes, then the two CTAs. */}
+        {navDrawer ? (
+          <MobileDrawer logoSource={logoSource} label="main menu" onClose={closeDrawers}>
+            {primaryNav.map((item) => {
+              const Icon = NAV_ICONS[item.label];
+              const isOpen = expanded === item.label;
+              return (
+                <View key={item.label} className="border-b border-white/15">
+                  <View className="flex-row items-center">
+                    <Link href={item.href} asChild>
+                      <Pressable
+                        accessibilityRole="link"
+                        onPress={closeDrawers}
+                        className="flex-1 flex-row items-center gap-3 py-4"
+                      >
+                        {Icon ? <Icon size={20} color="#FFFFFF" /> : null}
+                        <Text className="font-body-bold text-lg text-white">
+                          {item.label}
+                        </Text>
+                      </Pressable>
+                    </Link>
+                    {item.children?.length ? (
+                      <Pressable
+                        onPress={() => setExpanded(isOpen ? null : item.label)}
+                        accessibilityRole="button"
+                        accessibilityLabel={`${isOpen ? "Collapse" : "Expand"} ${
+                          item.label
+                        }`}
+                        accessibilityState={{ expanded: isOpen }}
+                        className="h-11 w-11 items-center justify-center"
+                      >
+                        <ChevronDown
+                          size={20}
+                          color="#FFFFFF"
+                          style={{
+                            transform: [{ rotate: isOpen ? "180deg" : "0deg" }],
+                          }}
+                        />
+                      </Pressable>
                     ) : null}
                   </View>
-                );
-              })}
 
-              {secondaryNav.map((item) => (
-                <Link key={item.label} href={item.href} asChild>
-                  <Pressable
-                    accessibilityRole="link"
-                    onPress={() => setDrawer(false)}
-                    className="border-b border-white/15 py-4"
-                  >
-                    <Text className="font-body text-base text-white/85">
-                      {item.label}
-                    </Text>
-                  </Pressable>
-                </Link>
-              ))}
+                  {isOpen ? (
+                    <>
+                      {item.children?.map((child) => (
+                        <Link key={child.label} href={child.href} asChild>
+                          <Pressable
+                            accessibilityRole="link"
+                            onPress={closeDrawers}
+                            className="py-3 pl-9"
+                          >
+                            <Text className="font-body text-base text-white/85">
+                              {child.label}
+                            </Text>
+                          </Pressable>
+                        </Link>
+                      ))}
+                      {/* Grouped classes: series heading then its classes. */}
+                      {item.groups?.map((group) => (
+                        <View key={group.label} className="pb-1 pt-2">
+                          <Text className="pb-1 pl-9 font-body-bold text-xs uppercase tracking-[0.1em] text-white/85">
+                            {group.label}
+                          </Text>
+                          {group.items.map((gi) => (
+                            <Link key={gi.label} href={gi.href} asChild>
+                              <Pressable
+                                accessibilityRole="link"
+                                onPress={closeDrawers}
+                                className="py-3 pl-9"
+                              >
+                                <Text className="font-body text-base text-white/85">
+                                  {gi.label}
+                                </Text>
+                              </Pressable>
+                            </Link>
+                          ))}
+                        </View>
+                      ))}
+                    </>
+                  ) : null}
+                </View>
+              );
+            })}
 
-              <View className="mt-6 flex-row items-center gap-4">
-                {renderControl(languageSwitcher, false)}
-                {renderControl(themeToggle, false)}
-              </View>
-
-              <View className="mt-6 gap-3">
-                <Pressable
-                  onPress={() => {
-                    setDrawer(false);
-                    onCallNow();
-                  }}
-                  accessibilityRole="button"
-                  className="flex-row items-center justify-center rounded-pill bg-brand-action py-4"
-                >
-                  <Phone size={18} color="#FFFFFF" />
-                  <Text className="ml-2 font-body-bold text-base text-white">
-                    Call now
-                  </Text>
-                </Pressable>
-                <Pressable
-                  onPress={() => {
-                    setDrawer(false);
-                    onEnrol();
-                  }}
-                  accessibilityRole="button"
-                  className="items-center justify-center rounded-pill bg-brand-accent py-4"
-                >
-                  <Text className="font-body-bold text-base text-brand-ink">
-                    Enrol now
-                  </Text>
-                </Pressable>
-              </View>
-
-              <View className="mt-8 flex-row flex-wrap justify-center gap-4">
-                {socials.map(({ label, url, Icon, color }) => (
-                  <Pressable
-                    key={label}
-                    onPress={() => Linking.openURL(url)}
-                    accessibilityRole="link"
-                    accessibilityLabel={`Safe Ride Africa on ${label}`}
-                    style={GLYPH_SHADOW}
-                    className="h-11 w-11 items-center justify-center rounded-full bg-white/15"
-                  >
-                    <Icon size={20} color={color ?? "#FFFFFF"} />
-                  </Pressable>
-                ))}
-              </View>
-            </ScrollView>
-          </View>
+            <View className="mt-6 gap-3">
+              <Pressable
+                onPress={() => {
+                  closeDrawers();
+                  onCallNow();
+                }}
+                accessibilityRole="button"
+                className="flex-row items-center justify-center rounded-pill bg-brand-action py-4"
+              >
+                <Phone size={18} color="#FFFFFF" />
+                <Text className="ml-2 font-body-bold text-base text-white">
+                  Call now
+                </Text>
+              </Pressable>
+              <Pressable
+                onPress={() => {
+                  closeDrawers();
+                  onEnrol();
+                }}
+                accessibilityRole="button"
+                className="items-center justify-center rounded-pill bg-brand-accent py-4"
+              >
+                <Text className="font-body-bold text-base text-brand-ink">
+                  Enrol now
+                </Text>
+              </Pressable>
+            </View>
+          </MobileDrawer>
         ) : null}
       </View>
     );
