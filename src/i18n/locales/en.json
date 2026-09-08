@@ -48,7 +48,6 @@
     "subheadline": "At Safe Ride Africa Driving School, we make lessons enjoyable, flexible, and focused on you. With personal support and expert guidance, we'll help you feel confident on the road and ready for test day.",
     "trustNtsa": "NTSA Certified",
     "trustAward": "Award Winning",
-    "trustPassRate": "98% First-Try Pass Rate",
     "exploreCourses": "Explore Courses",
     "watchStory": "Watch Our Story"
   },
@@ -130,10 +129,6 @@
       {
         "q": "Do you help with the NTSA Smart DL application?",
         "a": "Absolutely. We guide every student through the full NTSA Smart DL application and TIMS account setup at no extra charge."
-      },
-      {
-        "q": "What is the pass rate for your students?",
-        "a": "We are proud of a 98% NTSA first-attempt pass rate, well above the national average, thanks to our intensive test preparation."
       },
       {
         "q": "Do you offer refresher courses?",
@@ -298,7 +293,6 @@
     "statStrip": {
       "branches": "Branches across Nairobi",
       "instructors": "Certified Instructors",
-      "passRate": "First-Try Pass Rate",
       "yearsActive": "Years on the Road"
     },
     "aboutPreview": {
@@ -458,7 +452,6 @@
     "pageTitle": "About Safe Ride Africa",
     "whoWeAre": "WHO WE ARE",
     "statYears": "years on the road",
-    "statPassRate": "first-try pass rate",
     "statBranches": "BRANCHES",
     "statInstructors": "instructors",
     "headline": "Driving Safety Beyond Limits Since 2015.",
@@ -470,7 +463,7 @@
     "historyTitle": "More Than a Decade of Safer Kenyan Roads",
     "historyP1": "Safe Ride Africa Driving School was founded in {{foundedYear}} with a single conviction: that every Kenyan driver deserves world-class training, not just a piece of paper. Starting from a single Nairobi location, the school quickly gained a reputation for rigorous instruction, genuine care for students, and an NTSA-aligned curriculum that prepared learners for real roads, not just the test track.",
     "historyP2": "In {{incorporatedYear}}, the school was formally incorporated as {{legalName}} (PVT {{pvt}}), formalising five years of growth into a registered institution. Today we operate branches across Nairobi, from Buruburu (HQ) to Kayole PCEA, and have trained over 2,100 licensed drivers.",
-    "historyP3": "Our NTSA registration number (BN {{bn}}) is publicly verifiable. Every instructor holds valid NTSA certification and participates in ongoing professional development. The result is a 98% NTSA first-attempt pass rate, a figure we are proud to stand behind.",
+    "historyP3": "Our NTSA registration number (BN {{bn}}) is publicly verifiable. Every instructor holds valid NTSA certification and participates in ongoing professional development.",
     "whatDrivesUs": "What Drives Us",
     "visionTitle": "Vision",
     "visionBody": "To play a leading role in excellent training of all kinds of drivers in Africa and beyond.",
@@ -580,7 +573,7 @@
       "roadTest": {
         "name": "Road Test Preparation",
         "shortDesc": "Intensive NTSA test simulation so you know exactly what examiners look for on exam day.",
-        "fullDesc": "Our Road Test Preparation sessions mirror the exact NTSA driving test, you practice the same manoeuvres, routes, and assessment criteria examiners use. We cover parallel parking, three-point turns, emergency stops, road observation, and examiner communication. Students who complete this programme achieve a 98% first-attempt pass rate."
+        "fullDesc": "Our Road Test Preparation sessions mirror the exact NTSA driving test, you practice the same manoeuvres, routes, and assessment criteria examiners use. We cover parallel parking, three-point turns, emergency stops, road observation, and examiner communication."
       },
       "corporate": {
         "name": "Corporate Driver Training",

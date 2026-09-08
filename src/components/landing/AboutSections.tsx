@@ -92,8 +92,6 @@ export function AboutOpener() {
         <View className="mb-6 flex-row flex-wrap items-center justify-between gap-4 py-3">
           <View className="flex-row items-center gap-3">
             <StatItem value={`${yearsActive}+`} label={t('aboutPage.statYears')} />
-            <View className="h-3.5 w-px self-center bg-border" />
-            <StatItem value={`${SAFERIDE_STATS.passRate}%`} label={t('aboutPage.statPassRate')} />
           </View>
           <View className={cn('gap-2', IS_WEB ? 'items-end' : 'flex-row items-center')}>
             <StatItem value={`${SAFERIDE_STATS.instructors}+`} label={t('aboutPage.statInstructors')} large />

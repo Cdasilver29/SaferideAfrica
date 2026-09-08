@@ -22,7 +22,6 @@ export default function StatStrip() {
   // powers the map and derived copy, but never a headline figure here.
   const cards = [
     { key: 'instructors', value: `${STATS.instructors}+`, label: t('home.statStrip.instructors') },
-    { key: 'passRate',    value: `${STATS.passRate}%`,    label: t('home.statStrip.passRate') },
     { key: 'yearsActive', value: `${STATS.yearsActive}+`, label: t('home.statStrip.yearsActive') },
   ];
 

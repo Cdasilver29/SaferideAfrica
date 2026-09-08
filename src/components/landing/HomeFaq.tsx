@@ -10,14 +10,14 @@ import { Button, Icon } from '@/components/ui';
 import { SectionIntro } from './SectionIntro';
 import { useReduceMotion } from '@/hooks/useReduceMotion';
 
-// Homepage FAQ snippet: four questions reused verbatim from the full FAQ
+// Homepage FAQ snippet: three questions reused verbatim from the full FAQ
 // (faq.items), skipping the course-duration item since durations stay off
 // public pages. The full FAQ, with the contact form, lives on the About page.
 // Answers render at most this wide so line length stays readable on desktop.
 const CONTENT_MAX_W = 760;
 
 // faq.items indexes shown here; item 0 (course duration) is excluded.
-const HOME_FAQ_INDEXES = [1, 2, 3, 4];
+const HOME_FAQ_INDEXES = [1, 2, 3];
 
 function AccordionItem({
   q, a, open, onToggle, reduceMotion, chevronColor,

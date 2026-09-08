@@ -19,7 +19,7 @@ export const DRIVING_SCHOOL_JSONLD = JSON.stringify({
   url: SITE_URL,
   logo: `${SITE_URL}/favicon.png`,
   description:
-    'NTSA-certified driving school operating branches across Nairobi, Kenya. 98% first-try pass rate.',
+    'NTSA-certified driving school operating branches across Nairobi, Kenya.',
   telephone: '+254746097033',
   contactPoint: {
     '@type': 'ContactPoint',

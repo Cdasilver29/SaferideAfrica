@@ -301,7 +301,7 @@ export const SERVICES: ServiceItem[] = [
     iconName:  'CheckCircle',
     image:     require('../../assets/images/services/road-test-preparation.webp'),
     shortDesc: 'Intensive NTSA test simulation so you know exactly what examiners look for on exam day.',
-    fullDesc:  'Our Road Test Preparation sessions mirror the exact NTSA driving test, you practice the same manoeuvres, routes, and assessment criteria examiners use. We cover parallel parking, three-point turns, emergency stops, road observation, and examiner communication. Students who complete this programme achieve a 98% first-attempt pass rate.',
+    fullDesc:  'Our Road Test Preparation sessions mirror the exact NTSA driving test, you practice the same manoeuvres, routes, and assessment criteria examiners use. We cover parallel parking, three-point turns, emergency stops, road observation, and examiner communication.',
   },
   {
     code:      'CORPORATE',
@@ -334,7 +334,6 @@ export const SERVICES: ServiceItem[] = [
 export const STATS = {
   branches:    BRANCHES.length,
   instructors: 20,
-  passRate:    98,
   yearsActive: new Date().getFullYear() - 2015,
 } as const;
 
@@ -534,7 +533,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       },
       {
         type: 'callout',
-        text: "Safe Ride Africa's defensive driving module is included in every B-Light, B-Auto, C-Light, and BC full course. It is the training behind our 98% NTSA first-attempt pass rate, and more importantly, it keeps our graduates safe long after the test.",
+        text: "Safe Ride Africa's defensive driving module is included in every B-Light, B-Auto, C-Light, and BC full course. It keeps our graduates safe long after the test.",
       },
     ],
   },

@@ -1,7 +1,7 @@
 {
   "name": "Safe Ride Africa",
   "short_name": "Safe Ride",
-  "description": "NTSA-certified driving school in Nairobi. Branches across the city, 98% first-try pass rate.",
+  "description": "NTSA-certified driving school in Nairobi. Branches across the city.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

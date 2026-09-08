@@ -61,7 +61,7 @@ export default function CoursesPage() {
     <SafeAreaView style={{ flex: 1, backgroundColor: T.background }}>
       <PageHead
         title="Driving Classes and Courses in Nairobi | Safe Ride Africa"
-        description="Motorcycle, light vehicle, heavy commercial, PSV, and executive driving courses. NTSA-aligned training with a 98% first-try pass rate."
+        description="Motorcycle, light vehicle, heavy commercial, PSV, and executive driving courses. NTSA-aligned training."
         path="/courses"
       />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>

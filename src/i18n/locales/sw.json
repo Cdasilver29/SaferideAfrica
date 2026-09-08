@@ -48,7 +48,6 @@
     "subheadline": "Katika Shule ya Udereva ya Safe Ride Africa, tunafanya masomo yawe ya kufurahisha, yenye kubadilika, na yanayokulenga wewe. Kwa msaada wa kibinafsi na mwongozo wa kitaalamu, tutakusaidia kujiamini barabarani na kuwa tayari kwa siku ya mtihani.",
     "trustNtsa": "Imeidhinishwa na NTSA",
     "trustAward": "Tuzo ya Ubora",
-    "trustPassRate": "98% Wanaofaulu Mara ya Kwanza",
     "exploreCourses": "Chunguza Kozi",
     "watchStory": "Tazama Hadithi Yetu"
   },
@@ -150,10 +149,6 @@
       {
         "q": "Je, mnasaidia na ombi la NTSA Smart DL?",
         "a": "Kabisa. Tunaongoza kila mwanafunzi kupitia mchakato kamili wa kuomba NTSA Smart DL na kusanidi akaunti ya TIMS bila malipo ya ziada."
-      },
-      {
-        "q": "Kiwango cha kufaulu kwa wanafunzi wenu ni kipi?",
-        "a": "Tunajivunia kiwango cha kufaulu cha 98% katika mtihani wa kwanza wa NTSA, zaidi sana ya wastani wa kitaifa, shukrani kwa maandalizi yetu makubwa ya mtihani."
       },
       {
         "q": "Je, mnatoa kozi za kurudiarudia?",
@@ -306,7 +301,6 @@
     "statStrip": {
       "branches": "Matawi Kote Nairobi",
       "instructors": "Wakufunzi Walioidhinishwa",
-      "passRate": "Kiwango cha Kufaulu Mara ya Kwanza",
       "yearsActive": "Miaka Barabarani"
     },
     "aboutPreview": {
@@ -447,7 +441,6 @@
     "pageTitle": "Kuhusu Safe Ride Africa",
     "whoWeAre": "SISI NI KINA NANI",
     "statYears": "miaka barabarani",
-    "statPassRate": "kiwango cha kufaulu jaribio la kwanza",
     "statBranches": "MATAWI",
     "statInstructors": "wakufunzi",
     "headline": "Kuendesha Usalama Bila Mipaka Tangu 2015.",
@@ -459,7 +452,7 @@
     "historyTitle": "Zaidi ya Muongo Mmoja wa Barabara Salama za Kenya",
     "historyP1": "Safe Ride Africa Driving School ilianzishwa mwaka {{foundedYear}} kwa imani moja: kila dereva wa Kenya anastahili mafunzo ya kiwango cha kimataifa, sio tu cheti. Kuanzia tawi moja Nairobi, shule ilipata sifa ya haraka kwa mafundisho makali, utunzaji wa kweli kwa wanafunzi, na mtaala unaolingana na NTSA unaowaandaa wanafunzi kwa barabara halisi, sio tu mtihani.",
     "historyP2": "Mwaka {{incorporatedYear}}, shule ilisajiliwa rasmi kama {{legalName}} (PVT {{pvt}}), ikithibitisha miaka mitano ya ukuaji kuwa taasisi iliyosajiliwa. Leo tunaendesha matawi kote Nairobi, kutoka Buruburu (Makao Makuu) hadi Kayole PCEA, na tumefunza zaidi ya madereva 2,100 wenye leseni.",
-    "historyP3": "Nambari yetu ya usajili wa NTSA (BN {{bn}}) inaweza kuthibitishwa hadharani. Kila mkufunzi ana cheti halali cha NTSA na anashiriki katika maendeleo endelevu ya kitaaluma. Matokeo ni kiwango cha asilimia 98 cha kufaulu jaribio la kwanza la NTSA, takwimu tunayojivunia.",
+    "historyP3": "Nambari yetu ya usajili wa NTSA (BN {{bn}}) inaweza kuthibitishwa hadharani. Kila mkufunzi ana cheti halali cha NTSA na anashiriki katika maendeleo endelevu ya kitaaluma.",
     "whatDrivesUs": "Kinachotusukuma",
     "visionTitle": "Dira",
     "visionBody": "Kuwa na nafasi ya uongozi katika mafunzo bora ya aina zote za madereva barani Afrika na kwingineko.",
@@ -569,7 +562,7 @@
       "roadTest": {
         "name": "Maandalizi ya Mtihani wa Barabarani",
         "shortDesc": "Mazoezi makali ya mtihani wa NTSA ili ujue hasa wakaguzi wanachotafuta siku ya mtihani.",
-        "fullDesc": "Vipindi vyetu vya Maandalizi ya Mtihani wa Barabarani hufanana kabisa na mtihani halisi wa udereva wa NTSA, utafanya mazoezi ya mienendo, njia, na vigezo vya tathmini vinavyotumiwa na wakaguzi. Tunashughulikia kuegesha sambamba, mizunguko ya pointi tatu, kusimama kwa dharura, uangalizi wa barabara, na mawasiliano na mkaguzi. Wanafunzi wanaomaliza programu hii hufikia kiwango cha asilimia 98 cha kufaulu jaribio la kwanza."
+        "fullDesc": "Vipindi vyetu vya Maandalizi ya Mtihani wa Barabarani hufanana kabisa na mtihani halisi wa udereva wa NTSA, utafanya mazoezi ya mienendo, njia, na vigezo vya tathmini vinavyotumiwa na wakaguzi. Tunashughulikia kuegesha sambamba, mizunguko ya pointi tatu, kusimama kwa dharura, uangalizi wa barabara, na mawasiliano na mkaguzi."
       },
       "corporate": {
         "name": "Mafunzo ya Madereva wa Makampuni",

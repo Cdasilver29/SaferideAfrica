@@ -52,7 +52,7 @@ export default function LandingScreen() {
     <SafeAreaView style={{ flex: 1, backgroundColor: isDark ? C.dark : C.white }}>
       <PageHead
         title="Safe Ride Africa: NTSA-Certified Driving School in Nairobi"
-        description="Nairobi's trusted NTSA-certified driving school. Branches across the city, 98% first-try pass rate. Enrol online today."
+        description="Nairobi's trusted NTSA-certified driving school. Branches across the city. Enrol online today."
         path="/"
       >
         <script type="application/ld+json">{DRIVING_SCHOOL_JSONLD}</script>

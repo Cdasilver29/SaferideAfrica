@@ -48,7 +48,6 @@
     "subheadline": "À l'auto-école Safe Ride Africa, nous rendons les leçons agréables, flexibles et centrées sur vous. Avec un accompagnement personnalisé et des conseils d'experts, nous vous aiderons à vous sentir en confiance sur la route et prêt pour le jour de l'examen.",
     "trustNtsa": "Certifié NTSA",
     "trustAward": "École Primée",
-    "trustPassRate": "98% de réussite au premier essai",
     "exploreCourses": "Explorer les Cours",
     "watchStory": "Voir Notre Histoire"
   },
@@ -150,10 +149,6 @@
       {
         "q": "Aidez-vous dans la demande du NTSA Smart DL ?",
         "a": "Absolument. Nous guidons chaque élève à travers la procédure complète de demande NTSA Smart DL et la configuration du compte TIMS sans frais supplémentaires."
-      },
-      {
-        "q": "Quel est le taux de réussite de vos élèves ?",
-        "a": "Nous sommes fiers d'un taux de réussite de 98% au premier examen NTSA, bien au-dessus de la moyenne nationale, grâce à notre préparation intensive."
       },
       {
         "q": "Proposez-vous des cours de recyclage ?",
@@ -306,7 +301,6 @@
     "statStrip": {
       "branches": "Agences à Nairobi",
       "instructors": "Moniteurs Certifiés",
-      "passRate": "Taux de Réussite au Premier Essai",
       "yearsActive": "Années sur la Route"
     },
     "aboutPreview": {
@@ -447,7 +441,6 @@
     "pageTitle": "À propos de Safe Ride Africa",
     "whoWeAre": "QUI SOMMES-NOUS",
     "statYears": "ans sur la route",
-    "statPassRate": "taux de réussite au premier essai",
     "statBranches": "AGENCES",
     "statInstructors": "instructeurs",
     "headline": "Assurer la sécurité routière sans limites depuis 2015.",
@@ -459,7 +452,7 @@
     "historyTitle": "Plus d'une décennie au service de routes kenyanes plus sûres",
     "historyP1": "Safe Ride Africa Driving School a été fondée en {{foundedYear}} avec une conviction unique : chaque conducteur kenyan mérite une formation de classe mondiale, pas seulement un morceau de papier. Partant d'un seul site à Nairobi, l'école a rapidement acquis une réputation d'enseignement rigoureux, d'attention sincère envers les élèves et d'un programme conforme aux normes NTSA qui prépare les apprenants à la route réelle, pas seulement à l'examen.",
     "historyP2": "En {{incorporatedYear}}, l'école a été officiellement constituée sous le nom de {{legalName}} (PVT {{pvt}}), formalisant cinq années de croissance en une institution agréée. Aujourd'hui, nous exploitons des agences à travers Nairobi, de Buruburu (siège) à Kayole PCEA, et avons formé plus de 2 100 conducteurs titulaires d'un permis.",
-    "historyP3": "Notre numéro d'enregistrement NTSA (BN {{bn}}) est vérifiable publiquement. Chaque instructeur détient une certification NTSA valide et participe à un développement professionnel continu. Le résultat est un taux de réussite de 98% au premier essai NTSA, un chiffre dont nous sommes fiers.",
+    "historyP3": "Notre numéro d'enregistrement NTSA (BN {{bn}}) est vérifiable publiquement. Chaque instructeur détient une certification NTSA valide et participe à un développement professionnel continu.",
     "whatDrivesUs": "Ce qui nous motive",
     "visionTitle": "Vision",
     "visionBody": "Jouer un rôle de premier plan dans la formation d'excellence de tous types de conducteurs en Afrique et au-delà.",
@@ -569,7 +562,7 @@
       "roadTest": {
         "name": "Préparation à l'Examen de Conduite",
         "shortDesc": "Simulation intensive de l'examen NTSA pour savoir exactement ce que recherchent les examinateurs le jour J.",
-        "fullDesc": "Nos sessions de Préparation à l'Examen de Conduite reproduisent exactement l'examen de conduite NTSA, vous pratiquez les mêmes manœuvres, itinéraires et critères d'évaluation utilisés par les examinateurs. Nous couvrons le créneau, les demi-tours en trois points, les arrêts d'urgence, l'observation de la route et la communication avec l'examinateur. Les élèves qui terminent ce programme atteignent un taux de réussite de 98% au premier essai."
+        "fullDesc": "Nos sessions de Préparation à l'Examen de Conduite reproduisent exactement l'examen de conduite NTSA, vous pratiquez les mêmes manœuvres, itinéraires et critères d'évaluation utilisés par les examinateurs. Nous couvrons le créneau, les demi-tours en trois points, les arrêts d'urgence, l'observation de la route et la communication avec l'examinateur."
       },
       "corporate": {
         "name": "Formation des Conducteurs d'Entreprise",

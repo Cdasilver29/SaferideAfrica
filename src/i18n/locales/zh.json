@@ -48,7 +48,6 @@
     "subheadline": "在 Safe Ride Africa 驾驶学校，我们让课程轻松有趣、灵活，并以你为中心。凭借贴心的支持和专业的指导，我们将帮助你在路上充满信心，为考试当天做好准备。",
     "trustNtsa": "NTSA认证",
     "trustAward": "屡获殊荣",
-    "trustPassRate": "98%首次通过率",
     "exploreCourses": "探索课程",
     "watchStory": "观看我们的故事"
   },
@@ -150,10 +149,6 @@
       {
         "q": "您帮助办理NTSA Smart DL申请吗？",
         "a": "当然。我们免费指导每位学员完成完整的NTSA Smart DL申请和TIMS账户设置。"
-      },
-      {
-        "q": "您学员的通过率是多少？",
-        "a": "我们的NTSA首次通过率高达98%，远高于全国平均水平，这得益于我们的强化考试准备。"
       },
       {
         "q": "您提供复习课程吗？",
@@ -306,7 +301,6 @@
     "statStrip": {
       "branches": "内罗毕各分支机构",
       "instructors": "认证教练",
-      "passRate": "首次通过率",
       "yearsActive": "服务年限"
     },
     "aboutPreview": {
@@ -447,7 +441,6 @@
     "pageTitle": "关于 Safe Ride Africa",
     "whoWeAre": "关于我们",
     "statYears": "年驾驶经验",
-    "statPassRate": "首次通过率",
     "statBranches": "分校",
     "statInstructors": "教练",
     "headline": "自2015年起，引领安全驾驶，无限可能。",
@@ -459,7 +452,7 @@
     "historyTitle": "十多年来守护肯尼亚道路安全",
     "historyP1": "Safe Ride Africa驾校成立于{{foundedYear}}年，秉持一个信念：每位肯尼亚司机都应获得世界一流的培训，而不仅仅是一张证书。学校从内罗毕的一个分校起步，迅速因严格的教学、对学员的真诚关怀以及符合NTSA标准的课程而声名远扬，这些课程让学员为真实的道路做好准备，而不仅仅是为了通过考试。",
     "historyP2": "{{incorporatedYear}}年，学校正式注册为{{legalName}}（PVT {{pvt}}），将五年的发展正式确立为一家注册机构。如今，我们在内罗毕运营着多家分校，从Buruburu（总部）到Kayole PCEA，已培训超过2,100名持证司机。",
-    "historyP3": "我们的NTSA注册号（BN {{bn}}）可公开查证。每位教练均持有有效的NTSA认证，并持续参与专业发展培训。其成果是98%的NTSA首次通过率，这是我们引以为傲的数字。",
+    "historyP3": "我们的NTSA注册号（BN {{bn}}）可公开查证。每位教练均持有有效的NTSA认证，并持续参与专业发展培训。",
     "whatDrivesUs": "我们的初心",
     "visionTitle": "愿景",
     "visionBody": "在非洲及其他地区，引领各类司机的卓越培训。",
@@ -569,7 +562,7 @@
       "roadTest": {
         "name": "路考备考",
         "shortDesc": "高强度的NTSA考试模拟，让您准确了解考官在考试当天的关注点。",
-        "fullDesc": "我们的路考备考课程完全模拟真实的NTSA驾驶考试，您将练习考官使用的相同操作、路线和评估标准。课程涵盖平行泊车、三点掉头、紧急停车、道路观察以及与考官的沟通。完成本课程的学员首次通过率高达98%。"
+        "fullDesc": "我们的路考备考课程完全模拟真实的NTSA驾驶考试，您将练习考官使用的相同操作、路线和评估标准。课程涵盖平行泊车、三点掉头、紧急停车、道路观察以及与考官的沟通。"
       },
       "corporate": {
         "name": "企业司机培训",
