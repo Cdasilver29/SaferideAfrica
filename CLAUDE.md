@@ -17,7 +17,7 @@ A public marketing and enrollment-lead site for Safe Ride Africa, a Nairobi driv
 - No pricing anywhere on the site, including NTSA fees. NTSA fees are referenced as process only, via eCitizen, with no numbers.
 - Class-page course-variant fan-out is approved. The A2, B, and C variants (Full, Half, Test Only) inherit overview, requirements, and FAQ from their parent class. Test Only entries describe assessment and test prep only, never the full "what you will learn" curriculum.
 - Refresher courses belong in the services section, not the class detail pages.
-- Testimonials on the site are real students (Peter Mutuku, Ben Mwangi, Christine Atieno), shown with initials avatars. Do not restore the old portrait images (erickmusyoka, mainamburu, mitchelakinyi). Never invent customer names, quotes, or ratings.
+- Testimonials on the site are real students (Peter Mutuku, Ben Mwangi, Christine Atieno). The three portrait photos (erickmusyoka, mainamburu, mitchelakinyi) are in use, restored with the individuals' consent. This supersedes the earlier removal decision. Initials avatars remain in place as the load-failure fallback only. Never invent customer names, quotes, or ratings.
 
 ## Content integrity (Truth Protocol for site copy)
 - Do not fabricate facts, figures, quotes, or ratings in any site copy.
