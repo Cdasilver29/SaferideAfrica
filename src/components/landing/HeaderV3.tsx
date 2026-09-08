@@ -18,6 +18,7 @@ import {
   Phone,
   Wrench,
   ChevronDown,
+  ChevronUp,
   Menu,
   X,
   type LucideIcon,
@@ -117,7 +118,7 @@ const GLYPH_SHADOW =
       };
 
 const LOGO_DESKTOP = { width: 58, height: 58, borderRadius: 15 };
-const LOGO_MOBILE = { width: 44, height: 44, borderRadius: 11 };
+const LOGO_MOBILE = { width: 56, height: 56, borderRadius: 14 };
 // Drawers show the mark alone, with no wordmark beside it, so it carries the
 // brand on its own and is sized up accordingly.
 const LOGO_DRAWER = { width: 56, height: 56, borderRadius: 14 };
@@ -130,14 +131,12 @@ const LOGO_DRAWER = { width: 56, height: 56, borderRadius: 14 };
  * gold was tried and rejected as off-brand; the shadow is what lifts it now.
  * Note a shadow does not change the computed WCAG ratio.
  */
-function Wordmark({ compact = false }: { compact?: boolean }) {
+function Wordmark() {
   return (
     <View>
       <Text
         style={WORDMARK_SHADOW}
-        className={`font-display ${
-          compact ? "text-lg" : "text-2xl"
-        } leading-tight text-brand-accent`}
+        className="font-display text-2xl leading-tight text-brand-accent"
       >
         Safe Ride Africa
       </Text>
@@ -511,7 +510,7 @@ export function HeaderV3({
                 className="flex-row items-center gap-2.5"
               >
                 <Image source={logoSource} style={LOGO_MOBILE} resizeMode="contain" />
-                <Wordmark compact />
+                <Wordmark />
               </Pressable>
             </Link>
 
@@ -599,13 +598,11 @@ export function HeaderV3({
                         accessibilityState={{ expanded: isOpen }}
                         className="h-11 w-11 items-center justify-center"
                       >
-                        <ChevronDown
-                          size={20}
-                          color="#FFFFFF"
-                          style={{
-                            transform: [{ rotate: isOpen ? "180deg" : "0deg" }],
-                          }}
-                        />
+                        {isOpen ? (
+                          <ChevronUp size={22} color="#FFFFFF" />
+                        ) : (
+                          <ChevronDown size={22} color="#FFFFFF" />
+                        )}
                       </Pressable>
                     ) : null}
                   </View>
