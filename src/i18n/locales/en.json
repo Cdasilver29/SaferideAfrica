@@ -673,5 +673,15 @@
       "sw": "Swahili",
       "fr": "French"
     }
+  },
+  "scrollRail": {
+    "label": "Page sections",
+    "jumpTo": "Jump to {{section}}",
+    "top": "Top",
+    "services": "Services",
+    "courses": "Courses",
+    "whyUs": "Why us",
+    "reviews": "Reviews",
+    "contact": "Contact"
   }
 }

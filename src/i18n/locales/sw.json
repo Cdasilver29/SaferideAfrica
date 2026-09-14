@@ -657,5 +657,15 @@
       "sw": "Kiswahili",
       "fr": "Kifaransa"
     }
+  },
+  "scrollRail": {
+    "label": "Sehemu za ukurasa",
+    "jumpTo": "Nenda kwa {{section}}",
+    "top": "Juu",
+    "services": "Huduma",
+    "courses": "Kozi",
+    "whyUs": "Kwa nini sisi",
+    "reviews": "Maoni",
+    "contact": "Wasiliana"
   }
 }
