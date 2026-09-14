@@ -13,14 +13,10 @@ import StatStrip    from '@/components/landing/StatStrip';
 import Testimonials from '@/components/landing/Testimonials';
 import Footer from '@/components/landing/Footer';
 
-import ServicesPreview from '@/components/landing/ServicesPreview';
 import { PremiumCourseCards } from '@/components/landing/PremiumCourseCards';
 import DriverTypeSection from '@/components/landing/DriverTypeSection';
 import WhyValuesSnippet from '@/components/landing/WhyValuesSnippet';
-import AboutPreview    from '@/components/landing/AboutPreview';
-import HomeFaq         from '@/components/landing/HomeFaq';
 import EnrolSteps      from '@/components/landing/EnrolSteps';
-import GalleryPreview  from '@/components/landing/GalleryPreview';
 import BranchesPreview from '@/components/landing/BranchesPreview';
 import FinalCTA        from '@/components/landing/FinalCTA';
 
@@ -45,22 +41,22 @@ import { useReduceMotion } from '@/hooks/useReduceMotion';
  * between them, which is what the scroll container is.
  */
 const BLOCK_KEYS = [
-  'top', 'stats', 'services', 'courses', 'driverTypes', 'whyUs', 'about',
-  'faq', 'enrol', 'reviews', 'branches', 'gallery', 'contact',
+  'top', 'stats', 'driverTypes', 'courses', 'whyUs', 'branches',
+  'enrol', 'reviews', 'contact',
 ] as const;
 
 /**
  * The six blocks that get a dot. A visitor would not navigate to most of the
- * thirteen, so the rest are scrolled past rather than listed. Order must match
+ * nine, so the rest are scrolled past rather than listed. Order must match
  * BLOCK_KEYS, since the active-dot search expects ascending y.
  */
 const RAIL_SECTIONS: readonly RailSection[] = [
-  { key: 'top',      labelKey: 'scrollRail.top' },
-  { key: 'services', labelKey: 'scrollRail.services' },
-  { key: 'courses',  labelKey: 'scrollRail.courses' },
-  { key: 'whyUs',    labelKey: 'scrollRail.whyUs' },
-  { key: 'reviews',  labelKey: 'scrollRail.reviews' },
-  { key: 'contact',  labelKey: 'scrollRail.contact' },
+  { key: 'top',         labelKey: 'scrollRail.top' },
+  { key: 'driverTypes', labelKey: 'scrollRail.driverTypes' },
+  { key: 'courses',     labelKey: 'scrollRail.courses' },
+  { key: 'whyUs',       labelKey: 'scrollRail.whyUs' },
+  { key: 'reviews',     labelKey: 'scrollRail.reviews' },
+  { key: 'contact',     labelKey: 'scrollRail.contact' },
 ];
 
 export default function LandingScreen() {
@@ -141,7 +137,7 @@ export default function LandingScreen() {
       >
         {/* Every block up to the last anchor reports its height, since the
             offsets are summed rather than read. Reveal spreads its rest props
-            onto a static outer View, so the ten Reveal-wrapped blocks take
+            onto a static outer View, so the six Reveal-wrapped blocks take
             onLayout directly and stay unmodified; the three bare ones get a
             plain measuring wrapper. Footer is last, so nothing needs its
             height and it stays untouched. */}
@@ -151,18 +147,14 @@ export default function LandingScreen() {
         <View onLayout={recordHeight('stats')}>
           <StatStrip />
         </View>
-        <Reveal variant="rise" onLayout={recordHeight('services')}><ServicesPreview /></Reveal>
+        <Reveal variant="rise" onLayout={recordHeight('driverTypes')}><DriverTypeSection /></Reveal>
         <View onLayout={recordHeight('courses')}>
           <PremiumCourseCards />
         </View>
-        <Reveal variant="slide-right" onLayout={recordHeight('driverTypes')}><DriverTypeSection /></Reveal>
         <Reveal variant="slide-left" onLayout={recordHeight('whyUs')}><WhyValuesSnippet /></Reveal>
-        <Reveal variant="slide-right" onLayout={recordHeight('about')}><AboutPreview /></Reveal>
-        <Reveal variant="rise" onLayout={recordHeight('faq')}><HomeFaq /></Reveal>
+        <Reveal variant="slide-right" onLayout={recordHeight('branches')}><BranchesPreview /></Reveal>
         <Reveal variant="flip" onLayout={recordHeight('enrol')}><EnrolSteps /></Reveal>
         <Reveal variant="slide-left" onLayout={recordHeight('reviews')}><Testimonials /></Reveal>
-        <Reveal variant="rise" onLayout={recordHeight('branches')}><BranchesPreview /></Reveal>
-        <Reveal variant="slide-right" onLayout={recordHeight('gallery')}><GalleryPreview /></Reveal>
         <Reveal variant="light-speed" onLayout={recordHeight('contact')}><FinalCTA /></Reveal>
         <Footer />
       </Animated.ScrollView>
