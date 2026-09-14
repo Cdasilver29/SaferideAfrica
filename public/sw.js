@@ -8,9 +8,25 @@
  *     home shell, so the site opens offline once it has been visited online.
  *   - Static assets (hashed JS/CSS, fonts, images): cache-first, then network,
  *     caching each response so offline visits have what they need.
+ *
+ * Cache versioning: BUILD_ID below is a placeholder that scripts/stamp-sw.mjs
+ * rewrites in dist/sw.js after every export, so each build gets its own cache
+ * and the activate handler drops the previous one. Without that, the static
+ * assets, which are served cache-first, outlived the HTML that referenced them
+ * and a stale bundle could be paired with fresh markup.
+ *
+ * This file is copied into dist verbatim, so it never passes through a bundler
+ * and the placeholder is the only injection point available. Left unstamped
+ * (the dev server serves public/ directly) it falls back to a fixed name, which
+ * is the old single-cache behaviour and is fine for local work.
  */
 
-const CACHE = 'saferide-shell-v1';
+const BUILD_ID = '__BUILD_ID__';
+
+const CACHE_PREFIX = 'saferide-shell';
+// An unstamped BUILD_ID still carries its leading underscores, which a real
+// build id never does.
+const CACHE = CACHE_PREFIX + '-' + (BUILD_ID.startsWith('__') ? 'dev' : BUILD_ID);
 
 const SHELL_ROUTES = [
   '/',
@@ -36,7 +52,14 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      // Drop this app's earlier build caches and leave anything else on the
+      // origin alone. Every previous build is a separate key now, so this is
+      // what actually frees the stale assets.
+      .then((keys) => Promise.all(
+        keys
+          .filter((k) => k !== CACHE && k.startsWith(CACHE_PREFIX))
+          .map((k) => caches.delete(k)),
+      ))
       .then(() => self.clients.claim()),
   );
 });
