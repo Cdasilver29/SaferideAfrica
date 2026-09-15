@@ -19,9 +19,16 @@ type ImageCardProps = {
   badge?: string;
   /** Image alt text, defaults to the title. */
   imageAlt?: string;
+  /**
+   * How the photo fills the 3:2 box. Defaults to 'cover', which fills the
+   * frame and crops whatever does not fit. Pass 'contain' for a source whose
+   * own ratio is far from 3:2, where cover cuts too much of the subject: it
+   * shows the whole photo and pads the leftover with the card surface.
+   */
+  fit?: 'cover' | 'contain';
 };
 
-export function ImageCard({ href, title, description, image, badge, imageAlt }: ImageCardProps) {
+export function ImageCard({ href, title, description, image, badge, imageAlt, fit = 'cover' }: ImageCardProps) {
   const { t } = useTranslation();
 
   return (
@@ -35,11 +42,11 @@ export function ImageCard({ href, title, description, image, badge, imageAlt }: 
           photos with little crop and gives portrait sources a taller band.
           Explicit inline dimensions on the Image stop react-native-web
           injecting the source's intrinsic height (same fix as courses). */}
-      <View style={{ aspectRatio: 3 / 2, width: '100%' }} className="overflow-hidden">
+      <View style={{ aspectRatio: 3 / 2, width: '100%' }} className="overflow-hidden bg-muted">
         {image && (
           <Image
             source={image}
-            resizeMode="cover"
+            resizeMode={fit}
             accessibilityLabel={imageAlt ?? title}
             style={{
               width: '100%',

@@ -36,8 +36,15 @@ function ClassCard({ cls }: { cls: (typeof CLASSES)[0] }) {
   const cardKey = CARD_KEY_MAP[cls.code];
   let image = CLASS_SERIES.find((s) => s.code === cls.series)?.image;
 
+  // B-LIGHT's web photo is a panorama (1200x603) against a 3:2 frame, so
+  // cover cut the sides off it. Show the whole frame on that one card.
+  let fit: 'cover' | 'contain' = 'cover';
+
   if (IS_WEB) {
-    if (cls.code === 'B-LIGHT') image = { uri: '/gallery/DSC_7014.webp' };
+    if (cls.code === 'B-LIGHT') {
+      image = { uri: '/gallery/DSC_7014.webp' };
+      fit = 'contain';
+    }
     if (cls.code === 'B-AUTO') image = { uri: '/hero2.webp' };
   }
 
@@ -48,6 +55,7 @@ function ClassCard({ cls }: { cls: (typeof CLASSES)[0] }) {
       description={t(`home.premiumCourses.cards.${cardKey}.snippet`)}
       image={image}
       imageAlt={`${cls.name} vehicle`}
+      fit={fit}
       badge={CARD_HAS_BADGE[cls.code] ? t(`home.premiumCourses.cards.${cardKey}.badge`) : undefined}
     />
   );
