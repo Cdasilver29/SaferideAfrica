@@ -141,7 +141,7 @@ function Wordmark() {
         Safe Ride Africa
       </Text>
       <Text className="font-body text-[9px] uppercase tracking-[0.22em] text-brand-action">
-        Safety beyond
+        Safety beyond.....
       </Text>
     </View>
   );
