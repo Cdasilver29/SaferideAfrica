@@ -118,8 +118,11 @@ export function PremiumCourseCards() {
               key={cls.code}
               index={i}
               inView={inView}
-              className={isNarrow ? 'w-full' : 'flex-1'}
-              style={!isNarrow ? { minWidth: 280, maxWidth: 360 } : undefined}
+              // className is a no-op on RevealItem's Animated.View, so the row
+              // sizing has to ride the inline style. Without the flex the three
+              // cards sat at their 360 cap, 1120 against a 1100 row, and the
+              // third wrapped onto a line of its own.
+              style={!isNarrow ? { flex: 1, minWidth: 280, maxWidth: 360 } : { width: '100%' }}
             >
               <ClassCard cls={cls} />
             </RevealItem>
