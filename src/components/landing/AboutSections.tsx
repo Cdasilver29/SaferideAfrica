@@ -196,6 +196,15 @@ export function CompanyStory() {
 }
 
 // ─── Vision · Mission · Values ─────────────────────────────────────────────────────
+// Core values cards: SafeRide sky and yellow only, alternating. The previous
+// set reached outside the palette for green and purple and used #ffcc00 in
+// place of the brand yellow. Red is reserved for destructive states, so it
+// stays out of a decorative rotation.
+const VALUE_TINTS = [
+  { backgroundColor: 'rgba(1,165,240,0.06)', borderColor: 'rgba(1,165,240,0.30)' },
+  { backgroundColor: 'rgba(255,216,0,0.10)', borderColor: 'rgba(255,216,0,0.45)' },
+] as const;
+
 export function VisionMissionValues() {
   const { t } = useTranslation();
   const Th = useTheme();
@@ -254,9 +263,6 @@ export function VisionMissionValues() {
           </View>
           <View className="flex-row flex-wrap gap-4">
             {coreValues.map((value, i) => {
-              const bgColors = ['rgba(225,29,46,0.05)', 'rgba(1,165,240,0.05)', 'rgba(255,204,0,0.1)', 'rgba(34,197,94,0.05)', 'rgba(168,85,247,0.05)'];
-              const borderColors = ['rgba(225,29,46,0.3)', 'rgba(1,165,240,0.3)', 'rgba(255,204,0,0.4)', 'rgba(34,197,94,0.3)', 'rgba(168,85,247,0.3)'];
-
               const opacity = useSharedValue(1);
               React.useEffect(() => {
                 opacity.value = withRepeat(
@@ -271,7 +277,7 @@ export function VisionMissionValues() {
 
               return (
                 <Animated.View key={value} style={[{ width: valueWidth }, animStyle]}>
-                  <Card style={{ backgroundColor: bgColors[i % bgColors.length], borderColor: borderColors[i % borderColors.length] }} className="p-5 h-full">
+                  <Card style={VALUE_TINTS[i % VALUE_TINTS.length]} className="p-5 h-full">
                     <Text style={{ fontFamily: F.bold }} className="mb-1.5 text-sm text-foreground">{value}</Text>
                     <Text style={{ fontFamily: F.regular }} className="text-xs leading-[18px] text-muted-foreground">
                       {valueDescs[i] ?? ''}

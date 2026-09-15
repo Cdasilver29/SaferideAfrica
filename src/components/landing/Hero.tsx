@@ -29,6 +29,11 @@ const DARK_RGB = rgbTriplet(C.dark);
 type HeadlineSeg = { w: string; c?: string };
 type HeroSlide = { eyebrow: string; words: (HeadlineSeg | string)[] };
 
+// How far the headline pair is lifted on phones. Small on purpose: the copy
+// only needs to clear the lower half of the frame, and the scrim fades toward
+// the top, so a larger lift would push the text onto the brighter photo.
+const HERO_TEXT_LIFT = 20;
+
 function HeroSlideText({ slide, slides }: { slide: number; slides: HeroSlide[] }) {
   const reduceMotion = useReduceMotion();
   const { width: winW } = useWindowDimensions();
@@ -148,8 +153,15 @@ export default function Hero({ onScrollToCourses }: HeroProps) {
         }}
       >
         <AnimatedRN.View entering={FadeInUp.duration(800).delay(300)} style={{ maxWidth: 620, alignItems: isMobile ? 'center' : 'flex-start' }}>
-          {/* Per-slide headline, cross-fading in sync with the photo */}
-          <HeroSlideText key={i18n.language} slide={slide} slides={slides} />
+          {/* Per-slide headline, cross-fading in sync with the photo.
+              On phones it sits a little higher in the frame. This is a
+              transform rather than a margin on purpose: a margin would grow
+              the centred copy block and push Explore Courses down with it,
+              whereas a transform is outside layout, so the button below does
+              not move at all. */}
+          <View style={isMobile ? { transform: [{ translateY: -HERO_TEXT_LIFT }] } : undefined}>
+            <HeroSlideText key={i18n.language} slide={slide} slides={slides} />
+          </View>
 
           {/* Explore Courses is the one hero-body control; Enrol lives in the header */}
           <AnimatedRN.View entering={FadeInUp.duration(800).delay(600)} className={['mt-6 flex-row flex-wrap items-center gap-3', isMobile && 'justify-center'].join(' ')}>
