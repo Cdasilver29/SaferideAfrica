@@ -29,10 +29,19 @@ const DARK_RGB = rgbTriplet(C.dark);
 type HeadlineSeg = { w: string; c?: string };
 type HeroSlide = { eyebrow: string; words: (HeadlineSeg | string)[] };
 
-// How far the headline pair is lifted on phones. Small on purpose: the copy
-// only needs to clear the lower half of the frame, and the scrim fades toward
-// the top, so a larger lift would push the text onto the brighter photo.
-const HERO_TEXT_LIFT = 20;
+// How far the headline pair is lifted on phones, so it sits just under the
+// header rather than floating in the middle of the photo.
+//
+// The copy block is centred inside the hero's 480px minimum, so the headline
+// would otherwise land about 130px down. The headline runs 120 to 180px tall
+// depending on which slide is showing, which moves that start point by up to
+// 30px either way; 90 puts the shortest slide about 50px below the hero top
+// and the longest about 20px, so nothing clips against overflow-hidden.
+//
+// It stays a transform rather than a margin: a margin would grow the centred
+// block and carry Explore Courses down with it, and that button is meant to
+// stay where it is.
+const HERO_TEXT_LIFT = 90;
 
 function HeroSlideText({ slide, slides }: { slide: number; slides: HeroSlide[] }) {
   const reduceMotion = useReduceMotion();
@@ -154,11 +163,7 @@ export default function Hero({ onScrollToCourses }: HeroProps) {
       >
         <AnimatedRN.View entering={FadeInUp.duration(800).delay(300)} style={{ maxWidth: 620, alignItems: isMobile ? 'center' : 'flex-start' }}>
           {/* Per-slide headline, cross-fading in sync with the photo.
-              On phones it sits a little higher in the frame. This is a
-              transform rather than a margin on purpose: a margin would grow
-              the centred copy block and push Explore Courses down with it,
-              whereas a transform is outside layout, so the button below does
-              not move at all. */}
+              Lifted toward the header on phones, see HERO_TEXT_LIFT. */}
           <View style={isMobile ? { transform: [{ translateY: -HERO_TEXT_LIFT }] } : undefined}>
             <HeroSlideText key={i18n.language} slide={slide} slides={slides} />
           </View>
