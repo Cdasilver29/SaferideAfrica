@@ -2,7 +2,8 @@ import React from 'react';
 import { View, Text, useWindowDimensions } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W } from './constants';
-import { Card } from '@/components/ui';
+import { Card, Icon } from '@/components/ui';
+import { ClipboardList, MessageCircle, GraduationCap, BadgeCheck, type LucideIcon } from 'lucide-react-native';
 import { SectionIntro } from './SectionIntro';
 import { SECTION_PY } from '@/lib/spacing';
 
@@ -12,7 +13,7 @@ import { SECTION_PY } from '@/lib/spacing';
 // the NTSA curriculum, and Smart DL guidance via eCitizen. No pricing, no
 // lesson counts. Entrance motion comes from the Reveal wrapper in app/index.tsx.
 
-const STEP_EMOJIS = ['📋', '💬', '🎓', '✅'];
+const STEP_ICONS: LucideIcon[] = [ClipboardList, MessageCircle, GraduationCap, BadgeCheck];
 
 type Step = { title: string; desc: string };
 
@@ -47,7 +48,7 @@ export default function EnrolSteps() {
                     {i + 1}
                   </Text>
                 </View>
-                <Text style={{ fontSize: 24 }}>{STEP_EMOJIS[i] ?? '✅'}</Text>
+                <Icon icon={STEP_ICONS[i] ?? BadgeCheck} size="lg" color={C.skyDeep} />
               </View>
               <Text style={{ fontFamily: F.bold }} className="mb-1 text-base text-foreground">
                 {step.title}

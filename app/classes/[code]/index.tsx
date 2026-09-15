@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity, Platform } from 'react-native';
-import { ArrowLeft } from 'lucide-react-native';
+import { ArrowLeft, Check } from 'lucide-react-native';
+import { Icon } from '@/components/ui';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { CLASSES, CLASS_SERIES } from '../../../src/data/saferide';
@@ -53,7 +54,7 @@ function CheckRow({ text }: { text: string }) {
   const T = useTheme();
   return (
     <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 10, marginBottom: 12 }}>
-        <Text style={{ fontSize: 12 }}>✅</Text>
+      <View style={{ marginTop: 3 }}><Icon icon={Check} size="xs" color={C.skyDeep} /></View>
       <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 14, lineHeight: 22, flex: 1 }}>{text}</Text>
     </View>
   );

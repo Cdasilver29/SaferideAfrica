@@ -3,7 +3,8 @@ import {
   View, Text, TextInput, TouchableOpacity, SafeAreaView, ScrollView, Linking, Platform, useWindowDimensions,
 } from 'react-native';
 import { router } from 'expo-router';
-import { ArrowRight } from 'lucide-react-native';
+import { ArrowRight, MapPin, Phone, Mail, Globe, Send, type LucideIcon } from 'lucide-react-native';
+import { Icon } from '@/components/ui';
 import { useTranslation } from 'react-i18next';
 
 import { PageHero } from '@/components/landing/PageHero';
@@ -46,36 +47,36 @@ function ContactInfo() {
 
       {[
         {
-          emoji: '📍',
+          glyph: MapPin as LucideIcon,
           label: 'Address',
           value: COMPANY.address,
           onPress: undefined,
         },
         {
-          emoji: '📞',
+          glyph: Phone as LucideIcon,
           label: 'Primary',
           value: COMPANY.primaryPhone,
           onPress: () => Linking.openURL(`tel:${COMPANY.primaryPhone.replace(/\s/g, '')}`),
         },
         {
-          emoji: '📞',
+          glyph: Phone as LucideIcon,
           label: 'Secondary',
           value: COMPANY.secondaryPhone,
           onPress: () => Linking.openURL(`tel:${COMPANY.secondaryPhone.replace(/\s/g, '')}`),
         },
         {
-          emoji: '✉️',
+          glyph: Mail as LucideIcon,
           label: 'Email',
           value: COMPANY.email,
           onPress: () => Linking.openURL(`mailto:${COMPANY.email}`),
         },
         {
-          emoji: '🌐',
+          glyph: Globe as LucideIcon,
           label: 'Website',
           value: COMPANY.website,
           onPress: undefined,
         },
-      ].map(({ emoji, label, value, onPress }) => (
+      ].map(({ glyph, label, value, onPress }) => (
         <TouchableOpacity
           key={label}
           onPress={onPress ?? undefined}
@@ -93,7 +94,7 @@ function ContactInfo() {
               flexShrink: 0,
             }}
           >
-            <Text style={{ fontSize: 16 }}>{emoji}</Text>
+            <Icon icon={glyph} size="sm" color={C.skyDeep} />
           </View>
           <View style={{ flex: 1, paddingTop: 2 }}>
             <Text style={{ color: T.mutedForeground, fontFamily: F.medium, fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 2 }}>
@@ -300,7 +301,7 @@ function ContactForm() {
         <Text style={{ color: '#ffffff', fontFamily: F.bold, fontSize: 14 }}>
           {sent ? t('contactPage.form.sent') : t('contactPage.form.send')}
         </Text>
-        {!sent && <Text style={{ fontSize: 16 }}>📨</Text>}
+        {!sent && <Icon icon={Send} size="sm" color="#ffffff" />}
       </TouchableOpacity>
     </View>
   );

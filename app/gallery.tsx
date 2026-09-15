@@ -7,7 +7,8 @@ import Animated, {
   useSharedValue, useAnimatedStyle,
   withTiming, withSpring, withDelay,
 } from 'react-native-reanimated'
-import { X, ChevronLeft, ChevronRight } from 'lucide-react-native'
+import { X, ChevronLeft, ChevronRight, ZoomIn, Images } from 'lucide-react-native'
+import { Icon } from '@/components/ui'
 import { useTranslation } from 'react-i18next'
 import Footer  from '@/components/landing/Footer'
 import { C, F, IS_WEB, MAX_W, GALLERY_IMGS } from '@/components/landing/constants'
@@ -82,7 +83,7 @@ function AnimatedPhotoCard({
           style={{ width: '100%', height: IMG_H, backgroundColor: 'rgba(1,165,240,0.10)' }}
         />
         <View style={{ position: 'absolute', top: 6, right: 6, backgroundColor: 'rgba(34,31,32,0.45)', borderRadius: 12, padding: 4 }}>
-          <Text style={{ fontSize: 11 }}>🔎</Text>
+          <Icon icon={ZoomIn} size={12} color="#ffffff" />
         </View>
       </TouchableOpacity>
     </Animated.View>
@@ -116,7 +117,7 @@ function EmptyGallery() {
         alignItems: 'center', justifyContent: 'center',
         marginBottom: 20,
       }}>
-        <Text style={{ fontSize: 36 }}>📷</Text>
+        <Icon icon={Images} size={34} color={C.skyDeep} />
       </View>
       <Text style={{ color: T.foreground, fontFamily: F.bold, fontSize: IS_WEB ? 20 : 17, textAlign: 'center', marginBottom: 10 }}>
         {t('galleryPage.emptyTitle')}

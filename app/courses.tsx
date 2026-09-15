@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { router } from 'expo-router';
-import { ArrowRight } from 'lucide-react-native';
+import { ArrowRight, MessageCircle } from 'lucide-react-native';
+import { Icon } from '@/components/ui';
 import { useTranslation } from 'react-i18next';
 
 import { PageHero } from '@/components/landing/PageHero';
@@ -44,7 +45,7 @@ function ContactCTA() {
           elevation: 5,
         }}
       >
-        <Text style={{ fontSize: 16 }}>💬</Text>
+        <Icon icon={MessageCircle} size="sm" color="#ffffff" />
         <Text style={{ color: '#ffffff', fontFamily: F.semibold, fontSize: 14 }}>
           {t('coursesPage.contactCta')}
         </Text>

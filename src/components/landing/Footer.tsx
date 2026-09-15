@@ -6,7 +6,8 @@ import { useColorScheme } from 'nativewind';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W } from './constants';
 import { COMPANY, SOCIALS } from '@/data/saferide';
-import { Button } from '@/components/ui';
+import { Button, Icon } from '@/components/ui';
+import { MapPin, Phone, Mail, Send } from 'lucide-react-native';
 import LaneStrip from './LaneStrip';
 import {
   FacebookIcon, TwitterXIcon, TikTokIcon, InstagramIcon, YouTubeIcon,
@@ -95,7 +96,7 @@ export default function Footer() {
 
               <View className="gap-2.5">
                 <View className="flex-row items-start gap-2">
-                  <Text style={{ fontSize: 14, marginTop: 1 }}>📍</Text>
+                  <View className="mt-0.5"><Icon icon={MapPin} size="xs" color={isDark ? C.mutedDark : C.muted} /></View>
                   <Text style={{ fontFamily: F.regular }} className="flex-1 text-sm leading-5 text-foreground/70 dark:text-white/70">
                     {COMPANY.address}
                   </Text>
@@ -105,7 +106,7 @@ export default function Footer() {
                   accessibilityRole="link"
                   className="flex-row items-center gap-2"
                 >
-                  <Text style={{ fontSize: 14 }}>📞</Text>
+                  <Icon icon={Phone} size="xs" color={isDark ? C.mutedDark : C.muted} />
                   <Text style={{ fontFamily: F.regular }} className="text-sm text-foreground/70 dark:text-white/70">{COMPANY.primaryPhone}</Text>
                 </Pressable>
                 <Pressable
@@ -113,7 +114,7 @@ export default function Footer() {
                   accessibilityRole="link"
                   className="flex-row items-center gap-2"
                 >
-                  <Text style={{ fontSize: 14 }}>📞</Text>
+                  <Icon icon={Phone} size="xs" color={isDark ? C.mutedDark : C.muted} />
                   <Text style={{ fontFamily: F.regular }} className="text-sm text-foreground/70 dark:text-white/70">{COMPANY.secondaryPhone}</Text>
                 </Pressable>
                 <Pressable
@@ -121,7 +122,7 @@ export default function Footer() {
                   accessibilityRole="link"
                   className="flex-row items-center gap-2"
                 >
-                  <Text style={{ fontSize: 14 }}>✉️</Text>
+                  <Icon icon={Mail} size="xs" color={isDark ? C.mutedDark : C.muted} />
                   <Text style={{ fontFamily: F.regular }} className="text-sm text-foreground/70 dark:text-white/70">{COMPANY.email}</Text>
                 </Pressable>
               </View>
@@ -184,7 +185,7 @@ export default function Footer() {
                   accessibilityLabel={t('footer.newsletterTitle')}
                   className="w-12 px-0"
                 >
-                  <Text style={{ fontSize: 16 }}>📨</Text>
+                  <Icon icon={Send} size="sm" color={C.white} />
                 </Button>
               </View>
 

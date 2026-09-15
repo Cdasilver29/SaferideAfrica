@@ -6,7 +6,8 @@ import Animated, {
   withTiming, withDelay, Easing,
 } from 'react-native-reanimated';
 import { C, F, IS_WEB, MAX_W, WHY_FEATURES, STATS } from './constants';
-import { cn } from '@/components/ui';
+import { cn, Icon } from '@/components/ui';
+import { ShieldCheck, BookOpen, CreditCard, Award, Clock, BadgeCheck, type LucideIcon } from 'lucide-react-native';
 import { CountUp } from '@/components/CountUp';
 import { useInView } from '@/hooks/useInView';
 import { SECTION_PY } from '@/lib/spacing';
@@ -25,13 +26,14 @@ const STAT_KEY_MAP: Record<string, string> = {
   'Expert Instructors': 'expertInstructors',
 };
 
-// Modern emoji icons to replace plain text-only cards
-const FEATURE_EMOJIS: Record<string, string> = {
-  ShieldCheck: '🛡️',
-  BookOpen: '📖',
-  CreditCard: '💳',
-  Award: '🏆',
-  Clock: '⏰',
+// WHY_FEATURES carries Lucide names as strings, so this resolves each one to
+// the real glyph. Anything unmapped falls back to a neutral check.
+const FEATURE_ICONS: Record<string, LucideIcon> = {
+  ShieldCheck,
+  BookOpen,
+  CreditCard,
+  Award,
+  Clock,
 };
 
 function StatCounter({ target, suffix, label, inView }: { target: number; suffix: string; label: string; inView: boolean }) {
@@ -54,7 +56,7 @@ function FeatureCard({ feat, index }: { feat: typeof WHY_FEATURES[0]; index: num
   const { t } = useTranslation();
   const { width: winW } = useWindowDimensions();
   const tKey = WHY_KEY_MAP[feat.iconName] ?? feat.iconName;
-  const emoji = FEATURE_EMOJIS[feat.iconName] ?? '✅';
+  const glyph = FEATURE_ICONS[feat.iconName] ?? BadgeCheck;
 
   const cardW: any = !IS_WEB ? undefined
     : winW < 480 ? '100%'
@@ -125,7 +127,9 @@ function FeatureCard({ feat, index }: { feat: typeof WHY_FEATURES[0]; index: num
         }}
       >
         {/* Emoji icon */}
-        <Text style={{ fontSize: 32, marginBottom: 10 }}>{emoji}</Text>
+        <View style={{ marginBottom: 10 }}>
+          <Icon icon={glyph} size="xl" color={C.yellow} />
+        </View>
         <Text style={{ fontFamily: F.bold }} className="mb-2 text-center text-sm text-white">
           {t(`whyChooseUs.items.${tKey}.title`)}
         </Text>

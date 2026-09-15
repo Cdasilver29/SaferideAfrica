@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, useWindowDimensions } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W } from './constants';
+import { Icon } from '@/components/ui';
+import { Check } from 'lucide-react-native';
 import { SectionIntro } from './SectionIntro';
 import { SECTION_PY } from '@/lib/spacing';
 
@@ -31,7 +33,7 @@ export default function WhyValuesSnippet() {
           <View className={twoCol ? 'flex-1 gap-4' : 'gap-4'}>
             {points.map((point) => (
               <View key={point} className="flex-row items-start gap-3">
-                <Text style={{ fontSize: 20, marginTop: 1 }}>✅</Text>
+                <View style={{ marginTop: 2 }}><Icon icon={Check} size="md" color={C.skyDeep} /></View>
                 <Text
                   style={{ fontFamily: F.medium }}
                   className="flex-1 text-sm leading-[23px] text-foreground"

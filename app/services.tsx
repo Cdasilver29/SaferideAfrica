@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { router } from 'expo-router';
-import { ArrowRight } from 'lucide-react-native';
+import { ArrowRight, Check } from 'lucide-react-native';
+import { Icon } from '@/components/ui';
 import { useTranslation } from 'react-i18next';
 
 import { PageHero } from '@/components/landing/PageHero';
@@ -41,7 +42,7 @@ function StandOut() {
         <View style={{ gap: 14 }}>
           {standoutItems.map((item, i) => (
             <View key={i} style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12 }}>
-              <Text style={{ fontSize: 18, marginTop: 1 }}>✅</Text>
+              <View style={{ marginTop: 2 }}><Icon icon={Check} size="md" color={C.skyDeep} /></View>
               <Text
                 style={{
                   flex: 1,
