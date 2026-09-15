@@ -28,15 +28,11 @@ const CARDS = [
     key: 'category',
     href: '/courses',
     image: require('../../../assets/images/courses/c-series.webp'),
-    // Near-square source (1200x1162) against a 3:2 frame, so cover cut it.
-    fit: 'contain' as const,
   },
   {
     key: 'refresher',
     href: '/services/REFRESHER',
     image: REFRESHER_IMG,
-    // Panorama source (1200x607) against a 3:2 frame, so cover cut the sides.
-    fit: 'contain' as const,
   },
 ];
 
@@ -66,7 +62,6 @@ export default function DriverTypeSection() {
                 title={t(`home.driverTypes.cards.${card.key}.title`)}
                 description={t(`home.driverTypes.cards.${card.key}.desc`)}
                 image={card.image}
-                fit={card.fit}
               />
             </View>
           ))}

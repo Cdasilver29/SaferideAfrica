@@ -229,13 +229,14 @@ export interface ServiceItem {
 // other gallery source in constants.ts does, so it shows the fallback rather
 // than an empty frame.
 //
-// Stopgap: DSC_7860 is a branded training car with nobody in frame. The
+// Stopgap: /cards/refresher.webp is a 3:2 card crop of gallery DSC_7860,
+// a branded training car with nobody in frame. The
 // gallery has no photo of one-on-one instruction, and the previous pick
 // showed a group, which contradicted the one-on-one copy. Replace this with
 // a real one-on-one lesson photo when one exists, ideally bundled under
 // assets/images/services/ so the web-only gate can go away.
 const REFRESHER_IMG: ImageSourcePropType = Platform.OS === 'web'
-  ? { uri: '/gallery/DSC_7860.webp' }
+  ? { uri: '/cards/refresher.webp' }
   : require('../../assets/images/car-pic.png');
 
 export const SERVICES: ServiceItem[] = [
