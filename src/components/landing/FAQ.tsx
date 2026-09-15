@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Animated, Image, Platform, UIM
 import { ChevronDown, Send } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W, HERO_SRC } from './constants';
+import { SECTION_PY } from '@/lib/spacing';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -125,7 +126,7 @@ export default function FAQ() {
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
 
   return (
-    <View style={{ position: 'relative', paddingVertical: IS_WEB ? 72 : 40, paddingHorizontal: 24, overflow: 'hidden' }}>
+    <View style={{ position: 'relative', paddingVertical: SECTION_PY, paddingHorizontal: 24, overflow: 'hidden' }}>
       <Image source={HERO_SRC} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100%', height: '100%' }} resizeMode="cover" />
       <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(10,18,36,0.88)', pointerEvents: 'none' } as any} />
 

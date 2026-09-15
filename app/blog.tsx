@@ -11,6 +11,7 @@ import { BLOG_ARTICLES } from '@/data/saferide';
 import { useTheme } from '@/lib/theme';
 import { PageHead } from '@/components/PageHead';
 import { Reveal } from '@/components/animations/Reveal';
+import { SECTION_PY } from '@/lib/spacing';
 
 // ─── Article grid ────────────────────────────────────────────────────────────
 function ArticleGrid() {
@@ -20,7 +21,7 @@ function ArticleGrid() {
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
 
   return (
-    <View style={{ backgroundColor: T.background, paddingVertical: IS_WEB ? 80 : 48, paddingHorizontal: 24 }}>
+    <View style={{ backgroundColor: T.background, paddingVertical: SECTION_PY, paddingHorizontal: 24 }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
 
         {/* Centred caption + title */}

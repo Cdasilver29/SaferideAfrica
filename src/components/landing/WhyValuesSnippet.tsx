@@ -3,6 +3,7 @@ import { View, Text, useWindowDimensions } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W } from './constants';
 import { SectionIntro } from './SectionIntro';
+import { SECTION_PY } from '@/lib/spacing';
 
 // Phase E: concise homepage snippet of Why Choose Us and Our Values. The full
 // NTSA-relevant treatment lives on the About page; the AboutPreview section
@@ -17,7 +18,7 @@ export default function WhyValuesSnippet() {
   const values = t('aboutPage.coreValuesItems', { returnObjects: true }) as string[];
 
   return (
-    <View className="bg-background px-6 py-14">
+    <View className="bg-background px-6" style={{ paddingVertical: SECTION_PY }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionIntro
           badge={t('home.whySnippet.badge')}

@@ -8,6 +8,7 @@ import { Icon, cn } from '@/components/ui';
 import { useTheme } from '@/lib/theme';
 import { SectionIntro } from './SectionIntro';
 import { useReduceMotion } from '@/hooks/useReduceMotion';
+import { SECTION_PY } from '@/lib/spacing';
 
 // Testimonial portraits, restored with the individuals' consent. The initials
 // avatar remains as a graceful fallback if an image fails to load.
@@ -79,7 +80,7 @@ export default function Testimonials() {
   const frameOffset = isWide ? 12 : 8;
 
   return (
-    <View className="bg-background px-6 py-14">
+    <View className="bg-background px-6" style={{ paddingVertical: SECTION_PY }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionIntro badge={t('testimonials.overline')} title={t('testimonials.heading')} />
 

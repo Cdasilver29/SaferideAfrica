@@ -15,6 +15,7 @@ import { useTheme } from '@/lib/theme';
 import { PageHead } from '@/components/PageHead';
 import { Reveal, RevealItem } from '@/components/animations/Reveal';
 import { useInView } from '@/hooks/useInView';
+import { SECTION_PY, SECTION_PY_CTA } from '@/lib/spacing';
 
 const LOGO = require('../assets/images/saferide-logo.jpg');
 
@@ -134,7 +135,7 @@ function BranchDirectory() {
   const markSize = Math.min(420, winW * 0.8);
 
   return (
-    <View style={{ backgroundColor: Th.background }} className="overflow-hidden px-6 py-14">
+    <View style={{ backgroundColor: Th.background, paddingVertical: SECTION_PY }} className="overflow-hidden px-6">
       {/* Subtle SafeRide watermark behind the grid; decorative, non-interactive */}
       <View
         accessibilityElementsHidden
@@ -180,7 +181,7 @@ function ContactCTA() {
   const Th = useTheme();
   const { t } = useTranslation();
   return (
-    <View style={{ backgroundColor: Th.card }} className="items-center px-6 py-10">
+    <View style={{ backgroundColor: Th.card, paddingVertical: SECTION_PY_CTA }} className="items-center px-6">
       <Button variant="outline" size="md" className="border-[1.5px] border-primary rounded-pill px-7" onPress={() => router.push('/contact')}>
         <Icon icon={MessageCircle} size="sm" color={Th.primary} />
         <Text style={{ fontFamily: F.semibold }} className="text-sm text-primary">{t('branchesPage.contactCta')}</Text>

@@ -9,6 +9,7 @@ import { C, F, IS_WEB, MAX_W, WHY_FEATURES, STATS } from './constants';
 import { cn } from '@/components/ui';
 import { CountUp } from '@/components/CountUp';
 import { useInView } from '@/hooks/useInView';
+import { SECTION_PY } from '@/lib/spacing';
 
 const WHY_KEY_MAP: Record<string, string> = {
   ShieldCheck: 'realDrivers',
@@ -142,7 +143,7 @@ export default function WhyChooseUs() {
   const { ref: statsRef, inView: statsInView } = useInView();
 
   return (
-    <View className="bg-primary px-6 py-[72px] dark:bg-background">
+    <View className="bg-primary px-6 dark:bg-background" style={{ paddingVertical: SECTION_PY }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         {/* Heading */}
         <View className="mb-12 items-center">

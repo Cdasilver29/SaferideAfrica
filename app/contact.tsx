@@ -15,6 +15,7 @@ import { C, F, IS_WEB, MAX_W } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
 import { PageHead, DRIVING_SCHOOL_JSONLD } from '@/components/PageHead';
 import { Reveal } from '@/components/animations/Reveal';
+import { SECTION_PY } from '@/lib/spacing';
 
 const CONTACT_LABEL_KEY_MAP: Record<string, string> = {
   Address: 'address',
@@ -356,7 +357,7 @@ export default function ContactPage() {
         <PageHero overline={t('contactPage.pageOverline')} title={t('contactPage.pageTitle')} />
 
         {/* Two-column layout */}
-        <View style={{ paddingVertical: isMobile ? 32 : 56, paddingHorizontal: isMobile ? 16 : 24 }}>
+        <View style={{ paddingVertical: SECTION_PY, paddingHorizontal: isMobile ? 16 : 24 }}>
           <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
             <View style={!isMobile ? { flexDirection: 'row', gap: 36, alignItems: 'flex-start' } : { gap: 24 }}>
 

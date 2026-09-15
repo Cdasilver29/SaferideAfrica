@@ -12,6 +12,7 @@ import { C, F, IS_WEB, MAX_W } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
 import { PageHead } from '@/components/PageHead';
 import { Reveal } from '@/components/animations/Reveal';
+import { SECTION_PY, SECTION_PY_CTA } from '@/lib/spacing';
 
 // ─── Why our services stand out ───────────────────────────────────────────────
 function StandOut() {
@@ -22,7 +23,7 @@ function StandOut() {
     <View
       style={{
         backgroundColor: T.isDark ? C.darkCard : C.white,
-        paddingVertical: 48,
+        paddingVertical: SECTION_PY,
         paddingHorizontal: 24,
       }}
     >
@@ -69,7 +70,7 @@ function CoursesCTA() {
       style={{
         backgroundColor: T.background,
         paddingHorizontal: 24,
-        paddingVertical: 40,
+        paddingVertical: SECTION_PY_CTA,
         alignItems: 'center',
       }}
     >

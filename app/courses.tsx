@@ -12,6 +12,7 @@ import { C, F, IS_WEB } from '@/components/landing/constants';
 import { useTheme } from '@/lib/theme';
 import { PageHead } from '@/components/PageHead';
 import { Reveal } from '@/components/animations/Reveal';
+import { SECTION_PY_CTA } from '@/lib/spacing';
 
 // ─── Contact CTA ─────────────────────────────────────────────────────────────
 function ContactCTA() {
@@ -22,7 +23,7 @@ function ContactCTA() {
       style={{
         backgroundColor: T.background,
         paddingHorizontal: 24,
-        paddingVertical: 40,
+        paddingVertical: SECTION_PY_CTA,
         alignItems: 'center',
       }}
     >

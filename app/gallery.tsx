@@ -14,6 +14,7 @@ import { C, F, IS_WEB, MAX_W, GALLERY_IMGS } from '@/components/landing/constant
 import { ResponsiveImage } from '@/components/ResponsiveImage'
 import { useTheme } from '@/lib/theme'
 import { PageHead } from '@/components/PageHead'
+import { SECTION_PY } from '@/lib/spacing'
 
 // Thumbnails render in a 3-column grid: ~31vw each on mobile, ~360px within the
 // 1100 container on desktop. This is where the biggest 4G saving lands.
@@ -165,7 +166,7 @@ function GalleryGrid() {
   )
 
   return (
-    <View style={{ backgroundColor: T.background, paddingHorizontal: 16, paddingVertical: 24 }}>
+    <View style={{ backgroundColor: T.background, paddingHorizontal: 16, paddingVertical: SECTION_PY }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
 
         {total === 0 ? (

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { SERVICES, ServiceItem } from '@/data/saferide';
 import { Card, Icon, cn } from '@/components/ui';
 import { C, F, IS_WEB, MAX_W } from './constants';
+import { SECTION_PY } from '@/lib/spacing';
 
 // Maps a service code to its i18n key segment under servicesPage.items
 export const SERVICE_KEY_MAP: Record<string, string> = {
@@ -71,7 +72,7 @@ export default function Services() {
   }
 
   return (
-    <View className="bg-background px-6 py-[72px]">
+    <View className="bg-background px-6" style={{ paddingVertical: SECTION_PY }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <View className="mb-11 items-center">
           <Text style={{ fontFamily: F.bold, letterSpacing: 2.5 }} className="mb-2.5 text-xs uppercase text-primary">

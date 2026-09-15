@@ -10,6 +10,7 @@ import { ArrowRight } from 'lucide-react-native'
 import { C, F, IS_WEB, MAX_W } from './constants'
 import { SectionIntro } from './SectionIntro'
 import { useEnrollModal } from '@/context/EnrollModalContext'
+import { SECTION_PY_CTA } from '@/lib/spacing'
 
 // ── Modern wave layer using View with animated opacity ────────────────────────
 
@@ -89,7 +90,7 @@ export default function FinalCTA() {
         backgroundColor: C.skyDeep,
         minHeight: sectionH,
         paddingHorizontal: 24,
-        paddingVertical: 48,
+        paddingVertical: SECTION_PY_CTA,
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'hidden',

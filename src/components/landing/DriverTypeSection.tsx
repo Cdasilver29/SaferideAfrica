@@ -6,6 +6,7 @@ import { cn } from '@/components/ui';
 import { IS_WEB, MAX_W } from './constants';
 import { SectionIntro } from './SectionIntro';
 import { ImageCard } from './ImageCard';
+import { SECTION_PY } from '@/lib/spacing';
 
 // Homepage router for the three ways people arrive: learning from scratch,
 // adding a category to a licence they already hold, or coming back after time
@@ -41,7 +42,7 @@ export default function DriverTypeSection() {
   const isNarrow = !IS_WEB || (IS_WEB && winW < 768);
 
   return (
-    <View className="bg-secondary/10 px-6 py-14 dark:bg-background">
+    <View className="bg-secondary/10 px-6 dark:bg-background" style={{ paddingVertical: SECTION_PY }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionIntro
           badge={t('home.driverTypes.badge')}

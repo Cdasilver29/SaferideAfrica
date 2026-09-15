@@ -12,6 +12,7 @@ import { useInView } from '@/hooks/useInView';
 import { useReduceMotion } from '@/hooks/useReduceMotion';
 import { RevealItem } from '@/components/animations/Reveal';
 import { ImageCard } from './ImageCard';
+import { SECTION_PY } from '@/lib/spacing';
 
 const PREVIEW_CODES = ['B-LIGHT', 'B-AUTO', 'EXECUTIVE'];
 
@@ -104,7 +105,7 @@ export function PremiumCourseCards() {
   }));
 
   return (
-    <View className="bg-background px-6 py-14">
+    <View className="bg-background px-6" style={{ paddingVertical: SECTION_PY }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionIntro
           badge={t('home.premiumCourses.badge')}

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W } from './constants';
 import { Card } from '@/components/ui';
 import { SectionIntro } from './SectionIntro';
+import { SECTION_PY } from '@/lib/spacing';
 
 // Homepage "how enrolment works" strip (home restructure Phase 4). The four
 // steps are assembled from copy already published on the site: the course
@@ -24,7 +25,7 @@ export default function EnrolSteps() {
   const steps = t('home.enrolSteps.steps', { returnObjects: true }) as Step[];
 
   return (
-    <View className="bg-background px-6 py-14">
+    <View className="bg-background px-6" style={{ paddingVertical: SECTION_PY }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionIntro
           badge={t('home.enrolSteps.badge')}

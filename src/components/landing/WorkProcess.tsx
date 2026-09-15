@@ -9,6 +9,7 @@ import { useColorScheme } from 'nativewind';
 import { useTranslation } from 'react-i18next';
 import { C, F, IS_WEB, MAX_W, WORK_STEPS } from './constants';
 import { useReduceMotion } from '@/hooks/useReduceMotion';
+import { SECTION_PY } from '@/lib/spacing';
 
 const STEP_KEY_MAP: Record<string, string> = {
   '01': 'selectPlan',
@@ -154,7 +155,7 @@ export default function WorkProcess() {
   }));
 
   return (
-    <View style={{ backgroundColor: isDark ? C.darkBg : '#ffffff', paddingVertical: 72, paddingHorizontal: 24 }}>
+    <View style={{ backgroundColor: isDark ? C.darkBg : '#ffffff', paddingVertical: SECTION_PY, paddingHorizontal: 24 }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}}>
 
         <View style={{ alignItems: 'center', marginBottom: 52 }}>

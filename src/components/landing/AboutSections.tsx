@@ -15,6 +15,7 @@ import { C, F, IS_WEB, MAX_W, ABOUT_OPENER_IMG } from '@/components/landing/cons
 import { Button, Card, Icon, cn } from '@/components/ui';
 import { ResponsiveImage } from '@/components/ResponsiveImage';
 import { useTheme } from '@/lib/theme';
+import { SECTION_PY } from '@/lib/spacing';
 
 function SocialBadge({ url, icon }: { url: string; icon: React.ReactElement }) {
   return (
@@ -65,7 +66,7 @@ export function AboutOpener() {
   );
 
   return (
-    <View className="bg-background px-6 py-12 web:py-16">
+    <View className="bg-background px-6" style={{ paddingVertical: SECTION_PY }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         {/* Label + social badges */}
         <View className="mb-6 flex-row items-center justify-between">
@@ -173,7 +174,7 @@ function SectionHeading({ overline, title, centered }: { overline?: string; titl
 export function CompanyStory() {
   const { t } = useTranslation();
   return (
-    <View className="bg-background px-6 py-16">
+    <View className="bg-background px-6" style={{ paddingVertical: SECTION_PY }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionHeading overline={t('aboutPage.historyOverline')} title={t('aboutPage.historyTitle')} />
         <Text style={{ fontFamily: F.regular }} className="mb-4 text-sm leading-[26px] text-muted-foreground">
@@ -212,7 +213,7 @@ export function VisionMissionValues() {
   const valueWidth: any = winW < 640 ? '100%' : winW < 1024 ? (IS_WEB ? 'calc(50% - 8px)' : '48%') : (IS_WEB ? 'calc(20% - 13px)' : '48%');
 
   return (
-    <View className="bg-background px-6 py-16">
+    <View className="bg-background px-6" style={{ paddingVertical: SECTION_PY }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionHeading title={t('aboutPage.whatDrivesUs')} centered />
         <View className="flex-row flex-wrap gap-4">
@@ -291,7 +292,7 @@ export function Achievements() {
   const { t } = useTranslation();
   const bullets = t('aboutPage.guaranteeItems', { returnObjects: true }) as string[];
   return (
-    <View className="bg-background px-6 py-14">
+    <View className="bg-background px-6" style={{ paddingVertical: SECTION_PY }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionHeading overline={t('aboutPage.guaranteeOverline')} title={t('aboutPage.guaranteeTitle')} />
         <View className="gap-3.5">
@@ -324,7 +325,7 @@ export function TrustBlock() {
   const cardWidth: any = cols === 1 ? '100%' : cols === 2 ? (IS_WEB ? 'calc(50% - 8px)' : '48%') : (IS_WEB ? 'calc(33.333% - 11px)' : '48%');
 
   return (
-    <View className="bg-background px-6 py-16">
+    <View className="bg-background px-6" style={{ paddingVertical: SECTION_PY }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionHeading overline={t('aboutPage.trust.overline')} title={t('aboutPage.trust.title')} centered />
         <View className="flex-row flex-wrap gap-4">

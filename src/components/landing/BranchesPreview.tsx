@@ -9,6 +9,7 @@ import { useTheme } from '@/lib/theme';
 import { Card, Button, Input, Badge, Icon, cn } from '@/components/ui';
 import { F, IS_WEB, MAX_W } from './constants';
 import { SectionIntro } from './SectionIntro';
+import { SECTION_PY } from '@/lib/spacing';
 
 // ─── Compact branch card (rebuilt on the Card primitive) ────────────────────────
 function BranchCard({ branch, isSelected, onPress }: { branch: Branch; isSelected: boolean; onPress: () => void }) {
@@ -62,7 +63,7 @@ export default function BranchesPreview() {
   const activeId = matches.find((b) => b.id === selectedId)?.id ?? matches[0]?.id ?? '';
 
   return (
-    <View style={{ backgroundColor: Th.background }} className="px-6 py-14">
+    <View style={{ backgroundColor: Th.background, paddingVertical: SECTION_PY }} className="px-6">
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionIntro
           badge={t('home.branchesPreview.badge')}
