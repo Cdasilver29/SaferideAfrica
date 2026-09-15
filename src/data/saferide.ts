@@ -334,7 +334,7 @@ export const SERVICES: ServiceItem[] = [
 
 export const STATS = {
   branches:    BRANCHES.length,
-  instructors: 20,
+  instructors: 50,
   yearsActive: new Date().getFullYear() - 2015,
 } as const;
 

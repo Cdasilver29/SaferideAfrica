@@ -29,19 +29,31 @@ const DARK_RGB = rgbTriplet(C.dark);
 type HeadlineSeg = { w: string; c?: string };
 type HeroSlide = { eyebrow: string; words: (HeadlineSeg | string)[] };
 
-// How far the headline pair is lifted on phones, so it sits just under the
-// header rather than floating in the middle of the photo.
+// The copy block is centred in the hero, which leaves the headline floating in
+// the middle of the photo and the button stranded above the stat cards. These
+// pull the headline up toward the header and push the button down toward the
+// cards, on every width.
 //
-// The copy block is centred inside the hero's 480px minimum, so the headline
-// would otherwise land about 130px down. The headline runs 120 to 180px tall
-// depending on which slide is showing, which moves that start point by up to
-// 30px either way; 90 puts the shortest slide about 50px below the hero top
-// and the longest about 20px, so nothing clips against overflow-hidden.
+// Both are transforms, never margins. A margin would reflow the centred block,
+// so moving either one would drag the other along with it. A transform takes
+// no part in layout, so the two move independently.
 //
-// It stays a transform rather than a margin: a margin would grow the centred
-// block and carry Explore Courses down with it, and that button is meant to
-// stay where it is.
-const HERO_TEXT_LIFT = 90;
+// The numbers are per breakpoint because all three inputs change: the hero's
+// height, how far the stat strip rises into it, and how tall the headline
+// renders. The headline is the loose one, it varies by slide and by language,
+// so each drop leaves margin for the tallest case rather than sitting flush.
+//
+//   phone   hero 480, cards rise 40 (OVERLAP_NATIVE), headline 120 to 180
+//   tablet  hero 520, cards rise 56 (OVERLAP_WEB),    headline 113 to 241
+//   wide    hero 580, cards rise 56 (OVERLAP_WEB),    headline 113 to 241
+//
+// Tablet takes the smallest drop: it pairs the desktop headline with a hero
+// 60px shorter, so it has the least room to give.
+const HERO_SHIFT = {
+  phone:  { lift: 90,  drop: 65 },
+  tablet: { lift: 100, drop: 45 },
+  wide:   { lift: 100, drop: 70 },
+} as const;
 
 function HeroSlideText({ slide, slides }: { slide: number; slides: HeroSlide[] }) {
   const reduceMotion = useReduceMotion();
@@ -122,6 +134,9 @@ export default function Hero({ onScrollToCourses }: HeroProps) {
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
   const isWide = IS_WEB && winW >= 1024;
 
+  // Same three bands the hero already sizes itself by, see HERO_SHIFT.
+  const shift = isMobile ? HERO_SHIFT.phone : isWide ? HERO_SHIFT.wide : HERO_SHIFT.tablet;
+
   const slides = (t('hero.slides', { returnObjects: true }) as HeroSlide[]) ?? [];
 
   // The active photo index, reported by the rotating background so the headline
@@ -163,13 +178,17 @@ export default function Hero({ onScrollToCourses }: HeroProps) {
       >
         <AnimatedRN.View entering={FadeInUp.duration(800).delay(300)} style={{ maxWidth: 620, alignItems: isMobile ? 'center' : 'flex-start' }}>
           {/* Per-slide headline, cross-fading in sync with the photo.
-              Lifted toward the header on phones, see HERO_TEXT_LIFT. */}
-          <View style={isMobile ? { transform: [{ translateY: -HERO_TEXT_LIFT }] } : undefined}>
+              Lifted toward the header at every width, see HERO_SHIFT. */}
+          <View style={{ transform: [{ translateY: -shift.lift }] }}>
             <HeroSlideText key={i18n.language} slide={slide} slides={slides} />
           </View>
 
           {/* Explore Courses is the one hero-body control; Enrol lives in the header */}
-          <AnimatedRN.View entering={FadeInUp.duration(800).delay(600)} className={['mt-6 flex-row flex-wrap items-center gap-3', isMobile && 'justify-center'].join(' ')}>
+          <AnimatedRN.View
+            entering={FadeInUp.duration(800).delay(600)}
+            className={['mt-6 flex-row flex-wrap items-center gap-3', isMobile && 'justify-center'].join(' ')}
+            style={{ transform: [{ translateY: shift.drop }] }}
+          >
             <Pressable
               onPress={onScrollToCourses}
               accessibilityRole="button"
@@ -184,19 +203,6 @@ export default function Hero({ onScrollToCourses }: HeroProps) {
         </AnimatedRN.View>
       </View>
 
-      {/* Scroll-down affordance, web, sits over the photo */}
-      {IS_WEB && (
-        <Pressable
-          onPress={onScrollToCourses}
-          accessibilityRole="button"
-          accessibilityLabel={t('hero.exploreCourses')}
-          className="absolute inset-x-0 bottom-6 items-center"
-        >
-          <View className="h-11 w-11 items-center justify-center rounded-pill border border-white/30 bg-black/20">
-            <Icon icon={ChevronDown} size="md" color={C.white} />
-          </View>
-        </Pressable>
-      )}
     </View>
   );
 }
