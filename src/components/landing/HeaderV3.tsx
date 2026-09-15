@@ -465,7 +465,11 @@ export function HeaderV3({
       <View style={Platform.OS === "web" ? { zIndex: 200 } : undefined}>
         {/* Bar 1, thin sky utility strip: its own toggle left, socials right.
             The 44px pressables set the bar height; the glyph circles stay at
-            28px so the strip still reads as thin. */}
+            28px so the strip still reads as thin.
+
+            The full set renders here, same as desktop. Six 44px targets plus
+            the 44px menu button and the 12px gutters come to 332px, which
+            clears the 360px narrow case. */}
         <View className="bg-brand-primary">
           <View className="flex-row items-center justify-between px-3">
             <Pressable
@@ -479,7 +483,7 @@ export function HeaderV3({
             </Pressable>
 
             <View className="flex-row items-center">
-              {socials.slice(0, 3).map(({ label, url, Icon, color }) => (
+              {socials.map(({ label, url, Icon, color }) => (
                 <Pressable
                   key={label}
                   onPress={() => Linking.openURL(url)}
