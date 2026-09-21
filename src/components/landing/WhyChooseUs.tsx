@@ -126,8 +126,12 @@ function FeatureCard({ feat, index }: { feat: typeof WHY_FEATURES[0]; index: num
           elevation: 4,
         }}
       >
-        {/* Emoji icon */}
-        <View style={{ marginBottom: 10 }}>
+        {/* Glyph on a tinted tile, matching the step markers on the homepage.
+            These were emoji once, hence the name; they are Lucide now. */}
+        <View
+          style={{ marginBottom: 12 }}
+          className="h-14 w-14 items-center justify-center rounded-card bg-accent/15"
+        >
           <Icon icon={glyph} size="xl" color={C.yellow} />
         </View>
         <Text style={{ fontFamily: F.bold }} className="mb-2 text-center text-sm text-white">

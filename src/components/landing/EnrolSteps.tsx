@@ -42,13 +42,17 @@ export default function EnrolSteps() {
               className="p-5"
               style={isMobile ? undefined : isWide ? { flex: 1 } : { width: '47%', flexGrow: 1 }}
             >
-              <View className="mb-3 flex-row items-center gap-3">
-                <View className="h-9 w-9 items-center justify-center rounded-pill bg-primary/10">
-                  <Text style={{ fontFamily: F.bold }} className="text-sm text-primary">
-                    {i + 1}
-                  </Text>
+              {/* The glyph carries the tile now. A bare 2px outline sitting
+                  next to a filled number pill made the icon read as the
+                  lighter of the two, so the tile moved to the icon and the
+                  number stepped back to plain muted text. */}
+              <View className="mb-4 flex-row items-center justify-between">
+                <View className="h-12 w-12 items-center justify-center rounded-card bg-primary/10">
+                  <Icon icon={STEP_ICONS[i] ?? BadgeCheck} size="lg" color={C.skyDeep} />
                 </View>
-                <Icon icon={STEP_ICONS[i] ?? BadgeCheck} size="lg" color={C.skyDeep} />
+                <Text style={{ fontFamily: F.bold }} className="text-sm text-muted-foreground">
+                  {i + 1}
+                </Text>
               </View>
               <Text style={{ fontFamily: F.bold }} className="mb-1 text-base text-foreground">
                 {step.title}
