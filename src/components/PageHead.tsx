@@ -23,7 +23,7 @@ export const DRIVING_SCHOOL_JSONLD = JSON.stringify({
   telephone: '+254746097033',
   contactPoint: {
     '@type': 'ContactPoint',
-    telephone: '+254706614662',
+    telephone: '+254712045710',
     contactType: 'customer service',
   },
   email: 'saferideafrica777@gmail.com',
