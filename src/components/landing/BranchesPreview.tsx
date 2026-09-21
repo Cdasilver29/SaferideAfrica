@@ -3,7 +3,6 @@ import { View, Text, Pressable, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { MapPin, Phone, ArrowRight, Search, X } from 'lucide-react-native';
-import { BranchMap } from './BranchMap';
 import { BRANCHES, Branch } from '@/data/saferide';
 import { useTheme } from '@/lib/theme';
 import { Card, Button, Input, Badge, Icon, cn } from '@/components/ui';
@@ -54,7 +53,6 @@ export default function BranchesPreview() {
   const Th = useTheme();
   const { t } = useTranslation();
   const { width: winW } = useWindowDimensions();
-  const isMobile = !IS_WEB || (IS_WEB && winW < 768);
 
   const [query, setQuery] = useState('');
   const [focused, setFocused] = useState(false);
@@ -71,17 +69,17 @@ export default function BranchesPreview() {
     [q],
   );
   const isSearching = q.length > 0;
+  const activeId = matches.find((b) => b.id === selectedId)?.id ?? matches[0]?.id ?? '';
 
-  // Before a search the desktop layout shows the whole network on the map with
-  // the popular areas listed beside it, rather than a centred prompt floating
-  // in a 1100px column. Searching narrows the map to the matches and the list
-  // with it. No marker is active until someone picks one, so the pre-search map
-  // reads as an overview and not as a selection.
-  const mapBranches = isSearching ? matches : (BRANCHES as readonly Branch[]);
-  const listBranches = isSearching ? matches : POPULAR_AREAS;
-  const activeId = isSearching
-    ? (matches.find((b) => b.id === selectedId)?.id ?? matches[0]?.id ?? '')
-    : (listBranches.find((b) => b.id === selectedId)?.id ?? '');
+  // Results grid, same 1/2/3 column rule the branches page uses. Without a map
+  // beside them the cards get the full column, so they lay out across it
+  // rather than stacking in one narrow strip. Gap is 16px (gap-4), so each
+  // card subtracts its share of the gaps.
+  const cols = winW < 640 ? 1 : winW < 1024 ? 2 : 3;
+  const cardWidth: any =
+    cols === 1 ? '100%'
+    : cols === 2 ? (IS_WEB ? 'calc(50% - 8px)' : '48%')
+    : (IS_WEB ? 'calc(33.333% - 11px)' : '48%');
 
   return (
     <View style={{ backgroundColor: Th.background, paddingVertical: SECTION_PY }} className="px-6">
@@ -155,44 +153,12 @@ export default function BranchesPreview() {
           </View>
         )}
 
-        {/* Results. Before a search the desktop side shows the network rather
-            than a prompt in an empty column. Mobile has no dead width to fill,
-            so it keeps the compact prompt until someone searches. */}
-        {isSearching && matches.length === 0 ? (
-          <View className="mb-9 items-center px-6 py-8">
-            <Text style={{ fontFamily: F.semibold }} className="text-center text-sm text-muted-foreground">
-              {t('home.branchesPreview.noResults')}
-            </Text>
-          </View>
-        ) : !isMobile ? (
-          <View className="mb-9 flex-row items-start gap-7">
-            <View style={{ flex: 3 }}>
-              <BranchMap
-                activeBranchId={activeId}
-                branches={mapBranches}
-                onMarkerPress={(id) => {
-                  if (isSearching) { setSelectedId(id); return; }
-                  // Pre-search a marker is a shortcut into the search, the
-                  // same move as tapping a chip.
-                  const b = (BRANCHES as readonly Branch[]).find((x) => x.id === id);
-                  if (b) setQuery(b.name);
-                }}
-              />
-            </View>
-            <View style={{ flex: 2 }} className="gap-3">
-              {listBranches.map((branch) => (
-                <BranchCard
-                  key={branch.id}
-                  branch={branch}
-                  isSelected={branch.id === activeId}
-                  onPress={() => (isSearching ? setSelectedId(branch.id) : setQuery(branch.name))}
-                />
-              ))}
-            </View>
-          </View>
-        ) : !isSearching ? (
-          // The chips above carry the call to action here, so this block sits
-          // back: a smaller mark and a hint that points at them.
+        {/* Results. The map lives on the branches page now, so this section
+            stays a search and a list. Nothing renders until someone searches,
+            beyond the prompt that points at the chips. */}
+        {!isSearching ? (
+          // The chips above carry the call to action, so this block sits back:
+          // a small mark and a hint that points at them.
           <View className="mb-9 items-center px-6 py-6">
             <View className="mb-3 h-10 w-10 items-center justify-center rounded-pill bg-primary/10">
               <Icon icon={Search} size="sm" color={Th.primary} />
@@ -204,16 +170,23 @@ export default function BranchesPreview() {
               {t('home.branchesPreview.searchPromptHint')}
             </Text>
           </View>
+        ) : matches.length === 0 ? (
+          <View className="mb-9 items-center px-6 py-8">
+            <Text style={{ fontFamily: F.semibold }} className="text-center text-sm text-muted-foreground">
+              {t('home.branchesPreview.noResults')}
+            </Text>
+          </View>
         ) : (
-          <View className="mb-9">
-            <View className="mb-4">
-              <BranchMap activeBranchId={activeId} branches={matches} onMarkerPress={(id) => setSelectedId(id)} />
-            </View>
-            <View className="gap-3">
-              {matches.map((branch) => (
-                <BranchCard key={branch.id} branch={branch} isSelected={branch.id === activeId} onPress={() => setSelectedId(branch.id)} />
-              ))}
-            </View>
+          <View className="mb-9 flex-row flex-wrap justify-center gap-4">
+            {matches.map((branch) => (
+              <View key={branch.id} style={{ width: cardWidth }}>
+                <BranchCard
+                  branch={branch}
+                  isSelected={branch.id === activeId}
+                  onPress={() => setSelectedId(branch.id)}
+                />
+              </View>
+            ))}
           </View>
         )}
 
