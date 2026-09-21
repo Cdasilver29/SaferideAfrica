@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { SafeAreaView, ScrollView, DeviceEventEmitter } from 'react-native';
+import React from 'react';
+import { SafeAreaView, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { useColorScheme } from 'nativewind';
 
@@ -24,17 +24,6 @@ export default function LandingScreen() {
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  // SocialFloat's up-chevron emits this rather than reaching for the scroller,
-  // since the scroll container lives here.
-  const scrollRef = useRef<ScrollView>(null);
-
-  useEffect(() => {
-    const sub = DeviceEventEmitter.addListener('scrollToTop', () => {
-      scrollRef.current?.scrollTo({ y: 0, animated: true });
-    });
-    return () => sub.remove();
-  }, []);
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: isDark ? C.dark : C.white }}>
       <PageHead
@@ -45,7 +34,7 @@ export default function LandingScreen() {
         <script type="application/ld+json">{DRIVING_SCHOOL_JSONLD}</script>
       </PageHead>
 
-      <ScrollView ref={scrollRef} className={APP_SCROLLBAR} style={{ flex: 1 }}>
+      <ScrollView className={APP_SCROLLBAR} style={{ flex: 1 }}>
         <Hero onScrollToCourses={() => router.push('/courses')} />
         <StatStrip />
         <Reveal variant="rise"><DriverTypeSection /></Reveal>
