@@ -43,3 +43,10 @@ ready; only the layout direction needs to be added when that work is scheduled.
 The English heading splits "Safety" out as a yellow-coloured accent word. Each locale
 has a matching `headingAccent` key with the translated accent word. Verify the
 component uses `t('about.headingAccent')` for the coloured span once refactored.
+
+### `common.mapZoomHint`
+This string carries a literal `META` token. pigeon-maps substitutes it at render
+time with the platform's modifier key, showing the cmd glyph on macOS and the
+word "ctrl" everywhere else. Translators must keep `META` in uppercase and
+untranslated, and may move it within the sentence. Dropping it leaves the hint
+telling people to hold nothing.
