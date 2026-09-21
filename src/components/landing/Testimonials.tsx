@@ -75,16 +75,16 @@ export default function Testimonials() {
   // true on mobile web too and wrongly served the desktop row). Matches the
   // winW < 768 breakpoint used by CoursesPreview and PremiumCourseCards.
   const isWide = IS_WEB && winW >= 768;
-  const photoW = isWide ? 220 : 150;
-  const photoH = isWide ? 290 : 190;
-  const frameOffset = isWide ? 12 : 8;
+  const photoW = isWide ? 160 : 130;
+  const photoH = isWide ? 210 : 170;
+  const frameOffset = isWide ? 8 : 6;
 
   return (
     <View className="bg-background px-6" style={{ paddingVertical: SECTION_PY }}>
       <View style={IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : undefined}>
         <SectionIntro badge={t('testimonials.overline')} title={t('testimonials.heading')} />
 
-        <View className={cn('items-stretch', isWide ? 'flex-row items-center gap-[72px]' : 'gap-6')}>
+        <View className={cn('items-stretch', isWide ? 'flex-row items-center gap-[40px]' : 'gap-6')}>
           {/* Portrait over a yellow offset frame for photo-first depth; the
               initials avatar remains the load-failure fallback */}
           <View className="self-center" style={{ width: photoW + frameOffset, height: photoH + frameOffset }}>
@@ -121,7 +121,7 @@ export default function Testimonials() {
               <Icon icon={Quote} size="xl" color={C.yellow} />
               <Text
                 style={{ fontFamily: F.regular, fontStyle: 'italic' }}
-                className="mb-7 mt-5 text-sm leading-[22px] text-foreground web:text-lg web:leading-8"
+                className="mb-5 mt-4 text-sm leading-[22px] text-foreground web:text-lg web:leading-8"
               >
                 {`"${item.text}"`}
               </Text>
@@ -132,39 +132,42 @@ export default function Testimonials() {
               )}
             </Animated.View>
 
-            {/* Prev / Next */}
-            <View className="mt-8 flex-row gap-3">
-              <Pressable
-                onPress={() => goTo((active - 1 + N) % N)}
-                accessibilityRole="button"
-                accessibilityLabel={t('testimonials.prev')}
-                className="h-12 w-12 items-center justify-center rounded-pill border border-border active:bg-foreground/5"
-              >
-                <Icon icon={ChevronLeft} size="md" color={Th.foreground} />
-              </Pressable>
-              <Pressable
-                onPress={() => goTo((active + 1) % N)}
-                accessibilityRole="button"
-                accessibilityLabel={t('testimonials.next')}
-                className="h-12 w-12 items-center justify-center rounded-pill bg-primary active:opacity-90"
-              >
-                <Icon icon={ChevronRight} size="md" color={C.white} />
-              </Pressable>
-            </View>
-
-            {/* Dots */}
-            <View className="mt-5 flex-row gap-2">
-              {[0, 1, 2].map((i) => (
+            {/* Prev / Next and the dots share one row, arrows first. Stacking
+                them cost two vertical margins and a whole control height. */}
+            <View className="mt-5 flex-row items-center gap-4">
+              <View className="flex-row gap-3">
                 <Pressable
-                  key={i}
-                  onPress={() => goTo(i)}
-                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                  onPress={() => goTo((active - 1 + N) % N)}
                   accessibilityRole="button"
-                  accessibilityLabel={t('testimonials.goTo', { num: i + 1 })}
+                  accessibilityLabel={t('testimonials.prev')}
+                  className="h-12 w-12 items-center justify-center rounded-pill border border-border active:bg-foreground/5"
                 >
-                  <View className={cn('h-1.5 rounded-pill', i === active ? 'w-6 bg-primary' : 'w-1.5 bg-border')} />
+                  <Icon icon={ChevronLeft} size="md" color={Th.foreground} />
                 </Pressable>
-              ))}
+                <Pressable
+                  onPress={() => goTo((active + 1) % N)}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('testimonials.next')}
+                  className="h-12 w-12 items-center justify-center rounded-pill bg-primary active:opacity-90"
+                >
+                  <Icon icon={ChevronRight} size="md" color={C.white} />
+                </Pressable>
+              </View>
+
+              {/* Dots */}
+              <View className="flex-row items-center gap-2">
+                {[0, 1, 2].map((i) => (
+                  <Pressable
+                    key={i}
+                    onPress={() => goTo(i)}
+                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                    accessibilityRole="button"
+                    accessibilityLabel={t('testimonials.goTo', { num: i + 1 })}
+                  >
+                    <View className={cn('h-1.5 rounded-pill', i === active ? 'w-6 bg-primary' : 'w-1.5 bg-border')} />
+                  </Pressable>
+                ))}
+              </View>
             </View>
           </View>
         </View>
