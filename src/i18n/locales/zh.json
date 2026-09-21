@@ -329,6 +329,8 @@
       "title": "内罗毕分支机构",
       "description": "从Buru Buru总部到Kayole、Embakasi、Kagundo路及更远的地方，您身边总有一家Safe Ride分支机构。",
       "searchPlaceholder": "按区域搜索，例如 Donholm",
+      "popularAreas": "热门区域",
+      "searchPromptHint": "或点击上方区域直接查看",
       "searchPrompt": "搜索查找您附近的分支机构",
       "noResults": "没有匹配该搜索的分支机构"
     },

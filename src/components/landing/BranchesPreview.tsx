@@ -41,6 +41,15 @@ function BranchCard({ branch, isSelected, onPress }: { branch: Branch; isSelecte
   );
 }
 
+// Shortcut chips for the areas people look up most. The labels are not written
+// out here: each name is resolved against BRANCHES, so a chip can only ever
+// exist for a branch that exists, and pressing one always matches the filter.
+// A name that stops matching drops out of the row instead of filtering to zero.
+const POPULAR_AREA_NAMES = ['Buruburu', 'Donholm', 'Kayole', 'Embakasi', 'Kagundo Road'];
+const POPULAR_AREAS = POPULAR_AREA_NAMES
+  .map((name) => (BRANCHES as readonly Branch[]).find((b) => b.name === name))
+  .filter((b): b is Branch => Boolean(b));
+
 export default function BranchesPreview() {
   const Th = useTheme();
   const { t } = useTranslation();
@@ -48,6 +57,7 @@ export default function BranchesPreview() {
   const isMobile = !IS_WEB || (IS_WEB && winW < 768);
 
   const [query, setQuery] = useState('');
+  const [focused, setFocused] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const q = query.trim().toLowerCase();
@@ -71,39 +81,82 @@ export default function BranchesPreview() {
           description={t('home.branchesPreview.description')}
         />
 
-        {/* Search field */}
-        <View className="relative mb-6 self-center" style={IS_WEB ? { maxWidth: 520, width: '100%' } : undefined}>
-          <View className="absolute bottom-0 left-4 top-0 z-10 justify-center">
-            <Icon icon={Search} size="sm" color={Th.mutedForeground} />
+        {/* Search field. The focus ring is driven by state rather than the
+            primitive's focus: class so the border and the glow agree on
+            native too. The glow colour is the primary token with an alpha
+            suffix, not a separate hue. */}
+        <View
+          className="relative mb-4 self-center rounded-pill"
+          style={[
+            IS_WEB ? { maxWidth: 560, width: '100%' } : undefined,
+            focused
+              ? IS_WEB
+                ? ({ boxShadow: `0 6px 22px ${Th.primary}33` } as any)
+                : { shadowColor: Th.primary, shadowOpacity: 0.3, shadowRadius: 12, shadowOffset: { width: 0, height: 4 }, elevation: 6 }
+              : null,
+          ]}
+        >
+          <View className="absolute bottom-0 left-5 top-0 z-10 justify-center">
+            <Icon icon={Search} size="sm" color={focused ? Th.primary : Th.mutedForeground} />
           </View>
           <Input
             value={query}
             onChangeText={setQuery}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
             placeholder={t('home.branchesPreview.searchPlaceholder')}
             accessibilityLabel={t('home.branchesPreview.searchPlaceholder')}
             autoCorrect={false}
-            className="rounded-pill pl-11 pr-11"
+            className={cn('h-14 rounded-pill border-[1.5px] pl-12 pr-12', focused ? 'border-primary' : 'border-border')}
           />
           {query.length > 0 && (
             <Pressable
               onPress={() => setQuery('')}
               accessibilityRole="button"
               accessibilityLabel="Clear search"
-              className="absolute bottom-0 right-1 top-0 z-10 w-11 items-center justify-center"
+              className="absolute bottom-0 right-1.5 top-0 z-10 w-11 items-center justify-center"
             >
               <Icon icon={X} size="sm" color={Th.mutedForeground} />
             </Pressable>
           )}
         </View>
 
+        {/* Area shortcuts. Only while the field is empty: once someone is
+            searching they have already told us the area. */}
+        {q.length === 0 && POPULAR_AREAS.length > 0 && (
+          <View className="mb-6 self-center" style={IS_WEB ? { maxWidth: 560, width: '100%' } : undefined}>
+            <Text style={{ fontFamily: F.semibold }} className="mb-2 text-center text-xs text-muted-foreground">
+              {t('home.branchesPreview.popularAreas')}
+            </Text>
+            <View className="flex-row flex-wrap justify-center gap-2">
+              {POPULAR_AREAS.map((b) => (
+                <Pressable
+                  key={b.id}
+                  onPress={() => setQuery(b.name)}
+                  accessibilityRole="button"
+                  accessibilityLabel={b.name}
+                  className="h-11 items-center justify-center rounded-pill bg-primary/10 px-4 active:bg-primary/20"
+                >
+                  <Text style={{ fontFamily: F.semibold }} className="text-sm text-primary">{b.name}</Text>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+        )}
+
         {/* Results / prompt */}
         {q.length === 0 ? (
-          <View className="mb-9 items-center px-6 py-8">
-            <View className="mb-3.5 h-12 w-12 items-center justify-center rounded-pill bg-primary/10">
-              <Icon icon={Search} size="md" color={Th.primary} />
+          // The chips above now carry the call to action, so this block sits
+          // back: a smaller mark and a hint that points at them.
+          <View className="mb-9 items-center px-6 py-6">
+            <View className="mb-3 h-10 w-10 items-center justify-center rounded-pill bg-primary/10">
+              <Icon icon={Search} size="sm" color={Th.primary} />
             </View>
-            <Text style={{ fontFamily: F.semibold }} className="text-center text-sm text-muted-foreground">
+            <Text style={{ fontFamily: F.semibold }} className="text-center text-sm text-foreground">
               {t('home.branchesPreview.searchPrompt')}
+            </Text>
+            <Text style={{ fontFamily: F.regular }} className="mt-1 text-center text-xs text-muted-foreground">
+              {t('home.branchesPreview.searchPromptHint')}
             </Text>
           </View>
         ) : matches.length === 0 ? (

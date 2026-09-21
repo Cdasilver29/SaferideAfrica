@@ -321,6 +321,8 @@
       "title": "Branches Across Nairobi",
       "description": "From Buru Buru HQ to Kayole, Embakasi, Kagundo Road and beyond, there's always a Safe Ride branch near you.",
       "searchPlaceholder": "Search by area, e.g. Donholm",
+      "popularAreas": "Popular areas",
+      "searchPromptHint": "or tap an area above to jump straight there",
       "searchPrompt": "Search to find a branch near you",
       "noResults": "No branches match that search"
     },

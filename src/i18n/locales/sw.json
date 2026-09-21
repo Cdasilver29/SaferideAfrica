@@ -329,6 +329,8 @@
       "title": "Matawi Kote Nairobi",
       "description": "Kutoka Buru Buru (Makao Makuu) hadi Kayole, Embakasi, Barabara ya Kagundo na kwingineko, daima kuna tawi la Safe Ride karibu nawe.",
       "searchPlaceholder": "Tafuta kwa eneo, mf. Donholm",
+      "popularAreas": "Maeneo maarufu",
+      "searchPromptHint": "au gusa eneo hapo juu kwenda moja kwa moja",
       "searchPrompt": "Tafuta tawi lililo karibu nawe",
       "noResults": "Hakuna tawi linalolingana na utafutaji huo"
     },

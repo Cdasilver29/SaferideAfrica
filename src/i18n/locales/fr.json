@@ -329,6 +329,8 @@
       "title": "Nos Agences à Travers Nairobi",
       "description": "De Buru Buru (siège) à Kayole, Embakasi, Kagundo Road et au-delà, il y a toujours une agence Safe Ride près de chez vous.",
       "searchPlaceholder": "Recherchez par zone, ex. Donholm",
+      "popularAreas": "Zones populaires",
+      "searchPromptHint": "ou touchez une zone ci-dessus pour y aller directement",
       "searchPrompt": "Recherchez pour trouver une agence près de chez vous",
       "noResults": "Aucune agence ne correspond à cette recherche"
     },
