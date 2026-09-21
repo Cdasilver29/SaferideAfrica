@@ -17,6 +17,7 @@ import { useTheme } from '@/lib/theme';
 import { PageHead, DRIVING_SCHOOL_JSONLD } from '@/components/PageHead';
 import { Reveal } from '@/components/animations/Reveal';
 import { SECTION_PY } from '@/lib/spacing';
+import { APP_SCROLLBAR } from '@/lib/scrollbar';
 
 const CONTACT_LABEL_KEY_MAP: Record<string, string> = {
   Address: 'address',
@@ -354,7 +355,7 @@ export default function ContactPage() {
       >
         <script type="application/ld+json">{DRIVING_SCHOOL_JSONLD}</script>
       </PageHead>
-      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+      <ScrollView className={APP_SCROLLBAR} style={{ flex: 1 }}>
         <PageHero overline={t('contactPage.pageOverline')} title={t('contactPage.pageTitle')} />
 
         {/* Two-column layout */}

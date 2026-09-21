@@ -10,6 +10,7 @@ import Footer from '@/components/landing/Footer';
 import { useTheme } from '@/lib/theme';
 import { PageHead } from '@/components/PageHead';
 import { Reveal } from '@/components/animations/Reveal';
+import { APP_SCROLLBAR } from '@/lib/scrollbar';
 
 export default function AboutFaqPage() {
   const { t } = useTranslation();
@@ -21,7 +22,7 @@ export default function AboutFaqPage() {
         description="Answers to the questions students ask us most about training, licensing, and enrolment."
         path="/about/faq"
       />
-      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+      <ScrollView className={APP_SCROLLBAR} style={{ flex: 1 }}>
         <PageHero overline={t('aboutPage.faq.overline')} title={t('aboutPage.faq.title')} />
         <Reveal><FAQ /></Reveal>
         <Reveal><FinalCTA /></Reveal>

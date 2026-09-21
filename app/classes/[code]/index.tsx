@@ -11,6 +11,7 @@ import { useTheme } from '../../../src/lib/theme';
 import { useEnrollModal } from '../../../src/context/EnrollModalContext';
 import { PageHead } from '../../../src/components/PageHead';
 import { Reveal } from '../../../src/components/animations/Reveal';
+import { APP_SCROLLBAR } from '../../../src/lib/scrollbar';
 
 // Pre-render one static HTML page per class so deep links resolve without a
 // client fallback.
@@ -91,9 +92,9 @@ export default function ClassDetailPage() {
 
   return (
     <ScrollView
+      className={APP_SCROLLBAR}
       style={{ flex: 1, backgroundColor: T.background }}
       contentContainerStyle={{ paddingBottom: 60 }}
-      showsVerticalScrollIndicator={false}
     >
       <PageHead
         title={`${cls.name} | Safe Ride Africa`}

@@ -14,6 +14,7 @@ import { useTheme } from '@/lib/theme';
 import { PageHead } from '@/components/PageHead';
 import { Reveal } from '@/components/animations/Reveal';
 import { SECTION_PY_CTA } from '@/lib/spacing';
+import { APP_SCROLLBAR } from '@/lib/scrollbar';
 
 // ─── Contact CTA ─────────────────────────────────────────────────────────────
 function ContactCTA() {
@@ -66,7 +67,7 @@ export default function CoursesPage() {
         description="Motorcycle, light vehicle, heavy commercial, PSV, and executive driving courses. NTSA-aligned training."
         path="/courses"
       />
-      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+      <ScrollView className={APP_SCROLLBAR} style={{ flex: 1 }}>
         <PageHero overline={t('courses.overline')} title={t('coursesPage.pageTitle')} />
         {/* Five-series image grid; each card expands to reveal its classes */}
         <Reveal><SeriesGrid /></Reveal>

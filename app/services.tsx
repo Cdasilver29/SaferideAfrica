@@ -14,6 +14,7 @@ import { useTheme } from '@/lib/theme';
 import { PageHead } from '@/components/PageHead';
 import { Reveal } from '@/components/animations/Reveal';
 import { SECTION_PY, SECTION_PY_CTA } from '@/lib/spacing';
+import { APP_SCROLLBAR } from '@/lib/scrollbar';
 
 // ─── Why our services stand out ───────────────────────────────────────────────
 function StandOut() {
@@ -109,7 +110,7 @@ export default function ServicesPage() {
         description="Defensive driving, NTSA Smart DL processing, executive classes, ladies special, corporate training, and more across our Nairobi branches."
         path="/services"
       />
-      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+      <ScrollView className={APP_SCROLLBAR} style={{ flex: 1 }}>
         <PageHero overline={t('servicesPage.pageOverline')} title={t('servicesPage.pageTitle')} />
         {/* Full 10-service grid with "Read More" links to /services/[code] */}
         <Reveal><Services /></Reveal>

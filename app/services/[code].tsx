@@ -8,6 +8,7 @@ import { C, F, IS_WEB, MAX_W } from '../../src/components/landing/constants';
 import { SERVICE_KEY_MAP } from '../../src/components/landing/Services';
 import { useTheme } from '../../src/lib/theme';
 import { PageHead } from '../../src/components/PageHead';
+import { APP_SCROLLBAR } from '../../src/lib/scrollbar';
 
 // Pre-render one static HTML page per service so deep links resolve without a
 // client fallback.
@@ -38,9 +39,9 @@ export default function ServiceDetailPage() {
 
   return (
     <ScrollView
+      className={APP_SCROLLBAR}
       style={{ flex: 1, backgroundColor: T.background }}
       contentContainerStyle={{ paddingBottom: 60 }}
-      showsVerticalScrollIndicator={false}
     >
       <PageHead
         title={`${svc.name} | Safe Ride Africa`}

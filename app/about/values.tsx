@@ -10,6 +10,7 @@ import Footer from '@/components/landing/Footer';
 import { useTheme } from '@/lib/theme';
 import { PageHead } from '@/components/PageHead';
 import { Reveal } from '@/components/animations/Reveal';
+import { APP_SCROLLBAR } from '@/lib/scrollbar';
 
 export default function AboutValuesPage() {
   const { t } = useTranslation();
@@ -21,7 +22,7 @@ export default function AboutValuesPage() {
         description="The vision, mission, and core values that guide every lesson at Safe Ride Africa."
         path="/about/values"
       />
-      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+      <ScrollView className={APP_SCROLLBAR} style={{ flex: 1 }}>
         <PageHero overline={t('aboutPage.values.overline')} title={t('aboutPage.values.title')} />
         <Reveal><VisionMissionValues /></Reveal>
         <Reveal><FinalCTA /></Reveal>

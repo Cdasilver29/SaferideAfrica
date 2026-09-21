@@ -11,6 +11,7 @@ import Footer from '@/components/landing/Footer';
 import { useTheme } from '@/lib/theme';
 import { PageHead } from '@/components/PageHead';
 import { Reveal } from '@/components/animations/Reveal';
+import { APP_SCROLLBAR } from '@/lib/scrollbar';
 
 export default function AboutWhyUsPage() {
   const { t } = useTranslation();
@@ -22,7 +23,7 @@ export default function AboutWhyUsPage() {
         description="What sets our training, instructors, and results apart at Safe Ride Africa."
         path="/about/why-us"
       />
-      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+      <ScrollView className={APP_SCROLLBAR} style={{ flex: 1 }}>
         <PageHero overline={t('aboutPage.whyUs.overline')} title={t('aboutPage.whyUs.title')} />
         <Reveal><WhyChooseUs /></Reveal>
         <Reveal><Achievements /></Reveal>

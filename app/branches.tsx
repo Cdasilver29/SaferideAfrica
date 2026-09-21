@@ -16,6 +16,7 @@ import { PageHead } from '@/components/PageHead';
 import { Reveal, RevealItem } from '@/components/animations/Reveal';
 import { useInView } from '@/hooks/useInView';
 import { SECTION_PY, SECTION_PY_CTA } from '@/lib/spacing';
+import { APP_SCROLLBAR } from '@/lib/scrollbar';
 
 const LOGO = require('../assets/images/saferide-logo.jpg');
 
@@ -202,7 +203,7 @@ export default function BranchesPage() {
         description="Find a Safe Ride Africa driving school branch near you across Nairobi. Browse all branches with directions, hours, and contact details."
         path="/branches"
       />
-      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+      <ScrollView className={APP_SCROLLBAR} style={{ flex: 1 }}>
         <PageHero overline={t('branchesPage.pageOverline')} title={t('branchesPage.pageTitle')} />
         <BranchDirectory />
         <Reveal><ContactCTA /></Reveal>

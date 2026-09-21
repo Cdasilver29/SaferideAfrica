@@ -12,6 +12,7 @@ import { useTheme } from '@/lib/theme';
 import { PageHead } from '@/components/PageHead';
 import { Reveal } from '@/components/animations/Reveal';
 import { SECTION_PY } from '@/lib/spacing';
+import { APP_SCROLLBAR } from '@/lib/scrollbar';
 
 // ─── Article grid ────────────────────────────────────────────────────────────
 function ArticleGrid() {
@@ -82,7 +83,7 @@ export default function BlogPage() {
         description="Practical driving advice, NTSA Smart DL guides, and defensive driving tips from Safe Ride Africa's certified instructors in Nairobi."
         path="/blog"
       />
-      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+      <ScrollView className={APP_SCROLLBAR} style={{ flex: 1 }}>
         <PageHero overline={t('blogPage.pageOverline')} title={t('blogPage.title')} />
         <Reveal><ArticleGrid /></Reveal>
         <Footer />

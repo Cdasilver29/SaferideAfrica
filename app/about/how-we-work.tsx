@@ -10,6 +10,7 @@ import Footer from '@/components/landing/Footer';
 import { useTheme } from '@/lib/theme';
 import { PageHead } from '@/components/PageHead';
 import { Reveal } from '@/components/animations/Reveal';
+import { APP_SCROLLBAR } from '@/lib/scrollbar';
 
 export default function AboutHowWeWorkPage() {
   const { t } = useTranslation();
@@ -21,7 +22,7 @@ export default function AboutHowWeWorkPage() {
         description="The step-by-step journey from your first enquiry to a licence in your hand."
         path="/about/how-we-work"
       />
-      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+      <ScrollView className={APP_SCROLLBAR} style={{ flex: 1 }}>
         <PageHero overline={t('aboutPage.howWeWork.overline')} title={t('aboutPage.howWeWork.title')} />
         <Reveal><WorkProcess /></Reveal>
         <Reveal><FinalCTA /></Reveal>

@@ -15,6 +15,7 @@ import { C, F, IS_WEB, MAX_W, GALLERY_IMGS } from '@/components/landing/constant
 import { ResponsiveImage } from '@/components/ResponsiveImage'
 import { useTheme } from '@/lib/theme'
 import { PageHead } from '@/components/PageHead'
+import { APP_SCROLLBAR } from '@/lib/scrollbar'
 
 // Thumbnails render in a 3-column grid: ~31vw each on mobile, ~360px within the
 // 1100 container on desktop. This is where the biggest 4G saving lands.
@@ -230,7 +231,7 @@ export default function GalleryPage() {
         description="Photos from Safe Ride Africa training sessions, road practice, and student milestones across our Nairobi branches."
         path="/gallery"
       />
-      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+      <ScrollView className={APP_SCROLLBAR} style={{ flex: 1 }}>
         <PageHero />
         <GalleryGrid />
         <Footer />

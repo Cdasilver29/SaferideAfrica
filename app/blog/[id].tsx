@@ -8,6 +8,7 @@ import { BLOG_ARTICLES, BlogSection } from '../../src/data/saferide';
 import { C, F, IS_WEB } from '../../src/components/landing/constants';
 import { useTheme } from '../../src/lib/theme';
 import { PageHead } from '../../src/components/PageHead';
+import { APP_SCROLLBAR } from '../../src/lib/scrollbar';
 
 // Pre-render one static HTML page per article so deep links resolve without a
 // client fallback.
@@ -144,9 +145,9 @@ export default function BlogPostPage() {
 
   return (
     <ScrollView
+      className={APP_SCROLLBAR}
       style={{ flex: 1, backgroundColor: T.background }}
       contentContainerStyle={{ paddingBottom: 60 }}
-      showsVerticalScrollIndicator={false}
     >
       <PageHead
         title={`${post.title} | Safe Ride Africa`}

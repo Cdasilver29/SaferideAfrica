@@ -8,6 +8,7 @@ import { CLASSES, CLASS_SERIES, SeriesCode, DriveClass } from '../../src/data/sa
 import { C, F, IS_WEB, MAX_W } from '../../src/components/landing/constants';
 import { useTheme } from '../../src/lib/theme';
 import { PageHead } from '../../src/components/PageHead';
+import { APP_SCROLLBAR } from '../../src/lib/scrollbar';
 
 const SERIES_COLORS: Record<SeriesCode, string> = {
   A:    C.skyLight,
@@ -111,8 +112,8 @@ export default function ClassesScreen() {
 
       {/* Class list */}
       <ScrollView
+        className={APP_SCROLLBAR}
         contentContainerStyle={{ padding: 20, ...(IS_WEB ? { maxWidth: MAX_W, width: '100%', alignSelf: 'center' } : {}) }}
-        showsVerticalScrollIndicator={false}
       >
         <Text style={{ color: T.mutedForeground, fontFamily: F.regular, fontSize: 13, marginBottom: 16 }}>
           {activeMeta.subtitle}

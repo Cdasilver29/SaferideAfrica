@@ -673,16 +673,5 @@
       "sw": "Swahili",
       "fr": "French"
     }
-  },
-  "scrollRail": {
-    "label": "Page sections",
-    "jumpTo": "Jump to {{section}}",
-    "top": "Top",
-    "driverTypes": "Training",
-    "services": "Services",
-    "courses": "Courses",
-    "whyUs": "Why us",
-    "reviews": "Reviews",
-    "contact": "Contact"
   }
 }

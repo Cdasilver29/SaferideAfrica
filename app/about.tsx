@@ -10,6 +10,7 @@ import Footer from '@/components/landing/Footer';
 import { PageHead } from '@/components/PageHead';
 import { useTheme } from '@/lib/theme';
 import { Reveal } from '@/components/animations/Reveal';
+import { APP_SCROLLBAR } from '@/lib/scrollbar';
 
 export default function AboutPage() {
   const { t } = useTranslation();
@@ -24,7 +25,7 @@ export default function AboutPage() {
         description="How Safe Ride Africa became one of Nairobi's most trusted NTSA-certified driving schools, our mission, values, and the team behind the wheel."
         path="/about"
       />
-      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+      <ScrollView className={APP_SCROLLBAR} style={{ flex: 1 }}>
         <PageHero overline={t('aboutPage.pageOverline')} title={t('aboutPage.pageTitle')} />
         <Reveal><AboutOpener /></Reveal>
         <Reveal><FinalCTA /></Reveal>

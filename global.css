@@ -12,10 +12,13 @@
     /* Raw palette as RGB triplets */
     --sky-light:  88 204 247;
     --sky-deep:   1 165 240;
+    --sky-shade:  1 108 157;
     --yellow:     255 216 0;
     --red:        225 29 46;
     --black:      34 31 32;
     --white:      255 255 255;
+    --steel:      154 163 178;
+    --steel-dark: 125 135 152;
 
     /* Semantic tokens (light mode) */
     --background:             var(--white);
@@ -38,6 +41,9 @@
     --nav-bg-solid:           var(--sky-deep);
     --nav-bg-glass:           1 165 240 / 0.82;
     --nav-fg:                 var(--black);
+    --scrollbar-track:        var(--sky-shade);
+    --scrollbar-thumb:        var(--steel);
+    --scrollbar-thumb-hover:  var(--steel-dark);
   }
 
   .dark {
@@ -61,6 +67,9 @@
     --nav-bg-solid:           var(--black);
     --nav-bg-glass:           34 31 32 / 0.82;
     --nav-fg:                 var(--white);
+    --scrollbar-track:        var(--sky-shade);
+    --scrollbar-thumb:        var(--steel);
+    --scrollbar-thumb-hover:  var(--steel-dark);
   }
 }
 
@@ -98,6 +107,49 @@
   }
   .modal-scroll::-webkit-scrollbar-thumb:hover {
     background-color: rgb(var(--foreground) / 0.45);
+  }
+
+  /* Page scrollbar (web only), applied by APP_SCROLLBAR in src/lib/scrollbar.ts.
+     Every route owns its own scroll container, so this styles that container's
+     scrollbar rather than the document's: the expo web reset keeps body at
+     overflow hidden. Deliberately bold, a sky-shade track with a steel thumb,
+     so it reads as part of the page rather than a browser default.
+
+     The thumb's transparent border insets it inside the track. background-clip
+     padding-box is what stops the thumb colour bleeding under that border.
+
+     Firefox ignores every ::-webkit- rule below, so it gets scrollbar-width and
+     scrollbar-color instead, which is the same pairing .modal-scroll uses. It
+     cannot do the inset or the hover, so Firefox sees a plain thin two-tone bar.
+
+     That fallback is gated behind @supports rather than set outright, because
+     Chrome now supports both syntaxes and gives the standard properties
+     precedence: an ungated scrollbar-width thin capped the bar at 10px and
+     dropped the rounded inset thumb, since scrollbar-color switches Chrome to
+     standard scrollbar painting and it stops consulting ::-webkit- entirely.
+
+     This only paints if the ScrollView leaves showsVerticalScrollIndicator
+     unset: react-native-web answers false with scrollbarWidth 'none'. */
+  @supports not selector(::-webkit-scrollbar) {
+    .app-scrollbar {
+      scrollbar-width: thin;
+      scrollbar-color: rgb(var(--scrollbar-thumb)) rgb(var(--scrollbar-track));
+    }
+  }
+  .app-scrollbar::-webkit-scrollbar {
+    width: 13px;
+  }
+  .app-scrollbar::-webkit-scrollbar-track {
+    background-color: rgb(var(--scrollbar-track));
+  }
+  .app-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--scrollbar-thumb));
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    border-radius: 999px;
+  }
+  .app-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(var(--scrollbar-thumb-hover));
   }
 
   /* Scrolled navbar glass (web only). Solid fallback, frosted where supported.
