@@ -64,10 +64,15 @@ export const primaryNav: NavItem[] = [
   {
     label: "Services",
     href: "/services",
-    children: SERVICES.map((svc) => ({
-      label: svc.name,
-      href: { pathname: "/services/[code]", params: { code: svc.code } },
-    })),
+    children: [
+      // Mirrors "All courses" under Driving school: the panel should always
+      // offer the index page, not only the individual entries.
+      { label: "All services", href: "/services" },
+      ...SERVICES.map((svc) => ({
+        label: svc.name,
+        href: { pathname: "/services/[code]", params: { code: svc.code } } as Href,
+      })),
+    ],
   },
   { label: "Branches", href: "/branches" },
   { label: "Get in touch", href: "/contact" },
