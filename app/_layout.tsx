@@ -18,7 +18,7 @@ import { C } from '../src/components/landing/constants';
 import { HeaderV3 } from '../src/components/landing/HeaderV3';
 import LanguageSwitcher from '../src/components/landing/LanguageSwitcher';
 import {
-  WhatsAppIcon, FacebookIcon, TwitterXIcon, TikTokIcon, InstagramIcon, YouTubeIcon,
+  FacebookIcon, TwitterXIcon, TikTokIcon, InstagramIcon, YouTubeIcon,
 } from '../src/components/SocialIcons';
 import { COMPANY, SOCIALS } from '../src/data/saferide';
 import { brand } from '../src/lib/tokens';
@@ -50,8 +50,9 @@ function SiteHeader() {
 
   // Each network's own brand colour. The glyphs are single-fill, so these are
   // the primary mark colours rather than Instagram's or TikTok's gradients.
+  // WhatsApp is deliberately absent: the floating pill in SocialFloat already
+  // carries that action on every route, so a header glyph only repeats it.
   const socials = [
-    { label: 'WhatsApp',  url: SOCIALS.whatsapp,  Icon: WhatsAppIcon,  color: '#25D366' },
     { label: 'Facebook',  url: SOCIALS.facebook,  Icon: FacebookIcon,  color: '#1877F2' },
     { label: 'X',         url: SOCIALS.twitter,   Icon: TwitterXIcon,  color: '#000000' },
     { label: 'TikTok',    url: SOCIALS.tiktok,    Icon: TikTokIcon,    color: '#000000' },

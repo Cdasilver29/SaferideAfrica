@@ -467,8 +467,8 @@ export function HeaderV3({
             The 44px pressables set the bar height; the glyph circles stay at
             28px so the strip still reads as thin.
 
-            The full set renders here, same as desktop. Six 44px targets plus
-            the 44px menu button and the 12px gutters come to 332px, which
+            The full set renders here, same as desktop. Five 44px targets plus
+            the 44px menu button and the 12px gutters come to 288px, which
             clears the 360px narrow case. */}
         <View className="bg-brand-primary">
           <View className="flex-row items-center justify-between px-3">
