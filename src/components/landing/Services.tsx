@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, Image, Pressable } from 'react-native';
+import { View, Text, Image, Pressable, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
 import { ChevronRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { SERVICES, ServiceItem } from '@/data/saferide';
-import { Card, Icon, cn } from '@/components/ui';
+import { Card, Icon } from '@/components/ui';
 import { C, F, IS_WEB, MAX_W } from './constants';
 import { SECTION_PY } from '@/lib/spacing';
 
@@ -64,12 +64,20 @@ function ServiceCard({ svc, readMore }: { svc: ServiceItem; readMore: string }) 
 
 export default function Services() {
   const { t } = useTranslation();
+  const { width: winW } = useWindowDimensions();
   const readMore = t('services.readMore');
 
-  const rows: ServiceItem[][] = [];
-  for (let i = 0; i < SERVICES.length; i += 2) {
-    rows.push(SERVICES.slice(i, i + 2));
-  }
+  // Desktop only. Web was fixed at two across at every width, so at 1280 each
+  // card ran past 500px with a 3:2 photo over 330px tall, which is what made
+  // the page read as oversized. Three across from 1024 up fixes that.
+  //
+  // Everything below 1024 is deliberately left exactly as it was, two across
+  // on web and a single stack on native. Only the desktop case changes.
+  const cardWidth: any = !IS_WEB
+    ? '100%'
+    : winW >= 1024
+      ? 'calc(33.333% - 10px)'
+      : 'calc(50% - 7px)';
 
   return (
     <View className="bg-background px-6" style={{ paddingVertical: SECTION_PY }}>
@@ -88,22 +96,13 @@ export default function Services() {
           </View>
         </View>
 
-        {IS_WEB ? (
-          rows.map((pair, rowIdx) => (
-            <View key={rowIdx} className="mb-3.5 flex-row gap-3.5">
-              {pair.map((svc) => (
-                <ServiceCard key={svc.code} svc={svc} readMore={readMore} />
-              ))}
-              {pair.length === 1 && <View className="flex-1" />}
+        <View className="flex-row flex-wrap gap-3.5">
+          {SERVICES.map((svc) => (
+            <View key={svc.code} style={{ width: cardWidth }}>
+              <ServiceCard svc={svc} readMore={readMore} />
             </View>
-          ))
-        ) : (
-          <View className="gap-3.5">
-            {SERVICES.map((svc) => (
-              <ServiceCard key={svc.code} svc={svc} readMore={readMore} />
-            ))}
-          </View>
-        )}
+          ))}
+        </View>
       </View>
     </View>
   );
