@@ -56,23 +56,28 @@ function WaveLayer({ bottom, height, color, delay }: WaveLayerProps) {
 
 // ── Modern wave background (layered Views with animated opacity) ──────────────
 
-function WaveBackground({ sectionH }: { sectionH: number }) {
+// The four layers all live inside the bottom 80px of this container, so it
+// only has to be tall enough not to clip them. It used to be sized from the
+// section height, which is what tied the decoration to the old fixed slab.
+const WAVE_H = 180
+
+function WaveBackground() {
   const { width } = useWindowDimensions()
   if (width === 0) return null
 
   return (
     <View
-      style={{ position: 'absolute', left: -60, right: -60, bottom: 0, height: sectionH * 0.55, overflow: 'hidden' }}
+      style={{ position: 'absolute', left: -60, right: -60, bottom: 0, height: WAVE_H, overflow: 'hidden' }}
       // @ts-ignore
       pointerEvents="none"
     >
-      {/* Layer 1 — wide, slow pulse */}
+      {/* Layer 1, wide slow pulse */}
       <WaveLayer bottom={-40} height={120} color="rgba(88,204,247,0.15)" delay={0} />
-      {/* Layer 2 — mid */}
+      {/* Layer 2, mid */}
       <WaveLayer bottom={-20} height={90} color="rgba(255,255,255,0.10)" delay={600} />
-      {/* Layer 3 — front, brighter */}
+      {/* Layer 3, front and brighter */}
       <WaveLayer bottom={-10} height={70} color="rgba(255,255,255,0.18)" delay={1200} />
-      {/* Layer 4 — shimmer strip */}
+      {/* Layer 4, shimmer strip */}
       <WaveLayer bottom={50} height={30} color="rgba(255,255,255,0.25)" delay={1800} />
     </View>
   )
@@ -80,16 +85,21 @@ function WaveBackground({ sectionH }: { sectionH: number }) {
 
 // ── Section ───────────────────────────────────────────────────────────────────
 
+const MIN_H = IS_WEB ? 260 : 240
+
 export default function FinalCTA() {
   const { t } = useTranslation()
   const { open } = useEnrollModal()
-  const sectionH = IS_WEB ? 460 : 380
 
   return (
     <View
       style={{
         backgroundColor: C.skyDeep,
-        minHeight: sectionH,
+        // A floor, not a target. The band is content plus SECTION_PY_CTA at
+        // every width we check, so this only catches a short-copy locale and
+        // stops the slab collapsing into a thin strip. The old fixed 460 web
+        // and 380 native left 70 to 158px of empty blue depending on width.
+        minHeight: MIN_H,
         paddingHorizontal: 24,
         paddingVertical: SECTION_PY_CTA,
         alignItems: 'center',
@@ -97,8 +107,8 @@ export default function FinalCTA() {
         overflow: 'hidden',
       }}
     >
-      {/* Animated wave layers — rendered behind content */}
-      <WaveBackground sectionH={sectionH} />
+      {/* Animated wave layers, rendered behind content */}
+      <WaveBackground />
 
       {/* Content floats above the waves */}
       <View
