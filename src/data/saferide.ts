@@ -19,7 +19,7 @@ export const COMPANY = {
   email:             'saferideafrica777@gmail.com',
   website:           'www.safride-africa-driving-school.com',
   socials: {
-    facebook: 'https://facebook.com/safrideafrica',
+    facebook: 'https://facebook.com/SafeRideAfricaDrivingSchool',
     twitter:  'https://twitter.com/safrideafrica',
   },
   registration: {
@@ -352,7 +352,7 @@ export const WHY_CHOOSE_US = [
 
 export const SOCIALS = {
   whatsapp:  'https://wa.me/254746097033?text=Hi%20Safe%20Ride%2C%20I%20want%20to%20enquire%20about%20driving%20classes',
-  facebook:  'https://www.facebook.com/safrideafrica',
+  facebook:  'https://www.facebook.com/SafeRideAfricaDrivingSchool',
   twitter:   'https://twitter.com/safrideafrica',
   tiktok:    'https://www.tiktok.com/@saferide254',
   instagram: 'https://www.instagram.com/saferide_africa_driving_school',

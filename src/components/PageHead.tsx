@@ -35,7 +35,7 @@ export const DRIVING_SCHOOL_JSONLD = JSON.stringify({
   },
   geo: { '@type': 'GeoCoordinates', latitude: -1.2826, longitude: 36.874 },
   openingHours: 'Mo-Sa 07:00-18:00',
-  sameAs: ['https://facebook.com/safrideafrica'],
+  sameAs: ['https://facebook.com/SafeRideAfricaDrivingSchool'],
 });
 
 export interface PageHeadProps {
